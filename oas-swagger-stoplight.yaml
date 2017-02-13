@@ -11037,7 +11037,7 @@ paths:
           description: This parameter indicates how many records to fetch in each request.
           required: false
           type: number
-        - name: order_by
+        - name: order
           in: query
           description: 'The order in which the Webhooks are retured, either “newest_first” or “oldest_first”'
           required: true
