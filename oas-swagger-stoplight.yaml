@@ -7063,19 +7063,25 @@ paths:
           examples:
             application/json:
               renewal_preview:
-                next_assessment_at: '2016-11-15T14:48:10-05:00'
-                subtotal_in_cents: 1000
+                next_assessment_at: '2017-03-13T12:50:55-04:00'
+                subtotal_in_cents: 6000
                 total_tax_in_cents: 0
                 total_discount_in_cents: 0
-                total_in_cents: 1000
+                total_in_cents: 6000
                 existing_balance_in_cents: 0
-                total_amount_due_in_cents: 1000
+                total_amount_due_in_cents: 6000
                 uncalculated_taxes: false
                 line_items:
                   - transaction_type: charge
                     kind: baseline
+                    amount_in_cents: 5000
+                    memo: Gold Product (03/13/2017 - 04/13/2017)
+                    discount_amount_in_cents: 0
+                    taxable_amount_in_cents: 0
+                  - transaction_type: charge
+                    kind: quantity_based_component
                     amount_in_cents: 1000
-                    memo: $10 Basic Plan (11/15/2016 - 11/16/2016)
+                    memo: 'Quantity Component: 10 Quantity Components'
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
       security:
@@ -12548,25 +12554,29 @@ definitions:
                   type: integer
                 taxable_amount_in_cents:
                   type: integer
-          '':
-            type: string
     example:
       renewal_preview:
-        next_assessment_at: '2016-09-23T15:25:11-04:00'
-        subtotal_in_cents: 2000
+        next_assessment_at: '2017-03-13T12:50:55-04:00'
+        subtotal_in_cents: 6000
         total_tax_in_cents: 0
         total_discount_in_cents: 0
-        total_in_cents: 2000
+        total_in_cents: 6000
         existing_balance_in_cents: 0
-        total_amount_due_in_cents: 2000
+        total_amount_due_in_cents: 6000
         uncalculated_taxes: false
         line_items:
           - transaction_type: charge
             kind: baseline
-            amount_in_cents: 2000
-            memo: Taxable Product (09/23/2016 - 10/23/2016)
+            amount_in_cents: 5000
+            memo: Gold Product (03/13/2017 - 04/13/2017)
             discount_amount_in_cents: 0
-            taxable_amount_in_cents: 2000
+            taxable_amount_in_cents: 0
+          - transaction_type: charge
+            kind: quantity_based_component
+            amount_in_cents: 1000
+            memo: 'Quantity Component: 10 Quantity Components'
+            discount_amount_in_cents: 0
+            taxable_amount_in_cents: 0
     x-stoplight:
       id: renewal-preview-output
       name: Renewal Preview Output
