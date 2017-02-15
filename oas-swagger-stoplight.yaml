@@ -28136,7 +28136,7 @@ x-stoplight:
         with a reference code. Please feel free to [contact support](https://chargify.zendesk.com/hc/en-us/requests/new) so we can help describe what happened and why the request was blocked.
 
         If you receive a “429 Too Many Requests” response, your code should be prepared to handle it by pausing its queries, waiting a few minutes, and then proceeding slower (or with less concurrency).
-      public: true
+      public: false
     authentication:
       id: authentication
       name: Authentication
@@ -28175,7 +28175,7 @@ x-stoplight:
         + `Authentication failed because the remote party has closed the transport stream.`
 
         Please, review the information on the [Upgrade Notice](http://help.chargify.com/announcements/tls-upgrade-notice.html) in order to correct the problem.
-      public: true
+      public: false
     introduction-to-notes:
       id: introduction-to-notes
       name: Notes Intro
@@ -28264,7 +28264,7 @@ x-stoplight:
         We hope this feature will help you prevent duplicate transactions during error handling.
 
         That said, if you are experiencing repeated timeouts, please [open a support ticket](mailto:support@chargify.com) so we can investigate.
-      public: true
+      public: false
     transactions-api:
       id: transactions-api
       name: Transactions Intro
@@ -28500,7 +28500,7 @@ x-stoplight:
         ## JavaScript
 
         + <https://github.com/natevw/node-chargify>: A simple node.js wrapper for the Chargify REST API, by (Nathan Vander Wilt, [@natevw](https://twitter.com/natevw))
-      public: true
+      public: false
     adjustment-intro:
       id: adjustment-intro
       name: Adjustments Intro
