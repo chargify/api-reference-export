@@ -10315,6 +10315,10 @@ paths:
         If a Subscription has a positive balance, this API call will issue a credit to the Subscription for the outstanding balance.
 
         This is particularly helpful if you want to reactivate a canceled Subscription without charging the Customer for their previously owed balance.
+
+        ## Past Due & Unpaid Subscriptions
+
+        If you have a subscription that is in the `past_due` or `unpaid` state, when you reset the balance, the subscription will transition to `active`.
       responses:
         '200':
           description: OK
