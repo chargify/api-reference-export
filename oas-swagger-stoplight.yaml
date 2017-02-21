@@ -6844,6 +6844,33 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/reason_codes/{reason_code_id}.json':
+    parameters:
+      - name: reason_code_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_reason_codes-reason_code_id-json
+      summary: ReasonCode Show
+      tags:
+        - Reason Codes
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_code/show'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_reasoncodes-reasoncodeidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /referral_codes/validate.json:
     get:
       operationId: GET_referral_codes-validate-json
@@ -30547,9 +30574,11 @@ x-stoplight:
             - type: endpoints
               _id: GET_reasoncodesjson
             - type: schemas
-              _id: reason_code/show
-            - type: schemas
               _id: reason_code/list
+            - type: endpoints
+              _id: GET_reasoncodes-reasoncodeidjson
+            - type: schemas
+              _id: reason_code/show
             - type: schemas
               _id: reason_codes/delete
             - type: schemas
