@@ -6818,17 +6818,21 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show'
+            $ref: '#/definitions/reason_code/list'
           examples:
             application/json:
-              reason_code:
-                id: 1
-                site_id: 2
-                code: CHEAP
-                description: This is muuy caro
-                position: 2
-                created_at: '2017-02-16T16:48:45-05:00'
-                updated_at: '2017-02-17T16:29:59-05:00'
+              - {}
+              - reason_code:
+                  id: 84764547
+                  site_id: -82346843
+                  code: adipisicing
+                  description: aliqua tempor veniam
+                  position: 94342411
+                  created_at: cillum
+                  updated_at: fugiat proident sunt
+              - {}
+              - {}
+              - {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -29785,7 +29789,7 @@ definitions:
       name: List Statements for a Site
       public: true
   reason_code/show:
-    title: ReasonCode
+    title: ReasonCode Show
     type: object
     properties:
       reason_code:
@@ -29816,7 +29820,7 @@ definitions:
         updated_at: '2017-02-17T16:29:59-05:00'
     x-stoplight:
       id: reason_code/show
-      name: ReasonCode
+      name: ReasonCode Show
       public: true
   reason_code/list:
     title: ReasonCode List
@@ -29887,7 +29891,7 @@ definitions:
       name: ReasonCode List
       public: true
   reason_codes/delete:
-    title: ReasonCodes Delete
+    title: ReasonCode Delete
     type: object
     properties:
       ok:
@@ -29896,10 +29900,10 @@ definitions:
       ok: ok
     x-stoplight:
       id: reason_codes/delete
-      name: ReasonCodes Delete
+      name: ReasonCode Delete
       public: true
   reason_codes/create:
-    title: ReasonCodes Create
+    title: ReasonCode Create
     type: object
     properties:
       reason_code:
@@ -29930,7 +29934,41 @@ definitions:
         updated_at: '2017-02-21T16:20:00-05:00'
     x-stoplight:
       id: reason_codes/create
-      name: ReasonCodes Create
+      name: ReasonCode Create
+      public: true
+  reason_code/update:
+    title: ReasonCode Update
+    type: object
+    properties:
+      reason_code:
+        type: object
+        properties:
+          id:
+            type: integer
+          site_id:
+            type: integer
+          code:
+            type: string
+          description:
+            type: string
+          position:
+            type: integer
+          created_at:
+            type: string
+          updated_at:
+            type: string
+    example:
+      reason_code:
+        id: 1
+        site_id: 2
+        code: '00023'
+        description: This is muuy caro
+        position: 2
+        created_at: '2017-02-16T16:48:45-05:00'
+        updated_at: '2017-02-21T16:33:10-05:00'
+    x-stoplight:
+      id: reason_code/update
+      name: ReasonCode Update
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -30505,8 +30543,6 @@ x-stoplight:
           name: Reason Codes
           items:
             - type: docTextSections
-              _id: reason-codes-intro
-            - type: docTextSections
               _id: reason-code-intro
             - type: endpoints
               _id: GET_reasoncodesjson
@@ -30518,6 +30554,8 @@ x-stoplight:
               _id: reason_codes/delete
             - type: schemas
               _id: reason_codes/create
+            - type: schemas
+              _id: reason_code/update
           divider: false
         - divider: false
           items:
@@ -32798,12 +32836,13 @@ x-stoplight:
     reason-code-intro:
       id: reason-code-intro
       name: Reason Code Intro
-      content: ''
-      public: false
-    reason-codes-intro:
-      id: reason-codes-intro
-      name: Reason Codes Intro
-      content: ''
+      content: |-
+        ## ReasonCodes Intro
+
+        ReasonCodes are a way to get a high level view of why your customers are cancelling the subcription to your product or service.
+
+
+        ## ReasonCode Input Attributes
       public: false
   mock:
     dynamic: false
