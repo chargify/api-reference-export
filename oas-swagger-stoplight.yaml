@@ -22745,11 +22745,11 @@ definitions:
       subscription:
         type: object
         properties:
-          next_billing_at:
+          snap_day:
             type: string
     example:
       subscription:
-        next_billing_at: '2028-12-15'
+        snap_day: end
     x-stoplight:
       id: subscriptions/update-subscription-billing-day-change-request
       name: 'Update Subscription: Billing Day Change Request'
@@ -22788,13 +22788,13 @@ definitions:
           cancellation_message:
             type: 'null'
           next_product_id:
-            type: 'null'
+            type: integer
           cancel_at_end_of_period:
             type: boolean
           payment_collection_method:
             type: string
           snap_day:
-            type: 'null'
+            type: string
           cancellation_method:
             type: 'null'
           current_period_started_at:
@@ -22833,7 +22833,7 @@ definitions:
               last_name:
                 type: string
               organization:
-                type: 'null'
+                type: string
               email:
                 type: string
               created_at:
@@ -22843,29 +22843,31 @@ definitions:
               reference:
                 type: 'null'
               address:
-                type: 'null'
-              address_2:
-                type: 'null'
-              city:
-                type: 'null'
-              state:
-                type: 'null'
-              zip:
-                type: 'null'
-              country:
-                type: 'null'
-              phone:
-                type: 'null'
-              portal_invite_last_sent_at:
                 type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              country:
+                type: string
+              phone:
+                type: string
+              portal_invite_last_sent_at:
+                type: 'null'
               portal_invite_last_accepted_at:
                 type: 'null'
               verified:
-                type: boolean
+                type: 'null'
               portal_customer_created_at:
                 type: string
               cc_emails:
                 type: 'null'
+              tax_exempt:
+                type: boolean
           product:
             type: object
             properties:
@@ -22940,7 +22942,7 @@ definitions:
                     id:
                       type: integer
                     return_url:
-                      type: string
+                      type: 'null'
                     return_params:
                       type: string
                     url:
@@ -22969,138 +22971,131 @@ definitions:
               vault_token:
                 type: string
               billing_address:
-                type: 'null'
+                type: string
               billing_city:
-                type: 'null'
+                type: string
               billing_state:
-                type: 'null'
+                type: string
               billing_zip:
-                type: 'null'
+                type: string
               billing_country:
-                type: 'null'
+                type: string
               customer_vault_token:
                 type: 'null'
               billing_address_2:
-                type: 'null'
+                type: string
               payment_type:
                 type: string
     example:
       subscription:
-        id: 15254447
+        id: 16474328
         state: active
         trial_started_at: null
         trial_ended_at: null
-        activated_at: '2016-11-15T15:02:46-05:00'
-        created_at: '2016-11-15T15:02:42-05:00'
-        updated_at: '2016-11-15T17:26:45-05:00'
+        activated_at: '2017-02-20T18:28:48-05:00'
+        created_at: '2017-02-20T18:28:47-05:00'
+        updated_at: '2017-02-22T09:58:07-05:00'
         expires_at: null
         balance_in_cents: 0
-        current_period_ends_at: '2016-12-15T06:34:00-05:00'
-        next_assessment_at: '2016-12-15T06:34:00-05:00'
+        current_period_ends_at: '2017-03-20T19:28:47-04:00'
+        next_assessment_at: '2017-03-20T19:28:47-04:00'
         canceled_at: null
         cancellation_message: null
-        next_product_id: null
+        next_product_id: 4442358
         cancel_at_end_of_period: false
         payment_collection_method: automatic
-        snap_day: null
+        snap_day: end
         cancellation_method: null
-        current_period_started_at: '2016-11-15T17:26:39-05:00'
+        current_period_started_at: '2017-02-20T18:28:47-05:00'
         previous_state: active
-        signup_payment_id: 162411159
-        signup_revenue: '10.00'
+        signup_payment_id: 174876340
+        signup_revenue: '0.00'
         delayed_cancel_at: null
         coupon_code: null
-        total_revenue_in_cents: 2000
-        product_price_in_cents: 1000
-        product_version_number: 7
+        total_revenue_in_cents: 0
+        product_price_in_cents: 0
+        product_version_number: 1
         payment_type: credit_card
-        referral_code: zxnpjh
+        referral_code: ww6mq5
         coupon_use_count: null
         coupon_uses_allowed: null
         customer:
-          id: 14730740
-          first_name: Alysa
-          last_name: Test
-          organization: null
-          email: alysa@example.com
-          created_at: '2016-11-15T15:02:42-05:00'
-          updated_at: '2016-11-15T15:02:49-05:00'
+          id: 15102905
+          first_name: Amelia
+          last_name: Example
+          organization: ''
+          email: joe.blow@example.com
+          created_at: '2016-12-15T09:33:15-05:00'
+          updated_at: '2016-12-15T09:34:09-05:00'
           reference: null
-          address: null
-          address_2: null
-          city: null
-          state: null
-          zip: null
-          country: null
-          phone: null
-          portal_invite_last_sent_at: '2016-11-15T15:02:49-05:00'
+          address: ''
+          address_2: ''
+          city: ''
+          state: ''
+          zip: ''
+          country: ''
+          phone: ''
+          portal_invite_last_sent_at: null
           portal_invite_last_accepted_at: null
-          verified: false
-          portal_customer_created_at: '2016-11-15T15:02:49-05:00'
+          verified: null
+          portal_customer_created_at: '2016-12-15T09:33:21-05:00'
           cc_emails: null
+          tax_exempt: false
         product:
-          id: 3792003
-          name: $10 Basic Plan
-          handle: basic
-          description: lorem ipsum
-          accounting_code: basic
-          request_credit_card: false
+          id: 4461042
+          name: Zero Dollar Product
+          handle: zero-dollar-product
+          description: ''
+          accounting_code: ''
+          request_credit_card: true
           expiration_interval: null
           expiration_interval_unit: never
-          created_at: '2016-03-24T13:38:39-04:00'
-          updated_at: '2016-11-03T13:03:05-04:00'
-          price_in_cents: 1000
+          created_at: '2017-02-20T18:28:18-05:00'
+          updated_at: '2017-02-20T18:28:18-05:00'
+          price_in_cents: 0
           interval: 1
-          interval_unit: day
+          interval_unit: month
           initial_charge_in_cents: null
           trial_price_in_cents: null
           trial_interval: null
           trial_interval_unit: month
           archived_at: null
-          require_credit_card: false
+          require_credit_card: true
           return_params: ''
           taxable: false
           update_return_url: ''
           initial_charge_after_trial: false
-          version_number: 7
+          version_number: 1
           update_return_params: ''
           product_family:
-            id: 527890
-            name: Acme Projects
+            id: 986840
+            name: Acme Products
             description: ''
-            handle: billing-plans
+            handle: acme-products
             accounting_code: null
           public_signup_pages:
-            - id: 281054
-              return_url: 'http://www.example.com?successfulsignup'
+            - id: 312984
+              return_url: null
               return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-            - id: 281240
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-            - id: 282694
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+              url: 'https://general-goods.chargify.com/subscribe/yt4ybcgk7998/zero-dollar-product'
         credit_card:
-          id: 10202644
-          first_name: Alysa
-          last_name: Test
-          masked_card_number: XXXX-XXXX-XXXX-1
+          id: 10548239
+          first_name: Amelia
+          last_name: Example
+          masked_card_number: XXXX-XXXX-XXXX-2
           card_type: bogus
-          expiration_month: 10
-          expiration_year: 2020
-          customer_id: 14730740
+          expiration_month: 2
+          expiration_year: 2017
+          customer_id: 15102905
           current_vault: bogus
-          vault_token: '1'
-          billing_address: null
-          billing_city: null
-          billing_state: null
-          billing_zip: null
-          billing_country: null
+          vault_token: '2'
+          billing_address: ''
+          billing_city: ''
+          billing_state: ''
+          billing_zip: ''
+          billing_country: ''
           customer_vault_token: null
-          billing_address_2: null
+          billing_address_2: ''
           payment_type: credit_card
     x-stoplight:
       id: subscriptions/update-subscription-billing-day-change-response
