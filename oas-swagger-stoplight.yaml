@@ -20454,6 +20454,8 @@ definitions:
               type: string
             snap_day:
               type: 'null'
+            reason_code:
+              type: 'null'
             customer:
               type: object
               properties:
@@ -20665,6 +20667,7 @@ definitions:
           coupon_code: 5SNN6HFK3GBH
           payment_collection_method: automatic
           snap_day: null
+          reason_code: null
           customer:
             first_name: Curtis
             last_name: Test
@@ -20921,6 +20924,8 @@ definitions:
               type: string
             snap_day:
               type: 'null'
+            reason_code:
+              type: 'null'
             customer:
               type: object
               properties:
@@ -21116,6 +21121,7 @@ definitions:
           coupon_code: null
           payment_collection_method: invoice
           snap_day: null
+          reason_code: null
           customer:
             first_name: Amelia
             last_name: Example
@@ -21275,6 +21281,8 @@ definitions:
             type: 'null'
           current_billing_amount_in_cents:
             type: integer
+          reason_code:
+            type: 'null'
           customer:
             type: object
             properties:
@@ -21470,6 +21478,7 @@ definitions:
         coupon_use_count: null
         coupon_uses_allowed: null
         current_billing_amount_in_cents: 6450
+        reason_code: null
         customer:
           id: 14399371
           first_name: Amelia
@@ -22379,6 +22388,8 @@ definitions:
             type: string
           cancellation_method:
             type: string
+          reason_code:
+            type: string
     example:
       subscription:
         cancellation_message: Canceling the subscription via the API
@@ -22419,8 +22430,6 @@ definitions:
             type: string
           cancellation_message:
             type: string
-          cancellation_method:
-            type: string
           next_product_id:
             type: 'null'
           cancel_at_end_of_period:
@@ -22429,6 +22438,8 @@ definitions:
             type: string
           snap_day:
             type: 'null'
+          cancellation_method:
+            type: string
           current_period_started_at:
             type: string
           previous_state:
@@ -22454,6 +22465,8 @@ definitions:
           coupon_use_count:
             type: 'null'
           coupon_uses_allowed:
+            type: 'null'
+          reason_code:
             type: 'null'
           customer:
             type: object
@@ -22649,6 +22662,7 @@ definitions:
         referral_code: tg8qbq
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14731081
           first_name: John
@@ -23196,6 +23210,8 @@ definitions:
             type: 'null'
           coupon_uses_allowed:
             type: 'null'
+          reason_code:
+            type: 'null'
           customer:
             type: object
             properties:
@@ -23390,6 +23406,7 @@ definitions:
         referral_code: zxnpjh
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14730740
           first_name: Alysa
@@ -23563,6 +23580,8 @@ definitions:
           coupon_use_count:
             type: 'null'
           coupon_uses_allowed:
+            type: 'null'
+          reason_code:
             type: 'null'
           customer:
             type: object
@@ -23758,6 +23777,7 @@ definitions:
         referral_code: zxnpjh
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14730740
           first_name: Alysa
@@ -24121,6 +24141,7 @@ definitions:
         referral_code: p8fs35
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14399371
           first_name: Amelia
@@ -24278,6 +24299,8 @@ definitions:
           coupon_use_count:
             type: 'null'
           coupon_uses_allowed:
+            type: 'null'
+          reason_code:
             type: 'null'
           customer:
             type: object
@@ -24473,6 +24496,7 @@ definitions:
         referral_code: p8fs35
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14399371
           first_name: Amelia
@@ -24630,6 +24654,8 @@ definitions:
           coupon_use_count:
             type: 'null'
           coupon_uses_allowed:
+            type: 'null'
+          reason_code:
             type: 'null'
           customer:
             type: object
@@ -24825,6 +24851,7 @@ definitions:
         referral_code: p8fs35
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14399371
           first_name: Amelia
@@ -24983,6 +25010,8 @@ definitions:
             type: 'null'
           coupon_uses_allowed:
             type: 'null'
+          reason_code:
+            type: 'null'
           customer:
             type: object
             properties:
@@ -25138,6 +25167,7 @@ definitions:
         referral_code: p8fs35
         coupon_use_count: null
         coupon_uses_allowed: null
+        reason_code: null
         customer:
           id: 14399371
           first_name: Amelia
@@ -32455,6 +32485,7 @@ x-stoplight:
         | cancellation_message                  | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to make a note about the reason for cancellation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
         |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | cancellation_method                   | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to make a note about how the subscription was canceled. |
+        | reason_code                           | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to indicate why a subscription was canceled. |
         | next_billing_at                       | (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” below. If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by `next_billing_at`. If you do not provide a value for `next_billing_at`, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes in the section on Importing Subscriptions. |
         | expires_at                            | Timestamp giving the expiration date of this subscription (if any). You may manually change the expiration date at any point during a subscription period.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
         | expiration_tracks_next_billing_change | (Optional, default false) When set to `true`, and when next_billing_at is present, if the subscription expires, the expires_at will be shifted by the same amount of time as the difference between the old and new “next billing” dates.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
