@@ -768,70 +768,78 @@ paths:
       - name: product_family_id
         in: path
         required: true
-        type: integer
+        type: string
     get:
       operationId: GET_product_families-product_family_id-components-json
       summary: List Components for a Product Family
       tags:
+        - incomplete
+        - Component
         - Components
       description: |-
         ## List Components for a Product Family
 
-        This request will return a list of components within a product family.
+        This request will return a list of components for a particular product family.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: 'null'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/metered/list-components-for-product-family-output'
+            $ref: '#/definitions/component/list-component-product-family-get'
           examples:
             application/json:
               - component:
-                  id: 195268
-                  name: IP addresses
-                  pricing_scheme: tiered
-                  unit_name: IP addresses
-                  unit_price: null
-                  product_family_id: 527890
+                  id: 193158
+                  name: Storage Units
+                  pricing_scheme: per_unit
+                  unit_name: storage_unit
+                  unit_price: '0.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: metered_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
-                  description: IP addresses
+                  description: Storage Units
                   prices:
-                    - starting_quantity: 0
-                      ending_quantity: 10
+                    - starting_quantity: 1
+                      ending_quantity: null
                       unit_price: '0.0'
-                    - starting_quantity: 11
-                      ending_quantity: 999
-                      unit_price: '3000.0'
               - component:
-                  id: 165316
-                  name: Metered Minutes
-                  pricing_scheme: volume
-                  unit_name: Metered Minutes
-                  unit_price: null
-                  product_family_id: 527890
+                  id: 212784
+                  name: IP Addresses
+                  pricing_scheme: per_unit
+                  unit_name: IP Addresses
+                  unit_price: '20.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: metered_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
                   description: ''
                   prices:
                     - starting_quantity: 1
                       ending_quantity: null
-                      unit_price: '1.0'
+                      unit_price: '20.0'
               - component:
-                  id: 198119
-                  name: Support Component
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '40.0'
-                  product_family_id: 527890
+                  id: 160432
+                  name: Text Messages
+                  pricing_scheme: per_unit
+                  unit_name: message
+                  unit_price: '1.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: on_off_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
-                  description: Support Component
+                  description: Texts sent per month
+                  prices:
+                    - starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '1.0'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -2983,16 +2991,24 @@ paths:
   /customers.json:
     get:
       operationId: GET_customers-json
-      summary: List Customers for a Site
+      summary: Search for Customer
       tags:
         - Customers
       description: |-
-        ## List Customers for a Site
+        ## Search for Customer
 
-        This request will list all customers associated with your Site.
+        Use the search feature to retrieve a single or group of customers. 
+
+        Common use cases are:
+
+        + Search by email
+        + Search by Chargify ID
+        + Search by Reference (Your App)
+        + Search by Organization
+
+        If multiple customers meet the criteria for the search string, please expect an array.
       parameters:
-        - $ref: '#/parameters/trait:pagination50:page'
-        - $ref: '#/parameters/trait:direction:direction'
+        - $ref: '#/parameters/trait:searchString:q'
       responses:
         '200':
           description: ''
@@ -3015,7 +3031,7 @@ paths:
                     organization:
                       type: string
                     reference:
-                      type: 'null'
+                      type: string
                     id:
                       type: integer
                     created_at:
@@ -3023,25 +3039,43 @@ paths:
                     updated_at:
                       type: string
                     address:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     address_2:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     city:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     state:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     zip:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     country:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     phone:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     verified:
-                      type: 'null'
+                      type: boolean
                     portal_customer_created_at:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     portal_invite_last_sent_at:
-                      type: string
+                      type:
+                        - 'null'
+                        - string
                     portal_invite_last_accepted_at:
                       type: 'null'
                     tax_exempt:
@@ -3049,69 +3083,91 @@ paths:
           examples:
             application/json:
               - customer:
-                  first_name: Kayla
-                  last_name: Test
-                  email: kayla@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14126091
-                  created_at: '2016-10-04T15:22:27-04:00'
-                  updated_at: '2016-10-04T15:22:30-04:00'
-                  address: ''
+                  first_name: Amelia
+                  last_name: Example
+                  email: amelia@example.com
+                  cc_emails: 'john@example.com, joe@example.com'
+                  organization: Acme
+                  reference: JQPUBLIC
+                  id: 14399371
+                  created_at: '2016-10-24T16:20:12-04:00'
+                  updated_at: '2016-10-26T13:25:33-04:00'
+                  address: 123 Anywhere Street
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: 'Nick '
-                  last_name: Test
-                  email: nick@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14254093
-                  created_at: '2016-10-13T16:52:51-04:00'
-                  updated_at: '2016-10-13T16:52:54-04:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Don
-                  last_name: Test
-                  email: don@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14332342
-                  created_at: '2016-10-19T10:49:13-04:00'
-                  updated_at: '2016-10-19T10:49:19-04:00'
-                  address: 1737 15th St
-                  address_2: ''
-                  city: Boulder
-                  state: CO
-                  zip: '80302'
+                  city: Anywhere
+                  state: MA
+                  zip: '02120'
                   country: US
+                  phone: 555-555-1212
+                  verified: false
+                  portal_customer_created_at: null
+                  portal_invite_last_sent_at: null
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme
+                  reference: '1234'
+                  id: 14585723
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-12-02T18:03:36-05:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: John
+                  last_name: Doe
+                  email: john.doe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme Widgets
+                  reference: '123'
+                  id: 14731081
+                  created_at: '2016-11-15T15:33:44-05:00'
+                  updated_at: '2016-11-15T15:33:45-05:00'
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme
+                  reference: ABC123
+                  id: 14943291
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T18:03:17-05:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: false
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
       security:
@@ -3649,6 +3705,66 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /events.json:
+    get:
+      operationId: list-events
+      summary: List Events for a Site
+      tags:
+        - Event
+        - incomplete
+        - Events
+      description: |-
+        ## List Events for a Site
+
+        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:page'
+        - $ref: '#/parameters/trait:eventsFilters:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:since_id'
+        - $ref: '#/parameters/trait:eventsFilters:max_id'
+        - $ref: '#/parameters/trait:eventsFilters:direction'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/events/list-site-event-output'
+          examples:
+            application/json:
+              - event:
+                  id: 343087780
+                  key: subscription_state_change
+                  message: State changed on Test subscription to Monthly Product from active to past_due
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:22-04:00'
+                  event_specific_data:
+                    previous_subscription_state: active
+                    new_subscription_state: past_due
+              - event:
+                  id: 343087742
+                  key: billing_date_change
+                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:19-04:00'
+                  event_specific_data: null
+              - event:
+                  id: 343085267
+                  key: statement_closed
+                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
+                  subscription_id: 14950975
+                  created_at: '2016-10-27T16:40:40-04:00'
+                  event_specific_data: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: list-events
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/events.json':
     parameters:
       - name: subscription_id
@@ -3709,66 +3825,6 @@ paths:
                   message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
                   subscription_id: 14900541
                   created_at: '2016-11-01T12:41:25-04:00'
-                  event_specific_data: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: list-events
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /events.json:
-    get:
-      operationId: list-events
-      summary: List Events for a Site
-      tags:
-        - Event
-        - incomplete
-        - Events
-      description: |-
-        ## List Events for a Site
-
-        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:page'
-        - $ref: '#/parameters/trait:eventsFilters:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:since_id'
-        - $ref: '#/parameters/trait:eventsFilters:max_id'
-        - $ref: '#/parameters/trait:eventsFilters:direction'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/events/list-site-event-output'
-          examples:
-            application/json:
-              - event:
-                  id: 343087780
-                  key: subscription_state_change
-                  message: State changed on Test subscription to Monthly Product from active to past_due
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:22-04:00'
-                  event_specific_data:
-                    previous_subscription_state: active
-                    new_subscription_state: past_due
-              - event:
-                  id: 343087742
-                  key: billing_date_change
-                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:19-04:00'
-                  event_specific_data: null
-              - event:
-                  id: 343085267
-                  key: statement_closed
-                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
-                  subscription_id: 14950975
-                  created_at: '2016-10-27T16:40:40-04:00'
                   event_specific_data: null
       security:
         - <<api_key>>: []
@@ -5297,13 +5353,13 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration
+      summary: Create Migration with Trial
       tags:
         - Migrations - Prorated Upgrades / Downgrades
       description: |-
-        ## Create Migration
+        ## Create Migration with Trial
 
-        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
+        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
 
         The response will be the updated subscription.
       parameters:
@@ -5317,28 +5373,31 @@ paths:
                 properties:
                   product_id:
                     type: integer
+                  include_trial:
+                    type: integer
             example:
               migration:
-                product_id: 3801242
+                product_id: 3861800
+                include_trial: 1
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-output'
+            $ref: '#/definitions/migrations/create-migration-input-trial-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
+                state: trialing
+                trial_started_at: '2016-11-03T13:43:36-04:00'
+                trial_ended_at: '2016-11-10T12:43:36-05:00'
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:31:49-04:00'
+                updated_at: '2016-11-03T13:43:36-04:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T12:31:49-05:00'
-                next_assessment_at: '2016-12-03T12:31:49-05:00'
+                balance_in_cents: -13989
+                current_period_ends_at: '2016-11-10T12:43:36-05:00'
+                next_assessment_at: '2016-11-10T12:43:36-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -5346,15 +5405,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:31:48-04:00'
+                current_period_started_at: '2016-11-03T13:43:35-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 10000
-                product_version_number: 4
+                product_price_in_cents: 1000
+                product_version_number: 6
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -5381,30 +5440,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
+                  id: 3861800
+                  name: Trial Product
+                  handle: trial-product
+                  description: Trial period with payment expected at end of trial.
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
+                  created_at: '2016-07-08T09:53:55-04:00'
+                  updated_at: '2016-09-05T13:00:36-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: 0
+                  trial_interval: 7
+                  trial_interval_unit: day
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 4
+                  version_number: 6
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -5413,10 +5472,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 283460
-                      return_url: null
+                    - id: 294791
+                      return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -5434,7 +5493,7 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 1
+                  billing_address_2: Apt. 10
                   payment_type: credit_card
       security:
         - <<api_key>>: []
@@ -6864,6 +6923,27 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_reasoncodes-reasoncodeidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    delete:
+      operationId: DELETE_reason_codes-reason_code_id-json
+      summary: ReasonCode Delete
+      tags:
+        - ReasonCode
+        - Reason Codes
+      responses:
+        default:
+          description: ''
+          schema: {}
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_reasoncodes-reasoncodeidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -30610,6 +30690,8 @@ x-stoplight:
               _id: reason_codes/create
             - type: schemas
               _id: reason_code/update
+            - type: endpoints
+              _id: DELETE_reasoncodes-reasoncodeidjson
           divider: false
         - divider: false
           items:
