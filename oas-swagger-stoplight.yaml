@@ -32898,6 +32898,9 @@ x-stoplight:
 
 
         ## ReasonCode Input Attributes
+
+
+        | code          | The string which identifies the reason for cancelation.                                                                               |
       public: false
   mock:
     dynamic: false
