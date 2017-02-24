@@ -1019,77 +1019,75 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with a Coupon
+      summary: Setting Quantity at Subscription Creation
       tags:
         - Components - Metered Usage
-      description: |-
-        ## Create Subscription with a Coupon
-
-        This method allows you to create a Subscription within Chargify with a coupon applied at signup.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/coupon/create-subscription-with-coupon-input'
+            $ref: '#/definitions/components/metered/setting-quantity-at-subscription-creation-input'
             example:
               subscription:
                 product_handle: basic
                 customer_attributes:
                   first_name: Joe
                   last_name: Blow
-                  email: joe@example.com
+                  email: joe1049am@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
-                coupon_code: 100PERCENT
+                components:
+                  - component_id: 195268
+                    unit_balance: 20
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/coupon/create-subscription-with-coupon-output'
+            $ref: '#/definitions/components/metered/setting-quantity-at-subscription-creation-output'
           examples:
             application/json:
               subscription:
-                id: 15479934
+                id: 15569578
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2016-12-02T15:59:08-05:00'
-                created_at: '2016-12-02T15:59:06-05:00'
-                updated_at: '2016-12-02T15:59:08-05:00'
+                activated_at: '2016-12-09T11:49:23-05:00'
+                created_at: '2016-12-09T11:49:20-05:00'
+                updated_at: '2016-12-09T11:49:23-05:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T15:59:06-05:00'
-                next_assessment_at: '2016-12-03T15:59:06-05:00'
+                current_period_ends_at: '2016-12-10T11:49:20-05:00'
+                next_assessment_at: '2016-12-10T11:49:20-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
-                cancel_at_end_of_period: null
+                cancel_at_end_of_period: false
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-12-02T15:59:06-05:00'
+                current_period_started_at: '2016-12-09T11:49:20-05:00'
                 previous_state: active
-                signup_payment_id: 164720323
-                signup_revenue: '5.00'
+                signup_payment_id: 165589525
+                signup_revenue: '30010.00'
                 delayed_cancel_at: null
-                coupon_code: 100PERCENT
-                total_revenue_in_cents: 500
+                coupon_code: null
+                total_revenue_in_cents: 3001000
                 product_price_in_cents: 1000
                 product_version_number: 7
                 payment_type: credit_card
-                referral_code: 7b8p8v
-                coupon_use_count: 1
+                referral_code: zf6s86
+                coupon_use_count: null
                 coupon_uses_allowed: null
                 customer:
-                  id: 14943291
+                  id: 15029690
                   first_name: Joe
                   last_name: Blow
                   organization: null
                   email: joe@example.com
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T15:59:09-05:00'
+                  created_at: '2016-12-09T11:49:20-05:00'
+                  updated_at: '2016-12-09T11:49:25-05:00'
                   reference: null
                   address: null
                   address_2: null
@@ -1098,10 +1096,10 @@ paths:
                   zip: null
                   country: null
                   phone: null
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
                   cc_emails: null
                   tax_exempt: false
                 product:
@@ -1150,14 +1148,14 @@ paths:
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                 credit_card:
-                  id: 10345872
+                  id: 10405758
                   first_name: Joe
                   last_name: Blow
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 14943291
+                  customer_id: 15029690
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -1168,8 +1166,6 @@ paths:
                   customer_vault_token: null
                   billing_address_2: null
                   payment_type: credit_card
-      security:
-        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -2991,24 +2987,16 @@ paths:
   /customers.json:
     get:
       operationId: GET_customers-json
-      summary: Search for Customer
+      summary: List Customers for a Site
       tags:
         - Customers
       description: |-
-        ## Search for Customer
+        ## List Customers for a Site
 
-        Use the search feature to retrieve a single or group of customers. 
-
-        Common use cases are:
-
-        + Search by email
-        + Search by Chargify ID
-        + Search by Reference (Your App)
-        + Search by Organization
-
-        If multiple customers meet the criteria for the search string, please expect an array.
+        This request will list all customers associated with your Site.
       parameters:
-        - $ref: '#/parameters/trait:searchString:q'
+        - $ref: '#/parameters/trait:pagination50:page'
+        - $ref: '#/parameters/trait:direction:direction'
       responses:
         '200':
           description: ''
@@ -3031,7 +3019,7 @@ paths:
                     organization:
                       type: string
                     reference:
-                      type: string
+                      type: 'null'
                     id:
                       type: integer
                     created_at:
@@ -3039,43 +3027,25 @@ paths:
                     updated_at:
                       type: string
                     address:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     address_2:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     city:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     state:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     zip:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     country:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     phone:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     verified:
-                      type: boolean
+                      type: 'null'
                     portal_customer_created_at:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     portal_invite_last_sent_at:
-                      type:
-                        - 'null'
-                        - string
+                      type: string
                     portal_invite_last_accepted_at:
                       type: 'null'
                     tax_exempt:
@@ -3083,91 +3053,69 @@ paths:
           examples:
             application/json:
               - customer:
-                  first_name: Amelia
-                  last_name: Example
-                  email: amelia@example.com
-                  cc_emails: 'john@example.com, joe@example.com'
-                  organization: Acme
-                  reference: JQPUBLIC
-                  id: 14399371
-                  created_at: '2016-10-24T16:20:12-04:00'
-                  updated_at: '2016-10-26T13:25:33-04:00'
-                  address: 123 Anywhere Street
+                  first_name: Kayla
+                  last_name: Test
+                  email: kayla@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14126091
+                  created_at: '2016-10-04T15:22:27-04:00'
+                  updated_at: '2016-10-04T15:22:30-04:00'
+                  address: ''
                   address_2: ''
-                  city: Anywhere
-                  state: MA
-                  zip: '02120'
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
+                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: 'Nick '
+                  last_name: Test
+                  email: nick@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14254093
+                  created_at: '2016-10-13T16:52:51-04:00'
+                  updated_at: '2016-10-13T16:52:54-04:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Don
+                  last_name: Test
+                  email: don@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14332342
+                  created_at: '2016-10-19T10:49:13-04:00'
+                  updated_at: '2016-10-19T10:49:19-04:00'
+                  address: 1737 15th St
+                  address_2: ''
+                  city: Boulder
+                  state: CO
+                  zip: '80302'
                   country: US
-                  phone: 555-555-1212
-                  verified: false
-                  portal_customer_created_at: null
-                  portal_invite_last_sent_at: null
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Matt
-                  last_name: Example
-                  email: matt@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: '1234'
-                  id: 14585723
-                  created_at: '2016-11-04T17:08:31-04:00'
-                  updated_at: '2016-12-02T18:03:36-05:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: John
-                  last_name: Doe
-                  email: john.doe@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme Widgets
-                  reference: '123'
-                  id: 14731081
-                  created_at: '2016-11-15T15:33:44-05:00'
-                  updated_at: '2016-11-15T15:33:45-05:00'
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  verified: false
-                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: ABC123
-                  id: 14943291
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T18:03:17-05:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
+                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
       security:
@@ -5353,13 +5301,13 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration with Trial
+      summary: Create Migration
       tags:
         - Migrations - Prorated Upgrades / Downgrades
       description: |-
-        ## Create Migration with Trial
+        ## Create Migration
 
-        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
+        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
 
         The response will be the updated subscription.
       parameters:
@@ -5373,31 +5321,28 @@ paths:
                 properties:
                   product_id:
                     type: integer
-                  include_trial:
-                    type: integer
             example:
               migration:
-                product_id: 3861800
-                include_trial: 1
+                product_id: 3801242
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-input-trial-output'
+            $ref: '#/definitions/migrations/create-migration-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: trialing
-                trial_started_at: '2016-11-03T13:43:36-04:00'
-                trial_ended_at: '2016-11-10T12:43:36-05:00'
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:43:36-04:00'
+                updated_at: '2016-11-03T13:31:49-04:00'
                 expires_at: null
-                balance_in_cents: -13989
-                current_period_ends_at: '2016-11-10T12:43:36-05:00'
-                next_assessment_at: '2016-11-10T12:43:36-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2016-12-03T12:31:49-05:00'
+                next_assessment_at: '2016-12-03T12:31:49-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -5405,15 +5350,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:43:35-04:00'
+                current_period_started_at: '2016-11-03T13:31:48-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 1000
-                product_version_number: 6
+                product_price_in_cents: 10000
+                product_version_number: 4
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -5440,30 +5385,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3861800
-                  name: Trial Product
-                  handle: trial-product
-                  description: Trial period with payment expected at end of trial.
+                  id: 3801242
+                  name: Free product
+                  handle: zero-dollar-product
+                  description: ''
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-07-08T09:53:55-04:00'
-                  updated_at: '2016-09-05T13:00:36-04:00'
-                  price_in_cents: 1000
+                  created_at: '2016-04-21T16:08:39-04:00'
+                  updated_at: '2016-08-03T11:27:53-04:00'
+                  price_in_cents: 10000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: 0
-                  trial_interval: 7
-                  trial_interval_unit: day
+                  initial_charge_in_cents: 0
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: true
+                  require_credit_card: false
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 6
+                  version_number: 4
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -5472,10 +5417,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 294791
-                      return_url: ''
+                    - id: 283460
+                      return_url: null
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
+                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -5493,7 +5438,7 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 10
+                  billing_address_2: Apt. 1
                   payment_type: credit_card
       security:
         - <<api_key>>: []
@@ -6951,6 +6896,34 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /reason_codes:
+    post:
+      operationId: POST_reason_codes
+      summary: ReasonCode create
+      tags:
+        - ReasonCode
+        - Reason Codes
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/reason_codes/create'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_code/show'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_reasoncodes
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /referral_codes/validate.json:
     get:
       operationId: GET_referral_codes-validate-json
@@ -7577,30 +7550,40 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Default)'
+      summary: 'Clear all Site data:  (Customers)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Default)
+        ## Clear all Site data:  (Customers)
 
-        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
         ```
 
-        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Required Parameter: cleanup_scope
+
+        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
+      parameters:
+        - name: cleanup_scope
+          in: query
+          required: true
+          type: string
+          enum:
+            - customers
       responses:
-        '200':
+        default:
           description: ''
+          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -30684,6 +30667,8 @@ x-stoplight:
               _id: GET_reasoncodes-reasoncodeidjson
             - type: schemas
               _id: reason_code/show
+            - type: endpoints
+              _id: DELETE_reasoncodes-reasoncodeidjson
             - type: schemas
               _id: reason_codes/delete
             - type: schemas
@@ -30692,6 +30677,8 @@ x-stoplight:
               _id: reason_code/update
             - type: endpoints
               _id: DELETE_reasoncodes-reasoncodeidjson
+            - type: endpoints
+              _id: POST_reasoncodes
           divider: false
         - divider: false
           items:
@@ -32981,8 +32968,12 @@ x-stoplight:
 
         ## ReasonCode Input Attributes
 
+        In order to create a ReasonCode you must provide a code and a description.
 
-        | code          | The string which identifies the reason for cancelation.                                                                               |
+        | code           | The unique identifier for the ReasonCode.                                                                                                                                                                                               |
+        |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | description | The friendly summary of what the code signifies |
+        | position |  The order that code appears in in lists |
       public: false
   mock:
     dynamic: false
