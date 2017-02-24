@@ -6896,6 +6896,32 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+    put:
+      operationId: PUT_reason_codes-reason_code_id-json
+      summary: ReasonCode Update
+      tags:
+        - Reason Codes
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/reason_code/update'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_code/show'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_reasoncodes-reasoncodeidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /reason_codes:
     post:
       operationId: POST_reason_codes
@@ -30680,10 +30706,10 @@ x-stoplight:
               _id: POST_reasoncodes
             - type: schemas
               _id: reason_codes/create
+            - type: endpoints
+              _id: PUT_reasoncodes-reasoncodeidjson
             - type: schemas
               _id: reason_code/update
-            - type: endpoints
-              _id: DELETE_reasoncodes-reasoncodeidjson
           divider: false
         - divider: false
           items:
