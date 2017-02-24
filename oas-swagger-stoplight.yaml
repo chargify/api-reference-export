@@ -6899,7 +6899,7 @@ paths:
   /reason_codes:
     post:
       operationId: POST_reason_codes
-      summary: ReasonCode create
+      summary: ReasonCode Create
       tags:
         - ReasonCode
         - Reason Codes
@@ -6908,6 +6908,11 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/reason_codes/create'
+            example:
+              reason_code:
+                code: null
+                description: null
+                position: 85264066
       responses:
         '200':
           description: ''
@@ -30671,14 +30676,14 @@ x-stoplight:
               _id: DELETE_reasoncodes-reasoncodeidjson
             - type: schemas
               _id: reason_codes/delete
+            - type: endpoints
+              _id: POST_reasoncodes
             - type: schemas
               _id: reason_codes/create
             - type: schemas
               _id: reason_code/update
             - type: endpoints
               _id: DELETE_reasoncodes-reasoncodeidjson
-            - type: endpoints
-              _id: POST_reasoncodes
           divider: false
         - divider: false
           items:
