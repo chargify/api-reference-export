@@ -6155,7 +6155,7 @@ paths:
       description: |-
         ## List Products
 
-        This method allows to retrieve a list of Products. The response will contain a "Products" array with "Product" elements.
+        This method allows a merchant to retrieve a list of Products. The response will contain a "Products" array with "Product" elements.
 
         ## 404 Response
 
@@ -6818,12 +6818,18 @@ paths:
       summary: Index View
       tags:
         - Reason Codes
-      description: This endpoint
+      description: |-
+        ## Index View
+
+        This method a merchant to
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/list'
+            $ref: '#/definitions/reason_code/list_response'
           examples:
             application/json:
               - {}
@@ -6849,6 +6855,47 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+    post:
+      operationId: POST_reason_codes-json
+      summary: ReasonCode Create
+      tags:
+        - ReasonCode
+        - Reason Codes
+      description: |-
+        ## ReasonCode Input Attributes
+
+        In order to create a ReasonCode you must provide a code and a description.
+
+        | code           | The unique identifier for the ReasonCode.                                                                                                                                                                                               |
+        |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | description | The friendly summary of what the code signifies |
+        | position |  The order that code appears in in lists |
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions//reason_codes/create_code_request'
+            example:
+              reason_code:
+                code: NOTHANKYOU
+                description: No thank you!
+                position: 5
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_code/show_response_response'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_reasoncodesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/reason_codes/{reason_code_id}.json':
     parameters:
       - name: reason_code_id
@@ -6864,7 +6911,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show'
+            $ref: '#/definitions/reason_code/show_response_response'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6906,49 +6953,16 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/reason_code/update'
+            $ref: '#/definitions/reason_code/update_response'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show'
+            $ref: '#/definitions/reason_code/show_response_response'
       security:
         - <<api_key>>: []
       x-stoplight:
         id: PUT_reasoncodes-reasoncodeidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  /reason_codes:
-    post:
-      operationId: POST_reason_codes
-      summary: ReasonCode Create
-      tags:
-        - ReasonCode
-        - Reason Codes
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/reason_codes/create'
-            example:
-              reason_code:
-                code: null
-                description: null
-                position: 85264066
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/reason_code/show'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_reasoncodes
         beforeScript: null
         afterScript: null
         public: true
@@ -29935,8 +29949,8 @@ definitions:
       id: statements/list-statements-for-a-site
       name: List Statements for a Site
       public: true
-  reason_code/show:
-    title: ReasonCode Show
+  reason_code/show_response:
+    title: ReasonCode Show Response
     type: object
     properties:
       reason_code:
@@ -29966,11 +29980,11 @@ definitions:
         created_at: '2017-02-16T16:48:45-05:00'
         updated_at: '2017-02-17T16:29:59-05:00'
     x-stoplight:
-      id: reason_code/show
-      name: ReasonCode Show
+      id: reason_code/show_response
+      name: ReasonCode Show Response
       public: true
-  reason_code/list:
-    title: ReasonCode List
+  reason_code/list_response:
+    title: ReasonCode List Response
     type: array
     items:
       type: object
@@ -30034,11 +30048,11 @@ definitions:
           created_at: '2017-02-17T15:19:35-05:00'
           updated_at: '2017-02-21T09:50:01-05:00'
     x-stoplight:
-      id: reason_code/list
-      name: ReasonCode List
+      id: reason_code/list_response
+      name: ReasonCode List Response
       public: true
-  reason_codes/delete:
-    title: ReasonCode Delete
+  reason_codes/delete_response:
+    title: ReasonCode Delete Response
     type: object
     properties:
       ok:
@@ -30046,11 +30060,11 @@ definitions:
     example:
       ok: ok
     x-stoplight:
-      id: reason_codes/delete
-      name: ReasonCode Delete
+      id: reason_codes/delete_response
+      name: ReasonCode Delete Response
       public: true
-  reason_codes/create:
-    title: ReasonCode Create
+  reason_codes/create_code_response:
+    title: ReasonCode Create Response
     type: object
     properties:
       reason_code:
@@ -30080,11 +30094,11 @@ definitions:
         created_at: '2017-02-21T16:20:00-05:00'
         updated_at: '2017-02-21T16:20:00-05:00'
     x-stoplight:
-      id: reason_codes/create
-      name: ReasonCode Create
+      id: reason_codes/create_code_response
+      name: ReasonCode Create Response
       public: true
-  reason_code/update:
-    title: ReasonCode Update
+  reason_code/update_response:
+    title: ReasonCode Update Response
     type: object
     properties:
       reason_code:
@@ -30114,8 +30128,23 @@ definitions:
         created_at: '2017-02-16T16:48:45-05:00'
         updated_at: '2017-02-21T16:33:10-05:00'
     x-stoplight:
-      id: reason_code/update
-      name: ReasonCode Update
+      id: reason_code/update_response
+      name: ReasonCode Update Response
+      public: true
+  /reason_codes/create_code_request:
+    title: ReasonCode Create Request
+    type: object
+    properties:
+      reason_code:
+        $ref: '#/definitions//reason_codes/create_code_request'
+    example:
+      reason_code:
+        code: NOTHANKYOU
+        description: No thank you!
+        position: 5
+    x-stoplight:
+      id: /reason_codes/create_code_request
+      name: ReasonCode Create Request
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -30694,23 +30723,25 @@ x-stoplight:
             - type: endpoints
               _id: GET_reasoncodesjson
             - type: schemas
-              _id: reason_code/list
+              _id: reason_code/list_response
             - type: endpoints
               _id: GET_reasoncodes-reasoncodeidjson
             - type: schemas
-              _id: reason_code/show
+              _id: reason_code/show_response
             - type: endpoints
               _id: DELETE_reasoncodes-reasoncodeidjson
             - type: schemas
-              _id: reason_codes/delete
+              _id: reason_codes/delete_response
             - type: endpoints
-              _id: POST_reasoncodes
+              _id: POST_reasoncodesjson
             - type: schemas
-              _id: reason_codes/create
+              _id: /reason_codes/create_code_request
+            - type: schemas
+              _id: reason_codes/create_code_response
             - type: endpoints
               _id: PUT_reasoncodes-reasoncodeidjson
             - type: schemas
-              _id: reason_code/update
+              _id: reason_code/update_response
           divider: false
         - divider: false
           items:
@@ -32997,9 +33028,19 @@ x-stoplight:
 
         ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
 
+        Add a set of churn reason codes to be displayed in-app and/or the Chargify Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel. 
+
+        This endpoint allows you to perform the following functions:
+
+        + Read the list of current reason codes per Site
+        + Read a reason code
+        + Delete a reason code
+        + Create a reason code
+        + Update a reason code
+
         ## ReasonCode Documentation
 
-        Full documentation on how Reason Codes operate within Chargify can be located under the following links:
+        Full documentation on how Reason Codes operate within Chargify can be located under the following links.
 
         TBD
       public: false
