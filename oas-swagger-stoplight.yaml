@@ -6818,6 +6818,7 @@ paths:
       summary: Index View
       tags:
         - Reason Codes
+      description: This endpoint
       responses:
         '200':
           description: ''
@@ -33001,15 +33002,6 @@ x-stoplight:
         Full documentation on how Reason Codes operate within Chargify can be located under the following links:
 
         TBD
-
-        ## ReasonCode Input Attributes
-
-        In order to create a ReasonCode you must provide a code and a description.
-
-        | code           | The unique identifier for the ReasonCode.                                                                                                                                                                                               |
-        |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | description | The friendly summary of what the code signifies |
-        | position |  The order that code appears in in lists |
       public: false
   mock:
     dynamic: false
