@@ -6821,7 +6821,7 @@ paths:
       description: |-
         ## Index View
 
-        This method a merchant to
+        This method gives a merchant the option to retrieve a list of all of the current churn codes for a given site.
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
@@ -6862,6 +6862,10 @@ paths:
         - ReasonCode
         - Reason Codes
       description: |-
+        ## ReasonCode Create
+
+        This method gives a merchant the option to create a reason codes for a given Site.
+
         ## ReasonCode Input Attributes
 
         In order to create a ReasonCode you must provide a code and a description.
@@ -6884,7 +6888,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response_response'
+            $ref: '#/definitions/reason_code/show_response'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6907,11 +6911,15 @@ paths:
       summary: ReasonCode Show
       tags:
         - Reason Codes
+      description: |-
+        ## ReasonCode Show
+
+        This method gives a merchant the option to retrieve a list of a particular code for a given Site by providing the unique numerical ID of the code.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response_response'
+            $ref: '#/definitions/reason_code/show_response'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6929,6 +6937,10 @@ paths:
       tags:
         - ReasonCode
         - Reason Codes
+      description: |-
+        ## ReasonCode Delete
+
+        This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
       responses:
         default:
           description: ''
@@ -6949,6 +6961,10 @@ paths:
       summary: ReasonCode Update
       tags:
         - Reason Codes
+      description: |-
+        ## ReasonCode Update
+
+        This method gives a merchant the option to update an existing reason code for a given site.
       parameters:
         - name: body
           in: body
@@ -6958,7 +6974,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response_response'
+            $ref: '#/definitions/reason_code/show_response'
       security:
         - <<api_key>>: []
       x-stoplight:
