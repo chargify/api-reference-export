@@ -31027,6 +31027,12 @@ x-stoplight:
       id: introduction
       name: Introduction
       content: |-
+        <head>
+        <title>Chargify API Basics - Introduction</title>
+        <meta name="description" content="An introduction to using the API to successfully integrate with Chargify. Using the Chargify API you interact with resources such as Subscriptions.">
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+        </head>
+
         ## API Integration
 
         Chargify can be integrated with many environments and programming languages via our REST API. Some of our users have contributed their API Wrappers in various programming languages. Check out the [API Code Overview](#docTextSection:YKvTafPkkoewDPT9T) doc for an introduction to the wrappers and available code samples.
