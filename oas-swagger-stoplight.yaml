@@ -30194,6 +30194,21 @@ definitions:
       id: /reason_codes/create_code_request
       name: ReasonCode Create Request
       public: true
+  subscriptions/hold-subscription-request:
+    title: Hold Subscription Request
+    type: object
+    properties:
+      hold:
+        type: object
+        properties:
+          automatically_resume:
+            type: boolean
+          automatically_resume_at:
+            type: string
+    x-stoplight:
+      id: subscriptions/hold-subscription-request
+      name: Hold Subscription Request
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -30978,6 +30993,8 @@ x-stoplight:
               _id: subscriptionQueryString
             - type: endpoints
               _id: POST_subscriptions-subscriptionid-hold
+            - type: schemas
+              _id: subscriptions/hold-subscription-request
           name: Subscriptions
         - name: Subscription Import
           items:
