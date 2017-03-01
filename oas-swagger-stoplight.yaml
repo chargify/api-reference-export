@@ -7612,36 +7612,35 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Customers)'
+      summary: 'Clear all Site data:  (All)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Customers)
+        ## Clear all Site data:  (All)
 
-        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=all
         ```
 
         Required Parameter: cleanup_scope
 
-        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
       parameters:
-        - name: cleanup_scope
+        - name: all
           in: query
           required: true
           type: string
           enum:
-            - customers
+            - all
       responses:
         default:
           description: ''
@@ -11835,6 +11834,39 @@ paths:
         beforeScript: null
         afterScript: null
         public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/hold':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_subscriptions-subscription_id-hold
+      summary: Pause Subscription
+      tags:
+        - Subscriptions
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              '':
+                type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-hold
+        beforeScript: null
+        afterScript: null
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -30944,6 +30976,8 @@ x-stoplight:
               _id: 6uc29YJhRFimXJ5qE
             - type: traits
               _id: subscriptionQueryString
+            - type: endpoints
+              _id: POST_subscriptions-subscriptionid-hold
           name: Subscriptions
         - name: Subscription Import
           items:
