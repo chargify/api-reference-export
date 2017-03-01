@@ -5930,9 +5930,31 @@ paths:
 
         This method will create a payment profile for the `customer_id` identified in the `payment_profile` object.
 
+        ## Create a Payment Profile for ACH usage
+
+        If you would like to create a payment method that is a Bank Account applicable for ACH payments use the following:
+
+        ```
+        {
+         "payment_profile": {
+          "customer_id": [Valid-Customer-ID],
+          "bank_name": "Best Bank",
+          "bank_routing_number": "021000089",
+          "bank_account_number": "111111111111",
+          "bank_account_type": "checking",
+          "bank_account_holder_type": "business",
+          "payment_type": "bank_account"
+          }
+        }
+        ```
+
         ## Active Payment Methods
 
         **Creating a new payment profile for a Customer via the API will not make that Payment Profile current for any of the Customer’s Subscriptions.**
+
+        ## Activate Payment Profile for a Susbscription
+
+        To activate a new payment profile for a subscription, please see the documentation [here.](#endpoint:cHNDtRXoSo3kj3BHr)
 
         To make a change, select the Subscription in the Admin UI and choose Payment Details, then click the "Make Active Payment Method" link next to the desired Payment Profile.
 
@@ -11846,20 +11868,27 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-hold
-      summary: Pause Subscription
+      summary: Hold Subscription
       tags:
         - Subscriptions
+      description: |-
+        ## Pause Subscription
+
+        This will place the subscription in the on_hold state and it will not renew.
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              '':
-                type: string
+            $ref: '#/definitions/subscriptions/hold-subscription-request'
+            example:
+              hold:
+                automatically_resume: true
+                automatically_resume_at: '2017-05-25 10:25 AM'
       responses:
         '200':
           description: ''
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -30205,6 +30234,10 @@ definitions:
             type: boolean
           automatically_resume_at:
             type: string
+    example:
+      hold:
+        automatically_resume: true
+        automatically_resume_at: '2017-05-25 10:25 AM'
     x-stoplight:
       id: subscriptions/hold-subscription-request
       name: Hold Subscription Request
