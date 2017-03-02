@@ -6872,7 +6872,7 @@ paths:
         id: GET_reasoncodesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -7018,7 +7018,11 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response'
+            type: object
+        '404':
+          description: ''
+          schema:
+            type: 'null'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -33171,7 +33175,7 @@ x-stoplight:
         Full documentation on how Reason Codes operate within Chargify can be located under the following links.
 
         [Churn Reason Codes](http://help.chargify.com/subscriptions/cancellation.html#churn-reason-codes)
-      public: false
+      public: true
   mock:
     dynamic: false
     enabled: false
