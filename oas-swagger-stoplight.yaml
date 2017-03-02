@@ -7634,11 +7634,11 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (All)'
+      summary: 'Clear all Site data:  (Default)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (All)
+        ## Clear all Site data:  (Default)
 
         All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
@@ -7647,26 +7647,17 @@ paths:
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=all
+        https://<subdomain>.chargify.com/sites/clear_data.json
         ```
 
-        Required Parameter: cleanup_scope
-
+        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Response
 
         The response will be a string value of `200 OK`.
-      parameters:
-        - name: all
-          in: query
-          required: true
-          type: string
-          enum:
-            - all
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -11868,7 +11859,7 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-hold
-      summary: Hold Subscription
+      summary: Pause (Hold) Subscription
       tags:
         - Subscriptions
       description: |-
@@ -11893,6 +11884,37 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-hold
+        beforeScript: null
+        afterScript: null
+        public: false
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/resume':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_subscriptions-subscription_id-resume
+      summary: Resume Subscription
+      tags:
+        - Subscriptions
+      description: |-
+        ## Resume Subscription
+
+        Resume a paused (on-hold) subscription.  If the normal next renewal date has not passed, the subscription will return to active and will renew on that date.  Otherwise, it will behave like a reactivation, setting the billing date to 'now' and charging the subscriber.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-resume
         beforeScript: null
         afterScript: null
         public: false
@@ -30224,7 +30246,7 @@ definitions:
       name: ReasonCode Create Request
       public: true
   subscriptions/hold-subscription-request:
-    title: Hold Subscription Request
+    title: Pause (Hold) Subscription Request
     type: object
     properties:
       hold:
@@ -30240,7 +30262,7 @@ definitions:
         automatically_resume_at: '2017-05-25 10:25 AM'
     x-stoplight:
       id: subscriptions/hold-subscription-request
-      name: Hold Subscription Request
+      name: Pause (Hold) Subscription Request
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -31028,6 +31050,8 @@ x-stoplight:
               _id: POST_subscriptions-subscriptionid-hold
             - type: schemas
               _id: subscriptions/hold-subscription-request
+            - type: endpoints
+              _id: POST_subscriptions-subscriptionid-resume
           name: Subscriptions
         - name: Subscription Import
           items:
