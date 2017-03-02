@@ -6955,6 +6955,8 @@ paths:
       responses:
         '200':
           description: ''
+          schema:
+            type: object
         '404':
           description: ''
           schema:
