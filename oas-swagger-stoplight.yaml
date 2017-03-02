@@ -30117,35 +30117,19 @@ definitions:
       - reason_code:
           id: 1
           site_id: 2
-          code: CHEAP
-          description: This is muuy caro
+          code: CH1
+          description: This doesnt meet my needs
           position: 2
           created_at: '2017-02-16T16:48:45-05:00'
           updated_at: '2017-02-17T16:29:59-05:00'
       - reason_code:
           id: 5
           site_id: 2
-          code: HAN
-          description: He shot first
+          code: HAN99
+          description: Hard to setup
           position: 3
           created_at: '2017-02-17T16:29:42-05:00'
           updated_at: '2017-02-17T16:29:59-05:00'
-      - reason_code:
-          id: 4
-          site_id: 2
-          code: EXT
-          description: Too much extra
-          position: 4
-          created_at: '2017-02-17T15:38:00-05:00'
-          updated_at: '2017-02-17T16:29:49-05:00'
-      - reason_code:
-          id: 3
-          site_id: 2
-          code: LARGO
-          description: Too much goodness here yes
-          position: 5
-          created_at: '2017-02-17T15:19:35-05:00'
-          updated_at: '2017-02-21T09:50:01-05:00'
     x-stoplight:
       id: reason_code/list_response
       name: ReasonCode List Response
@@ -33172,7 +33156,7 @@ x-stoplight:
 
         Full documentation on how Reason Codes operate within Chargify can be located under the following links.
 
-        TBD
+        [Churn Reason Codes](http://help.chargify.com/subscriptions/cancellation.html#churn-reason-codes)
       public: false
   mock:
     dynamic: false
