@@ -6907,10 +6907,25 @@ paths:
                 description: No thank you!
                 position: 5
       responses:
-        '200':
+        '201':
           description: ''
           schema:
             $ref: '#/definitions/reason_code/show_response'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Code: cannot be blank.'
+                - 'Code: This code is already in use.'
+                - 'Description: cannot be blank.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6940,8 +6955,10 @@ paths:
       responses:
         '200':
           description: ''
+        '404':
+          description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response'
+            type: 'null'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6964,9 +6981,14 @@ paths:
 
         This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/reason_codes/delete_response'
+        '404':
+          description: ''
+          schema:
+            type: 'null'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -30206,7 +30228,7 @@ definitions:
         id: 1
         site_id: 2
         code: '00023'
-        description: This is muuy caro
+        description: Not using the product currently
         position: 2
         created_at: '2017-02-16T16:48:45-05:00'
         updated_at: '2017-02-21T16:33:10-05:00'
@@ -33143,14 +33165,6 @@ x-stoplight:
         ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
 
         Add a set of churn reason codes to be displayed in-app and/or the Chargify Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel. 
-
-        This endpoint allows you to perform the following functions:
-
-        + Read the list of current reason codes per Site
-        + Read a reason code
-        + Delete a reason code
-        + Create a reason code
-        + Update a reason code
 
         ## ReasonCode Documentation
 
