@@ -31896,6 +31896,10 @@ x-stoplight:
         | allocated_quantity | Provided when kind is `quantity_based_componen`t or on_off_component (`1` for on and `0` for off)   |
         |--------------------|-----------------------------------------------------------------------------------------------------|
         | unit_balance       | Provided when kind is `metered_component` and gives the TOTAL of all reported usages for the period |
+
+        ## Archived Components
+
+        When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
       public: true
     coupon-intro:
       id: coupon-intro
