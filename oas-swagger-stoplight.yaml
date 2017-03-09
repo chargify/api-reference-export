@@ -5301,13 +5301,13 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration with Trial
+      summary: Create Migration
       tags:
         - Migrations - Prorated Upgrades / Downgrades
       description: |-
-        ## Create Migration with Trial
+        ## Create Migration
 
-        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
+        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
 
         The response will be the updated subscription.
       parameters:
@@ -5321,31 +5321,28 @@ paths:
                 properties:
                   product_id:
                     type: integer
-                  include_trial:
-                    type: integer
             example:
               migration:
-                product_id: 3861800
-                include_trial: 1
+                product_id: 3801242
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-input-trial-output'
+            $ref: '#/definitions/migrations/create-migration-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: trialing
-                trial_started_at: '2016-11-03T13:43:36-04:00'
-                trial_ended_at: '2016-11-10T12:43:36-05:00'
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:43:36-04:00'
+                updated_at: '2016-11-03T13:31:49-04:00'
                 expires_at: null
-                balance_in_cents: -13989
-                current_period_ends_at: '2016-11-10T12:43:36-05:00'
-                next_assessment_at: '2016-11-10T12:43:36-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2016-12-03T12:31:49-05:00'
+                next_assessment_at: '2016-12-03T12:31:49-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -5353,15 +5350,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:43:35-04:00'
+                current_period_started_at: '2016-11-03T13:31:48-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 1000
-                product_version_number: 6
+                product_price_in_cents: 10000
+                product_version_number: 4
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -5388,30 +5385,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3861800
-                  name: Trial Product
-                  handle: trial-product
-                  description: Trial period with payment expected at end of trial.
+                  id: 3801242
+                  name: Free product
+                  handle: zero-dollar-product
+                  description: ''
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-07-08T09:53:55-04:00'
-                  updated_at: '2016-09-05T13:00:36-04:00'
-                  price_in_cents: 1000
+                  created_at: '2016-04-21T16:08:39-04:00'
+                  updated_at: '2016-08-03T11:27:53-04:00'
+                  price_in_cents: 10000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: 0
-                  trial_interval: 7
-                  trial_interval_unit: day
+                  initial_charge_in_cents: 0
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: true
+                  require_credit_card: false
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 6
+                  version_number: 4
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -5420,10 +5417,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 294791
-                      return_url: ''
+                    - id: 283460
+                      return_url: null
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
+                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -5441,7 +5438,7 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 10
+                  billing_address_2: Apt. 1
                   payment_type: credit_card
       security:
         - <<api_key>>: []
@@ -7665,30 +7662,40 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Default)'
+      summary: 'Clear all Site data:  (Customers)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Default)
+        ## Clear all Site data:  (Customers)
 
-        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
         ```
 
-        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Required Parameter: cleanup_scope
+
+        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
+      parameters:
+        - name: cleanup_scope
+          in: query
+          required: true
+          type: string
+          enum:
+            - customers
       responses:
-        '200':
+        default:
           description: ''
+          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -11077,161 +11084,168 @@ paths:
           enabled: false
           statusCode: 200
     put:
-      operationId: PUT_subscriptions-subscription_id-json
-      summary: Cancel Subscription - Delayed Method
+      operationId: PUT_subscriptions-subscription_id-format
+      summary: 'Update Subscription: Calendar Billing Day Change'
       tags:
+        - Subscription
+        - incomplete
         - Subscriptions
       description: |-
-        ## Cancel Subscription - Delayed Method
+        ## Update Subscription: Calendar Billing Day Change
 
-        Chargify offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.
+        USe this method to change the snap day value for Calendar Billing. You can use this method to change the subscription to a different snap day by setting a new value for `snap_day`.
 
-        Requesting to cancel the subscription at the end of the period sets the `cancel_at_end_of_period` flag to `true`. 
+        ## Update Subscription: Regular Billing Day Change
 
-        Note that you cannot set `cancel_at_end_of_period` at subscription creation, or if the subscription is past due.
+        This payload will change the billing date to the specified date in your request. This will not set a new calendar billing date. It's purpose is to outline the optional JSON payload to set a subscription's new billing date. After this billing date occurs, the next billing date for the subscription is relative to the recurring time period of the product subscribed to in Chargify.
+
+        To update just the date of the next billing, pass the following payload:
+
+        ```
+        {
+          "subscription": {
+            "next_billing_at": "2018-12-15"
+          }
+        }
+        ```
+
+        The value of the snap day, can be a value between 1 - 28 or `end`.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/cancel-subscription-delayed-request'
+            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-request'
             example:
               subscription:
-                cancel_at_end_of_period: 1
-                cancellation_message: Canceling the subscription via the API
+                next_billing_at: '2028-12-15'
       responses:
         '200':
-          description: ''
+          description: OK
           schema:
-            $ref: '#/definitions/subscriptions/cancel-subscription-delayed-response'
+            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-response'
           examples:
             application/json:
               subscription:
-                id: 14900541
+                id: 16474328
                 state: active
-                trial_started_at: '2016-10-24T16:20:12-04:00'
-                trial_ended_at: '2016-10-24T16:20:43-04:00'
-                activated_at: '2016-10-24T16:20:43-04:00'
-                created_at: '2016-10-24T16:20:12-04:00'
-                updated_at: '2016-11-16T14:36:07-05:00'
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2017-02-20T18:28:48-05:00'
+                created_at: '2017-02-20T18:28:47-05:00'
+                updated_at: '2017-02-22T09:58:07-05:00'
                 expires_at: null
-                balance_in_cents: 2450
-                current_period_ends_at: '2016-12-01T11:41:25-05:00'
-                next_assessment_at: '2016-12-01T11:41:25-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2017-03-20T19:28:47-04:00'
+                next_assessment_at: '2017-03-20T19:28:47-04:00'
                 canceled_at: null
-                cancellation_message: Canceling the subscription via the API
-                next_product_id: null
-                cancel_at_end_of_period: true
-                payment_collection_method: invoice
-                snap_day: null
+                cancellation_message: null
+                next_product_id: 4442358
+                cancel_at_end_of_period: false
+                payment_collection_method: automatic
+                snap_day: end
                 cancellation_method: null
-                current_period_started_at: '2016-11-01T12:41:25-04:00'
+                current_period_started_at: '2017-02-20T18:28:47-05:00'
                 previous_state: active
-                signup_payment_id: 159423810
+                signup_payment_id: 174876340
                 signup_revenue: '0.00'
-                delayed_cancel_at: '2016-12-01T11:41:25-05:00'
+                delayed_cancel_at: null
                 coupon_code: null
-                total_revenue_in_cents: 18000
-                product_price_in_cents: 4000
-                product_version_number: 4
+                total_revenue_in_cents: 0
+                product_price_in_cents: 0
+                product_version_number: 1
                 payment_type: credit_card
-                referral_code: p8fs35
+                referral_code: ww6mq5
                 coupon_use_count: null
                 coupon_uses_allowed: null
                 customer:
-                  id: 14399371
+                  id: 15102905
                   first_name: Amelia
                   last_name: Example
-                  organization: Acme
-                  email: amelia@example.com
-                  created_at: '2016-10-24T16:20:12-04:00'
-                  updated_at: '2016-10-26T13:25:33-04:00'
-                  reference: JQPUBLIC
-                  address: 123 Anywhere Street
+                  organization: ''
+                  email: joe.blow@example.com
+                  created_at: '2016-12-15T09:33:15-05:00'
+                  updated_at: '2016-12-15T09:34:09-05:00'
+                  reference: null
+                  address: ''
                   address_2: ''
-                  city: Anywhere
-                  state: MA
-                  zip: '02120'
-                  country: US
-                  phone: 555-555-1212
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
                   portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
-                  verified: false
-                  portal_customer_created_at: null
-                  cc_emails: 'john@example.com, joe@example.com'
+                  verified: null
+                  portal_customer_created_at: '2016-12-15T09:33:21-05:00'
+                  cc_emails: null
+                  tax_exempt: false
                 product:
-                  id: 3792003
-                  name: $10 Basic Plan
-                  handle: basic
-                  description: lorem ipsum
-                  accounting_code: basic
-                  request_credit_card: false
+                  id: 4461042
+                  name: Zero Dollar Product
+                  handle: zero-dollar-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-03-24T13:38:39-04:00'
-                  updated_at: '2016-11-03T13:03:05-04:00'
-                  price_in_cents: 1000
+                  created_at: '2017-02-20T18:28:18-05:00'
+                  updated_at: '2017-02-20T18:28:18-05:00'
+                  price_in_cents: 0
                   interval: 1
-                  interval_unit: day
+                  interval_unit: month
                   initial_charge_in_cents: null
                   trial_price_in_cents: null
                   trial_interval: null
                   trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 7
+                  version_number: 1
                   update_return_params: ''
                   product_family:
-                    id: 527890
-                    name: Acme Projects
+                    id: 986840
+                    name: Acme Products
                     description: ''
-                    handle: billing-plans
+                    handle: acme-products
                     accounting_code: null
                   public_signup_pages:
-                    - id: 281054
-                      return_url: 'http://www.example.com?successfulsignup'
+                    - id: 312984
+                      return_url: null
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-                    - id: 281240
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-                    - id: 282694
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                      url: 'https://general-goods.chargify.com/subscribe/yt4ybcgk7998/zero-dollar-product'
                 credit_card:
-                  id: 9979580
+                  id: 10548239
                   first_name: Amelia
                   last_name: Example
-                  masked_card_number: XXXX-XXXX-XXXX-1
+                  masked_card_number: XXXX-XXXX-XXXX-2
                   card_type: bogus
-                  expiration_month: 1
-                  expiration_year: 2026
-                  customer_id: 14399371
+                  expiration_month: 2
+                  expiration_year: 2017
+                  customer_id: 15102905
                   current_vault: bogus
-                  vault_token: '1'
-                  billing_address: 123 Anywhere Street
-                  billing_city: Anywhere
-                  billing_state: MA
-                  billing_zip: '02120'
-                  billing_country: US
+                  vault_token: '2'
+                  billing_address: ''
+                  billing_city: ''
+                  billing_state: ''
+                  billing_zip: ''
+                  billing_country: ''
                   customer_vault_token: null
                   billing_address_2: ''
                   payment_type: credit_card
+        '422':
+          description: Unprocessable Entity
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: PUT_subscriptions-subscriptionidjson
+        id: PUT_subscriptions-subscription_id-format
         beforeScript: null
         afterScript: null
         public: true
         mock:
           enabled: false
-          dynamic: false
           statusCode: 200
   '/subscriptions/{subscription_id}/reactivate.json':
     parameters:
@@ -12342,6 +12356,9 @@ paths:
       summary: 'Cancel Subscription: Remove Delayed Method'
       tags:
         - Subscriptions
+      description: |-
+        ## Remove Delayed Cancel
+        Removing the delayed cancellation on a subscription will ensure that it doesn't get canceled at the end of the period that it's on. The request will reset the `cancel_at_end_of_period` flag to `false`.
       consumes:
         - application/xml
       responses:
@@ -24614,378 +24631,6 @@ definitions:
       id: subscriptions/update-subscription-product-change-response
       name: 'Update Subscription: Product Change Response'
       public: true
-  subscriptions/cancel-subscription-delayed-request:
-    title: Cancel Subscription Delayed Request
-    type: object
-    properties:
-      subscription:
-        type: object
-        properties:
-          cancel_at_end_of_period:
-            type: integer
-          cancellation_message:
-            type: string
-    example:
-      subscription:
-        cancel_at_end_of_period: 1
-        cancellation_message: Canceling the subscription via the API
-    x-stoplight:
-      id: subscriptions/cancel-subscription-delayed-request
-      name: Cancel Subscription Delayed Request
-      public: true
-  subscriptions/cancel-subscription-delayed-response:
-    title: Cancel Subscription Delayed Response
-    type: object
-    properties:
-      subscription:
-        type: object
-        properties:
-          id:
-            type: integer
-          state:
-            type: string
-          trial_started_at:
-            type: string
-          trial_ended_at:
-            type: string
-          activated_at:
-            type: string
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          expires_at:
-            type: 'null'
-          balance_in_cents:
-            type: integer
-          current_period_ends_at:
-            type: string
-          next_assessment_at:
-            type: string
-          canceled_at:
-            type: 'null'
-          cancellation_message:
-            type: string
-          next_product_id:
-            type: 'null'
-          cancel_at_end_of_period:
-            type: boolean
-          payment_collection_method:
-            type: string
-          snap_day:
-            type: 'null'
-          cancellation_method:
-            type: 'null'
-          current_period_started_at:
-            type: string
-          previous_state:
-            type: string
-          signup_payment_id:
-            type: integer
-          signup_revenue:
-            type: string
-          delayed_cancel_at:
-            type: string
-          coupon_code:
-            type: 'null'
-          total_revenue_in_cents:
-            type: integer
-          product_price_in_cents:
-            type: integer
-          product_version_number:
-            type: integer
-          payment_type:
-            type: string
-          referral_code:
-            type: string
-          coupon_use_count:
-            type: 'null'
-          coupon_uses_allowed:
-            type: 'null'
-          customer:
-            type: object
-            properties:
-              id:
-                type: integer
-              first_name:
-                type: string
-              last_name:
-                type: string
-              organization:
-                type: string
-              email:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              reference:
-                type: string
-              address:
-                type: string
-              address_2:
-                type: string
-              city:
-                type: string
-              state:
-                type: string
-              zip:
-                type: string
-              country:
-                type: string
-              phone:
-                type: string
-              portal_invite_last_sent_at:
-                type: 'null'
-              portal_invite_last_accepted_at:
-                type: 'null'
-              verified:
-                type: boolean
-              portal_customer_created_at:
-                type: 'null'
-              cc_emails:
-                type: string
-          product:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              handle:
-                type: string
-              description:
-                type: string
-              accounting_code:
-                type: string
-              request_credit_card:
-                type: boolean
-              expiration_interval:
-                type: 'null'
-              expiration_interval_unit:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              price_in_cents:
-                type: integer
-              interval:
-                type: integer
-              interval_unit:
-                type: string
-              initial_charge_in_cents:
-                type: 'null'
-              trial_price_in_cents:
-                type: 'null'
-              trial_interval:
-                type: 'null'
-              trial_interval_unit:
-                type: string
-              archived_at:
-                type: 'null'
-              require_credit_card:
-                type: boolean
-              return_params:
-                type: string
-              taxable:
-                type: boolean
-              update_return_url:
-                type: string
-              initial_charge_after_trial:
-                type: boolean
-              version_number:
-                type: integer
-              update_return_params:
-                type: string
-              product_family:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  handle:
-                    type: string
-                  accounting_code:
-                    type: 'null'
-              public_signup_pages:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    return_url:
-                      type: string
-                    return_params:
-                      type: string
-                    url:
-                      type: string
-          credit_card:
-            type: object
-            properties:
-              id:
-                type: integer
-              first_name:
-                type: string
-              last_name:
-                type: string
-              masked_card_number:
-                type: string
-              card_type:
-                type: string
-              expiration_month:
-                type: integer
-              expiration_year:
-                type: integer
-              customer_id:
-                type: integer
-              current_vault:
-                type: string
-              vault_token:
-                type: string
-              billing_address:
-                type: string
-              billing_city:
-                type: string
-              billing_state:
-                type: string
-              billing_zip:
-                type: string
-              billing_country:
-                type: string
-              customer_vault_token:
-                type: 'null'
-              billing_address_2:
-                type: string
-              payment_type:
-                type: string
-    example:
-      subscription:
-        id: 14900541
-        state: active
-        trial_started_at: '2016-10-24T16:20:12-04:00'
-        trial_ended_at: '2016-10-24T16:20:43-04:00'
-        activated_at: '2016-10-24T16:20:43-04:00'
-        created_at: '2016-10-24T16:20:12-04:00'
-        updated_at: '2016-11-16T14:36:07-05:00'
-        expires_at: null
-        balance_in_cents: 2450
-        current_period_ends_at: '2016-12-01T11:41:25-05:00'
-        next_assessment_at: '2016-12-01T11:41:25-05:00'
-        canceled_at: null
-        cancellation_message: Canceling the subscription via the API
-        next_product_id: null
-        cancel_at_end_of_period: true
-        payment_collection_method: invoice
-        snap_day: null
-        cancellation_method: null
-        current_period_started_at: '2016-11-01T12:41:25-04:00'
-        previous_state: active
-        signup_payment_id: 159423810
-        signup_revenue: '0.00'
-        delayed_cancel_at: '2016-12-01T11:41:25-05:00'
-        coupon_code: null
-        total_revenue_in_cents: 18000
-        product_price_in_cents: 4000
-        product_version_number: 4
-        payment_type: credit_card
-        referral_code: p8fs35
-        coupon_use_count: null
-        coupon_uses_allowed: null
-        reason_code: null
-        customer:
-          id: 14399371
-          first_name: Amelia
-          last_name: Example
-          organization: Acme
-          email: amelia@example.com
-          created_at: '2016-10-24T16:20:12-04:00'
-          updated_at: '2016-10-26T13:25:33-04:00'
-          reference: JQPUBLIC
-          address: 123 Anywhere Street
-          address_2: ''
-          city: Anywhere
-          state: MA
-          zip: '02120'
-          country: US
-          phone: 555-555-1212
-          portal_invite_last_sent_at: null
-          portal_invite_last_accepted_at: null
-          verified: false
-          portal_customer_created_at: null
-          cc_emails: 'john@example.com, joe@example.com'
-        product:
-          id: 3792003
-          name: $10 Basic Plan
-          handle: basic
-          description: lorem ipsum
-          accounting_code: basic
-          request_credit_card: false
-          expiration_interval: null
-          expiration_interval_unit: never
-          created_at: '2016-03-24T13:38:39-04:00'
-          updated_at: '2016-11-03T13:03:05-04:00'
-          price_in_cents: 1000
-          interval: 1
-          interval_unit: day
-          initial_charge_in_cents: null
-          trial_price_in_cents: null
-          trial_interval: null
-          trial_interval_unit: month
-          archived_at: null
-          require_credit_card: false
-          return_params: ''
-          taxable: false
-          update_return_url: ''
-          initial_charge_after_trial: false
-          version_number: 7
-          update_return_params: ''
-          product_family:
-            id: 527890
-            name: Acme Projects
-            description: ''
-            handle: billing-plans
-            accounting_code: null
-          public_signup_pages:
-            - id: 281054
-              return_url: 'http://www.example.com?successfulsignup'
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-            - id: 281240
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-            - id: 282694
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-        credit_card:
-          id: 9979580
-          first_name: Amelia
-          last_name: Example
-          masked_card_number: XXXX-XXXX-XXXX-1
-          card_type: bogus
-          expiration_month: 1
-          expiration_year: 2026
-          customer_id: 14399371
-          current_vault: bogus
-          vault_token: '1'
-          billing_address: 123 Anywhere Street
-          billing_city: Anywhere
-          billing_state: MA
-          billing_zip: '02120'
-          billing_country: US
-          customer_vault_token: null
-          billing_address_2: ''
-          payment_type: credit_card
-    x-stoplight:
-      id: subscriptions/cancel-subscription-delayed-response
-      name: Cancel Subscription Delayed Response
-      public: true
   subscriptions/reactivate-subscription-response:
     title: Reactivate Subscription Response
     type: object
@@ -31546,11 +31191,7 @@ x-stoplight:
             - type: schemas
               _id: subscriptions/update-subscription-product-change-response
             - type: endpoints
-              _id: PUT_subscriptions-subscriptionidjson
-            - type: schemas
-              _id: subscriptions/cancel-subscription-delayed-request
-            - type: schemas
-              _id: subscriptions/cancel-subscription-delayed-response
+              _id: Qijzy25gdrNxpdc8X
             - type: endpoints
               _id: PUT_subscriptions-subscription_id-reactivate-format
             - type: schemas
