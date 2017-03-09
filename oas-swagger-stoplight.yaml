@@ -16,7 +16,7 @@ consumes:
 produces:
   - application/json
 securityDefinitions:
-  <<api_key>>:
+  <<enter_your_api_key>>:
     type: basic
 paths:
   '/subscriptions/{subscription_id}/adjustments.json':
@@ -75,7 +75,7 @@ paths:
                 amount: '75'
                 memo: Recording usage for May 2020
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-adjustmentsjson
         beforeScript: null
@@ -166,7 +166,7 @@ paths:
         '422':
           description: ''
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-sub_id-components-comp_id-allocations-format
         beforeScript: null
@@ -205,7 +205,7 @@ paths:
                 subscription_id: 34187461132
                 timestamp: '2016-07-12T07:48:08.611Z'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-sub_id-components-comp_id-allocations-format
         beforeScript: null
@@ -290,7 +290,7 @@ paths:
                 proration_upgrade_scheme: prorate-attempt-capture
                 proration_downgrade_scheme: no-prorate
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-allocationsjson
         beforeScript: null
@@ -458,7 +458,7 @@ paths:
           schema:
             $ref: '#/definitions/billing-portal-get-response'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_portal-customers-customer_id-management_link-format
         beforeScript: null
@@ -505,7 +505,7 @@ paths:
           schema:
             type: object
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_portal-customers-customerid-enablejson
         beforeScript: null
@@ -552,7 +552,7 @@ paths:
               errors:
                 - Portal is already enabled for this customer.
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_portal-customers-id-enablejson
         beforeScript: null
@@ -637,7 +637,7 @@ paths:
                 - 'Memo: cannot be blank.'
                 - 'Amount: is not a number.'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-chargesjson
         beforeScript: null
@@ -692,7 +692,7 @@ paths:
                   name: text messages
               - {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscription_id-components-format
         beforeScript: null
@@ -753,7 +753,7 @@ paths:
                 kind: quantity_based_component
                 unit_name: Timesheet Users
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-components-componentidjson
         beforeScript: null
@@ -841,7 +841,7 @@ paths:
                       ending_quantity: null
                       unit_price: '1.0'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_productfamilies-productfamilyid-componentsjson
         beforeScript: null
@@ -900,7 +900,7 @@ paths:
                     ending_quantity: null
                     unit_price: '1.0'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_productfamilies-productfamilyid-components-componentidjson
         beforeScript: null
@@ -1006,7 +1006,7 @@ paths:
                     ending_quantity: null
                     unit_price: '1.0'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_productfamilies-productfamilyid-pluralkindjson
         beforeScript: null
@@ -1425,7 +1425,7 @@ paths:
                   coupon_use_count: null
                   coupon_uses_allowed: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptionsjson
         beforeScript: null
@@ -1482,7 +1482,7 @@ paths:
                   created_at: '2016-11-29T15:22:18-05:00'
                   quantity: 100
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
         beforeScript: null
@@ -1547,7 +1547,7 @@ paths:
                 created_at: '2016-11-29T15:26:55-05:00'
                 quantity: 5000
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
         beforeScript: null
@@ -1692,7 +1692,7 @@ paths:
                 archived_at: null
                 conversion_limit: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_coupons-format
         beforeScript: null
@@ -1777,7 +1777,7 @@ paths:
                   archived_at: null
                   conversion_limit: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-format
         beforeScript: null
@@ -1818,7 +1818,7 @@ paths:
         '422':
           description: Unprocessable Entity
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
         beforeScript: null
@@ -1917,7 +1917,7 @@ paths:
                 archived_at: null
                 conversion_limit: 100
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-coupon_id-format
         beforeScript: null
@@ -2068,7 +2068,7 @@ paths:
                 archived_at: null
                 conversion_limit: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_coupons-coupon_id-format
         beforeScript: null
@@ -2116,7 +2116,7 @@ paths:
                 archived_at: '2016-12-02T13:09:33-05:00'
                 conversion_limit: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_coupons-coupon_id-format
         beforeScript: null
@@ -2199,7 +2199,7 @@ paths:
             application/json:
               errors: Coupon code could not be found.
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-validate-format
         beforeScript: null
@@ -2266,7 +2266,7 @@ paths:
                 archived_at: null
                 conversion_limit: 100
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-findjson
         beforeScript: null
@@ -2320,7 +2320,7 @@ paths:
                 revenue: 20
                 revenue_in_cents: 2000
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-couponid-usagejson
         beforeScript: null
@@ -2363,7 +2363,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-metadatajson
         beforeScript: null
@@ -2405,7 +2405,7 @@ paths:
               per_page: 20
               metadata: []
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_customers-customerid-metadatajson
         beforeScript: null
@@ -2449,7 +2449,7 @@ paths:
                   resource_id: 15479934
                   name: T-Shirt Size
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-metadatajson
         beforeScript: null
@@ -2505,7 +2505,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_resource-resourceid-metadatajson
         beforeScript: null
@@ -2570,7 +2570,7 @@ paths:
                 resource_id: 15479934
                 name: Shirt Color
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_resource-resourceid-metadatajson
         beforeScript: null
@@ -2614,7 +2614,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_resource-resourceid-metadatajson
         beforeScript: null
@@ -2671,7 +2671,7 @@ paths:
                   input_type: text
                   enum: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_resource-metafieldsjson
         beforeScript: null
@@ -2716,7 +2716,7 @@ paths:
           schema:
             $ref: '#/definitions/metafields/create-metafields-output'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_resource-metafieldsjson
         beforeScript: null
@@ -2742,7 +2742,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_resource-metafieldsjson
         beforeScript: null
@@ -2780,7 +2780,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_resource-metafieldsjson
         beforeScript: null
@@ -2811,7 +2811,7 @@ paths:
         '201':
           description: Created
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_coupons-coupon_id-codes-format
         beforeScript: null
@@ -2861,7 +2861,7 @@ paths:
                 - 7DF7YT
                 - 9FH1ED
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_coupons-couponid-codesjson
         beforeScript: null
@@ -2916,7 +2916,7 @@ paths:
                 - BBBB
                 - CCCC
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_coupons-coupon_id-codes-format
         beforeScript: null
@@ -2975,7 +2975,7 @@ paths:
         '404':
           description: Not Found
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_coupons-coupon_id-codes-subcode-format
         beforeScript: null
@@ -3119,7 +3119,7 @@ paths:
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_customersjson
         beforeScript: null
@@ -3193,7 +3193,7 @@ paths:
               errors:
                 - 'unknown attribute: emailzzz'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_customers-format
         beforeScript: null
@@ -3296,7 +3296,7 @@ paths:
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_customers-id-format
         beforeScript: null
@@ -3373,7 +3373,7 @@ paths:
               errors:
                 - 'Email: must be a valid email address'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_customers-id-format
         beforeScript: null
@@ -3397,7 +3397,7 @@ paths:
         '204':
           description: No Content
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_customers-id-format
         beforeScript: null
@@ -3498,7 +3498,7 @@ paths:
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_customers-lookupjson
         beforeScript: null
@@ -3643,7 +3643,7 @@ paths:
                   coupon_use_count: null
                   coupon_uses_allowed: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_customers-customerid-subscriptionsjson
         beforeScript: null
@@ -3704,7 +3704,7 @@ paths:
                   created_at: '2016-10-27T16:40:40-04:00'
                   event_specific_data: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: list-events
         beforeScript: null
@@ -3775,7 +3775,7 @@ paths:
                   created_at: '2016-11-01T12:41:25-04:00'
                   event_specific_data: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: list-events
         beforeScript: null
@@ -3815,7 +3815,7 @@ paths:
             application/json:
               count: 144
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_events_count-format
         beforeScript: null
@@ -4799,7 +4799,7 @@ paths:
                       customer_id: 14300992
                   payments_and_credits: []
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_list-invoices-by-subscription
         beforeScript: null
@@ -5038,7 +5038,7 @@ paths:
         '404':
           description: Not Found
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_invoices-invoice_id-format
         beforeScript: null
@@ -5072,7 +5072,7 @@ paths:
         '200':
           description: OK
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_invoices-invoice_id-payments-format
         beforeScript: null
@@ -5139,7 +5139,7 @@ paths:
                 card_type: null
                 refunded_amount_in_cents: 0
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_invoices-invoiceid-paymentsjson
         beforeScript: null
@@ -5174,7 +5174,7 @@ paths:
         '200':
           description: OK
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_invoices-invoice_id-charges-format
         beforeScript: null
@@ -5220,7 +5220,7 @@ paths:
           schema:
             $ref: '#/definitions/invoices/charges/create-invoice-charge-output'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_invoices-invoiceid-chargesjson
         beforeScript: null
@@ -5283,7 +5283,7 @@ paths:
                 statement_id: 79335006
                 customer_id: 14332342
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_invoices-invoiceid-adjustmentsjson
         beforeScript: null
@@ -5441,7 +5441,7 @@ paths:
                   billing_address_2: Apt. 1
                   payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-migrationsjson
         beforeScript: null
@@ -5484,7 +5484,7 @@ paths:
                 payment_due_in_cents: 0
                 credit_applied_in_cents: 0
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-migrations-previewjson
         beforeScript: null
@@ -5542,7 +5542,7 @@ paths:
             items:
               $ref: '#/definitions/notes/create-note-output'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscription_id-notes-format
         beforeScript: null
@@ -5586,7 +5586,7 @@ paths:
                 updated_at: '2016-11-03T14:47:08-04:00'
                 sticky: true
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscription_id-notes-format
         beforeScript: null
@@ -5630,7 +5630,7 @@ paths:
                 subscription_id: 100046
                 updated_at: '2015-06-15T13:28:12-04:00'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-notes-noteidjson
         beforeScript: null
@@ -5675,7 +5675,7 @@ paths:
                 updated_at: '2016-11-03T14:49:09-04:00'
                 sticky: true
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-notes-note_id-format
         beforeScript: null
@@ -5703,7 +5703,7 @@ paths:
           schema:
             type: object
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_subscriptions-subscription_id-notes-note_id-format
         beforeScript: null
@@ -5769,7 +5769,7 @@ paths:
                 card_type: null
                 refunded_amount_in_cents: 0
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-paymentsjson
         beforeScript: null
@@ -5824,7 +5824,7 @@ paths:
                 bank_account_holder_type: personal
                 payment_type: bank_account
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_paymentprofiles-paymentprofileidjson
         beforeScript: null
@@ -5908,7 +5908,7 @@ paths:
                 billing_address_2: null
                 payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_payment_profiles-payment_profile_id-format
         beforeScript: null
@@ -6039,7 +6039,7 @@ paths:
                 billing_address_2: null
                 payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_payment_profiles-format
         beforeScript: null
@@ -6110,7 +6110,7 @@ paths:
                   bank_account_holder_type: personal
                   payment_type: bank_account
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_payment_profiles-format
         beforeScript: null
@@ -6150,7 +6150,7 @@ paths:
         '204':
           description: No Content
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_subscriptions-subscription_id-payment_profiles-payment_profile_id-format
         beforeScript: null
@@ -6272,7 +6272,7 @@ paths:
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_products-format
         beforeScript: null
@@ -6313,7 +6313,7 @@ paths:
                 handle: billing-plans
                 accounting_code: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_product_families-id-format
         beforeScript: null
@@ -6363,7 +6363,7 @@ paths:
         '422':
           description: Unprocessable Entity
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_product_families-product_family_id-products-format
         beforeScript: null
@@ -6447,7 +6447,7 @@ paths:
                     return_params: engine=md7a
                     url: 'https://general-goods.chargify.com/subscribe/m6tbcq4mcgpw/no-cost-product'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_products-handle-handle-format
         beforeScript: null
@@ -6600,7 +6600,7 @@ paths:
                     return_params: ''
                     url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_products-id-format
         beforeScript: null
@@ -6721,7 +6721,7 @@ paths:
               errors:
                 - 'Trial Price: must be given if a trial interval (duration) is provided.'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_productfamilies-productfamilyid-productsjson
         beforeScript: null
@@ -6824,7 +6824,7 @@ paths:
               errors:
                 - 'Name: cannot be blank.'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_products-productidjson
         beforeScript: null
@@ -6867,7 +6867,7 @@ paths:
               - {}
               - {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_reasoncodesjson
         beforeScript: null
@@ -6927,7 +6927,7 @@ paths:
                 - 'Code: This code is already in use.'
                 - 'Description: cannot be blank.'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_reasoncodesjson
         beforeScript: null
@@ -6962,7 +6962,7 @@ paths:
           schema:
             type: 'null'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_reasoncodes-reasoncodeidjson
         beforeScript: null
@@ -6992,7 +6992,7 @@ paths:
           schema:
             type: 'null'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_reasoncodes-reasoncodeidjson
         beforeScript: null
@@ -7026,7 +7026,7 @@ paths:
           schema:
             type: 'null'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_reasoncodes-reasoncodeidjson
         beforeScript: null
@@ -7071,7 +7071,7 @@ paths:
             application/json:
               errors: Referral code is invalid.
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_referralcodes-validatejson
         beforeScript: null
@@ -7129,7 +7129,7 @@ paths:
                 statement_id: 80500632
                 customer_id: 14714298
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-refundsjson
         beforeScript: null
@@ -7193,7 +7193,7 @@ paths:
                 statement_id: 80500632
                 customer_id: 14714298
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-refundsjson
         beforeScript: null
@@ -7304,7 +7304,7 @@ paths:
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-renewals-previewjson
         beforeScript: null
@@ -7465,7 +7465,7 @@ paths:
                 total: 25
               data: []
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_salesreceiptsjson
         beforeScript: null
@@ -7649,7 +7649,7 @@ paths:
                     card_expiration: 12/2022
                     card_brand: bogus
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_salesreceipts-idjson
         beforeScript: null
@@ -7697,7 +7697,7 @@ paths:
           description: ''
           schema: {}
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_sites-cleardatajson
         beforeScript: null
@@ -7781,7 +7781,7 @@ paths:
                 - 79702531
                 - 79733833
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscription_id-statements-ids-format
         beforeScript: null
@@ -7829,7 +7829,7 @@ paths:
                 - 80499379
                 - 80500632
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_statements-ids-format
         beforeScript: null
@@ -9007,7 +9007,7 @@ paths:
                           product_id: 3792003
                           account_transaction_id: 159424449
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-statementsjson
         beforeScript: null
@@ -10183,7 +10183,7 @@ paths:
                           product_id: 3792003
                           account_transaction_id: 159424449
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_statementsjson
         beforeScript: null
@@ -10701,7 +10701,7 @@ paths:
                         product_id: 3861800
                         account_transaction_id: null
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_statements-statement_id-format
         beforeScript: null
@@ -10733,7 +10733,7 @@ paths:
         '404':
           description: Not Found
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_statements_count-format
         beforeScript: null
@@ -10775,7 +10775,7 @@ paths:
           schema:
             $ref: '#/definitions/stats/read-stats-output'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_stats-json
         beforeScript: null
@@ -10925,7 +10925,7 @@ paths:
                   billing_address_2: ''
                   payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscription_id-format
         beforeScript: null
@@ -11074,7 +11074,7 @@ paths:
                   billing_address_2: null
                   payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: DELETE_subscriptions-subscription_id-format
         beforeScript: null
@@ -11238,7 +11238,7 @@ paths:
         '422':
           description: Unprocessable Entity
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-format
         beforeScript: null
@@ -11534,7 +11534,7 @@ paths:
               errors:
                 - The credit card on file could not be charged.
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-reactivate-format
         beforeScript: null
@@ -11690,7 +11690,7 @@ paths:
                   billing_address_2: ''
                   payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-retry-format
         beforeScript: null
@@ -11831,7 +11831,7 @@ paths:
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-reset_balance-xml
         beforeScript: null
@@ -11886,7 +11886,7 @@ paths:
                 billing_address_2: ''
                 payment_type: credit_card
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-paymentprofiles-paymentprofileid-changepaymentprofilejson
         beforeScript: null
@@ -11926,7 +11926,7 @@ paths:
           schema:
             $ref: '#/definitions/subscription/read-subscription'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-hold
         beforeScript: null
@@ -11957,7 +11957,7 @@ paths:
           schema:
             $ref: '#/definitions/subscription/read-subscription'
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-resume
         beforeScript: null
@@ -12340,7 +12340,7 @@ paths:
                   billing_address_2: ut
                   payment_type: ipsum labore cillum
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-delayedcancel
         beforeScript: null
@@ -12538,7 +12538,7 @@ paths:
         '204':
           description: No Content
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: PUT_subscriptions-subscription_id-override-format
         beforeScript: null
@@ -12629,7 +12629,7 @@ paths:
                   period_type: recurring
                   existing_balance_in_cents: 0
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_subscriptions-preview-format
         beforeScript: null
@@ -12746,7 +12746,7 @@ paths:
             type: object
             description: Transaction does not exist
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_transactions-format
         beforeScript: null
@@ -12813,7 +12813,7 @@ paths:
             type: object
             description: Transaction does not exist
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_transaction_id-format
         beforeScript: null
@@ -12963,7 +12963,7 @@ paths:
             type: object
             description: Transaction does not exist
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscription_id-transactions-format
         beforeScript: null
@@ -12995,7 +12995,7 @@ paths:
             type: object
             description: Transaction does not exist
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_transactions_count-format
         beforeScript: null
@@ -13078,7 +13078,7 @@ paths:
                   signature: fbcf2f6be579f9658cff90c4373e0ca2
                   signature_hmac_sha_256: db96654f5456c5460062feb944ac8bb1418f9d181ae04a8ed982fe9ffdca8de1
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: GET_webhooks-format
         beforeScript: null
@@ -13118,7 +13118,7 @@ paths:
             application/json:
               status: ok
       security:
-        - <<api_key>>: []
+        - <<enter_your_api_key>>: []
       x-stoplight:
         id: POST_webhooks-replay-format
         beforeScript: null
