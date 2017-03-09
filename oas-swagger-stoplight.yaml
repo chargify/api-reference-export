@@ -11950,6 +11950,37 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/subscriptions/{subscription_id}/delayed_cancel':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_subscriptions-subscription_id-delayed_cancel
+      summary: 'Cancel Subscription: Delayed Method'
+      tags:
+        - Subscriptions
+      consumes:
+        - application/xml
+      produces:
+        - application/xml
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-delayedcancel
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/override.json':
     parameters:
       - name: subscription_id
@@ -31064,6 +31095,8 @@ x-stoplight:
               _id: subscriptions/hold-subscription-request
             - type: endpoints
               _id: POST_subscriptions-subscriptionid-resume
+            - type: endpoints
+              _id: POST_subscriptions-subscriptionid-delayedcancel
           name: Subscriptions
         - name: Subscription Import
           items:
