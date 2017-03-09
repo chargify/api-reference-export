@@ -11961,6 +11961,13 @@ paths:
       summary: 'Cancel Subscription: Delayed Method'
       tags:
         - Subscriptions
+      description: |-
+        ## Delayed Cancel
+        Chargify offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.
+
+        Requesting to cancel the subscription at the end of the period sets the `cancel_at_end_of_period` flag to true.
+
+        Note that you cannot set `cancel_at_end_of_period` at subscription creation, or if the subscription is past due.
       consumes:
         - application/xml
       produces:
