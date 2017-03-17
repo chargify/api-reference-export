@@ -11148,7 +11148,7 @@ paths:
         id: POST_subscriptions-subscriptionid-hold
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -11179,7 +11179,7 @@ paths:
         id: POST_subscriptions-subscriptionid-resume
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
