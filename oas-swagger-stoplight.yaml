@@ -11121,7 +11121,7 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-hold
-      summary: Pause (Hold) Subscription
+      summary: Hold (Pause) Subscription
       tags:
         - Subscriptions
       description: |-
@@ -11135,8 +11135,7 @@ paths:
             $ref: '#/definitions/subscriptions/hold-subscription-request'
             example:
               hold:
-                automatically_resume: true
-                automatically_resume_at: '2017-05-25 10:25 AM'
+                automatically_resume_at: '2017-05-25T11:25:00Z'
       responses:
         '200':
           description: ''
@@ -28542,23 +28541,22 @@ definitions:
       name: ReasonCode Create Request
       public: true
   subscriptions/hold-subscription-request:
-    title: Pause (Hold) Subscription Request
+    title: Hold (Pause) Subscription Request
     type: object
     properties:
       hold:
         type: object
         properties:
-          automatically_resume:
-            type: boolean
           automatically_resume_at:
             type: string
+            format: date-time
     example:
       hold:
         automatically_resume: true
-        automatically_resume_at: '2017-05-25 10:25 AM'
+        automatically_resume_at: '2017-05-25T11:25:00Z'
     x-stoplight:
       id: subscriptions/hold-subscription-request
-      name: Pause (Hold) Subscription Request
+      name: Hold (Pause) Subscription Request
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
