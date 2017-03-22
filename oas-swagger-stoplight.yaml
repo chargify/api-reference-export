@@ -7108,40 +7108,30 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Customers)'
+      summary: 'Clear all Site data:  (Default)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Customers)
+        ## Clear all Site data:  (Default)
 
-        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
+        https://<subdomain>.chargify.com/sites/clear_data.json
         ```
 
-        Required Parameter: cleanup_scope
-
-        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Response
 
         The response will be a string value of `200 OK`.
-      parameters:
-        - name: cleanup_scope
-          in: query
-          required: true
-          type: string
-          enum:
-            - customers
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10389,132 +10379,112 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_subscriptions-subscription_id-format
-      summary: 'Update Subscription: Calendar Billing Day Change'
+      summary: 'Update Subscription: Product Change'
       tags:
         - Subscription
         - incomplete
         - Subscriptions
       description: |-
-        ## Update Subscription: Calendar Billing Day Change
+        ## Update Subscription: Product Change
 
-        USe this method to change the snap day value for Calendar Billing. You can use this method to change the subscription to a different snap day by setting a new value for `snap_day`.
+        This method merely changes the product, and the new payment amount is calculated and charged at the normal start of the next period. If you desire prorated upgrades and downgrades instead, please see the docs on upgrades/downgrades and the [Migrations API](#docTextSection:HRFQ33cF69MpBa5dE).
 
-        ## Update Subscription: Regular Billing Day Change
+        To perform a Product Change, simply set the `product_handle` attribute with the `handle` of a different product from the same site as the subscription. Note that no proration or period reset is initiated when you change the product using this method. 
 
-        This payload will change the billing date to the specified date in your request. This will not set a new calendar billing date. It's purpose is to outline the optional JSON payload to set a subscription's new billing date. After this billing date occurs, the next billing date for the subscription is relative to the recurring time period of the product subscribed to in Chargify.
+        ## Delayed Product Change
 
-        To update just the date of the next billing, pass the following payload:
+        This method also merely changes the product, and the new payment amount is calculated and charged at the normal start of the next period. 
+
+        This method schedules the product change to happen automatically at the subscription’s next renewal date. To perform a Delayed Product Change, set the `product_handle` attribute as you would in a regular Product Change, but also set the `product_change_delayed` attribute to `true`. No proration applies in this case.
 
         ```
         {
           "subscription": {
-            "next_billing_at": "2018-12-15"
+            "product_handle": "gold-product",
+            "product_change_delayed": true
           }
         }
         ```
-
-        The value of the snap day, can be a value between 1 - 28 or `end`.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-request'
+            $ref: '#/definitions/subscriptions/update-subscription-product-change-request'
             example:
               subscription:
-                next_billing_at: '2028-12-15'
+                product_handle: gold
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-response'
+            $ref: '#/definitions/subscriptions/update-subscription-product-change-response'
           examples:
             application/json:
               subscription:
-                id: 16474328
+                id: 15254447
                 state: active
-                activated_at: '2017-02-20T18:28:48-05:00'
-                created_at: '2017-02-20T18:28:47-05:00'
-                updated_at: '2017-02-22T09:58:07-05:00'
+                activated_at: '2016-11-15T15:02:46-05:00'
+                created_at: '2016-11-15T15:02:42-05:00'
+                updated_at: '2016-11-15T17:44:09-05:00'
                 balance_in_cents: 0
-                current_period_ends_at: '2017-03-20T19:28:47-04:00'
-                next_assessment_at: '2017-03-20T19:28:47-04:00'
-                next_product_id: 4442358
+                current_period_ends_at: '2016-12-15T06:34:00-05:00'
+                next_assessment_at: '2016-12-15T06:34:00-05:00'
                 cancel_at_end_of_period: false
                 payment_collection_method: automatic
-                snap_day: end
-                current_period_started_at: '2017-02-20T18:28:47-05:00'
+                current_period_started_at: '2016-11-15T17:26:39-05:00'
                 previous_state: active
-                signup_payment_id: 174876340
-                signup_revenue: '0.00'
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
+                signup_payment_id: 162411159
+                signup_revenue: '10.00'
+                total_revenue_in_cents: 2000
+                product_price_in_cents: 1000
                 product_version_number: 1
                 payment_type: credit_card
-                referral_code: ww6mq5
+                referral_code: zxnpjh
                 customer:
-                  id: 15102905
-                  first_name: Amelia
-                  last_name: Example
-                  organization: ''
-                  email: joe.blow@example.com
-                  created_at: '2016-12-15T09:33:15-05:00'
-                  updated_at: '2016-12-15T09:34:09-05:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  portal_customer_created_at: '2016-12-15T09:33:21-05:00'
-                  tax_exempt: false
+                  id: 14730740
+                  first_name: Alysa
+                  last_name: Test
+                  email: alysa@example.com
+                  created_at: '2016-11-15T15:02:42-05:00'
+                  updated_at: '2016-11-15T15:02:49-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:02:49-05:00'
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:02:49-05:00'
                 product:
-                  id: 4461042
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
+                  id: 4364984
+                  name: Gold Plan
+                  handle: gold
+                  description: This is our gold plan.
+                  accounting_code: '123'
                   request_credit_card: true
-                  expiration_interval_unit: never
-                  created_at: '2017-02-20T18:28:18-05:00'
-                  updated_at: '2017-02-20T18:28:18-05:00'
-                  price_in_cents: 0
+                  created_at: '2016-11-04T16:31:15-04:00'
+                  updated_at: '2016-11-04T16:31:15-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  trial_interval_unit: month
                   require_credit_card: true
-                  return_params: ''
                   taxable: false
-                  update_return_url: ''
                   initial_charge_after_trial: false
                   version_number: 1
-                  update_return_params: ''
                   product_family:
-                    id: 986840
-                    name: Acme Products
+                    id: 527890
+                    name: Acme Projects
                     description: ''
-                    handle: acme-products
+                    handle: billing-plans
                   public_signup_pages:
-                    - id: 312984
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/yt4ybcgk7998/zero-dollar-product'
+                    - id: 301078
+                      url: 'https://general-goods.chargify.com/subscribe/ftgbpq7f5qpr/gold'
                 credit_card:
-                  id: 10548239
-                  first_name: Amelia
-                  last_name: Example
-                  masked_card_number: XXXX-XXXX-XXXX-2
-                  card_type: bogus
-                  expiration_month: 2
-                  expiration_year: 2017
-                  customer_id: 15102905
+                  id: 10202644
+                  first_name: Alysa
+                  last_name: Test
+                  masked_card_number: XXXX-XXXX-XXXX-1111
+                  card_type: visa
+                  expiration_month: 10
+                  expiration_year: 2030
+                  customer_id: 14730740
                   current_vault: bogus
-                  vault_token: '2'
-                  billing_address: ''
-                  billing_city: ''
-                  billing_state: ''
-                  billing_zip: ''
-                  billing_country: ''
-                  billing_address_2: ''
+                  vault_token: '1'
                   payment_type: credit_card
         '422':
           description: Unprocessable Entity
@@ -11077,6 +11047,8 @@ paths:
         ## Change Default Payment Profile
 
         This will change the default payment profile on the subscription to the existing payment profile with the id specified.
+
+        You must elect to change the existing payment profile to a new payment profile ID in order to receive a satisfactory response from this endpoint.
       responses:
         '201':
           description: ''
@@ -11102,6 +11074,19 @@ paths:
                 billing_country: ''
                 billing_address_2: ''
                 payment_type: credit_card
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - This is already the current payment profile
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -29323,12 +29308,12 @@ x-stoplight:
               type: endpoints
             - _id: reset-subscription-balance-response
               type: schemas
-            - _id: DELETE_subscriptions-subscription_id-payment_profiles-payment_profile_id-format
-              type: endpoints
             - _id: POST_subscriptions-subscriptionid-paymentprofiles-paymentprofileid-changepaymentprofilejson
               type: endpoints
             - _id: subscriptions/change-default-payment-profile-response
               type: schemas
+            - _id: DELETE_subscriptions-subscription_id-payment_profiles-payment_profile_id-format
+              type: endpoints
             - _id: TskoMiCqu9fbjWLWx
               type: schemas
             - _id: 3GimKZpKHXBsvfTdx
