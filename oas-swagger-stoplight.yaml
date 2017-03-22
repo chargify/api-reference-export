@@ -31331,6 +31331,12 @@ x-stoplight:
 
         For boolean fields, please note that a value of `null` should be considered as false.
 
+        ## Response Time Zones
+
+        API responses from Chargify are sent with the timezone of current Chargify site. 
+
+        Alternately, webhooks sent from Chargify globally utilize EST as the timezone for all content in the body of the payload. 
+
         ## Request Data
 
         POST and PUT request data may be formatted as either XML (`application/xml`) or JSON (`application/json`). For best results, you should set your HTTP `Content-Type` request header accordingly, although you may also specify your format by appending `.xml` or `.json` extensions on to the resource URI.
