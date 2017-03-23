@@ -5789,7 +5789,7 @@ paths:
         description: ''
         required: true
         type: number
-    post:
+    get:
       operationId: POST_product_families-id-format
       summary: List Product Family via Chargify ID
       tags:
