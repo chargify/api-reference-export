@@ -31313,7 +31313,7 @@ x-stoplight:
 
         ## Authentication
 
-        Authentication is implemented as HTTP Basic Authentication over TLS >= 1.2 (HTTPS), as described in [API Authentication](#docTextSection:xnGtyxFy5nLWhGB34)
+        Authentication is implemented as HTTP Basic Authentication over TLS >= 1.2 (HTTPS), as described in [API Authentication](https://developer.chargify.com/content/getting-started/authentication.html)
 
         ## URL
 
