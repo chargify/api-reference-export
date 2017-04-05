@@ -2094,7 +2094,7 @@ paths:
         - name: product_family_id
           in: query
           type: integer
-        - name: coupon_code
+        - name: code
           in: query
           type: string
       responses:
