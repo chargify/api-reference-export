@@ -7143,6 +7143,16 @@ paths:
         In order to create a Refund, you must pass an a Payment ID, amount and a memo. The amount can be specified by either the `amount` parameter or the `amount_in_cents` parameter.
 
         When a Refund is successfully created, a representation of the newly created Refund will be returned to you as JSON or XML in the message body, with the Output attributes.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/refunds/create-a-refund-request'
+            example:
+              refund:
+                payment_id: '162269766'
+                amount: '100.00'
+                memo: Your memo here.
       responses:
         '201':
           description: ''
