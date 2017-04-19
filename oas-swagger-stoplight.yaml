@@ -11495,9 +11495,13 @@ paths:
 
         Chargify offers the ability to retry collecting the balance due on a past due Subscription without waiting for the next scheduled attempt.
 
-        ## Server Response
+        ## Successful Reactivation
 
-        The response will be either `422 "Unprocessable Entity` with a error message or `200 OK` with the updated Subscription.
+        The response will be `200 OK` with the updated Subscription.
+
+        ## Failed Reactivation
+
+        The response will be `422 "Unprocessable Entity`.
       responses:
         '200':
           description: OK
@@ -11622,6 +11626,18 @@ paths:
                   customer_vault_token: null
                   billing_address_2: ''
                   payment_type: credit_card
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+          examples:
+            application/json:
+              errors: []
       security:
         - <<api_key>>: []
       x-stoplight:
