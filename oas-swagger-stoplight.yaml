@@ -13059,7 +13059,7 @@ paths:
         - incomplete
         - Webhooks
       description: |-
-        ## Reply Wehbooks for Site
+        ## Reply Webhooks for Site
 
         Posting to the replay endpoint does not immediate resend the webhooks. They are added to the background job queue and should be resent momentarily.
 
