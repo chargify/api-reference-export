@@ -11860,14 +11860,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/hold':
+  '/subscriptions/{subscription_id}/hold.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-hold
+      operationId: POST_subscriptions-subscription_id-hold-json
       summary: Hold (Pause) Subscription
       tags:
         - Subscriptions
@@ -11891,7 +11891,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-hold
+        id: POST_subscriptions-subscriptionid-holdjson
         beforeScript: null
         afterScript: null
         public: true
@@ -11899,14 +11899,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/resume':
+  '/subscriptions/{subscription_id}/resume.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-resume
+      operationId: POST_subscriptions-subscription_id-resume-json
       summary: Resume Subscription
       tags:
         - Subscriptions
@@ -11922,7 +11922,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-resume
+        id: POST_subscriptions-subscriptionid-resumejson
         beforeScript: null
         afterScript: null
         public: true
@@ -11930,14 +11930,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/delayed_cancel':
+  '/subscriptions/{subscription_id}/delayed_cancel.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-delayed_cancel
+      operationId: POST_subscriptions-subscription_id-delayed_cancel-json
       summary: 'Cancel Subscription: Delayed Method'
       tags:
         - Subscriptions
@@ -12305,7 +12305,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-delayedcancel
+        id: POST_subscriptions-subscriptionid-delayedcanceljson
         beforeScript: null
         afterScript: null
         public: true
@@ -12313,9 +12313,8 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription.id}/delayed_cancel':
     delete:
-      operationId: DELETE_subscriptions-subscription-id-delayed_cancel
+      operationId: DELETE_subscriptions-subscription_id-delayed_cancel-json
       summary: 'Cancel Subscription: Remove Delayed Method'
       tags:
         - Subscriptions
@@ -12440,8 +12439,10 @@ paths:
                   customer_vault_token: null
                   billing_address_2: dolore sint culpa eiusmod enim
                   payment_type: dolor quis aliquip sunt
+      security:
+        - <<api_key>>: []
       x-stoplight:
-        id: DELETE_subscriptions-subscriptionid-delayedcancel
+        id: DELETE_subscriptions-subscriptionid-delayedcanceljson
         beforeScript: null
         afterScript: null
         public: true
@@ -31181,15 +31182,15 @@ x-stoplight:
               type: schemas
             - _id: subscriptionQueryString
               type: traits
-            - _id: POST_subscriptions-subscriptionid-hold
+            - _id: POST_subscriptions-subscriptionid-holdjson
               type: endpoints
             - _id: subscriptions/hold-subscription-request
               type: schemas
-            - _id: POST_subscriptions-subscriptionid-resume
+            - _id: POST_subscriptions-subscriptionid-resumejson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-delayedcancel
+            - _id: POST_subscriptions-subscriptionid-delayedcanceljson
               type: endpoints
-            - _id: DELETE_subscriptions-subscriptionid-delayedcancel
+            - _id: DELETE_subscriptions-subscriptionid-delayedcanceljson
               type: endpoints
         - divider: false
           items:
@@ -31703,13 +31704,17 @@ x-stoplight:
 
         Renewal Preview is an object representing a subscription’s next assessment. You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal. 
 
-        ## Renewal Preview Documentation
+        ## Inclusion of Components
 
-        The "Next Billing" amount and "Next Billing" date are represented in each Subscriber's Summary. For more information, please see our documentation  [here](http://help.chargify.com/subscriptions/subscription-summary.html#next-billing).
+        This endpoint is particularly useful due to the fact that it will return the amount in cents of the products and the components which have been purchased by a subscriber.
 
         ## Subscription Side Effects
 
         You can request a `POST` to obtain this data from the endpoint without any side effects. Plain and simple, this will preview data, not log any changes against a subscription.
+
+        ## Renewal Preview Documentation
+
+        The "Next Billing" amount and "Next Billing" date are represented in each Subscriber's Summary. For more information, please see our documentation  [here](http://help.chargify.com/subscriptions/subscription-summary.html#next-billing).
       public: true
     introduction-to-notes:
       id: introduction-to-notes
