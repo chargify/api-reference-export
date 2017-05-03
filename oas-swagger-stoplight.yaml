@@ -2350,10 +2350,17 @@ paths:
       description: List coupons for a specific Product Family in a Site.
       produces:
         - application/xml
+      parameters:
+        - name: product_family_id
+          in: query
+          type: integer
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
       x-stoplight:
         id: GET_productfamilies-productfamilyid-couponsjson
         beforeScript: null
