@@ -6746,6 +6746,7 @@ paths:
         | update_return_url        | The url to which a customer will be returned after a successful account update                                                                                                                                                                                             |
         | return_url               | If `auto_create_signup_page` is `true`, this will set the url to which a customer will be returned after a successful signup for the auto-created signup page.                                                                                                             |
         | return_params            | The parameters to be appended to both update_return_url and, (if `auto_create_signup_page` is `true`,) `return_url` for the auto-created signup page. See [Return URLs and Parameters](https://help.chargify.com/products/product-options.html#return-url-and-parameters). |
+        | tax_code                 | A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.                                                                      |
       parameters:
         - name: body
           in: body
@@ -6762,6 +6763,7 @@ paths:
                 interval: 1
                 interval_unit: month
                 auto_create_signup_page: true
+                tax_code: D0000000
       responses:
         '201':
           description: ''
@@ -6846,7 +6848,7 @@ paths:
 
         Use this method to change aspects of an existing product. 
 
-        ## Input Attributes Update Notes**
+        ## Input Attributes Update Notes
 
         + `update_return_params` The parameters we will append to your `update_return_url`. See Return URLs and Parameters
       parameters:
@@ -6865,6 +6867,7 @@ paths:
                 interval: 1
                 interval_unit: month
                 auto_create_signup_page: true
+                tax_code: D0000000
       responses:
         '200':
           description: ''
@@ -18181,17 +18184,20 @@ definitions:
             type: string
           auto_create_signup_page:
             type: boolean
+          tax_code:
+            type: string
     example:
       product:
-        name: Gold Plan
-        handle: gold
-        description: This is our gold plan.
-        accounting_code: '123'
-        request_credit_card: true
-        price_in_cents: 1000
-        interval: 1
-        interval_unit: month
+        name: ipsum
+        handle: sed qui eu
+        description: exercitation
+        accounting_code: dolor enim proident qui
+        request_credit_card: false
+        price_in_cents: -53555719
+        interval: -72364360
+        interval_unit: eu
         auto_create_signup_page: true
+        tax_code: D0000000
     x-stoplight:
       id: products/create-a-product-input
       name: Create a Product Input
@@ -18346,6 +18352,8 @@ definitions:
             type: string
           auto_create_signup_page:
             type: boolean
+          tax_code:
+            type: string
     example:
       product:
         name: Platinum Plan
@@ -18357,6 +18365,7 @@ definitions:
         interval: 1
         interval_unit: month
         auto_create_signup_page: true
+        tax_code: D0000000
     x-stoplight:
       id: products/update-product-input
       name: Update Product Input
@@ -32671,6 +32680,7 @@ x-stoplight:
         | url                      | The url where the signup page can be viewed (`public_signup_pages` only)                                                                                                                                                           |
         | return_url               | The url to which a customer will be returned after a successful signup (`public_signup_pages` only)                                                                                                                                |
         | return_params            | The params to be appended to the return_url (`public_signup_pages` only)                                                                                                                                                           |
+        | tax_code                 | A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.                                                   |
       public: true
     quantity-allocations-intro:
       id: quantity-allocations-intro
