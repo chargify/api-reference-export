@@ -664,11 +664,6 @@ paths:
         ## List Components for a Subscription
 
         This request will list a subscription's applied components.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: 'null'
       responses:
         '200':
           description: OK
@@ -863,11 +858,6 @@ paths:
         ## List Specific Component for a Product Family
 
         This request will return information regarding a component from a specific product family.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: 'null'
       responses:
         '200':
           description: ''
@@ -3248,7 +3238,12 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/Customer Input'
+                $ref: '#/definitions/customer/create-a-customer-input'
+            example:
+              customer:
+                first_name: Martha
+                last_name: Washington
+                email: martha@example.com
       responses:
         '201':
           description: Created
@@ -27322,6 +27317,10 @@ definitions:
     properties:
       customer:
         type: object
+        required:
+          - first_name
+          - last_name
+          - email
         properties:
           first_name:
             type: string
@@ -27329,6 +27328,8 @@ definitions:
             type: string
           email:
             type: string
+    required:
+      - customer
     example:
       customer:
         first_name: Martha
