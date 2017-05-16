@@ -5940,6 +5940,32 @@ paths:
 
         Augment an existing `payment_profile_id` by using this endpoint and method.
 
+        ## Partial Card Updates
+
+        In the event that you are using the Authorize.net or Stripe payment gateways, you can update just the billing and contact information for a payment method. Note the lack of credit-card related data contained in the JSON payload. 
+
+        In this case, the following JSON is acceptable:
+
+        ```
+        {
+          "payment_profile": {
+            "first_name": "Kelly",
+            "last_name": "Test",
+            "customer_id": 14543792,
+            "billing_address": "789 Juniper Court",
+            "billing_city": "Boulder",
+            "billing_state": "CO",
+            "billing_zip": "80302",
+            "billing_country": "US",
+            "customer_vault_token": null,
+            "billing_address_2": null,
+            "payment_type": "credit_card"
+          }
+        }
+        ```
+
+        The result will be that you have updated the billing information for the card, yet retained the original card number data. 
+
         ## Specific notes on updating payment profiles
 
         - Merchants with **Authorize.net** or **Stripe** as their payment gateway can update their Customer’s credit cards without passing in the full credit card number and CVV.
@@ -5955,16 +5981,16 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payment-profiles/create-payment-profile-input'
+            $ref: '#/definitions/payments/update-payment-profile'
             example:
               payment_profile:
                 first_name: Graham
                 last_name: Test
-                last_four: 4444
-                card_type: visa
-                expiration_month: 10
-                expiration_year: 2022
-                customer_id: 14543792
+                full_number: '4111111111111111'
+                card_type: master
+                expiration_month: '04'
+                expiration_year: '2030'
+                customer_id: 17329648
                 current_vault: bogus
                 vault_token: '1'
                 billing_address: 456 Juniper Court
@@ -30472,6 +30498,70 @@ definitions:
       id: subscriptions/hold-subscription-request
       name: Hold (Pause) Subscription Request
       public: true
+  payments/update-payment-profile:
+    title: Update Payment Profile
+    type: object
+    properties:
+      payment_profile:
+        type: object
+        properties:
+          first_name:
+            type: string
+          last_name:
+            type: string
+          full_number:
+            type: string
+          card_type:
+            type: string
+          expiration_month:
+            type: string
+          expiration_year:
+            type: string
+          customer_id:
+            type: integer
+          current_vault:
+            type: string
+          vault_token:
+            type: string
+          billing_address:
+            type: string
+          billing_city:
+            type: string
+          billing_state:
+            type: string
+          billing_zip:
+            type: string
+          billing_country:
+            type: string
+          customer_vault_token:
+            type: 'null'
+          billing_address_2:
+            type: 'null'
+          payment_type:
+            type: string
+    example:
+      payment_profile:
+        first_name: Graham
+        last_name: Test
+        full_number: '4111111111111111'
+        card_type: master
+        expiration_month: '04'
+        expiration_year: '2030'
+        customer_id: 17329648
+        current_vault: bogus
+        vault_token: '1'
+        billing_address: 456 Juniper Court
+        billing_city: Boulder
+        billing_state: CO
+        billing_zip: '80302'
+        billing_country: US
+        customer_vault_token: null
+        billing_address_2: null
+        payment_type: credit_card
+    x-stoplight:
+      id: payments/update-payment-profile
+      name: Update Payment Profile
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -30991,6 +31081,8 @@ x-stoplight:
               type: schemas
             - _id: PUT_payment_profiles-payment_profile_id-format
               type: endpoints
+            - _id: payments/update-payment-profile
+              type: schemas
             - _id: GET_payment_profiles-format
               type: endpoints
             - _id: payment-profiles/list-payment-profiles-for-a-site-outuput
