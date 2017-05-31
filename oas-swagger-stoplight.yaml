@@ -6178,8 +6178,12 @@ paths:
       description: |-
         ## List Payment Profiles for a Site
 
-        This method will return all of the active `payment_profiles` for a Site.
+        This method will return all of the active `payment_profiles` for a Site, or for one Customer within a site.  If no payment profiles are found, this endpoint will return an empty array, not a 404.
       parameters:
+        - name: customer_id
+          in: query
+          description: The ID of the customer for which you wish to list payment profiles
+          type: integer
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
