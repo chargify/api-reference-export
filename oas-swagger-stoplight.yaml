@@ -1525,6 +1525,8 @@ paths:
       responses:
         '200':
           description: ''
+          schema:
+            $ref: '#/definitions/components/metered/create-usage-output'
           examples:
             application/json:
               usage:
@@ -16761,8 +16763,10 @@ definitions:
       usage:
         type: object
         properties:
-          quantity:
-            type: integer
+          '':
+            type:
+              - number
+              - integer
           memo:
             type: string
     example:
@@ -16787,7 +16791,9 @@ definitions:
           created_at:
             type: string
           quantity:
-            type: integer
+            type:
+              - integer
+              - number
     example:
       usage:
         id: 109807295
