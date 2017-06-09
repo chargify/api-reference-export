@@ -12871,7 +12871,7 @@ paths:
         id: GET_transaction_id-format
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           statusCode: 200
@@ -13053,7 +13053,7 @@ paths:
         id: GET_transactions_count-format
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           statusCode: 200
@@ -31776,6 +31776,10 @@ x-stoplight:
         | kind                      | The specific “subtype” for the transaction_type                                                                                                                                                                                                                                               |
         | gateway_transaction_id    | The transaction ID from the remote gateway (i.e. Authorize.Net), if one exists                                                                                                                                                                                                                |
         | gateway_order_id          | A gateway-specific identifier for the transaction, separate from the `gateway_transaction_id`                                                                                                                                                                                                 |
+        | component_id              | ID of the component, only available in the `charge`                                                                                                                                                                                                                                           |
+
+
+
 
         | **Gateway**        | **Value in gateway_order_id**                 |
         |--------------------|-----------------------------------------------|
