@@ -902,16 +902,17 @@ paths:
         in: path
         required: true
         type: string
+        enum:
+          - metered_components
+          - quantity_based_components
+          - on_off_components
     post:
       operationId: POST_product_families-product_family_id-plural_kind-json
       summary: Create Component
       tags:
         - Component
         - Components
-      description: |-
-        ## Create Component
-
-        This request will create a component under the specified product family.
+      description: "## Create Component\n\nThis request will create a component under the specified product family.\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Component\",\n\t\t\"description\": \"Example of JSON per-unit component example\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"unit_price\": \"10\"\n\t},\n\t\"taxable\": \"1\",\n\t\"display_on_hosted_page\": \"1\",\n\t\"allow_fractional_quantities\": \"1\",\n\t\"public_signup_page_ids\": [\"323397\"]\n}\n}\n```\n\n**Stairstep Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON stairstep example\",\n\t\t\"pricing_scheme\": \"stairstep\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"100\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"101\",\n\t\t\t\t\"ending_quantity\": \"200\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"taxable\": \"1\",\n\t\t\t\"display_on_hosted_page\": \"1\",\n\t\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\t\"public_signup_page_ids\": [\"323397\"]\n\t\t}\n\t}\n}\n```\n\n**Volume Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON volume component example\",\n\t\t\"pricing_scheme\": \"volume\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"10\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"11\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"5\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t},\n\t\"commit\": \"Create Component\",\n\t\"product_family_id\": \"997233\"\n}\n```\n\n**Tiered Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON for tiered quantity based component\",\n\t\t\"pricing_scheme\": \"tiered\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"21\",\n\t\t\t\t\"ending_quantity\": \"40\",\n\t\t\t\t\"unit_price\": \"25\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t}\n}\n```\n\n\n## On/Off Component\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"taxable\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"]\n}\n```"
       parameters:
         - name: body
           in: body
@@ -987,6 +988,22 @@ paths:
                   - starting_quantity: 1
                     ending_quantity: null
                     unit_price: '1.0'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Name: cannot be blank.'
+                - 'Unit name: cannot be blank.'
+                - 'Pricing scheme: cannot be blank.'
+                - At least 1 price bracket must be defined
       security:
         - <<api_key>>: []
       x-stoplight:
