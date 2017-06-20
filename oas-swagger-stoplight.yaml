@@ -2465,7 +2465,8 @@ paths:
                 - value: L
                   resource_id: 15479934
                   name: T-Shirt Size
-        - $ref: '#/parameters/trait:pagination30:page'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         default:
           description: ''
@@ -2499,7 +2500,8 @@ paths:
 
         Use the information retrieved to set your pagination settings properly.
       parameters:
-        - $ref: '#/parameters/trait:pagination30:page'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: ''
@@ -2538,6 +2540,9 @@ paths:
         ## List Metadata for a Subscriber
 
         This request will list all of the metadata belonging to a particular subscription.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: ''
