@@ -10901,7 +10901,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscription/read-a-subscription'
+            $ref: '#/definitions/subscription/read-subscription'
           examples:
             application/json:
               subscription:
@@ -10936,6 +10936,8 @@ paths:
                 referral_code: p8fs35
                 coupon_use_count: null
                 coupon_uses_allowed: null
+                reason_code: null
+                automatically_resume_at: '2018-04-20T08:44:00-05:00'
                 current_billing_amount_in_cents: 6450
                 customer:
                   id: 14399371
@@ -23687,6 +23689,8 @@ definitions:
             type: string
           referral_code:
             type: string
+          automatically_resume_at:
+            type: string
           coupon_use_count:
             type: 'null'
           coupon_uses_allowed:
@@ -23887,6 +23891,7 @@ definitions:
         product_version_number: 4
         payment_type: credit_card
         referral_code: p8fs35
+        automatically_resume_at: '2018-04-20T08:44:00-05:00'
         coupon_use_count: null
         coupon_uses_allowed: null
         current_billing_amount_in_cents: 6450
@@ -32905,7 +32910,8 @@ x-stoplight:
         | cancellation_message    | Seller-provided reason for, or note about, the cancellation.                                                                     |
         | cancellation_method     | The process used to cancel the subscription, if the subscription has been canceled. Can be one of `nil`, `merchant_ui`, `merchant_api`, `dunning`, or `billing_portal`. It is `nil` if the subscription's state is not `canceled`.                                    |
         | coupon_code             | The coupon code of the coupon currently applied to the subscription                                                              |
-        | created_at              | The creation date for this subscription                                                                                          |
+        | created_at | The creation date for this subscription |
+        | automatically_resume_at | The date the subscription is scheduled to automatically resume from the on_hold state. |
 
         ### Credit Card Attributes
 
