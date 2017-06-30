@@ -14834,6 +14834,8 @@ definitions:
               type: string
             cancellation_method:
               type: string
+            automatically_resume_at:
+              type: string
     example:
       - subscription:
           activated_at: '2010-08-22T07:13:19-04:00'
