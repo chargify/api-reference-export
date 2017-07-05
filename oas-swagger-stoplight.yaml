@@ -1030,14 +1030,14 @@ paths:
         type: string
     post:
       operationId: POST_product_families-product_family_id-quantity_based_components-format
-      summary: Create Price Point Component
+      summary: Create Component with Price Points
       tags:
         - Components
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/create-price-point-component-request'
+            $ref: '#/definitions/components/create-component-with-price-points-request'
             example:
               quantity_based_component:
                 name: Widget
@@ -27475,8 +27475,8 @@ definitions:
       id: payments/update-payment-profile
       name: Update Payment Profile
       public: true
-  components/create-price-point-component-request:
-    title: Create Price Point Component Request
+  components/create-component-with-price-points-request:
+    title: Create Component with Price Points Request
     type: object
     properties:
       quantity_based_component:
@@ -27576,8 +27576,8 @@ definitions:
         public_signup_page_ids:
           - '1'
     x-stoplight:
-      id: components/create-price-point-component-request
-      name: Create Price Point Component Request
+      id: components/create-component-with-price-points-request
+      name: Create Component with Price Points Request
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -27702,7 +27702,7 @@ x-stoplight:
               type: schemas
             - _id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
               type: endpoints
-            - _id: components/create-price-point-component-request
+            - _id: components/create-component-with-price-points-request
               type: schemas
         - name: Components - Metered Usage
           items:
