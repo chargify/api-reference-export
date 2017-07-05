@@ -763,70 +763,73 @@ paths:
       - name: product_family_id
         in: path
         required: true
-        type: integer
+        type: string
     get:
       operationId: GET_product_families-product_family_id-components-json
       summary: List Components for a Product Family
       tags:
+        - incomplete
+        - Component
         - Components
       description: |-
         ## List Components for a Product Family
 
-        This request will return a list of components within a product family.
+        This request will return a list of components for a particular product family.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/metered/list-components-for-product-family-output'
+            $ref: '#/definitions/component/list-component-product-family-get'
           examples:
             application/json:
               - component:
-                  id: 195268
-                  name: IP addresses
-                  pricing_scheme: tiered
-                  unit_name: IP addresses
-                  unit_price: null
-                  product_family_id: 527890
+                  id: 193158
+                  name: Storage Units
+                  pricing_scheme: per_unit
+                  unit_name: storage_unit
+                  unit_price: '0.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: metered_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
-                  description: IP addresses
+                  description: Storage Units
                   prices:
-                    - starting_quantity: 0
-                      ending_quantity: 10
+                    - starting_quantity: 1
+                      ending_quantity: null
                       unit_price: '0.0'
-                    - starting_quantity: 11
-                      ending_quantity: 999
-                      unit_price: '3000.0'
               - component:
-                  id: 165316
-                  name: Metered Minutes
-                  pricing_scheme: volume
-                  unit_name: Metered Minutes
-                  unit_price: null
-                  product_family_id: 527890
+                  id: 212784
+                  name: IP Addresses
+                  pricing_scheme: per_unit
+                  unit_name: IP Addresses
+                  unit_price: '20.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: metered_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
                   description: ''
                   prices:
                     - starting_quantity: 1
                       ending_quantity: null
-                      unit_price: '1.0'
+                      unit_price: '20.0'
               - component:
-                  id: 198119
-                  name: Support Component
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '40.0'
-                  product_family_id: 527890
+                  id: 160432
+                  name: Text Messages
+                  pricing_scheme: per_unit
+                  unit_name: message
+                  unit_price: '1.0'
+                  product_family_id: 528484
                   price_per_unit_in_cents: null
-                  kind: on_off_component
+                  kind: quantity_based_component
                   archived: false
                   taxable: false
-                  description: Support Component
+                  description: Texts sent per month
+                  prices:
+                    - starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '1.0'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1015,107 +1018,188 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /subscriptions.json:
+  '/product_families/{product_family_id}/quantity_based_components.{format}':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
+      - name: format
+        in: path
+        required: true
+        type: string
     post:
-      operationId: POST_subscriptions-json
-      summary: Create Subscription
+      operationId: POST_product_families-product_family_id-quantity_based_components-format
+      summary: Create Price Point Component
       tags:
-        - Components - Metered Usage
-      description: "## Create Subscription\n\nWhen creating a Subscription, you must specify Product and Customer properties.\n\nCredit card details may be required, depending on the options for the Product being subscribed. The Product can be specified by `product_id` or by `product_handle` (API Handle).\n\nThe `customer_id` is required, unless `customer_reference` or a set of `customer_attributes` is given.\nThe `customer_reference` is required, unless `customer_id` or a set of `customer_attributes` is given.\n\n## Product Handle vs. Product ID\n\nThe `product_handle` is required, unless the `product_id` value is provided instead. The Product ID is not currently published, so we recommend using the API Handle (`product_handle`) instead.\n\n## Calendar Billing\n\nThe `calendar_billing` cannot be used when also specifying `next_billing_at`.\n\n## Existing Customers\n\nAn existing Customer can be specified by `customer_id` (its ID within Chargify) or `customer_reference` (a unique value within your application that you have shared with Chargify). \n\nUse the following JSON example to form an object that will create a subscription for an already existing customer.\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"full_number\": \"1\",\n    \t\t\t\"expiration_month\": \"10\",\n    \t\t\t\"expiration_year\": \"2020\"\n    \t\t}\n    \t}\n    }\n```\n\n## Existing Customer with Existing Payment Profile\n\n```\n{\n  \"subscription\": {\n    \"product_handle\": \"product-xyz\",\n    \"customer_id\": 17346006,\n    \"payment_profile_id\": 11991557\n  }\n}\n```\n\n## New Customer\n\nA new Customer can be created by providing `customer_attributes`.\n\n## Create Subscription with Coupon\n\nUse the following JSON example to create a subscription with a coupon. For more information on creating subscriptions with a coupon code, please see the section on creating a subscription with coupon [here.](#endpoint:YFHw4XRYxaqLwGNvk)\n\n```\n      {\n      \t\"subscription\": {\n      \t\t\"product_handle\": \"basic\",\n      \t\t\"customer_attributes\": {\n      \t\t\t\"first_name\": \"Joe\",\n      \t\t\t\"last_name\": \"Blow\",\n      \t\t\t\"email\": \"joe@example.com\"\n      \t\t},\n      \t\t\"credit_card_attributes\": {\n      \t\t\t\"full_number\": \"1\",\n      \t\t\t\"expiration_month\": \"10\",\n      \t\t\t\"expiration_year\": \"2020\"\n      \t\t},\n      \t\t\"coupon_code\": \"SUB111\"\n      \t}\n      }\n```      \n## Subscription with Future Billing Date\n\n```\n      {\n      \t\"subscription\": {\n      \t\t\"product_handle\": \"basic\",\n      \t\t\"customer_attributes\": {\n      \t\t\t\"first_name\": \"Joe\",\n      \t\t\t\"last_name\": \"Blow\",\n      \t\t\t\"email\": \"joe@example.com\"\n      \t\t},\n      \t\t\"credit_card_attributes\": {\n      \t\t\t\"full_number\": \"1\",\n      \t\t\t\"expiration_month\": \"10\",\n      \t\t\t\"expiration_year\": \"2020\"\n      \t\t},\n      \t\t\"next_billing_at\": \"2020-06-01\"\n      \t}\n      }\n```\n\n## Subscription with On-Off Component\n\n```\n      {\n      \t\"subscription\": {\n      \t\t\"product_handle\": \"basic\",\n      \t\t\"customer_attributes\": {\n      \t\t\t\"first_name\": \"Joe\",\n      \t\t\t\"last_name\": \"Blow\",\n      \t\t\t\"email\": \"joe@example.com\"\n      \t\t},\n      \t\t\"credit_card_attributes\": {\n      \t\t\t\"full_number\": \"1\",\n      \t\t\t\"expiration_month\": \"10\",\n      \t\t\t\"expiration_year\": \"2020\"\n      \t\t},\n      \t\t\"components\": [{\n      \t\t\t\"component_id\": 2500,\n      \t\t\t\"enabled\": true\n      \t\t}]\n      \t}\n      }\n```\n\n## Subscription with Metered Components\n\n```\n {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_attributes\": {\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"last_name\": \"Blow\",\n    \t\t\t\"email\": \"joe1049am@example.com\"\n    \t\t},\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"full_number\": \"1\",\n    \t\t\t\"expiration_month\": \"10\",\n    \t\t\t\"expiration_year\": \"2020\"\n    \t\t},\n    \t\t\"components\": [{\n    \t\t\t\"component_id\": 195268,\n    \t\t\t\"unit_balance\": 20\n    \t\t}]\n    \t}\n    }\n```\n\n## Subscription with Quantity-Based Component\n\n```\n     {\n     \t\"subscription\": {\n     \t\t\"product_handle\": \"basic\",\n     \t\t\"customer_attributes\": {\n     \t\t\t\"first_name\": \"Joe\",\n     \t\t\t\"last_name\": \"Blow\",\n     \t\t\t\"email\": \"joe@example.com\"\n     \t\t},\n     \t\t\"credit_card_attributes\": {\n     \t\t\t\"full_number\": \"1\",\n     \t\t\t\"expiration_month\": \"10\",\n     \t\t\t\"expiration_year\": \"2020\"\n     \t\t},\n     \t\t\"components\": [{\n     \t\t\t\"component_id\": 2500,\n     \t\t\t\"allocated_quantity\": 14\n     \t\t}]\n     \t}\n     }\n```\n\n## Subscription with Calendar Billing\n\n```\n  {\n      \t\"subscription\": {\n      \t\t\"product_handle\": \"gold\",\n      \t\t\"customer_attributes\": {\n      \t\t\t\"first_name\": \"Allison\",\n      \t\t\t\"last_name\": \"Test\",\n      \t\t\t\"email\": \"allison@example.com\"\n      \t\t},\n            \"calendar_billing\": {\n              \"snap_day\": 1,\n              \"calendar_billing_first_charge\": \"immediate\"\n            },                \n      \t\t\"credit_card_attributes\": {\n      \t\t\t\"full_number\": \"1\",\n      \t\t\t\"expiration_month\": \"10\",\n      \t\t\t\"expiration_year\": \"2020\"\n      \t\t}\n      \t}\n      }\n```\n\n### Subscription with ACH as Payment Profile\n\n```\n{\n\t\"subscription\": {\n\t\t\"product_handle\": \"gold-product\",\n\t\t\"customer_attributes\": {\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"john.doe@example.com\",\n\t\t\t\"reference\": \"123\",\n\t\t\t\"organization\": \"Acme Widgets\"\n\t\t},\n\t\t\"bank_account_attributes\": {\n\t\t\t\"bank_name\": \"Best Bank\",\n\t\t\t\"bank_routing_number\": \"021000089\",\n\t\t\t\"bank_account_number\": \"111111111111\",\n\t\t\t\"bank_account_type\": \"checking\",\n\t\t\t\"bank_account_holder_type\": \"business\",\n\t\t\t\"payment_type\": \"bank_account\"\n\t\t}\n\t}\n}\n```\n\n### Subscription for existing customer on invoice collection method\n\n```\n{\n\t\"subscription\": {\n\t\t\"product_handle\": \"test\",\n\t\t\"customer_id\": \"12345\",\n\t\t\"payment_collection_method\": \"invoice\"\n\t}\n}\n```"
+        - Components
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/create-subscription-request'
+            $ref: '#/definitions/components/create-price-point-component-request'
             example:
-              subscription:
-                product_handle: basic
-                customer_attributes:
-                  first_name: Alysa
-                  last_name: Test
-                  email: alysa@example.com
-                credit_card_attributes:
-                  full_number: '1'
-                  expiration_month: '10'
-                  expiration_year: '2020'
+              quantity_based_component:
+                name: Widget
+                description: widget
+                unit_name: widget
+                pricing_scheme: volume
+                default_price_point_name: Initial
+                default_price_point_handle: initial-handle
+                prices:
+                  - starting_quantity: '1'
+                    ending_quantity: '100'
+                    unit_price: '5.00'
+                  - starting_quantity: '101'
+                    unit_price: '4.00'
+                price_points:
+                  - name: Wholesale
+                    handle: wholesale-handle
+                    pricing_scheme: tiered
+                    prices:
+                      - starting_quantity: '1'
+                        ending_quantity: '2'
+                        unit_price: '1'
+                public_signup_page_ids:
+                  - '1'
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/component/create'
+          examples:
+            application/json:
+              component:
+                id: 74
+                name: Widget III
+                pricing_scheme: volume
+                unit_name: widget
+                unit_price: null
+                product_family_id: 4
+                price_per_unit_in_cents: null
+                kind: quantity_based_component
+                archived: false
+                taxable: false
+                description: widget
+                default_price_point_id: 75
+                prices:
+                  - starting_quantity: 1
+                    ending_quantity: 100
+                    unit_price: '5.0'
+                    price_point_id: 75
+                  - starting_quantity: 101
+                    ending_quantity: null
+                    unit_price: '4.0'
+                    price_point_id: 75
+      x-stoplight:
+        id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
+        beforeScript: null
+        afterScript: null
+        public: false
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /subscriptions.json:
+    post:
+      operationId: POST_subscriptions-json
+      summary: Setting Quantity at Subscription Creation
+      tags:
+        - Components - Metered Usage
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/components/metered/setting-quantity-at-subscription-creation-input'
+            example:
+              subscription:
+                product_handle: basic
+                customer_attributes:
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe1049am@example.com
+                credit_card_attributes:
+                  full_number: '1'
+                  expiration_month: '10'
+                  expiration_year: '2020'
+                components:
+                  - component_id: 195268
+                    unit_balance: 20
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/components/metered/setting-quantity-at-subscription-creation-output'
           examples:
             application/json:
               subscription:
-                id: 18220670
+                id: 15569578
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-06-27T13:45:15-05:00'
-                created_at: '2017-06-27T13:45:13-05:00'
-                updated_at: '2017-06-30T09:26:50-05:00'
+                activated_at: '2016-12-09T11:49:23-05:00'
+                created_at: '2016-12-09T11:49:20-05:00'
+                updated_at: '2016-12-09T11:49:23-05:00'
                 expires_at: null
-                balance_in_cents: 10000
-                current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                next_assessment_at: '2017-06-30T12:00:00-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2016-12-10T11:49:20-05:00'
+                next_assessment_at: '2016-12-10T11:49:20-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
                 payment_collection_method: automatic
-                snap_day: end
+                snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-06-27T13:45:13-05:00'
+                current_period_started_at: '2016-12-09T11:49:20-05:00'
                 previous_state: active
-                signup_payment_id: 191819284
-                signup_revenue: '0.00'
+                signup_payment_id: 165589525
+                signup_revenue: '30010.00'
                 delayed_cancel_at: null
                 coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
-                product_version_number: 1
-                payment_type: null
-                referral_code: d3pw7f
+                total_revenue_in_cents: 3001000
+                product_price_in_cents: 1000
+                product_version_number: 7
+                payment_type: credit_card
+                referral_code: zf6s86
                 coupon_use_count: null
                 coupon_uses_allowed: null
-                reason_code: null
-                automatically_resume_at: null
-                current_billing_amount_in_cents: 10000
                 customer:
-                  id: 17780587
-                  first_name: Catie
-                  last_name: Test
-                  organization: 'Acme, Inc.'
-                  email: catie@example.com
-                  created_at: '2017-06-27T13:01:05-05:00'
-                  updated_at: '2017-06-30T09:23:10-05:00'
-                  reference: 123ABC
-                  address: 123 Anywhere Street
-                  address_2: 'Apartment #10'
-                  city: Los Angeles
-                  state: CA
-                  zip: '90210'
-                  country: US
-                  phone: 555-555-5555
-                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
+                  id: 15029690
+                  first_name: Joe
+                  last_name: Blow
+                  organization: null
+                  email: joe@example.com
+                  created_at: '2016-12-09T11:49:20-05:00'
+                  updated_at: '2016-12-09T11:49:25-05:00'
+                  reference: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
                   portal_invite_last_accepted_at: null
-                  verified: true
-                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                  cc_emails: support@example.com
-                  tax_exempt: true
+                  verified: false
+                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
+                  cc_emails: null
+                  tax_exempt: false
                 product:
-                  id: 4470347
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
+                  id: 3792003
+                  name: $10 Basic Plan
+                  handle: basic
+                  description: lorem ipsum
+                  accounting_code: basic
+                  request_credit_card: false
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-03-23T10:54:12-05:00'
-                  updated_at: '2017-04-20T15:18:46-05:00'
-                  price_in_cents: 0
+                  created_at: '2016-03-24T13:38:39-04:00'
+                  updated_at: '2016-11-03T13:03:05-04:00'
+                  price_in_cents: 1000
                   interval: 1
-                  interval_unit: month
+                  interval_unit: day
                   initial_charge_in_cents: null
                   trial_price_in_cents: null
                   trial_interval: null
@@ -1125,39 +1209,47 @@ paths:
                   return_params: ''
                   taxable: false
                   update_return_url: ''
-                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
+                  version_number: 7
                   update_return_params: ''
                   product_family:
-                    id: 997233
-                    name: Acme Products
+                    id: 527890
+                    name: Acme Projects
                     description: ''
-                    handle: acme-products
+                    handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 316810
+                    - id: 281054
+                      return_url: 'http://www.example.com?successfulsignup'
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                    - id: 281240
                       return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Credit card expiration year: cannot be blank.'
-                - 'Last name: cannot be blank.'
-                - 'Credit card expiration month: cannot be blank.'
-                - 'Email address: cannot be blank.'
-      security:
-        - <<api_key>>: []
+                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                    - id: 282694
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                credit_card:
+                  id: 10405758
+                  first_name: Joe
+                  last_name: Blow
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 10
+                  expiration_year: 2020
+                  customer_id: 15029690
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: null
+                  billing_country: null
+                  customer_vault_token: null
+                  billing_address_2: null
+                  payment_type: credit_card
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -5293,13 +5385,13 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration
+      summary: Create Migration with Trial
       tags:
         - Migrations - Prorated Upgrades / Downgrades
       description: |-
-        ## Create Migration
+        ## Create Migration with Trial
 
-        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
+        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
 
         The response will be the updated subscription.
       parameters:
@@ -5313,28 +5405,31 @@ paths:
                 properties:
                   product_id:
                     type: integer
+                  include_trial:
+                    type: integer
             example:
               migration:
-                product_id: 3801242
+                product_id: 3861800
+                include_trial: 1
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-output'
+            $ref: '#/definitions/migrations/create-migration-input-trial-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
+                state: trialing
+                trial_started_at: '2016-11-03T13:43:36-04:00'
+                trial_ended_at: '2016-11-10T12:43:36-05:00'
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:31:49-04:00'
+                updated_at: '2016-11-03T13:43:36-04:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T12:31:49-05:00'
-                next_assessment_at: '2016-12-03T12:31:49-05:00'
+                balance_in_cents: -13989
+                current_period_ends_at: '2016-11-10T12:43:36-05:00'
+                next_assessment_at: '2016-11-10T12:43:36-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -5342,15 +5437,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:31:48-04:00'
+                current_period_started_at: '2016-11-03T13:43:35-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 10000
-                product_version_number: 4
+                product_price_in_cents: 1000
+                product_version_number: 6
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -5377,30 +5472,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
+                  id: 3861800
+                  name: Trial Product
+                  handle: trial-product
+                  description: Trial period with payment expected at end of trial.
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
+                  created_at: '2016-07-08T09:53:55-04:00'
+                  updated_at: '2016-09-05T13:00:36-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: 0
+                  trial_interval: 7
+                  trial_interval_unit: day
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 4
+                  version_number: 6
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -5409,10 +5504,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 283460
-                      return_url: null
+                    - id: 294791
+                      return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -5430,21 +5525,8 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 1
+                  billing_address_2: Apt. 10
                   payment_type: credit_card
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - Invalid Product
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -15255,6 +15337,8 @@ definitions:
             type: boolean
           description:
             type: 'null'
+          default_price_point_id:
+            type: integer
           prices:
             type: array
             items:
@@ -15279,6 +15363,7 @@ definitions:
         archived: false
         taxable: false
         description: null
+        default_price_point_id: 75
         prices:
           - starting_quantity: 1
             ending_quantity: null
@@ -27390,6 +27475,110 @@ definitions:
       id: payments/update-payment-profile
       name: Update Payment Profile
       public: true
+  components/create-price-point-component-request:
+    title: Create Price Point Component Request
+    type: object
+    properties:
+      quantity_based_component:
+        type: object
+        required:
+          - name
+          - description
+          - unit_name
+          - pricing_scheme
+          - default_price_point_name
+          - default_price_point_handle
+          - prices
+          - price_points
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          unit_name:
+            type: string
+          pricing_scheme:
+            type: string
+          default_price_point_name:
+            type: string
+          default_price_point_handle:
+            type: string
+          prices:
+            type: array
+            items:
+              type: object
+              properties:
+                starting_quantity:
+                  type: string
+                ending_quantity:
+                  type: string
+                unit_price:
+                  type: string
+          price_points:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                handle:
+                  type: string
+                pricing_scheme:
+                  type: string
+                prices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      starting_quantity:
+                        type: string
+                      ending_quantity:
+                        type: string
+                      unit_price:
+                        type: string
+                    required:
+                      - starting_quantity
+                      - ending_quantity
+                      - unit_price
+              required:
+                - name
+                - handle
+                - pricing_scheme
+                - prices
+          public_signup_page_ids:
+            type: array
+            items:
+              type: string
+    required:
+      - quantity_based_component
+    example:
+      quantity_based_component:
+        name: Widget
+        description: widget
+        unit_name: widget
+        pricing_scheme: volume
+        default_price_point_name: Initial
+        default_price_point_handle: initial-handle
+        prices:
+          - starting_quantity: '1'
+            ending_quantity: '100'
+            unit_price: '5.00'
+          - starting_quantity: '101'
+            unit_price: '4.00'
+        price_points:
+          - name: Wholesale
+            handle: wholesale-handle
+            pricing_scheme: tiered
+            prices:
+              - starting_quantity: '1'
+                ending_quantity: '2'
+                unit_price: '1'
+        public_signup_page_ids:
+          - '1'
+    x-stoplight:
+      id: components/create-price-point-component-request
+      name: Create Price Point Component Request
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -27510,6 +27699,10 @@ x-stoplight:
             - _id: component/create
               type: schemas
             - _id: components/create-response-post
+              type: schemas
+            - _id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
+              type: endpoints
+            - _id: components/create-price-point-component-request
               type: schemas
         - name: Components - Metered Usage
           items:
