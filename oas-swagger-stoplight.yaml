@@ -1068,31 +1068,28 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/component/create'
+            $ref: '#/definitions/components/create-response-post'
           examples:
             application/json:
               component:
-                id: 74
-                name: Widget III
-                pricing_scheme: volume
-                unit_name: widget
+                id: 292609
+                name: Text messages
+                pricing_scheme: stairstep
+                unit_name: text message
                 unit_price: null
-                product_family_id: 4
+                product_family_id: 528484
                 price_per_unit_in_cents: null
-                kind: quantity_based_component
+                kind: metered_component
                 archived: false
                 taxable: false
-                description: widget
+                description: null
                 default_price_point_id: 75
                 prices:
                   - starting_quantity: 1
-                    ending_quantity: 100
-                    unit_price: '5.0'
-                    price_point_id: 75
-                  - starting_quantity: 101
                     ending_quantity: null
-                    unit_price: '4.0'
-                    price_point_id: 75
+                    unit_price: '1.0'
+                price_point_count: 2
+                price_points_url: /components/292609/price_points
       x-stoplight:
         id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
         beforeScript: null
@@ -1870,7 +1867,7 @@ paths:
 
         Passing in a price bracket without an `id` will attempt to create a new price. 
 
-        Including an `id` will be update that price, and including the `_destroy` flag set to true along with the `id` will remove that price.
+        Including an `id` will update the corresponding price, and including the `_destroy` flag set to true along with the `id` will remove that price.
       parameters:
         - name: body
           in: body
@@ -1906,6 +1903,10 @@ paths:
       summary: Archive Price Point
       tags:
         - Components - Price Points
+      description: |-
+        A price point can be archived at any time. Subscriptions using a price point that has been archived will continue using it until they're moved to another price point.
+
+        Please be aware that, currently, archiving a price point cannot be undone.
       responses:
         '201':
           description: ''
@@ -15775,6 +15776,10 @@ definitions:
                   type: 'null'
                 unit_price:
                   type: string
+          price_point_count:
+            type: integer
+          price_points_url:
+            type: string
     example:
       component:
         id: 292609
@@ -15793,6 +15798,8 @@ definitions:
           - starting_quantity: 1
             ending_quantity: null
             unit_price: '1.0'
+        price_point_count: 2
+        price_points_url: /components/292609/price_points
     x-stoplight:
       id: components/create-response-post
       name: Create a Component Response POST
