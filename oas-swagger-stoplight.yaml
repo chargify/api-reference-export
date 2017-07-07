@@ -4147,7 +4147,7 @@ paths:
 
         Each event type has its own `event_specific_data` specified.
       parameters:
-        - name: field
+        - name: filter
           in: query
           description: Any of the events listed under the introduction. `?filter=payment_success'
           type: string
