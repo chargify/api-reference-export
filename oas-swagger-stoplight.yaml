@@ -1645,6 +1645,24 @@ paths:
       summary: Toggling Component On at Subscription Creation
       tags:
         - Components - On/Off Toggling
+      description: |-
+        ## Toggling On/Off at Subscription Creation
+
+        You may toggle an on/off component to **ON** when you create the subscription by including some extra data in your POST request.
+
+        In addition to the normal post data, also include a 'components’ attribute, as indicated below:
+
+        {
+          "subscription": {
+            ...normal subscription attributes...
+            "components":[
+              {
+                "component_id": 1,
+                "allocated_quantity": 18
+              }
+            ]
+          }
+        }
       responses:
         default:
           description: ''
