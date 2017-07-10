@@ -1649,24 +1649,30 @@ paths:
         ## Toggling On/Off at Subscription Creation
 
         You may toggle an on/off component to **ON** when you create the subscription by including some extra data in your POST request.
-
-        In addition to the normal post data, also include a 'components’ attribute, as indicated below:
-
-        {
-          "subscription": {
-            ...normal subscription attributes...
-            "components":[
-              {
-                "component_id": 1,
-                "allocated_quantity": 18
-              }
-            ]
-          }
-        }
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/components/onoff/toggling-component-on-at-subscription-creation-request'
+            example:
+              subscription:
+                product_handle: one-hundred-dollar-product
+                customer_attributes:
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
+                credit_card_attributes:
+                  full_number: '1'
+                  expiration_month: '10'
+                  expiration_year: '2020'
+                components:
+                  - component_id: 399853
+                    enabled: true
       responses:
-        default:
+        '201':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
       x-stoplight:
         id: POST_
         beforeScript: null
@@ -28311,30 +28317,123 @@ definitions:
       id: components/price-points/update-price-point-request
       name: Update Price Point Request
       public: true
-  toggling-component-on-at-subscription-creation-request:
+  components/onoff/toggling-component-on-at-subscription-creation-request:
     title: Toggling Component On at Subscription Creation Request
     type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          product_handle:
+            type: string
+          customer_attributes:
+            type: object
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+          credit_card_attributes:
+            type: object
+            properties:
+              full_number:
+                type: string
+              expiration_month:
+                type: string
+              expiration_year:
+                type: string
+          components:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                enabled:
+                  type: boolean
+    example:
+      subscription:
+        product_handle: basic
+        customer_attributes:
+          first_name: Joe
+          last_name: Blow
+          email: joe@example.com
+        credit_card_attributes:
+          full_number: '1'
+          expiration_month: '10'
+          expiration_year: '2020'
+        components:
+          - component_id: 2500
+            enabled: true
     x-stoplight:
-      id: toggling-component-on-at-subscription-creation-request
+      id: components/onoff/toggling-component-on-at-subscription-creation-request
       name: Toggling Component On at Subscription Creation Request
-      public: true
-  toggling-component-on-at-subscription-creation-response:
-    title: Toggling Component On at Subscription Creation Response
-    type: object
-    x-stoplight:
-      id: toggling-component-on-at-subscription-creation-response
-      name: Toggling Component On at Subscription Creation Response
       public: true
   toggling-on-off-request:
     title: Toggling On/Off Request
     type: object
+    properties:
+      allocations:
+        type: object
+        properties:
+          component_id:
+            type: integer
+          quantity:
+            type: integer
+    example:
+      allocations:
+        component_id: 399853
+        quantity: 0
     x-stoplight:
       id: toggling-on-off-request
       name: Toggling On/Off Request
       public: true
   toggling-on-off-response:
     title: Toggling On/Off Response
-    type: object
+    type: array
+    items:
+      type: object
+      properties:
+        allocation:
+          type: object
+          properties:
+            component_id:
+              type: integer
+            subscription_id:
+              type: integer
+            quantity:
+              type: integer
+            previous_quantity:
+              type: integer
+            memo:
+              type: 'null'
+            timestamp:
+              type: string
+            proration_upgrade_scheme:
+              type: string
+            proration_downgrade_scheme:
+              type: string
+            price_point_id:
+              type: integer
+            previous_price_point_id:
+              type: integer
+            payment:
+              type: 'null'
+    example:
+      - allocation:
+          component_id: 399853
+          subscription_id: 18342261
+          quantity: 0
+          previous_quantity: 1
+          memo: null
+          timestamp: '2017-07-10T21:00:38Z'
+          proration_upgrade_scheme: no-prorate
+          proration_downgrade_scheme: no-prorate
+          price_point_id: 121003
+          previous_price_point_id: 121003
+          payment: null
     x-stoplight:
       id: toggling-on-off-response
       name: Toggling On/Off Response
@@ -28504,9 +28603,7 @@ x-stoplight:
               type: docTextSections
             - _id: POST_
               type: endpoints
-            - _id: toggling-component-on-at-subscription-creation-request
-              type: schemas
-            - _id: toggling-component-on-at-subscription-creation-response
+            - _id: components/onoff/toggling-component-on-at-subscription-creation-request
               type: schemas
             - _id: POST_
               type: endpoints
