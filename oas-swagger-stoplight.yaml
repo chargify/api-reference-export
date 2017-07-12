@@ -267,8 +267,9 @@ paths:
             $ref: '#/definitions/components/onoff/toggling-on-off-request'
             example:
               allocations:
-                component_id: 399853
+                component_id: 399850
                 quantity: 0
+                price_point_id: 130350
       responses:
         '201':
           description: ''
@@ -1097,7 +1098,10 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/onoff/toggling-component-on-at-subscription-creation-request'
+            type: object
+            properties:
+              subscription:
+                $ref: '#/definitions/components/onoff/toggling-component-on-at-subscription-creation-request'
             example:
               subscription:
                 product_handle: one-hundred-dollar-product
@@ -1112,6 +1116,7 @@ paths:
                 components:
                   - component_id: 399853
                     enabled: true
+                    price_point_id: 123456
       responses:
         '201':
           description: ''
@@ -19178,37 +19183,36 @@ definitions:
       public: true
   components/quantity/reading-current-quantity-response:
     title: Reading Current Quantity Response
-    type: object
     properties:
       component:
         type: object
         properties:
           component_id:
             type: integer
-          price_point_id:
-            type: integer
           subscription_id:
             type: integer
           allocated_quantity:
             type: integer
-          pricing_scheme:
-            type: string
           name:
             type: string
           kind:
             type: string
           unit_name:
             type: string
+          pricing_scheme:
+            type: string
+          price_point_id:
+            type: integer
     example:
       component:
-        component_id: 277221
-        price_point_id: 75
-        subscription_id: 15054102
-        allocated_quantity: 20
-        pricing_scheme: volume
-        name: Timesheet Users
+        component_id: 399850
+        subscription_id: 18342261
+        allocated_quantity: 29
+        name: Bronze Subscriptions 123
         kind: quantity_based_component
-        unit_name: Timesheet Users
+        unit_name: Bronze Subscriptions
+        pricing_scheme: per_unit
+        price_point_id: 121000
     x-stoplight:
       id: components/quantity/reading-current-quantity-response
       name: Reading Current Quantity Response
@@ -25654,6 +25658,8 @@ definitions:
                   type: integer
                 unit_balance:
                   type: integer
+                price_point_id:
+                  type: integer
     example:
       subscription:
         product_handle: basic
@@ -25668,366 +25674,12 @@ definitions:
         components:
           - component_id: 195268
             unit_balance: 20
+            price_point_id: 12345
     x-stoplight:
       id: components/metered/setting-quantity-at-subscription-creation-input
       name: Setting Quantity at Subscription Creation Input
       public: true
-  components/metered/setting-quantity-at-subscription-creation-output:
-    title: Setting Quantity at Subscription Creation Output
-    type: object
-    properties:
-      subscription:
-        type: object
-        properties:
-          id:
-            type: integer
-          state:
-            type: string
-          trial_started_at:
-            type: 'null'
-          trial_ended_at:
-            type: 'null'
-          activated_at:
-            type: string
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          expires_at:
-            type: 'null'
-          balance_in_cents:
-            type: integer
-          current_period_ends_at:
-            type: string
-          next_assessment_at:
-            type: string
-          canceled_at:
-            type: 'null'
-          cancellation_message:
-            type: 'null'
-          next_product_id:
-            type: 'null'
-          cancel_at_end_of_period:
-            type: boolean
-          payment_collection_method:
-            type: string
-          snap_day:
-            type: 'null'
-          cancellation_method:
-            type: 'null'
-          current_period_started_at:
-            type: string
-          previous_state:
-            type: string
-          signup_payment_id:
-            type: integer
-          signup_revenue:
-            type: string
-          delayed_cancel_at:
-            type: 'null'
-          coupon_code:
-            type: 'null'
-          total_revenue_in_cents:
-            type: integer
-          product_price_in_cents:
-            type: integer
-          product_version_number:
-            type: integer
-          payment_type:
-            type: string
-          referral_code:
-            type: string
-          coupon_use_count:
-            type: 'null'
-          coupon_uses_allowed:
-            type: 'null'
-          customer:
-            type: object
-            properties:
-              id:
-                type: integer
-              first_name:
-                type: string
-              last_name:
-                type: string
-              organization:
-                type: 'null'
-              email:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              reference:
-                type: 'null'
-              address:
-                type: 'null'
-              address_2:
-                type: 'null'
-              city:
-                type: 'null'
-              state:
-                type: 'null'
-              zip:
-                type: 'null'
-              country:
-                type: 'null'
-              phone:
-                type: 'null'
-              portal_invite_last_sent_at:
-                type: string
-              portal_invite_last_accepted_at:
-                type: 'null'
-              verified:
-                type: boolean
-              portal_customer_created_at:
-                type: string
-              cc_emails:
-                type: 'null'
-              tax_exempt:
-                type: boolean
-          product:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              handle:
-                type: string
-              description:
-                type: string
-              accounting_code:
-                type: string
-              request_credit_card:
-                type: boolean
-              expiration_interval:
-                type: 'null'
-              expiration_interval_unit:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              price_in_cents:
-                type: integer
-              interval:
-                type: integer
-              interval_unit:
-                type: string
-              initial_charge_in_cents:
-                type: 'null'
-              trial_price_in_cents:
-                type: 'null'
-              trial_interval:
-                type: 'null'
-              trial_interval_unit:
-                type: string
-              archived_at:
-                type: 'null'
-              require_credit_card:
-                type: boolean
-              return_params:
-                type: string
-              taxable:
-                type: boolean
-              update_return_url:
-                type: string
-              initial_charge_after_trial:
-                type: boolean
-              version_number:
-                type: integer
-              update_return_params:
-                type: string
-              product_family:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  handle:
-                    type: string
-                  accounting_code:
-                    type: 'null'
-              public_signup_pages:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    return_url:
-                      type: string
-                    return_params:
-                      type: string
-                    url:
-                      type: string
-          credit_card:
-            type: object
-            properties:
-              id:
-                type: integer
-              first_name:
-                type: string
-              last_name:
-                type: string
-              masked_card_number:
-                type: string
-              card_type:
-                type: string
-              expiration_month:
-                type: integer
-              expiration_year:
-                type: integer
-              customer_id:
-                type: integer
-              current_vault:
-                type: string
-              vault_token:
-                type: string
-              billing_address:
-                type: 'null'
-              billing_city:
-                type: 'null'
-              billing_state:
-                type: 'null'
-              billing_zip:
-                type: 'null'
-              billing_country:
-                type: 'null'
-              customer_vault_token:
-                type: 'null'
-              billing_address_2:
-                type: 'null'
-              payment_type:
-                type: string
-    example:
-      subscription:
-        id: 15569578
-        state: active
-        trial_started_at: null
-        trial_ended_at: null
-        activated_at: '2016-12-09T11:49:23-05:00'
-        created_at: '2016-12-09T11:49:20-05:00'
-        updated_at: '2016-12-09T11:49:23-05:00'
-        expires_at: null
-        balance_in_cents: 0
-        current_period_ends_at: '2016-12-10T11:49:20-05:00'
-        next_assessment_at: '2016-12-10T11:49:20-05:00'
-        canceled_at: null
-        cancellation_message: null
-        next_product_id: null
-        cancel_at_end_of_period: false
-        payment_collection_method: automatic
-        snap_day: null
-        cancellation_method: null
-        current_period_started_at: '2016-12-09T11:49:20-05:00'
-        previous_state: active
-        signup_payment_id: 165589525
-        signup_revenue: '30010.00'
-        delayed_cancel_at: null
-        coupon_code: null
-        total_revenue_in_cents: 3001000
-        product_price_in_cents: 1000
-        product_version_number: 7
-        payment_type: credit_card
-        referral_code: zf6s86
-        coupon_use_count: null
-        coupon_uses_allowed: null
-        customer:
-          id: 15029690
-          first_name: Joe
-          last_name: Blow
-          organization: null
-          email: joe1049am@example.com
-          created_at: '2016-12-09T11:49:20-05:00'
-          updated_at: '2016-12-09T11:49:25-05:00'
-          reference: null
-          address: null
-          address_2: null
-          city: null
-          state: null
-          zip: null
-          country: null
-          phone: null
-          portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
-          portal_invite_last_accepted_at: null
-          verified: false
-          portal_customer_created_at: '2016-12-09T11:49:25-05:00'
-          cc_emails: null
-          tax_exempt: false
-        product:
-          id: 3792003
-          name: $10 Basic Plan
-          handle: basic
-          description: lorem ipsum
-          accounting_code: basic
-          request_credit_card: false
-          expiration_interval: null
-          expiration_interval_unit: never
-          created_at: '2016-03-24T13:38:39-04:00'
-          updated_at: '2016-11-03T13:03:05-04:00'
-          price_in_cents: 1000
-          interval: 1
-          interval_unit: day
-          initial_charge_in_cents: null
-          trial_price_in_cents: null
-          trial_interval: null
-          trial_interval_unit: month
-          archived_at: null
-          require_credit_card: false
-          return_params: ''
-          taxable: false
-          update_return_url: ''
-          initial_charge_after_trial: false
-          version_number: 7
-          update_return_params: ''
-          product_family:
-            id: 527890
-            name: Acme Projects
-            description: ''
-            handle: billing-plans
-            accounting_code: null
-          public_signup_pages:
-            - id: 281054
-              return_url: 'http://www.example.com?successfulsignup'
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-            - id: 281240
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-            - id: 282694
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-        credit_card:
-          id: 10405758
-          first_name: Joe
-          last_name: Blow
-          masked_card_number: XXXX-XXXX-XXXX-1
-          card_type: bogus
-          expiration_month: 10
-          expiration_year: 2020
-          customer_id: 15029690
-          current_vault: bogus
-          vault_token: '1'
-          billing_address: null
-          billing_city: null
-          billing_state: null
-          billing_zip: null
-          billing_country: null
-          customer_vault_token: null
-          billing_address_2: null
-          payment_type: credit_card
-    x-stoplight:
-      id: components/metered/setting-quantity-at-subscription-creation-output
-      name: Setting Quantity at Subscription Creation Output
-      public: true
-  components/quantity/update-the-quantity-allocation:
+  components/quantity/update-the-quantity-allocation-request:
     title: Update the quantity allocation
     type: object
     properties:
@@ -26058,7 +25710,7 @@ definitions:
         proration_collection_method: automatic
         proration_upgrade_scheme: no-prorate
     x-stoplight:
-      id: components/quantity/update-the-quantity-allocation
+      id: components/quantity/update-the-quantity-allocation-request
       name: Update the quantity allocation
       public: true
   statements/list-statements-for-a-site:
@@ -28094,7 +27746,7 @@ definitions:
                   type: boolean
     example:
       subscription:
-        product_handle: basic
+        product_handle: one-hundred-dollar-product
         customer_attributes:
           first_name: Joe
           last_name: Blow
@@ -28104,8 +27756,9 @@ definitions:
           expiration_month: '10'
           expiration_year: '2020'
         components:
-          - component_id: 2500
+          - component_id: 399853
             enabled: true
+            price_point_id: 123456
     x-stoplight:
       id: components/onoff/toggling-component-on-at-subscription-creation-request
       name: Toggling Component On at Subscription Creation Request
@@ -28121,10 +27774,13 @@ definitions:
             type: integer
           quantity:
             type: integer
+          price_point_id:
+            type: integer
     example:
       allocations:
-        component_id: 399853
+        component_id: 399850
         quantity: 0
+        price_point_id: 130350
     x-stoplight:
       id: components/onoff/toggling-on-off-request
       name: Toggling On/Off Request
@@ -28514,6 +28170,54 @@ definitions:
       id: invoice/list-charges-response
       name: List Charges Response
       public: true
+  components/quantity/update-the-quantity-allocation:
+    title: Update the quantity allocation response
+    type: array
+    items:
+      type: object
+      properties:
+        allocation:
+          type: object
+          properties:
+            component_id:
+              type: integer
+            subscription_id:
+              type: integer
+            quantity:
+              type: integer
+            previous_quantity:
+              type: integer
+            memo:
+              type: string
+            timestamp:
+              type: string
+            proration_upgrade_scheme:
+              type: string
+            proration_downgrade_scheme:
+              type: string
+            price_point_id:
+              type: integer
+            previous_price_point_id:
+              type: integer
+            payment:
+              type: 'null'
+    example:
+      - allocation:
+          component_id: 399850
+          subscription_id: 18342261
+          quantity: 29
+          previous_quantity: 0
+          memo: Text messages usage May 2020
+          timestamp: '2017-07-12T20:01:36Z'
+          proration_upgrade_scheme: no-prorate
+          proration_downgrade_scheme: no-prorate
+          price_point_id: 130350
+          previous_price_point_id: 130350
+          payment: null
+    x-stoplight:
+      id: components/quantity/update-the-quantity-allocation
+      name: Update the quantity allocation response
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -28647,8 +28351,6 @@ x-stoplight:
               type: endpoints
             - _id: components/metered/setting-quantity-at-subscription-creation-input
               type: schemas
-            - _id: components/metered/setting-quantity-at-subscription-creation-output
-              type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
             - _id: components/metered/list-usage-output
@@ -28695,6 +28397,8 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscriptionid-allocationsjson
               type: endpoints
+            - _id: components/quantity/update-the-quantity-allocation-request
+              type: schemas
             - _id: components/quantity/update-the-quantity-allocation
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
