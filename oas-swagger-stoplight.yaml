@@ -5614,6 +5614,151 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/invoice/list-charges-response'
+          examples:
+            application/json:
+              invoice:
+                id: 1532074
+                subscription_id: 17518841
+                statement_id: 94596778
+                site_id: 36547
+                state: partial
+                total_amount_in_cents: 5655
+                paid_at: null
+                created_at: '2017-07-10T11:10:15-04:00'
+                updated_at: '2017-07-10T11:10:50-04:00'
+                amount_due_in_cents: 155
+                number: 000399
+                charges:
+                  - created_at: '2017-07-10T11:10:13-04:00'
+                    subscription_id: 17518841
+                    type: Charge
+                    memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
+                    kind: baseline
+                    amount_in_cents: 7107
+                    ending_balance_in_cents: 1607
+                    success: true
+                    id: 193822851
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: charge
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: -5500
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                  - created_at: '2017-07-10T11:10:14-04:00'
+                    subscription_id: 17518841
+                    type: Charge
+                    memo: TX Tax (8.25%)
+                    kind: tax
+                    amount_in_cents: 469
+                    ending_balance_in_cents: 655
+                    success: true
+                    id: 193822853
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: charge
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: 186
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                line_items:
+                  - created_at: '2017-07-10T11:10:13-04:00'
+                    subscription_id: 17518841
+                    type: Charge
+                    memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
+                    kind: baseline
+                    amount_in_cents: 7107
+                    ending_balance_in_cents: 1607
+                    success: true
+                    id: 193822851
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: charge
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: -5500
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                  - created_at: '2017-07-10T11:10:14-04:00'
+                    subscription_id: 17518841
+                    type: Adjustment
+                    memo: 'Coupon: PERCENTS - percents'
+                    kind: coupon
+                    amount_in_cents: -1421
+                    ending_balance_in_cents: 186
+                    success: true
+                    id: 193822852
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: adjustment
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: 1607
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                  - created_at: '2017-07-10T11:10:14-04:00'
+                    subscription_id: 17518841
+                    type: Charge
+                    memo: TX Tax (8.25%)
+                    kind: tax
+                    amount_in_cents: 469
+                    ending_balance_in_cents: 655
+                    success: true
+                    id: 193822853
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: charge
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: 186
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                  - created_at: '2017-07-10T11:10:50-04:00'
+                    subscription_id: 17518841
+                    type: Adjustment
+                    memo: this is a credit
+                    kind: null
+                    amount_in_cents: -500
+                    ending_balance_in_cents: 155
+                    success: true
+                    id: 193822901
+                    payment_id: null
+                    product_id: 4465911
+                    transaction_type: adjustment
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: 655
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
+                payments_and_credits:
+                  - created_at: '2017-07-10T11:10:15-04:00'
+                    subscription_id: 17518841
+                    type: InfoTransaction
+                    memo: Previous balance applied
+                    kind: previous_balance_applied
+                    amount_in_cents: -5500
+                    ending_balance_in_cents: null
+                    success: true
+                    id: 193822855
+                    payment_id: null
+                    product_id: null
+                    transaction_type: info
+                    gateway_transaction_id: null
+                    gateway_order_id: null
+                    starting_balance_in_cents: null
+                    component_id: null
+                    tax_id: null
+                    customer_id: 17034509
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -28044,6 +28189,299 @@ definitions:
   invoice/list-charges-response:
     title: List Charges Response
     type: object
+    properties:
+      invoice:
+        type: object
+        properties:
+          id:
+            type: integer
+          subscription_id:
+            type: integer
+          statement_id:
+            type: integer
+          site_id:
+            type: integer
+          state:
+            type: string
+          total_amount_in_cents:
+            type: integer
+          paid_at:
+            type: 'null'
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          amount_due_in_cents:
+            type: integer
+          number:
+            type: string
+          charges:
+            type: array
+            items:
+              type: object
+              properties:
+                created_at:
+                  type: string
+                subscription_id:
+                  type: integer
+                type:
+                  type: string
+                memo:
+                  type: string
+                kind:
+                  type: string
+                amount_in_cents:
+                  type: integer
+                ending_balance_in_cents:
+                  type: integer
+                success:
+                  type: boolean
+                id:
+                  type: integer
+                payment_id:
+                  type: 'null'
+                product_id:
+                  type: integer
+                transaction_type:
+                  type: string
+                gateway_transaction_id:
+                  type: 'null'
+                gateway_order_id:
+                  type: 'null'
+                starting_balance_in_cents:
+                  type: integer
+                component_id:
+                  type: 'null'
+                tax_id:
+                  type: 'null'
+                customer_id:
+                  type: integer
+          line_items:
+            type: array
+            items:
+              type: object
+              properties:
+                created_at:
+                  type: string
+                subscription_id:
+                  type: integer
+                type:
+                  type: string
+                memo:
+                  type: string
+                kind:
+                  type:
+                    - 'null'
+                    - string
+                amount_in_cents:
+                  type: integer
+                ending_balance_in_cents:
+                  type: integer
+                success:
+                  type: boolean
+                id:
+                  type: integer
+                payment_id:
+                  type: 'null'
+                product_id:
+                  type: integer
+                transaction_type:
+                  type: string
+                gateway_transaction_id:
+                  type: 'null'
+                gateway_order_id:
+                  type: 'null'
+                starting_balance_in_cents:
+                  type: integer
+                component_id:
+                  type: 'null'
+                tax_id:
+                  type: 'null'
+                customer_id:
+                  type: integer
+          payments_and_credits:
+            type: array
+            items:
+              type: object
+              properties:
+                created_at:
+                  type: string
+                subscription_id:
+                  type: integer
+                type:
+                  type: string
+                memo:
+                  type: string
+                kind:
+                  type: string
+                amount_in_cents:
+                  type: integer
+                ending_balance_in_cents:
+                  type: 'null'
+                success:
+                  type: boolean
+                id:
+                  type: integer
+                payment_id:
+                  type: 'null'
+                product_id:
+                  type: 'null'
+                transaction_type:
+                  type: string
+                gateway_transaction_id:
+                  type: 'null'
+                gateway_order_id:
+                  type: 'null'
+                starting_balance_in_cents:
+                  type: 'null'
+                component_id:
+                  type: 'null'
+                tax_id:
+                  type: 'null'
+                customer_id:
+                  type: integer
+    example:
+      invoice:
+        id: 1532074
+        subscription_id: 17518841
+        statement_id: 94596778
+        site_id: 36547
+        state: partial
+        total_amount_in_cents: 5655
+        paid_at: null
+        created_at: '2017-07-10T11:10:15-04:00'
+        updated_at: '2017-07-10T11:10:50-04:00'
+        amount_due_in_cents: 155
+        number: 000399
+        charges:
+          - created_at: '2017-07-10T11:10:13-04:00'
+            subscription_id: 17518841
+            type: Charge
+            memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
+            kind: baseline
+            amount_in_cents: 7107
+            ending_balance_in_cents: 1607
+            success: true
+            id: 193822851
+            payment_id: null
+            product_id: 4465911
+            transaction_type: charge
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: -5500
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+          - created_at: '2017-07-10T11:10:14-04:00'
+            subscription_id: 17518841
+            type: Charge
+            memo: TX Tax (8.25%)
+            kind: tax
+            amount_in_cents: 469
+            ending_balance_in_cents: 655
+            success: true
+            id: 193822853
+            payment_id: null
+            product_id: 4465911
+            transaction_type: charge
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: 186
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+        line_items:
+          - created_at: '2017-07-10T11:10:13-04:00'
+            subscription_id: 17518841
+            type: Charge
+            memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
+            kind: baseline
+            amount_in_cents: 7107
+            ending_balance_in_cents: 1607
+            success: true
+            id: 193822851
+            payment_id: null
+            product_id: 4465911
+            transaction_type: charge
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: -5500
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+          - created_at: '2017-07-10T11:10:14-04:00'
+            subscription_id: 17518841
+            type: Adjustment
+            memo: 'Coupon: PERCENTS - percents'
+            kind: coupon
+            amount_in_cents: -1421
+            ending_balance_in_cents: 186
+            success: true
+            id: 193822852
+            payment_id: null
+            product_id: 4465911
+            transaction_type: adjustment
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: 1607
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+          - created_at: '2017-07-10T11:10:14-04:00'
+            subscription_id: 17518841
+            type: Charge
+            memo: TX Tax (8.25%)
+            kind: tax
+            amount_in_cents: 469
+            ending_balance_in_cents: 655
+            success: true
+            id: 193822853
+            payment_id: null
+            product_id: 4465911
+            transaction_type: charge
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: 186
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+          - created_at: '2017-07-10T11:10:50-04:00'
+            subscription_id: 17518841
+            type: Adjustment
+            memo: this is a credit
+            kind: null
+            amount_in_cents: -500
+            ending_balance_in_cents: 155
+            success: true
+            id: 193822901
+            payment_id: null
+            product_id: 4465911
+            transaction_type: adjustment
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: 655
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
+        payments_and_credits:
+          - created_at: '2017-07-10T11:10:15-04:00'
+            subscription_id: 17518841
+            type: InfoTransaction
+            memo: Previous balance applied
+            kind: previous_balance_applied
+            amount_in_cents: -5500
+            ending_balance_in_cents: null
+            success: true
+            id: 193822855
+            payment_id: null
+            product_id: null
+            transaction_type: info
+            gateway_transaction_id: null
+            gateway_order_id: null
+            starting_balance_in_cents: null
+            component_id: null
+            tax_id: null
+            customer_id: 17034509
     x-stoplight:
       id: invoice/list-charges-response
       name: List Charges Response
