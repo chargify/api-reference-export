@@ -3680,6 +3680,20 @@ paths:
         You can create a new Customer at any time, or you may create a Customer at the same time you create a Subscription. The only validation restriction is that you may only create one Customer for a given `reference` value. If provided, the `reference` value must be unique. It represents a unique identifier for the Customer from your own app, i.e. the Customer’s ID. This allows you to retrieve a given Customer via a piece of shared information. Alternatively, you may choose to leave `reference` blank, and store Chargify’s unique ID for the Customer, which is in the `id` attribute.
 
         Only those attributes not marked as "read only" may be set via POST (create) or PUT (update) operations.
+
+        ## Required Country Format
+
+        Chargify requires that you use the ISO Standard Country codes when formatting the import file.
+
+        Countries should be formatted as 2 characters. For more information, please see the following wikipedia article on [ISO_3166-1.](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
+
+        ## Required State Format
+
+        Chargify requires that you use the ISO Standard State codes when formatting the import file.
+
+        + US States (2 characters): [ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
+
+        + States Outside the US (2-3 characters): To find the correct state codes outside of the US, please go to [ISO_3166-1](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) and click on the link in the “ISO 3166-2 codes” column next to country you wish to populate.
       parameters:
         - name: body
           in: body
@@ -6560,6 +6574,21 @@ paths:
         ## Create a Payment Profile
 
         This method will create a payment profile for the `customer_id` identified in the `payment_profile` object.
+
+        ## Required Country Format
+
+        Chargify requires that you use the ISO Standard Country codes when formatting the import file.
+
+        Countries should be formatted as 2 characters. For more information, please see the following wikipedia article on [ISO_3166-1.](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
+
+        ## Required State Format
+
+        Chargify requires that you use the ISO Standard State codes when formatting the import file.
+
+        + US States (2 characters): [ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
+
+        + States Outside the US (2-3 characters): To find the correct state codes outside of the US, please go to [ISO_3166-1](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) and click on the link in the “ISO 3166-2 codes” column next to country you wish to populate.
+
 
         ## Create a Payment Profile for ACH usage
 
