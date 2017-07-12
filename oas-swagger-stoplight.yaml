@@ -288,6 +288,8 @@ paths:
                   price_point_id: 121003
                   previous_price_point_id: 121003
                   payment: null
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-allocationsjson
         beforeScript: null
@@ -730,6 +732,8 @@ paths:
                 kind: on_off_component
                 unit_name: on/off
                 price_point_id: 121003
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-components-componentidjson
         beforeScript: null
@@ -1210,6 +1214,8 @@ paths:
                       return_url: ''
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -5584,9 +5590,9 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/invoices/{invoice_id}/charges.json':
+  '/invoices/{id}.json':
     parameters:
-      - name: invoice_id
+      - name: id
         in: path
         description: The Invoice ID.
         required: true
@@ -5618,6 +5624,12 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+  '/invoices/{invoice_id}/charges.json':
+    parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        type: string
     post:
       operationId: POST_invoices-invoice_id-charges-json
       summary: Create Invoice Charge
@@ -28029,6 +28041,13 @@ definitions:
       id: components/ononff/reading-the-current-status-response
       name: Reading the current status response
       public: true
+  invoice/list-charges-response:
+    title: List Charges Response
+    type: object
+    x-stoplight:
+      id: invoice/list-charges-response
+      name: List Charges Response
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -28470,6 +28489,8 @@ x-stoplight:
               type: endpoints
             - _id: GET_invoices-invoice_id-charges-format
               type: endpoints
+            - _id: invoice/list-charges-response
+              type: schemas
             - type: traits
               _id: startdateEnddateQuery
             - type: traits
