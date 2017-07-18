@@ -2008,6 +2008,8 @@ paths:
                     starting_quantity: 101
                     ending_quantity: null
                     unit_price: '4.0'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: DELETE_components-componentid-pricepoints-pricepointidformat
         beforeScript: null
@@ -2045,6 +2047,8 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/components/create-response-post'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_components-componentid-pricepoints-pricepointid-defaultformat
         beforeScript: null
@@ -2101,6 +2105,8 @@ paths:
                     starting_quantity: 101
                     ending_quantity: null
                     unit_price: '4.0'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_components-componentid-pricepoints-pricepointid-unarchiveformat
         beforeScript: null
