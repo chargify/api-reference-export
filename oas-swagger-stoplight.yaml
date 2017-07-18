@@ -2123,11 +2123,40 @@ paths:
       summary: Bulk Update a Subscription's Component's Price Points
       tags:
         - Components - Price Points
-      description: Updates the price points on one or more of a subscription's components.
+      description: |-
+        Updates the price points on one or more of a subscription's components.
+
+        The `price_point` key can take either a:
+        1. Price point id (integer)
+        2. Price point handle (string)
+        3. `"_default"` string, which will reset the price point to the component's current default price point.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/components/price-points/bulk-update-a-subscription-s-component-s-price-points'
+            example:
+              components:
+                - component_id: 997
+                  price_point: 1022
+                - component_id: 998
+                  price_point: wholesale-handle
+                - component_id: 999
+                  price_point: _default
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/components/price-points/bulk-update-a-subscription-s-component-s-price-points'
+          examples:
+            application/json:
+              components:
+                - component_id: 997
+                  price_point: 1022
+                - component_id: 998
+                  price_point: wholesale-handle
+                - component_id: 999
+                  price_point: _default
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -28419,18 +28448,32 @@ definitions:
       id: components/quantity/update-the-quantity-allocation
       name: Update the quantity allocation response
       public: true
-  components/price-points/bulk-update-a-subscription-s-component-s-price-points-request:
-    title: Bulk Update a Subscription's Component's Price Points Request
+  components/price-points/bulk-update-a-subscription-s-component-s-price-points:
+    title: Bulk Update a Subscription's Component's Price Points
     type: object
-    example: |-
-      {
-          "components" => {
-              
-          }
-      }
+    properties:
+      components:
+        type: array
+        items:
+          type: object
+          properties:
+            component_id:
+              type: integer
+            price_point:
+              type:
+                - integer
+                - string
+    example:
+      components:
+        - component_id: 997
+          price_point: 1022
+        - component_id: 998
+          price_point: wholesale-handle
+        - component_id: 999
+          price_point: _default
     x-stoplight:
-      id: components/price-points/bulk-update-a-subscription-s-component-s-price-points-request
-      name: Bulk Update a Subscription's Component's Price Points Request
+      id: components/price-points/bulk-update-a-subscription-s-component-s-price-points
+      name: Bulk Update a Subscription's Component's Price Points
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -28648,7 +28691,7 @@ x-stoplight:
               type: endpoints
             - _id: POST_subscriptions-subscriptionid-pricepoints
               type: endpoints
-            - _id: components/price-points/bulk-update-a-subscription-s-component-s-price-points-request
+            - _id: components/price-points/bulk-update-a-subscription-s-component-s-price-points
               type: schemas
           name: Components - Price Points
           description: |-
