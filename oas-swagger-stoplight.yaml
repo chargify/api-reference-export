@@ -2157,6 +2157,26 @@ paths:
                   price_point: wholesale-handle
                 - component_id: 999
                   price_point: _default
+        '422':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                price_point:
+                  type:
+                    - integer
+                    - string
+                message:
+                  type: string
+          examples:
+            application/json:
+              - component_id: 997
+                price_point: 10023
+                message: Price Point does not belong to Component
       security:
         - <<api_key>>: []
       x-stoplight:
