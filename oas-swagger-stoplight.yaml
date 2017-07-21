@@ -7042,8 +7042,43 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/payment-profile/read-payment-output-bank-account'
+          examples:
+            application/json:
+              payment_profile:
+                id: 10089892
+                first_name: Chester
+                last_name: Tester
+                customer_id: 14543792
+                current_vault: stripe_connect
+                vault_token: cus_0123abc456def
+                billing_address: 456 Juniper Court
+                billing_city: Boulder
+                billing_state: CO
+                billing_zip: '80302'
+                billing_country: US
+                customer_vault_token: null
+                billing_address_2: ''
+                bank_name: Bank of Kansas City
+                masked_bank_routing_number: XXXX6789
+                masked_bank_account_number: XXXX3344
+                bank_account_type: checking
+                bank_account_holder_type: personal
+                payment_type: bank_account
+        '404':
+          description: ''
         '422':
           description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'You have tried to verify this bank account 10 times. To continue trying to verify the account, please reach out to us directly.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -18149,6 +18184,10 @@ definitions:
             type: string
           payment_type:
             type: string
+          verified:
+            type: boolean
+            default: false
+            description: denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account
     example:
       payment_profile:
         id: 10089892
