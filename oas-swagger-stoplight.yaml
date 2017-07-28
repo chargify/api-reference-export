@@ -28677,6 +28677,8 @@ x-stoplight:
           divider: false
         - divider: false
           items:
+            - _id: components-price-point-intro
+              type: docTextSections
             - _id: GET_components-componentid-pricepointsformat
               type: endpoints
             - _id: components/price-points/list-price-points-response
@@ -30695,6 +30697,21 @@ x-stoplight:
 
         + [Recording Quantity-based Component Usage](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-quantity-based-allocations)
         + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
+        + 
+
+        ## Proration Schemes
+
+        Each time you record an allocation, it's important to focus on the proration scheme type.
+
+        If you do not specify a proration scheme, the default scheme for the Site will be used. This setting is accessable in-app via Settings-->Components
+
+        | Proration Scheme           | Definition                                                                                                                          |
+        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+        |                            |                                                                                                                                     |
+        | `prorate-delay-capture`    | A charge is added for the prorated amount due, but the card is not charged until the subscription’s next renewal                    |
+        | `prorate-attempt-capture`  | A charge is added and we attempt to charge the credit card on file. If,it fails, the charge will be accrued until the next renewal. |
+        | `full-price-delay-capture` | A charge is added for the full price of the component change, but the card is not charged until the subscription’s next renewal.    |
+        | `no-prorate`               | no-prorate                                                                                                                          |
       public: true
     product-family-intro:
       id: product-family-intro
@@ -31480,12 +31497,51 @@ x-stoplight:
 
         The Chargify API allows you to toggle an on/off component by posting JSON or XML. This is helpful in the case where the subscription has already been created. By this method, you are recording the usage of this on/off component against the subscription.
 
+        ## Proration Schemes
+
+        Each time you record an allocation, it's important to focus on the proration scheme type.
+
+        If you do not specify a proration scheme, the default scheme for the Site will be used. This setting is accessable in-app via Settings-->Components
+
+        | Proration Scheme           | Definition                                                                                                                          |
+        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+        |                            |                                                                                                                                     |
+        | `prorate-delay-capture`    | A charge is added for the prorated amount due, but the card is not charged until the subscription’s next renewal                    |
+        | `prorate-attempt-capture`  | A charge is added and we attempt to charge the credit card on file. If,it fails, the charge will be accrued until the next renewal. |
+        | `full-price-delay-capture` | A charge is added for the full price of the component change, but the card is not charged until the subscription’s next renewal.    |
+        | `no-prorate`               | no-prorate                                                                                                                          |
+
+
         ## On/Off Components Documentation
 
         Full documentation on how to create Components in the Chargify UI can be located [here](https://help.chargify.com/products/product-components.html#onoff-components). Additionally, for information on how to record component usage against a subscription, please see the following resources:
 
         + [Recording On/Off Components](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-onoff-component-status)
         + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
+      public: true
+    components-price-point-intro:
+      id: components-price-point-intro
+      name: Components Price Point Intro
+      content: |-
+        ## Component Price Points Documentation
+
+        For more information on how price points work for setting up products, please see our documentation [here.](https://help.chargify.com/products/product-components.html#price-points)
+
+        Additionally, you will want to view our section on recording price points in our application for a better understanding of how this feature works [here.](https://help.chargify.com/subscriptions/setting-component-allocations.html#updating-the-price-point)
+
+        ## Proration Schemes
+
+        Each time you record an allocation, it's important to focus on the proration scheme type.
+
+        If you do not specify a proration scheme, the default scheme for the Site will be used. This setting is accessable in-app via Settings-->Components
+
+        | Proration Scheme           | Definition                                                                                                                          |
+        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+        |                            |                                                                                                                                     |
+        | `prorate-delay-capture`    | A charge is added for the prorated amount due, but the card is not charged until the subscription’s next renewal                    |
+        | `prorate-attempt-capture`  | A charge is added and we attempt to charge the credit card on file. If,it fails, the charge will be accrued until the next renewal. |
+        | `full-price-delay-capture` | A charge is added for the full price of the component change, but the card is not charged until the subscription’s next renewal.    |
+        | `no-prorate`               | no-prorate                                                                                                                          |
       public: true
   mock:
     enabled: false
