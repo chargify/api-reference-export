@@ -176,53 +176,7 @@ paths:
           enabled: false
           statusCode: 200
     post:
-      operationId: POST_subscriptions-sub_id-components-comp_id-allocations-format
-      summary: Create an Allocation
-      tags:
-        - Allocation
-        - incomplete
-        - Allocations
-      description: "## Create an Allocation\n\nThe method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.\n\n**Notice**: Allocations can only be updated for Quantity and On/Off Components.\n\n## Input Fields\n\n| Input Fields                 \t| Description                                                                                                                           \t|\n|------------------------------\t|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\t|\n| quantity                   \t| The allocated quantity to which to set the line-items allocated quantity. By default, this is an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use `1 `for on and `0` for off.                                                                                                                                                                                                                          \t|\n| memo                       \t| (optional) A memo to record along with the allocation                                                                                                                                                                                                                                                                                                                                                                                                                        \t|\n| proration_upgrade_scheme   \t| (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                                                                                                                                              \t|\n| proration_downgrade_scheme \t| (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                                                                                                                                             \t|\n| payment_collection_method  \t| (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. \t|\n\n## Output Fields\n\n| Output Fields              | Description                                                                                                                                                             |\n|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                    |\n| subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                      |\n| quantity                   | The allocated quantity set in to effect by the allocation                                                                                                               |\n| previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                            |\n| memo                       | The memo passed when the allocation was created                                                                                                                         |\n| proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                       |\n| proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                      |\n| timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                               |\n| payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |\n\n## Response Status Codes\n\n| 201 Created              | Allocation created successfully                                                         |\n|--------------------------|-----------------------------------------------------------------------------------------|\n| 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |\n| 401 Unauthorized         | Authentication credentials were incorrect                                               |\n| 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |\n\n## Quantity-based component example\n\nThe following example will set a quantity of 5 for a quantity-based component.\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 5,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```\n\n## On/Off Component Example\n\nThe following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 5,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```"
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/allocation/create-request-post'
-            example:
-              allocation:
-                quantity: 5
-                memo: Recoding component purchase of Acme Support
-      responses:
-        '201':
-          description: Created
-          schema:
-            $ref: '#/definitions/allocation/create-response-post'
-          examples:
-            application/json:
-              allocation:
-                previous_quantity: 49
-                quantity: 85
-                subscription_id: 34187461132
-                timestamp: '2016-07-12T07:48:08.611Z'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-sub_id-components-comp_id-allocations-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/allocations.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The Subscription ID.
-        required: true
-        type: integer
-    post:
-      operationId: POST_subscriptions-subscription_id-allocations-json
+      operationId: POST_subscriptions-subscription_id-components-component_id-allocations-json
       summary: Updating the Quantity
       tags:
         - Components - On/Off Toggling
@@ -266,7 +220,7 @@ paths:
           schema:
             $ref: '#/definitions/components/quantity/update-the-quantity-allocation-request'
             example:
-              allocations:
+              allocation:
                 component_id: 375250
                 price_point_id: 75
                 quantity: 29
@@ -296,13 +250,157 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-allocationsjson
+        id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
         beforeScript: null
         afterScript: null
         public: true
         mock:
           enabled: false
           dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/allocations.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The Subscription ID.
+        required: true
+        type: integer
+    post:
+      operationId: POST_subscriptions-sub_id-allocations-json
+      summary: Create Multiple Allocations
+      tags:
+        - Allocation
+        - Allocations
+      description: |-
+        ## Create Multiple Allocations
+
+        The endpoint creates multiple allocations, setting the current allocated quantity for each the Component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
+
+        Creates multiple Allocations, setting the current allocated quantity for each the component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
+
+        ## Input Fields
+
+        | Input Fields | Description |
+        |----------------------------|------------------------------------------------------------------------------------------------------------------|
+        | allocations | An array of allocations, each containing a `component_id`, `quantity`, and `memo` |
+        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
+
+        ## Output Fields
+
+        An array of allocation objects with the following fields:
+
+        | Output Fields | Desscription |
+        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id | The integer component ID for the allocation. This references a component that you have created in your Product setup |
+        | subscription_id | The integer subscription ID for the allocation. This references a unique subscription in your Site |
+        | quantity | The allocated quantity set in to effect by the allocation.By default this should be an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use 1 for on and 0 for off. |
+        | previous_quantity | The allocated quantity that was in effect before this allocation was created |
+        | memo | The memo passed when the allocation was created |
+        | proration_upgrade_scheme | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period. |
+        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period. |
+        | timestamp | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z` |
+        | payment | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
+
+        ## JSON: Fetch second page (up to 50 more) of allocations
+
+        Response is an array, ordered most recent first. In this example, there are no results in page 2 (response is an empty array) indicating that all allocations for this component and subscription have already been fetched.
+
+        **Request**
+
+        ```json
+        curl -u <api_key>:X https://<subdomain>.chargify.com/subscriptions/2585595/components/11960/allocations.json
+        ```
+
+        **Response**
+
+        ```
+        []
+        ```
+
+        ## Response Status Codes
+
+        | 201 Created              | Allocation created successfully                                                         |
+        |--------------------------|-----------------------------------------------------------------------------------------|
+        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
+        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
+        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/allocation/multiple-request-post'
+            example:
+              proration_upgrade_scheme: prorate-attempt-capture
+              proration_downgrade_scheme: no-prorate
+              allocations:
+                - component_id: 123
+                  quantity: 10
+                  memo: foo
+                - component_id: 456
+                  quantity: 5
+                  memo: bar
+      responses:
+        '201':
+          description: OK
+          schema:
+            $ref: '#/definitions/allocation/multiple-response-post'
+          examples:
+            application/json:
+              - allocation:
+                  component_id: 193159
+                  subscription_id: 15540611
+                  quantity: 10
+                  previous_quantity: 0
+                  memo: foo
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+              - allocation:
+                  component_id: 277221
+                  subscription_id: 15540611
+                  quantity: 5
+                  previous_quantity: 0
+                  memo: bar
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+        '401':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Quantity: cannot be blank.'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-sub_id-allocations-json
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
           statusCode: 200
   '/subscriptions/{subscription_id}/allocations/preview':
     parameters:
@@ -25929,7 +26027,7 @@ definitions:
     title: Update the quantity allocation
     type: object
     properties:
-      allocations:
+      allocation:
         type: object
         properties:
           component_id:
@@ -25947,7 +26045,7 @@ definitions:
           proration_upgrade_scheme:
             type: string
     example:
-      allocations:
+      allocation:
         component_id: 375250
         price_point_id: 75
         quantity: 29
@@ -28013,7 +28111,7 @@ definitions:
     title: Toggling On/Off Request
     type: object
     properties:
-      allocations:
+      allocation:
         type: object
         properties:
           component_id:
@@ -28023,7 +28121,7 @@ definitions:
           price_point_id:
             type: integer
     example:
-      allocations:
+      allocation:
         component_id: 399850
         quantity: 0
         price_point_id: 130350
@@ -28645,7 +28743,7 @@ x-stoplight:
               type: endpoints
             - _id: components/onoff/toggling-component-on-at-subscription-creation-request
               type: schemas
-            - _id: POST_subscriptions-subscriptionid-allocationsjson
+            - _id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
             - _id: components/onoff/toggling-on-off-request
               type: schemas
@@ -28664,7 +28762,7 @@ x-stoplight:
               type: endpoints
             - _id: components/quantity/setting-quantity-at-subscription-input
               type: schemas
-            - _id: POST_subscriptions-subscriptionid-allocationsjson
+            - _id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
             - _id: components/quantity/update-the-quantity-allocation-request
               type: schemas
