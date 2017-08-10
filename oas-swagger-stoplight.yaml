@@ -171,7 +171,7 @@ paths:
         id: GET_subscriptions-sub_id-components-comp_id-allocations-format
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           statusCode: 200
@@ -398,7 +398,7 @@ paths:
         id: POST_subscriptions-sub_id-allocations-json
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           statusCode: 200
@@ -509,7 +509,7 @@ paths:
         id: POST-preview-allocation
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -742,103 +742,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-chargesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/components.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The ID of the Subscription from which you want to get a listing of applied Components.
-        required: true
-        type: integer
-    get:
-      operationId: GET_subscriptions-subscription_id-components-format
-      summary: List Components for a Subscription
-      tags:
-        - Component
-        - Components
-      description: |-
-        ## List Components for a Subscription
-
-        This request will list a subscription's applied components.
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/components/list-get'
-          examples:
-            application/json:
-              - {}
-              - component:
-                  unit_name: Text messages
-                  name: text_messages
-                  kind: metered_component
-                  component_id: 98322708341
-                  subscription_id: 38855254509
-                  allocated_quantity: 1500
-                  unit_balance: 5000
-              - component:
-                  enabled: true
-                  subscription_id: 30336331837
-                  unit_balance: 5000
-                  name: text messages
-              - {}
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscription_id-components-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/components/{component_id}.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The ID of the Subscription from which you want to get a listing of applied Components.
-        required: true
-        type: integer
-      - name: component_id
-        in: path
-        description: The ID of the Component you want to retrieve information about.
-        required: true
-        type: integer
-    get:
-      operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading the Current Status of On/Off Component
-      tags:
-        - Components - On/Off Toggling
-      description: |-
-        ## Reading Current Quantity
-
-        You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
-          examples:
-            application/json:
-              component:
-                component_id: 399853
-                subscription_id: 18342261
-                enabled: false
-                allocated_quantity: 0
-                name: Annual Support Services
-                kind: on_off_component
-                unit_name: on/off
-                price_point_id: 121003
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-components-componentidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -1186,6 +1089,107 @@ paths:
         mock:
           enabled: false
           dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/components/{component_id}.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The ID of the Subscription from which you want to get a listing of applied Components.
+        required: true
+        type: integer
+      - name: component_id
+        in: path
+        description: The ID of the Component you want to retrieve information about.
+        required: true
+        type: integer
+    get:
+      operationId: GET_subscriptions-subscription_id-components-component_id-json
+      summary: Reading the Current Status of On/Off Component
+      tags:
+        - Components - On/Off Toggling
+      description: |-
+        ## Reading Current Quantity
+
+        You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
+          examples:
+            application/json:
+              component:
+                component_id: 399853
+                subscription_id: 18342261
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-components-componentidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/components.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The ID of the Subscription from which you want to get a listing of applied Components.
+        required: true
+        type: integer
+    get:
+      operationId: GET_subscriptions-subscription_id-components-format
+      summary: List Components for a Subscription
+      tags:
+        - Component
+        - Component Line Items
+      description: |-
+        ## List Components for a Subscription
+
+        This request will list a subscription's applied components.
+
+        ## Archived Components
+
+        When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/components/list-get'
+          examples:
+            application/json:
+              - {}
+              - component:
+                  unit_name: Text messages
+                  name: text_messages
+                  kind: metered_component
+                  component_id: 98322708341
+                  subscription_id: 38855254509
+                  allocated_quantity: 1500
+                  unit_balance: 5000
+              - component:
+                  enabled: true
+                  subscription_id: 30336331837
+                  unit_balance: 5000
+                  name: text messages
+              - {}
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscription_id-components-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
           statusCode: 200
   /subscriptions.json:
     post:
@@ -28688,12 +28692,6 @@ x-stoplight:
           items:
             - _id: components-intro
               type: docTextSections
-            - _id: GET_subscriptions-subscription_id-components-format
-              type: endpoints
-            - _id: GET_subscriptions-subscription_id-components-component_id-format
-              type: endpoints
-            - _id: components/list-specific-component-get
-              type: schemas
             - _id: GET_productfamilies-productfamilyid-componentsjson
               type: endpoints
             - _id: components/list-get
@@ -28714,6 +28712,17 @@ x-stoplight:
               type: endpoints
             - _id: components/create-component-with-price-points-request
               type: schemas
+        - divider: false
+          items:
+            - _id: component-line-items
+              type: docTextSections
+            - _id: GET_subscriptions-subscription_id-components-component_id-format
+              type: endpoints
+            - _id: GET_subscriptions-subscription_id-components-format
+              type: endpoints
+            - _id: components/list-specific-component-get
+              type: schemas
+          name: Component Line Items
         - name: Components - Metered Usage
           items:
             - _id: metered-usage-intro
@@ -30037,51 +30046,6 @@ x-stoplight:
         ## Component Fractional Pricing
 
         In May 2011, we added the ability to create components with fractional cent pricing (i.e. $0.0012 per unit). To accommodate this change we made some adjustments on our end that altered how prices are stored. Because of this, we have deprecated the `price_in_cents` field in favor of the `unit_price` field. The `price_in_cents` field is still returned for backwards compatibility, but may not accurately represent the current state of the component if it has been updated since the change. We recommend updating your API calls to use the `unit_price` field as soon as possible.
-
-        ## Component Line-Item Input Attributes
-
-        The attributes listed in the following sections should be nested under the `component` key, e.g. the following JSON could be used to update the `allocated_quantity` on a Component Line-Item:
-
-        ```
-          {
-            "component": {
-              "allocated_quantity": 23
-            }
-          }
-        ```
-        ### Inputs for Quantity-Based Line-Items
-
-        + `allocated_quantity` The current allocation for the component on the given subscription.
-
-        For more, see also [API: Quantity Component Allocations](#docTextSection:ySykKNKfEXRJ5CgTK).
-
-        ### Inputs for On/Off Line-Items
-
-        + `allocated_quantity` Use `1` for on and `0` for off.
-
-        ### Inputs for Metered Line-Items
-
-        The Metered Component usages for a subscription are managed through the [Metered Usage API](#docTextSection:Qw7A6cxbCxbSkZrnM)
-
-        ## Component Line-Item Output Attributes
-
-        All component line-item kinds share the following attributes:
-
-        + `subscription_id`
-        + `component_id`
-        + `name`
-        + `unit_name`
-        + `kind`
-
-        Then, each line-item has an indication of the current allocation on the given subscription, depending on the `kind`:
-
-        | allocated_quantity | Provided when kind is `quantity_based_componen`t or on_off_component (`1` for on and `0` for off)   |
-        |--------------------|-----------------------------------------------------------------------------------------------------|
-        | unit_balance       | Provided when kind is `metered_component` and gives the TOTAL of all reported usages for the period |
-
-        ## Archived Components
-
-        When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
       public: true
     invoices:
       id: invoices
@@ -30618,7 +30582,7 @@ x-stoplight:
         | `no-prorate`                 | No proration is applied.                                                                                                                                                                     |
 
         **NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
-      public: true
+      public: false
     invoices-credits-intro:
       id: invoices-credits-intro
       name: Invoices - Credits Intro
@@ -31642,6 +31606,51 @@ x-stoplight:
         | `full-price-delay-capture`   | A charge is added for the full price of the component change, but the card is not charged until the subscription’s next renewal.                                                |
         | `full-price-attempt-capture` | A charge is added for the full price of the component change, and we,attempt to charge the credit card on file. If it fails, the charge will,be accrued until the next renewal. |
         | `no-prorate`                 | No proration is applied.                                                                                                                                                                      |
+      public: true
+    component-line-items:
+      id: component-line-items
+      name: Component Line Items
+      content: |-
+        ## Component Line-Item Input Attributes
+
+        The attributes listed in the following sections should be nested under the `component` key, e.g. the following JSON could be used to update the `allocated_quantity` on a Component Line-Item:
+
+        ```
+          {
+            "component": {
+              "allocated_quantity": 23
+            }
+          }
+        ```
+        ### Inputs for Quantity-Based Line-Items
+
+        + `allocated_quantity` The current allocation for the component on the given subscription.
+
+        For more, see also [API: Quantity Component Allocations](#docTextSection:ySykKNKfEXRJ5CgTK).
+
+        ### Inputs for On/Off Line-Items
+
+        + `allocated_quantity` Use `1` for on and `0` for off.
+
+        ### Inputs for Metered Line-Items
+
+        The Metered Component usages for a subscription are managed through the [Metered Usage API](#docTextSection:Qw7A6cxbCxbSkZrnM)
+
+        ## Component Line-Item Output Attributes
+
+        All component line-item kinds share the following attributes:
+
+        + `subscription_id`
+        + `component_id`
+        + `name`
+        + `unit_name`
+        + `kind`
+
+        Then, each line-item has an indication of the current allocation on the given subscription, depending on the `kind`:
+
+        | allocated_quantity | Provided when kind is `quantity_based_componen`t or on_off_component (`1` for on and `0` for off)   |
+        |--------------------|-----------------------------------------------------------------------------------------------------|
+        | unit_balance       | Provided when kind is `metered_component` and gives the TOTAL of all reported usages for the period |
       public: true
   mock:
     enabled: false
