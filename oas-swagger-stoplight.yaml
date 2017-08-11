@@ -258,150 +258,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/allocations.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The Subscription ID.
-        required: true
-        type: integer
-    post:
-      operationId: POST_subscriptions-sub_id-allocations-json
-      summary: Create Multiple Allocations
-      tags:
-        - Allocation
-        - Allocations
-      description: |-
-        ## Create Multiple Allocations
-
-        The endpoint creates multiple allocations, setting the current allocated quantity for each the Component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
-
-        Creates multiple Allocations, setting the current allocated quantity for each the component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
-
-        ## Input Fields
-
-        | Input Fields | Description |
-        |----------------------------|------------------------------------------------------------------------------------------------------------------|
-        | allocations | An array of allocations, each containing a `component_id`, `quantity`, and `memo` |
-        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
-
-        ## Output Fields
-
-        An array of allocation objects with the following fields:
-
-        | Output Fields | Desscription |
-        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id | The integer component ID for the allocation. This references a component that you have created in your Product setup |
-        | subscription_id | The integer subscription ID for the allocation. This references a unique subscription in your Site |
-        | quantity | The allocated quantity set in to effect by the allocation.By default this should be an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use 1 for on and 0 for off. |
-        | previous_quantity | The allocated quantity that was in effect before this allocation was created |
-        | memo | The memo passed when the allocation was created |
-        | proration_upgrade_scheme | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period. |
-        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period. |
-        | timestamp | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z` |
-        | payment | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
-
-        ## JSON: Fetch second page (up to 50 more) of allocations
-
-        Response is an array, ordered most recent first. In this example, there are no results in page 2 (response is an empty array) indicating that all allocations for this component and subscription have already been fetched.
-
-        **Request**
-
-        ```json
-        curl -u <api_key>:X https://<subdomain>.chargify.com/subscriptions/2585595/components/11960/allocations.json
-        ```
-
-        **Response**
-
-        ```
-        []
-        ```
-
-        ## Response Status Codes
-
-        | 201 Created              | Allocation created successfully                                                         |
-        |--------------------------|-----------------------------------------------------------------------------------------|
-        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
-        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
-        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/allocation/multiple-request-post'
-            example:
-              proration_upgrade_scheme: prorate-attempt-capture
-              proration_downgrade_scheme: no-prorate
-              allocations:
-                - component_id: 123
-                  quantity: 10
-                  memo: foo
-                - component_id: 456
-                  quantity: 5
-                  memo: bar
-      responses:
-        '201':
-          description: OK
-          schema:
-            $ref: '#/definitions/allocation/multiple-response-post'
-          examples:
-            application/json:
-              - allocation:
-                  component_id: 193159
-                  subscription_id: 15540611
-                  quantity: 10
-                  previous_quantity: 0
-                  memo: foo
-                  timestamp: '2016-12-08T19:09:15Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
-                  proration_downgrade_scheme: no-prorate
-                  payment:
-                    amount_in_cents: 1451
-                    success: true
-                    memo: 'Payment for: Prorated component allocation changes.'
-                    id: 165473487
-              - allocation:
-                  component_id: 277221
-                  subscription_id: 15540611
-                  quantity: 5
-                  previous_quantity: 0
-                  memo: bar
-                  timestamp: '2016-12-08T19:09:15Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
-                  proration_downgrade_scheme: no-prorate
-                  payment:
-                    amount_in_cents: 1451
-                    success: true
-                    memo: 'Payment for: Prorated component allocation changes.'
-                    id: 165473487
-        '401':
-          description: ''
-        '404':
-          description: ''
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Quantity: cannot be blank.'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-sub_id-allocations-json
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
   '/subscriptions/{subscription_id}/allocations/preview':
     parameters:
       - name: subscription_id
@@ -1781,6 +1637,150 @@ paths:
         mock:
           enabled: false
           dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/allocations.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The Subscription ID.
+        required: true
+        type: integer
+    post:
+      operationId: POST_subscriptions-sub_id-allocations-json
+      summary: Create Multiple Allocations
+      tags:
+        - Allocation
+        - Components - Quantity Allocations
+      description: |-
+        ## Create Multiple Allocations
+
+        The endpoint creates multiple allocations, setting the current allocated quantity for each the Component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
+
+        Creates multiple Allocations, setting the current allocated quantity for each the component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
+
+        ## Input Fields
+
+        | Input Fields | Description |
+        |----------------------------|------------------------------------------------------------------------------------------------------------------|
+        | allocations | An array of allocations, each containing a `component_id`, `quantity`, and `memo` |
+        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
+
+        ## Output Fields
+
+        An array of allocation objects with the following fields:
+
+        | Output Fields | Desscription |
+        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id | The integer component ID for the allocation. This references a component that you have created in your Product setup |
+        | subscription_id | The integer subscription ID for the allocation. This references a unique subscription in your Site |
+        | quantity | The allocated quantity set in to effect by the allocation.By default this should be an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use 1 for on and 0 for off. |
+        | previous_quantity | The allocated quantity that was in effect before this allocation was created |
+        | memo | The memo passed when the allocation was created |
+        | proration_upgrade_scheme | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period. |
+        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period. |
+        | timestamp | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z` |
+        | payment | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
+
+        ## JSON: Fetch second page (up to 50 more) of allocations
+
+        Response is an array, ordered most recent first. In this example, there are no results in page 2 (response is an empty array) indicating that all allocations for this component and subscription have already been fetched.
+
+        **Request**
+
+        ```json
+        curl -u <api_key>:X https://<subdomain>.chargify.com/subscriptions/2585595/components/11960/allocations.json
+        ```
+
+        **Response**
+
+        ```
+        []
+        ```
+
+        ## Response Status Codes
+
+        | 201 Created              | Allocation created successfully                                                         |
+        |--------------------------|-----------------------------------------------------------------------------------------|
+        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
+        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
+        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/allocation/multiple-request-post'
+            example:
+              proration_upgrade_scheme: prorate-attempt-capture
+              proration_downgrade_scheme: no-prorate
+              allocations:
+                - component_id: 123
+                  quantity: 10
+                  memo: foo
+                - component_id: 456
+                  quantity: 5
+                  memo: bar
+      responses:
+        '201':
+          description: OK
+          schema:
+            $ref: '#/definitions/allocation/multiple-response-post'
+          examples:
+            application/json:
+              - allocation:
+                  component_id: 193159
+                  subscription_id: 15540611
+                  quantity: 10
+                  previous_quantity: 0
+                  memo: foo
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+              - allocation:
+                  component_id: 277221
+                  subscription_id: 15540611
+                  quantity: 5
+                  previous_quantity: 0
+                  memo: bar
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+        '401':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Quantity: cannot be blank.'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-sub_id-allocations-json
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
           statusCode: 200
   '/components/{component_id}/price_points.{format}':
     parameters:
@@ -28632,12 +28632,6 @@ x-stoplight:
               type: schemas
             - _id: allocation/create-response-post
               type: schemas
-            - _id: POST_subscriptions-sub_id-allocations-json
-              type: endpoints
-            - _id: allocation/multiple-request-post
-              type: schemas
-            - _id: allocation/multiple-response-post
-              type: schemas
             - _id: POST-preview-allocation
               type: endpoints
         - name: Billing Portal
@@ -28766,6 +28760,12 @@ x-stoplight:
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
               type: endpoints
             - _id: components/quantity/reading-current-quantity-response
+              type: schemas
+            - _id: POST_subscriptions-sub_id-allocations-json
+              type: endpoints
+            - _id: allocation/multiple-request-post
+              type: schemas
+            - _id: allocation/multiple-response-post
               type: schemas
           divider: false
         - divider: false
@@ -30233,6 +30233,20 @@ x-stoplight:
         + `quantity`: The amount of units used
         + `memo`: An optional description of the usage
 
+        When you record metered usage, you are simply create a new request to add "usage" to the subscription for that particular component.
+
+        Metered usage is cumulative and charges for components are assessed on the `next_billing_date` of the subscription. Another way of stating this is: metered usage is tallied and charged at the end of the subscriber's current recurring period.
+
+        ## Recording Multiple Usage Limitations
+
+        As of the time of this publication there is not a method to record multiple usage of a metered component against a subscription.
+
+        ## Metered Components versus Quantity-based Components
+
+        Metered components allow you to record "usage" of a component, such as text messages. These types of components reset to 0 at the beginning of each billing period.
+
+        On the other hand, for quantity-based components, you would record an allocation. Quantity-based components do not reset every month. They will charge the same quantity of components one billing period to the next.
+
         ## Metered Components Documentation
 
         Full documentation on how to create Components in the Chargify UI can be located [here](https://help.chargify.com/products/product-components.html). Additionally, for information on how to record component usage against a subscription, please see the following resources:
@@ -30745,13 +30759,18 @@ x-stoplight:
 
         The “Allocated Quantity” may be set for the Quantity Component on specific subscriptions via the API at the time the subscription is created, or at any time thereafter.
 
+        ## Quantity-based Components Versus Metered-based components
+
+        Quantity-based components allow you to record allocation/purchase of an add-on resource or component. Quantity-based components do not reset every month. They will charge the same quantity of components one billing period to the next.
+
+        Metered components allow you to record "usage" of a component, such as text messages. These types of components reset to 0 at the beginning of each billing period.
+
         ## Quantity-based Components Documentation
 
         Full documentation on how to create Components in the Chargify UI can be located [here](https://help.chargify.com/products/product-components.html). Additionally, for information on how to record component usage against a subscription, please see the following resources:
 
         + [Recording Quantity-based Component Usage](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-quantity-based-allocations)
         + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
-        + 
 
         ## Proration Upgrade Schemes
 
@@ -31613,6 +31632,7 @@ x-stoplight:
             }
           }
         ```
+
         ### Inputs for Quantity-Based Line-Items
 
         + `allocated_quantity` The current allocation for the component on the given subscription.
