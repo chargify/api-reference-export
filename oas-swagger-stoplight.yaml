@@ -6881,20 +6881,6 @@ paths:
 
         This method will create a payment profile for the `customer_id` identified in the `payment_profile` object.
 
-        ## Required Country Format
-
-        Chargify requires that you use the ISO Standard Country codes when formatting country attribute of the payment profile.
-
-        Countries should be formatted as 2 characters. For more information, please see the following wikipedia article on [ISO_3166-1.](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
-
-        ## Required State Format
-
-        Chargify requires that you use the ISO Standard State codes when formatting state attribute of the payment profile.
-
-        + US States (2 characters): [ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
-
-        + States Outside the US (2-3 characters): To find the correct state codes outside of the US, please go to [ISO_3166-1](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) and click on the link in the “ISO 3166-2 codes” column next to country you wish to populate.
-
         ## Create a Payment Profile for ACH usage
 
         If you would like to create a payment method that is a Bank Account applicable for ACH payments use the following:
@@ -30459,6 +30445,11 @@ x-stoplight:
         ## Payment Profile Intro
 
         Payment Profiles house the credit card or ACH (Authorize.Net only) data for a customer. The payment information is attached to the customer within Chargify, as opposed to the Subscription itself.
+
+
+        ## Taxable Subscriptions
+
+        If your subscriber pays taxes on their purchased product, and you are attempting to create or update the `payment_profile`, complete address information is required. For information on required address formatting to allow your subscriber to be taxed, please see our documentation [here](https://developer.chargify.com/content/basics/signups.html#taxes)
 
         ## Payment Profile Documentation
 
