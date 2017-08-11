@@ -398,7 +398,7 @@ paths:
         id: POST_subscriptions-sub_id-allocations-json
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           statusCode: 200
@@ -509,7 +509,7 @@ paths:
         id: POST-preview-allocation
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -30582,7 +30582,7 @@ x-stoplight:
         | `no-prorate`                 | No proration is applied.                                                                                                                                                                     |
 
         **NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
-      public: false
+      public: true
     invoices-credits-intro:
       id: invoices-credits-intro
       name: Invoices - Credits Intro
