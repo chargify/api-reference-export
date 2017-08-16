@@ -14885,6 +14885,21 @@ definitions:
             type: 'null'
           conversion_limit:
             type: 'null'
+          coupon_restrictions:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                item_type:
+                  type: string
+                item_id:
+                  type: number
+                name:
+                  type: string
+                handle:
+                  type: string
     example:
       coupon:
         id: 204696
@@ -24227,6 +24242,21 @@ definitions:
               type:
                 - integer
                 - 'null'
+            coupon_restrictions:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  item_type:
+                    type: string
+                  item_id:
+                    type: number
+                  name:
+                    type: string
+                  handle:
+                    type: string
     example:
       - coupon:
           id: 173746
