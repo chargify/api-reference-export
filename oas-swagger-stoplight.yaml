@@ -30170,6 +30170,7 @@ x-stoplight:
         | starting_quantity |                                                                                                                                                                                                                                                                                                     |
         | ending_quantity   |                                                                                                                                                                                                                                                                                                     |
         | unit_price        |                                                                                                                                                                                                                                                                                                     |
+        | tax_code                 | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.                                                   |
 
         ## Component Definition Output Attributes
 
@@ -30191,6 +30192,7 @@ x-stoplight:
         | price_per_unit_in_cents | **(This field is deprecated, see note below)** This represents the unit price prior to the Chargify upgrade to fractional cent component pricing. This field may no longer represent the correct unit price of the component. The `unit_price` field should be used instead. |
         | archived                | Boolean flag describing whether a component is archived or not.                                                                                                                                                                                                              |
         | taxable                 | Boolean flag describing whether a component is taxable or not.                                                                                                                                                                                                               |
+        | tax_code                 | A string representing the tax code related to the component type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.                                                   |
 
 
         ## Component Fractional Pricing
