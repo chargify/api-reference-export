@@ -626,53 +626,61 @@ paths:
           examples:
             application/json:
               - component:
-                  id: 193158
-                  name: Storage Units
+                  id: 399850
+                  name: $1.00 component
                   pricing_scheme: per_unit
-                  unit_name: storage_unit
-                  unit_price: '0.0'
-                  product_family_id: 528484
+                  unit_name: Component
+                  unit_price: '1.0'
+                  product_family_id: 997233
                   price_per_unit_in_cents: null
                   kind: quantity_based_component
                   archived: false
                   taxable: false
-                  description: Storage Units
+                  description: Component
+                  default_price_point_id: 121000
                   prices:
-                    - starting_quantity: 1
+                    - id: 630687
+                      component_id: 399850
+                      starting_quantity: 1
                       ending_quantity: null
-                      unit_price: '0.0'
+                      unit_price: '1.0'
+                      price_point_id: 121000
+                      formatted_unit_price: $1.00
+                  price_point_count: 2
+                  price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
+                  tax_code: null
               - component:
-                  id: 212784
-                  name: IP Addresses
-                  pricing_scheme: per_unit
-                  unit_name: IP Addresses
-                  unit_price: '20.0'
-                  product_family_id: 528484
+                  id: 399853
+                  name: Annual Support Services
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '100.0'
+                  product_family_id: 997233
                   price_per_unit_in_cents: null
-                  kind: quantity_based_component
+                  kind: on_off_component
+                  archived: false
+                  taxable: true
+                  description: Prepay for support services
+                  default_price_point_id: 121003
+                  price_point_count: 4
+                  price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+                  tax_code: D0000000
+              - component:
+                  id: 386937
+                  name: Cancellation fee
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '35.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: on_off_component
                   archived: false
                   taxable: false
                   description: ''
-                  prices:
-                    - starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '20.0'
-              - component:
-                  id: 160432
-                  name: Text Messages
-                  pricing_scheme: per_unit
-                  unit_name: message
-                  unit_price: '1.0'
-                  product_family_id: 528484
-                  price_per_unit_in_cents: null
-                  kind: quantity_based_component
-                  archived: false
-                  taxable: false
-                  description: Texts sent per month
-                  prices:
-                    - starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '1.0'
+                  default_price_point_id: 108307
+                  price_point_count: 1
+                  price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
+                  tax_code: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -712,21 +720,21 @@ paths:
           examples:
             application/json:
               component:
-                id: 160432
-                name: Text Messages
-                pricing_scheme: per_unit
-                unit_name: message
-                unit_price: '1.0'
-                product_family_id: 528484
+                id: 399853
+                name: Annual Support Services
+                pricing_scheme: null
+                unit_name: on/off
+                unit_price: '100.0'
+                product_family_id: 997233
                 price_per_unit_in_cents: null
-                kind: quantity_based_component
+                kind: on_off_component
                 archived: false
-                taxable: false
-                description: ''
-                prices:
-                  - starting_quantity: 1
-                    ending_quantity: null
-                    unit_price: '1.0'
+                taxable: true
+                description: Prepay for support services
+                default_price_point_id: 121003
+                price_point_count: 4
+                price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+                tax_code: D0000000
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -16447,7 +16455,9 @@ definitions:
             name:
               type: string
             pricing_scheme:
-              type: string
+              type:
+                - 'null'
+                - string
             unit_name:
               type: string
             unit_price:
@@ -16464,66 +16474,92 @@ definitions:
               type: boolean
             description:
               type: string
+            default_price_point_id:
+              type: integer
             prices:
               type: array
               items:
                 type: object
                 properties:
+                  id:
+                    type: integer
+                  component_id:
+                    type: integer
                   starting_quantity:
                     type: integer
                   ending_quantity:
                     type: 'null'
                   unit_price:
                     type: string
+                  price_point_id:
+                    type: integer
+                  formatted_unit_price:
+                    type: string
+            price_point_count:
+              type: integer
+            price_points_url:
+              type: string
+            tax_code:
+              type:
+                - 'null'
+                - string
     example:
       - component:
-          id: 193158
-          name: Storage Units
+          id: 399850
+          name: $1.00 component
           pricing_scheme: per_unit
-          unit_name: storage_unit
-          unit_price: '0.0'
-          product_family_id: 528484
+          unit_name: Component
+          unit_price: '1.0'
+          product_family_id: 997233
           price_per_unit_in_cents: null
           kind: quantity_based_component
           archived: false
           taxable: false
-          description: Storage Units
+          description: Component
+          default_price_point_id: 121000
           prices:
-            - starting_quantity: 1
+            - id: 630687
+              component_id: 399850
+              starting_quantity: 1
               ending_quantity: null
-              unit_price: '0.0'
+              unit_price: '1.0'
+              price_point_id: 121000
+              formatted_unit_price: $1.00
+          price_point_count: 2
+          price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
+          tax_code: null
       - component:
-          id: 212784
-          name: IP Addresses
-          pricing_scheme: per_unit
-          unit_name: IP Addresses
-          unit_price: '20.0'
-          product_family_id: 528484
+          id: 399853
+          name: Annual Support Services
+          pricing_scheme: null
+          unit_name: on/off
+          unit_price: '100.0'
+          product_family_id: 997233
           price_per_unit_in_cents: null
-          kind: quantity_based_component
+          kind: on_off_component
+          archived: false
+          taxable: true
+          description: Prepay for support services
+          default_price_point_id: 121003
+          price_point_count: 4
+          price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+          tax_code: D0000000
+      - component:
+          id: 386937
+          name: Cancellation fee
+          pricing_scheme: null
+          unit_name: on/off
+          unit_price: '35.0'
+          product_family_id: 997233
+          price_per_unit_in_cents: null
+          kind: on_off_component
           archived: false
           taxable: false
           description: ''
-          prices:
-            - starting_quantity: 1
-              ending_quantity: null
-              unit_price: '20.0'
-      - component:
-          id: 160432
-          name: Text Messages
-          pricing_scheme: per_unit
-          unit_name: message
-          unit_price: '1.0'
-          product_family_id: 528484
-          price_per_unit_in_cents: null
-          kind: quantity_based_component
-          archived: false
-          taxable: false
-          description: Texts sent per month
-          prices:
-            - starting_quantity: 1
-              ending_quantity: null
-              unit_price: '1.0'
+          default_price_point_id: 108307
+          price_point_count: 1
+          price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
+          tax_code: null
     x-stoplight:
       id: component/list-component-product-family-get
       name: List Component Product Family GET
@@ -16580,7 +16616,7 @@ definitions:
           name:
             type: string
           pricing_scheme:
-            type: string
+            type: 'null'
           unit_name:
             type: string
           unit_price:
@@ -16597,34 +16633,31 @@ definitions:
             type: boolean
           description:
             type: string
-          prices:
-            type: array
-            items:
-              type: object
-              properties:
-                starting_quantity:
-                  type: integer
-                ending_quantity:
-                  type: 'null'
-                unit_price:
-                  type: string
+          default_price_point_id:
+            type: integer
+          price_point_count:
+            type: integer
+          price_points_url:
+            type: string
+          tax_code:
+            type: string
     example:
       component:
-        id: 160432
-        name: Text Messages
-        pricing_scheme: per_unit
-        unit_name: message
-        unit_price: '1.0'
-        product_family_id: 528484
+        id: 399853
+        name: Annual Support Services
+        pricing_scheme: null
+        unit_name: on/off
+        unit_price: '100.0'
+        product_family_id: 997233
         price_per_unit_in_cents: null
-        kind: quantity_based_component
+        kind: on_off_component
         archived: false
-        taxable: false
-        description: ''
-        prices:
-          - starting_quantity: 1
-            ending_quantity: null
-            unit_price: '1.0'
+        taxable: true
+        description: Prepay for support services
+        default_price_point_id: 121003
+        price_point_count: 4
+        price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+        tax_code: D0000000
     x-stoplight:
       id: component/list-specific-component-product-family-get
       name: List Specific Component Product Family GET
