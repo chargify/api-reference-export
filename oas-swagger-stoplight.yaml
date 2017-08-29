@@ -30720,7 +30720,7 @@ x-stoplight:
       content: |-
         ## Payment Profile Intro
 
-        Payment Profiles house the credit card or ACH (Authorize.Net only) data for a customer. The payment information is attached to the customer within Chargify, as opposed to the Subscription itself.
+        Payment Profiles house the credit card, ACH (Authorize.Net or Stripe only,) or PayPal (Braintree only,) data for a customer. The payment information is attached to the customer within Chargify, as opposed to the Subscription itself.
 
 
         ## Taxable Subscriptions
