@@ -29705,7 +29705,7 @@ x-stoplight:
 
         ## API Integration
 
-        Chargify can be integrated with many environments and programming languages via our REST API. Some of our users have contributed their API Wrappers in various programming languages. Check out the [API Code Overview](#docTextSection:YKvTafPkkoewDPT9T) doc for an introduction to the wrappers and available code samples.
+        Chargify can be integrated with many environments and programming languages via our REST API. Some of our users have contributed their API Wrappers in various programming languages. Check out the [API Code Overview](https://developer.chargify.com/content/ecosystem/api-code-samples.html) doc for an introduction to the wrappers and available code samples.
 
         ## Engage Support
 
