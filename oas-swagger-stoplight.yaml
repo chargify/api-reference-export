@@ -7969,18 +7969,30 @@ paths:
             $ref: '#/definitions/reason_code/list_response'
           examples:
             application/json:
-              - {}
               - reason_code:
-                  id: 84764547
-                  site_id: -82346843
-                  code: adipisicing
-                  description: aliqua tempor veniam
-                  position: 94342411
-                  created_at: cillum
-                  updated_at: fugiat proident sunt
-              - {}
-              - {}
-              - {}
+                  id: 2
+                  site_id: 2
+                  code: LARGE
+                  description: This is too complicated
+                  position: 1
+                  created_at: '2017-02-16T16:49:07-05:00'
+                  updated_at: '2017-02-17T16:29:51-05:00'
+              - reason_code:
+                  id: 1
+                  site_id: 2
+                  code: CH1
+                  description: This doesnt meet my needs
+                  position: 2
+                  created_at: '2017-02-16T16:48:45-05:00'
+                  updated_at: '2017-02-17T16:29:59-05:00'
+              - reason_code:
+                  id: 5
+                  site_id: 2
+                  code: HAN99
+                  description: Hard to setup
+                  position: 3
+                  created_at: '2017-02-17T16:29:42-05:00'
+                  updated_at: '2017-02-17T16:29:59-05:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -8071,7 +8083,17 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
+            $ref: '#/definitions/reason_code/show_response'
+          examples:
+            application/json:
+              reason_code:
+                id: 1
+                site_id: 2
+                code: CHEAP
+                description: This is muuy caro
+                position: 2
+                created_at: '2017-02-16T16:48:45-05:00'
+                updated_at: '2017-02-17T16:29:59-05:00'
         '404':
           description: ''
           schema:
@@ -8102,6 +8124,9 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/reason_codes/delete_response'
+          examples:
+            application/json:
+              ok: ok
         '404':
           description: ''
           schema:
@@ -8131,6 +8156,15 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/reason_code/update_response'
+            example:
+              reason_code:
+                id: 1
+                site_id: 2
+                code: '00023'
+                description: Not using the product currently
+                position: 2
+                created_at: '2017-02-16T16:48:45-05:00'
+                updated_at: '2017-02-21T16:33:10-05:00'
       responses:
         '200':
           description: ''
@@ -12049,14 +12083,7 @@ paths:
         - Subscription
         - incomplete
         - Subscriptions
-      description: |-
-        ## Cancel Subscription
-
-        The DELETE action causes the cancellation of the Subscription. This means, the method sets the Subscription state to "canceled".
-
-        There are no required parameters. Optionally, you can use the `cancellation_message` field to note the reason for cancellation. `cancellation_message` note will be stored with the Subscription.
-
-        The response returns the Subscription object with the canceled state: `"state": "canceled",` or `<state>canceled</state>`. The `canceled_at` field records the timestamp of the most recent cancellation.
+      description: "## Cancel Subscription\n\nThe DELETE action causes the cancellation of the Subscription. This means, the method sets the Subscription state to \"canceled\".\n\nThere are no required parameters. Optionally, you can use the `cancellation_message` field to note the reason for cancellation. `cancellation_message` note will be stored with the Subscription.\n\nThe response returns the Subscription object with the canceled state: `\"state\": \"canceled\",` or `<state>canceled</state>`. The `canceled_at` field records the timestamp of the most recent cancellation.\n\n## Cancel Subscription with Reason Code\n\nIf you'd like to cancel a subscription and add a reason/churn code, use the following JSON:\n\n```\n{\n\t\"subscription\": {\n\t\t\"reason_code\": \"CODE\"\n\t}\n}\n```"
       responses:
         '200':
           description: OK
@@ -13253,13 +13280,7 @@ paths:
       summary: 'Cancel Subscription: Delayed Method'
       tags:
         - Subscriptions
-      description: |-
-        ## Delayed Cancel
-        Chargify offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.
-
-        Requesting to cancel the subscription at the end of the period sets the `cancel_at_end_of_period` flag to true.
-
-        Note that you cannot set `cancel_at_end_of_period` at subscription creation, or if the subscription is past due.
+      description: "## Delayed Cancel\nChargify offers the ability to cancel a subscription at the end of the current billing period. This period is set by its current product.\n\nRequesting to cancel the subscription at the end of the period sets the `cancel_at_end_of_period` flag to true.\n\nNote that you cannot set `cancel_at_end_of_period` at subscription creation, or if the subscription is past due.\n\n## Delayed Cancel with Reason Code\n\nIf you'd like to cancel a subscription using the delayed cancellation method, and add a reason/churn code, use the following JSON:\n\n```\n{\n\t\"subscription\": {\n\t\t\"cancelation_message\": \"Switching providers\",\n\t\t\"reason_code\": \"CODE\"\n\t}\n}\n```"
       consumes:
         - application/xml
       produces:
@@ -13554,6 +13575,13 @@ paths:
       responses:
         '204':
           description: No Content
+          examples:
+            application/json:
+              subscription:
+                activated_at: '1999-12-01'
+                canceled_at: '2000-12-31'
+                cancellation_message: Original cancellation in 2000
+                expires_at: '2001-07-15'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -27591,9 +27619,11 @@ definitions:
           site_id:
             type: integer
           code:
-            type: 'null'
+            type: string
           description:
-            type: 'null'
+            type:
+              - 'null'
+              - string
           position:
             type: integer
           created_at:
@@ -27604,7 +27634,7 @@ definitions:
       reason_code:
         id: 6
         site_id: 2
-        code: null
+        code: NOTHANKYOU
         description: null
         position: 6
         created_at: '2017-02-21T16:20:00-05:00'
@@ -27652,7 +27682,14 @@ definitions:
     type: object
     properties:
       reason_code:
-        $ref: '#/definitions//reason_codes/create_code_request'
+        type: object
+        properties:
+          code:
+            type: string
+          description:
+            type: string
+          position:
+            type: integer
     example:
       reason_code:
         code: NOTHANKYOU
@@ -31750,7 +31787,7 @@ x-stoplight:
       public: true
     reason-code-intro:
       id: reason-code-intro
-      name: Reason Code Intro
+      name: Reason Code / Churn Code Intro
       content: |-
         ## ReasonCodes Intro
 
