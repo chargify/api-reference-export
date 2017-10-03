@@ -4711,24 +4711,15 @@ paths:
         - incomplete
         - Invoices
       description: |-
-        ## List All Invoices by Subscription
+        ## Filters
 
-        Filters/Options:
+        In order to generate a set of invoices that meet certain criteria, please use the query string filters below for best results. 
 
-        To get a list of invoices for a date range, send a JSON or XML request to:
+        ## Example Query String
 
-        ```/invoices.<format>?subscription_id=<subcription_id>```
+        To get a list of invoices for a specific subscription ID, your request would be formatted as follows:
 
-        ## Filter by possible states
-
-        + trialing
-        + trial_ended
-        + active
-        + soft_failure
-        + past_due
-        + canceled
-        + unpaid
-        + expired
+        ```http://[chargify_domain].chargify.com/invoices.<format>?subscription_id=<subcription_id>```
       parameters:
         - name: start_date
           in: query
