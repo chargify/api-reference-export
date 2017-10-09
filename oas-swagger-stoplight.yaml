@@ -19631,6 +19631,7 @@ definitions:
       public: true
   components/quantity/reading-current-quantity-response:
     title: Reading Current Quantity Response
+    type: object
     properties:
       component:
         type: object
@@ -19640,7 +19641,9 @@ definitions:
           subscription_id:
             type: integer
           allocated_quantity:
-            type: integer
+            type:
+              - integer
+              - string
           name:
             type: string
           kind:
