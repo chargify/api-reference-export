@@ -8657,7 +8657,7 @@ paths:
         id: GET_salesreceiptsjson
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           statusCode: 200
           enabled: false
@@ -8841,7 +8841,7 @@ paths:
         id: GET_salesreceipts-idjson
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -31849,7 +31849,7 @@ x-stoplight:
       id: sales-receipt-intro
       name: Sales Receipt Intro
       content: '## Sales Receipt Intro'
-      public: true
+      public: false
     reason-code-intro:
       id: reason-code-intro
       name: Reason Code / Churn Code Intro
