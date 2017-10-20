@@ -5705,12 +5705,13 @@ paths:
         ```curl -u <api_key>:x -H 
         Accept:application/pdf -H 
         Content-Type:application/pdf 
-        https://acme.chargify.com/invoices/1.pdf > output_file.pdf```
+        https://acme.chargify.com/invoices/1.pdf > output_file.pdf
 
         URL: `https://<subdomain>.chargify.com/invoices/<invoice_id>.<format>`
         Method: GET
         Required parameters: `invoice_id`
         Response: A single Invoice.
+        ```
       parameters:
         - $ref: '#/parameters/trait:startdateEnddateQuery:start_date'
         - $ref: '#/parameters/trait:startdateEnddateQuery:end_date'
