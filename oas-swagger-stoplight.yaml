@@ -14483,9 +14483,10 @@ parameters:
     description: |-
       Allows specification of the order of the returned list.  The list can be sorted by one of the following specifiers:
 
+      * `closed_at`: Sort by the time the statement was closed (i.e. the end of the period it covers)
       * `created_at`: Sort by the time the statement was created
       * `opened_at`: Sort by the time the statement was opened (i.e. the beginning of the period it covers)
-      * `closed_at`: Sort by the time the statement was closed (i.e. the end of the period it covers)
+      * `settled_at`: Sort by the time the statement was settled
 
       See also the `direction` parameter.
     type: string
@@ -14493,6 +14494,7 @@ parameters:
       - created_at
       - opened_at
       - closed_at
+      - settled_at
   'trait:statementsList:direction':
     name: direction
     in: query
