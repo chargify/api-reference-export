@@ -8943,6 +8943,7 @@ paths:
           description: 'This parameter indicates how many records to fetch in each request. Preset to 10,000.'
           required: false
           type: number
+        - $ref: '#/parameters/trait:settledSinceUnix:settled_since'
       responses:
         '200':
           description: OK
@@ -8991,6 +8992,9 @@ paths:
           description: 'This parameter indicates how many records to fetch in each request. Preset to 10,000.'
           required: false
           type: number
+        - $ref: '#/parameters/trait:statementsList:sort'
+        - $ref: '#/parameters/trait:statementsList:direction'
+        - $ref: '#/parameters/trait:settledSinceUnix:settled_since'
       responses:
         '200':
           description: OK
@@ -14507,6 +14511,13 @@ parameters:
     enum:
       - asc
       - desc
+  'trait:settledSinceUnix:settled_since':
+    name: settled_since
+    in: query
+    description: 'Format: UNIX timestamp'
+    type: integer
+    enum:
+      - 1509408720
 definitions:
   webhooks/list-webhook-output:
     title: List Webhook Output
@@ -29608,6 +29619,8 @@ x-stoplight:
             - _id: sort
               type: traits
             - _id: statementsList
+              type: traits
+            - _id: settledSinceUnix
               type: traits
         - name: Stats
           items:
