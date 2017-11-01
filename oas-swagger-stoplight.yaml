@@ -3428,6 +3428,9 @@ paths:
         in: path
         required: true
         type: string
+        enum:
+          - customers
+          - subscriptions
       - name: resource_id
         in: path
         required: true
