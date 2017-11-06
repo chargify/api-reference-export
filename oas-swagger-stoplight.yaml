@@ -3480,11 +3480,14 @@ paths:
             $ref: '#/definitions/metadata/list-metadata-for-customers-output'
           examples:
             application/json:
-              total_count: 0
+              total_count: 1
               current_page: 1
               total_pages: 1
               per_page: 20
-              metadata: []
+              metadata:
+                - value: Red
+                  resource_id: 19186044
+                  name: Shirt Color
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -28316,8 +28319,8 @@ definitions:
       total_pages: 1
       per_page: 20
       metadata:
-        - value: Blue
-          resource_id: 19186076
+        - value: Red
+          resource_id: 19186044
           name: Shirt Color
     x-stoplight:
       id: /customfields/metadata/list-metadata-for-a-customer-output
