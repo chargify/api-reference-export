@@ -2977,13 +2977,135 @@ paths:
           in: query
           required: true
           type: string
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/coupon/add-the-coupon-newness'
+            example:
+              subscription:
+                id: 50
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2017-11-01T04:17:47-04:00'
+                created_at: '2017-11-01T04:17:46-04:00'
+                updated_at: '2017-11-08T09:17:44-05:00'
+                expires_at: null
+                balance_in_cents: 0
+                current_period_ends_at: '2017-12-01T03:17:46-05:00'
+                next_assessment_at: '2017-12-01T03:17:46-05:00'
+                canceled_at: null
+                cancellation_message: null
+                next_product_id: null
+                cancel_at_end_of_period: false
+                payment_collection_method: automatic
+                snap_day: null
+                cancellation_method: null
+                current_period_started_at: '2017-11-01T04:17:46-04:00'
+                previous_state: active
+                signup_payment_id: 109
+                signup_revenue: '10.00'
+                delayed_cancel_at: null
+                coupon_code: ABC123
+                total_revenue_in_cents: 1000
+                product_price_in_cents: 1000
+                product_version_number: 1
+                payment_type: credit_card
+                referral_code: null
+                coupon_use_count: 0
+                coupon_uses_allowed: 1
+                reason_code: null
+                automatically_resume_at: null
+                coupon_codes:
+                  - ABC123
+                customer:
+                  id: 50
+                  first_name: Fred
+                  last_name: Jones
+                  organization: ''
+                  email: fred@jones.com
+                  created_at: '2017-11-01T04:17:46-04:00'
+                  updated_at: '2017-11-01T04:17:46-04:00'
+                  reference: null
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  portal_invite_last_sent_at: null
+                  portal_invite_last_accepted_at: null
+                  verified: false
+                  portal_customer_created_at: null
+                  cc_emails: null
+                  tax_exempt: false
+                product:
+                  id: 97
+                  name: User-friendly systemic matrices
+                  handle: handle_1d382acd0
+                  description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
+                  accounting_code: null
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: null
+                  created_at: '2017-09-13T12:45:35-04:00'
+                  updated_at: '2017-09-13T12:45:35-04:00'
+                  price_in_cents: 1000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: null
+                  archived_at: null
+                  require_credit_card: true
+                  return_params: null
+                  taxable: false
+                  update_return_url: null
+                  tax_code: null
+                  initial_charge_after_trial: false
+                  version_number: 1
+                  update_return_params: null
+                  product_family:
+                    id: 4
+                    name: Acme Online
+                    description: null
+                    handle: acme-online
+                    accounting_code: null
+                  public_signup_pages: []
+                credit_card:
+                  id: 36
+                  first_name: Fred
+                  last_name: Jones
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 1
+                  expiration_year: 2025
+                  customer_id: 50
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: ''
+                  billing_city: ''
+                  billing_state: AL
+                  billing_zip: ''
+                  billing_country: US
+                  customer_vault_token: null
+                  billing_address_2: ''
+                  payment_type: credit_card
       responses:
         '200':
           description: OK
           schema:
             $ref: '#/definitions/coupon/add-the-coupon-to-subscription-output'
         '422':
-          description: Unprocessable Entity
+          description: ''
+          examples:
+            application/json:
+              codes:
+                - 'Coupon Codes: Subscription already has a non-stackable coupon.'
+              subscription:
+                - Coupon is invalid.
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3009,9 +3131,13 @@ paths:
         - incomplete
         - Coupons - Subscriptions
       description: |-
-        ## Remove the Coupon from the Subscription
+        ## Remove the Coupon from the Subscription Response
 
-        If the Coupon is successfully removed, the string “Coupon removed.” will be returned. Otherwise, the "422 Unprocessable Entity" error will be returned.
+        If the Coupon is successfully removed, the string will be returned. 
+
+        ```Coupon succesfully removed``` 
+
+        Otherwise, the "422 Unprocessable Entity" error will be returned.
       parameters:
         - name: coupon_code
           in: query
@@ -3134,7 +3260,29 @@ paths:
           examples:
             application/json:
               - coupon:
-                  id: 173746
+                  id: 999999
+                  name: 50% coupon
+                  code: 50PERCENT
+                  description: 50 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 123456
                   name: 100% coupon
                   code: 100PERCENT
                   description: 100 PERCENT OFF
@@ -3152,44 +3300,31 @@ paths:
                   allow_negative_balance: true
                   archived_at: null
                   conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
               - coupon:
-                  id: 126414
-                  name: 12 week coupon
-                  code: 12WEEKS
-                  description: 12WEEKS
-                  amount_in_cents: 1818
-                  product_family_id: 527890
-                  created_at: '2016-08-03T11:52:29-04:00'
-                  updated_at: '2016-08-03T11:52:29-04:00'
-                  start_date: '2016-08-03T11:52:29-04:00'
-                  end_date: null
-                  percentage: null
-                  recurring: true
-                  duration_period_count: 2
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: false
-                  archived_at: null
-                  conversion_limit: null
-              - coupon:
-                  id: 204696
-                  name: 15% off
-                  code: 15OFF4LYFE
-                  description: 15% off for life
+                  id: 888888
+                  name: 25% coupon
+                  code: 25PERCENT
+                  description: 25 PERCENT OFF
                   amount_in_cents: null
                   product_family_id: 527890
-                  created_at: '2016-11-29T16:09:00-05:00'
-                  updated_at: '2016-11-29T16:09:00-05:00'
-                  start_date: '2016-11-29T16:09:00-05:00'
-                  end_date: '2018-08-29T23:59:59-04:00'
-                  percentage: 15
-                  recurring: false
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 25
+                  recurring: true
                   duration_period_count: null
-                  duration_interval: null
-                  duration_interval_unit: null
-                  allow_negative_balance: false
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
                   archived_at: null
-                  conversion_limit: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3225,31 +3360,31 @@ paths:
         '200':
           description: OK
           schema:
-            type: object
-            properties:
-              coupon:
-                $ref: '#/definitions/coupons/finding-a-coupon-output'
+            $ref: '#/definitions/coupons/create-coupon-output'
           examples:
             application/json:
               coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
+                id: 66
+                name: Foo Bar
+                code: YEPPER9993
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-07T14:51:52-05:00'
+                updated_at: '2017-11-07T15:14:24-05:00'
+                start_date: '2017-11-07T14:51:52-05:00'
                 end_date: null
-                percentage: 50
-                recurring: true
+                percentage: null
+                recurring: false
                 duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
                 archived_at: null
-                conversion_limit: 100
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: full-price
+                coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3303,31 +3438,35 @@ paths:
           description: ''
           required: false
           type: number
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/coupons/finding-a-coupon-output'
-            example:
-              coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
-                end_date: null
-                percentage: 50
-                recurring: true
-                duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
-                archived_at: null
-                conversion_limit: 100
       responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 66
+                name: Foo Bar
+                code: YEPPER9993
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-07T14:51:52-05:00'
+                updated_at: '2017-11-07T15:14:24-05:00'
+                start_date: '2017-11-07T14:51:52-05:00'
+                end_date: null
+                percentage: null
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: null
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: full-price
+                coupon_restrictions: []
         '404':
           description: Not Found
           examples:
@@ -3477,15 +3616,16 @@ paths:
             $ref: '#/definitions/coupons/create-coupon-input'
             example:
               coupon:
-                id: '1'
                 name: 15% off
                 code: 15OFF
                 description: 15% off for life
                 percentage: '15'
                 allow_negative_balance: 'false'
                 recurring: 'false'
-                end_date: '2018-08-29T23:59:59-04:00'
+                end_date: '2012-08-29T12:00:00-04:00'
                 product_family_id: '2'
+                stackable: 'true'
+                compounding_strategy: compound
               restricted_products:
                 '1': true
               restricted_components:
@@ -3495,61 +3635,21 @@ paths:
         '200':
           description: OK
           schema:
-            type: object
-            properties:
-              coupon:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  code:
-                    type: string
-                  description:
-                    type: string
-                  amount_in_cents:
-                    type: 'null'
-                  product_family_id:
-                    type: integer
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  start_date:
-                    type: string
-                  end_date:
-                    type: string
-                  percentage:
-                    type: integer
-                  recurring:
-                    type: boolean
-                  duration_period_count:
-                    type: 'null'
-                  duration_interval:
-                    type: 'null'
-                  duration_interval_unit:
-                    type: 'null'
-                  allow_negative_balance:
-                    type: boolean
-                  archived_at:
-                    type: 'null'
-                  conversion_limit:
-                    type: 'null'
+            $ref: '#/definitions/coupons/create-coupon-output'
           examples:
             application/json:
               coupon:
-                id: 1
-                name: 15% off
-                code: 15OFF
-                description: 15% off for life
-                amount_in_cents: null
-                product_family_id: 2
-                created_at: '2016-11-29T16:09:00-05:00'
-                updated_at: '2016-11-29T16:09:00-05:00'
-                start_date: '2016-11-29T16:09:00-05:00'
-                end_date: '2018-08-29T23:59:59-04:00'
-                percentage: 15
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
                 recurring: false
                 duration_period_count: null
                 duration_interval: null
@@ -3557,6 +3657,9 @@ paths:
                 allow_negative_balance: false
                 archived_at: null
                 conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3583,28 +3686,31 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/archive-a-coupon-output'
+            $ref: '#/definitions/coupons/create-coupon-output'
           examples:
             application/json:
               coupon:
-                id: 126210
-                name: 1 Month Free
-                code: MMI45
-                description: 1 Month Free - MMI
-                amount_in_cents: 4500
-                product_family_id: 527890
-                created_at: '2016-08-02T11:40:04-04:00'
-                updated_at: '2016-12-02T13:09:34-05:00'
-                start_date: '2016-08-02T11:40:04-04:00'
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
                 end_date: null
                 percentage: null
-                recurring: true
-                duration_period_count: 1
-                duration_interval: 1
-                duration_interval_unit: month
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
                 allow_negative_balance: false
                 archived_at: '2016-12-02T13:09:33-05:00'
                 conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3704,28 +3810,31 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/coupons/finding-a-coupon-output'
+            $ref: '#/definitions/coupons/create-coupon-output'
           examples:
             application/json:
               coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
                 end_date: null
-                percentage: 50
-                recurring: true
+                percentage: null
+                recurring: false
                 duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
                 archived_at: null
-                conversion_limit: 100
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -14240,9 +14349,7 @@ definitions:
           description:
             type: string
           amount_in_cents:
-            type:
-              - integer
-              - 'null'
+            type: integer
           product_family_id:
             type: integer
           created_at:
@@ -14254,9 +14361,7 @@ definitions:
           end_date:
             type: 'null'
           percentage:
-            type:
-              - 'null'
-              - integer
+            type: 'null'
           recurring:
             type: boolean
           duration_period_count:
@@ -14268,7 +14373,9 @@ definitions:
           allow_negative_balance:
             type: boolean
           archived_at:
-            type: 'null'
+            type:
+              - 'null'
+              - string
           conversion_limit:
             type: 'null'
           stackable:
@@ -22835,197 +22942,6 @@ definitions:
       id: subscriptions/subscription-override-request
       name: Subscription Override Request
       public: true
-  coupons/updating-a-coupon-output:
-    title: Update a Coupon Output
-    type: object
-    properties:
-      coupon:
-        type: object
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          code:
-            type: string
-          description:
-            type: string
-          amount_in_cents:
-            type: 'null'
-          product_family_id:
-            type: integer
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          start_date:
-            type: string
-          end_date:
-            type: string
-          percentage:
-            type: integer
-          recurring:
-            type: boolean
-          duration_period_count:
-            type: 'null'
-          duration_interval:
-            type: 'null'
-          duration_interval_unit:
-            type: 'null'
-          allow_negative_balance:
-            type: boolean
-          archived_at:
-            type: 'null'
-          conversion_limit:
-            type: 'null'
-    example:
-      coupon:
-        id: 1
-        name: 15% off
-        code: 15OFF
-        description: 15% off for life
-        amount_in_cents: null
-        product_family_id: 2
-        created_at: '2016-11-29T16:09:00-05:00'
-        updated_at: '2016-11-29T16:09:00-05:00'
-        start_date: '2016-11-29T16:09:00-05:00'
-        end_date: '2018-08-29T23:59:59-04:00'
-        percentage: 15
-        recurring: false
-        duration_period_count: null
-        duration_interval: null
-        duration_interval_unit: null
-        allow_negative_balance: false
-        archived_at: null
-        conversion_limit: null
-    x-stoplight:
-      id: coupons/updating-a-coupon-output
-      name: Update a Coupon Output
-      public: true
-  coupons/finding-a-coupon-output:
-    title: Finding a Coupon Output
-    type: object
-    properties:
-      coupon:
-        type: object
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          code:
-            type: string
-          description:
-            type: string
-          amount_in_cents:
-            type: 'null'
-          product_family_id:
-            type: integer
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          start_date:
-            type: string
-          end_date:
-            type: 'null'
-          percentage:
-            type: integer
-          recurring:
-            type: boolean
-          duration_period_count:
-            type: 'null'
-          duration_interval:
-            type: integer
-          duration_interval_unit:
-            type: string
-          allow_negative_balance:
-            type: boolean
-          archived_at:
-            type: 'null'
-          conversion_limit:
-            type: integer
-    example:
-      coupon:
-        id: 173746
-        name: 100% coupon
-        code: 100PERCENT
-        description: 100 PERCENT OFF
-        amount_in_cents: null
-        product_family_id: 527890
-        created_at: '2016-10-21T17:02:08-04:00'
-        updated_at: '2016-10-21T17:06:11-04:00'
-        start_date: '2016-10-21T17:02:08-04:00'
-        end_date: null
-        percentage: 50
-        recurring: true
-        duration_period_count: null
-        duration_interval: 1
-        duration_interval_unit: day
-        allow_negative_balance: true
-        archived_at: null
-        conversion_limit: 100
-    x-stoplight:
-      id: coupons/finding-a-coupon-output
-      name: Finding a Coupon Output
-      public: true
-  coupons/updating-a-coupon-input:
-    title: Update a Coupon Input
-    type: object
-    properties:
-      coupon:
-        type: object
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          code:
-            type: string
-          description:
-            type: string
-          percentage:
-            type: string
-          allow_negative_balance:
-            type: string
-          recurring:
-            type: string
-          end_date:
-            type: string
-          product_family_id:
-            type: string
-      restricted_products:
-        type: object
-        properties:
-          '1':
-            type: boolean
-      restricted_components:
-        type: object
-        properties:
-          '1':
-            type: boolean
-          '2':
-            type: boolean
-    example:
-      coupon:
-        id: '1'
-        name: 15% off
-        code: 15OFF
-        description: 15% off for life
-        percentage: '15'
-        allow_negative_balance: 'false'
-        recurring: 'false'
-        end_date: '2018-08-29T23:59:59-04:00'
-        product_family_id: '2'
-      restricted_products:
-        '1': true
-      restricted_components:
-        '1': true
-        '2': false
-    x-stoplight:
-      id: coupons/updating-a-coupon-input
-      name: Update a Coupon Input
-      public: true
   coupons/create-coupon-input:
     title: Create Coupon Input
     type: object
@@ -23534,73 +23450,6 @@ definitions:
     x-stoplight:
       id: coupon/create-subscription-with-coupon-input
       name: Create Subscription with Coupon Input
-      public: true
-  coupons/archive-a-coupon-output:
-    title: Archive a Coupon Output
-    type: object
-    properties:
-      coupon:
-        type: object
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          code:
-            type: string
-          description:
-            type: string
-          amount_in_cents:
-            type: integer
-          product_family_id:
-            type: integer
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          start_date:
-            type: string
-          end_date:
-            type: 'null'
-          percentage:
-            type: 'null'
-          recurring:
-            type: boolean
-          duration_period_count:
-            type: integer
-          duration_interval:
-            type: integer
-          duration_interval_unit:
-            type: string
-          allow_negative_balance:
-            type: boolean
-          archived_at:
-            type: string
-          conversion_limit:
-            type: 'null'
-    example:
-      coupon:
-        id: 126210
-        name: 1 Month Free MMI
-        code: MMI45
-        description: 1 Month Free - MMI
-        amount_in_cents: 4500
-        product_family_id: 527890
-        created_at: '2016-08-02T11:40:04-04:00'
-        updated_at: '2016-12-02T13:09:34-05:00'
-        start_date: '2016-08-02T11:40:04-04:00'
-        end_date: null
-        percentage: null
-        recurring: true
-        duration_period_count: 1
-        duration_interval: 1
-        duration_interval_unit: month
-        allow_negative_balance: false
-        archived_at: '2016-12-02T13:09:33-05:00'
-        conversion_limit: null
-    x-stoplight:
-      id: coupons/archive-a-coupon-output
-      name: Archive a Coupon Output
       public: true
   coupons/list-coupons-for-a-site-output:
     title: List Coupons for a Site Output
@@ -28174,6 +28023,355 @@ definitions:
       id: /customfields/metadata/list-metadata-for-a-customer-output
       name: List Metadata for a Customer Output
       public: true
+  coupon/add-the-coupon-newness:
+    title: Add the Coupon to Subscription Output
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          id:
+            type: integer
+          state:
+            type: string
+          trial_started_at:
+            type: 'null'
+          trial_ended_at:
+            type: 'null'
+          activated_at:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          expires_at:
+            type: 'null'
+          balance_in_cents:
+            type: integer
+          current_period_ends_at:
+            type: string
+          next_assessment_at:
+            type: string
+          canceled_at:
+            type: 'null'
+          cancellation_message:
+            type: 'null'
+          next_product_id:
+            type: 'null'
+          cancel_at_end_of_period:
+            type: boolean
+          payment_collection_method:
+            type: string
+          snap_day:
+            type: 'null'
+          cancellation_method:
+            type: 'null'
+          current_period_started_at:
+            type: string
+          previous_state:
+            type: string
+          signup_payment_id:
+            type: integer
+          signup_revenue:
+            type: string
+          delayed_cancel_at:
+            type: 'null'
+          coupon_code:
+            type: string
+          total_revenue_in_cents:
+            type: integer
+          product_price_in_cents:
+            type: integer
+          product_version_number:
+            type: integer
+          payment_type:
+            type: string
+          referral_code:
+            type: 'null'
+          coupon_use_count:
+            type: integer
+          coupon_uses_allowed:
+            type: integer
+          reason_code:
+            type: 'null'
+          automatically_resume_at:
+            type: 'null'
+          coupon_codes:
+            type: array
+            items:
+              type: string
+          customer:
+            type: object
+            properties:
+              id:
+                type: integer
+              first_name:
+                type: string
+              last_name:
+                type: string
+              organization:
+                type: string
+              email:
+                type: string
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              reference:
+                type: 'null'
+              address:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              country:
+                type: string
+              phone:
+                type: string
+              portal_invite_last_sent_at:
+                type: 'null'
+              portal_invite_last_accepted_at:
+                type: 'null'
+              verified:
+                type: boolean
+              portal_customer_created_at:
+                type: 'null'
+              cc_emails:
+                type: 'null'
+              tax_exempt:
+                type: boolean
+          product:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              handle:
+                type: string
+              description:
+                type: string
+              accounting_code:
+                type: 'null'
+              request_credit_card:
+                type: boolean
+              expiration_interval:
+                type: 'null'
+              expiration_interval_unit:
+                type: 'null'
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              price_in_cents:
+                type: integer
+              interval:
+                type: integer
+              interval_unit:
+                type: string
+              initial_charge_in_cents:
+                type: 'null'
+              trial_price_in_cents:
+                type: 'null'
+              trial_interval:
+                type: 'null'
+              trial_interval_unit:
+                type: 'null'
+              archived_at:
+                type: 'null'
+              require_credit_card:
+                type: boolean
+              return_params:
+                type: 'null'
+              taxable:
+                type: boolean
+              update_return_url:
+                type: 'null'
+              tax_code:
+                type: 'null'
+              initial_charge_after_trial:
+                type: boolean
+              version_number:
+                type: integer
+              update_return_params:
+                type: 'null'
+              product_family:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: 'null'
+                  handle:
+                    type: string
+                  accounting_code:
+                    type: 'null'
+              public_signup_pages:
+                type: array
+                items:
+                  type: object
+          credit_card:
+            type: object
+            properties:
+              id:
+                type: integer
+              first_name:
+                type: string
+              last_name:
+                type: string
+              masked_card_number:
+                type: string
+              card_type:
+                type: string
+              expiration_month:
+                type: integer
+              expiration_year:
+                type: integer
+              customer_id:
+                type: integer
+              current_vault:
+                type: string
+              vault_token:
+                type: string
+              billing_address:
+                type: string
+              billing_city:
+                type: string
+              billing_state:
+                type: string
+              billing_zip:
+                type: string
+              billing_country:
+                type: string
+              customer_vault_token:
+                type: 'null'
+              billing_address_2:
+                type: string
+              payment_type:
+                type: string
+    example:
+      subscription:
+        id: 50
+        state: active
+        trial_started_at: null
+        trial_ended_at: null
+        activated_at: '2017-11-01T04:17:47-04:00'
+        created_at: '2017-11-01T04:17:46-04:00'
+        updated_at: '2017-11-08T09:17:44-05:00'
+        expires_at: null
+        balance_in_cents: 0
+        current_period_ends_at: '2017-12-01T03:17:46-05:00'
+        next_assessment_at: '2017-12-01T03:17:46-05:00'
+        canceled_at: null
+        cancellation_message: null
+        next_product_id: null
+        cancel_at_end_of_period: false
+        payment_collection_method: automatic
+        snap_day: null
+        cancellation_method: null
+        current_period_started_at: '2017-11-01T04:17:46-04:00'
+        previous_state: active
+        signup_payment_id: 109
+        signup_revenue: '10.00'
+        delayed_cancel_at: null
+        coupon_code: ABC123
+        total_revenue_in_cents: 1000
+        product_price_in_cents: 1000
+        product_version_number: 1
+        payment_type: credit_card
+        referral_code: null
+        coupon_use_count: 0
+        coupon_uses_allowed: 1
+        reason_code: null
+        automatically_resume_at: null
+        coupon_codes:
+          - ABC123
+        customer:
+          id: 50
+          first_name: Fred
+          last_name: Jones
+          organization: ''
+          email: fred@jones.com
+          created_at: '2017-11-01T04:17:46-04:00'
+          updated_at: '2017-11-01T04:17:46-04:00'
+          reference: null
+          address: ''
+          address_2: ''
+          city: ''
+          state: ''
+          zip: ''
+          country: ''
+          phone: ''
+          portal_invite_last_sent_at: null
+          portal_invite_last_accepted_at: null
+          verified: false
+          portal_customer_created_at: null
+          cc_emails: null
+          tax_exempt: false
+        product:
+          id: 97
+          name: User-friendly systemic matrices
+          handle: handle_1d382acd0
+          description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
+          accounting_code: null
+          request_credit_card: true
+          expiration_interval: null
+          expiration_interval_unit: null
+          created_at: '2017-09-13T12:45:35-04:00'
+          updated_at: '2017-09-13T12:45:35-04:00'
+          price_in_cents: 1000
+          interval: 1
+          interval_unit: month
+          initial_charge_in_cents: null
+          trial_price_in_cents: null
+          trial_interval: null
+          trial_interval_unit: null
+          archived_at: null
+          require_credit_card: true
+          return_params: null
+          taxable: false
+          update_return_url: null
+          tax_code: null
+          initial_charge_after_trial: false
+          version_number: 1
+          update_return_params: null
+          product_family:
+            id: 4
+            name: Acme Online
+            description: null
+            handle: acme-online
+            accounting_code: null
+          public_signup_pages: []
+        credit_card:
+          id: 36
+          first_name: Fred
+          last_name: Jones
+          masked_card_number: XXXX-XXXX-XXXX-1
+          card_type: bogus
+          expiration_month: 1
+          expiration_year: 2025
+          customer_id: 50
+          current_vault: bogus
+          vault_token: '1'
+          billing_address: ''
+          billing_city: ''
+          billing_state: AL
+          billing_zip: ''
+          billing_country: US
+          customer_vault_token: null
+          billing_address_2: ''
+          payment_type: credit_card
+    x-stoplight:
+      id: coupon/add-the-coupon-newness
+      name: Add the Coupon to Subscription Output
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -28501,6 +28699,8 @@ x-stoplight:
               type: endpoints
             - _id: coupon/add-the-coupon-to-subscription-output
               type: schemas
+            - _id: coupon/add-the-coupon-newness
+              type: schemas
             - _id: DELETE_subscriptions-subscription_id-remove_coupon-format
               type: endpoints
           name: Coupons - Subscriptions
@@ -28527,22 +28727,14 @@ x-stoplight:
               type: schemas
             - _id: PUT_coupons-coupon_id-format
               type: endpoints
-            - _id: coupons/updating-a-coupon-input
-              type: schemas
-            - _id: coupons/updating-a-coupon-output
-              type: schemas
             - _id: GET_coupons-couponid-usagejson
               type: endpoints
             - _id: coupons/coupon-usage-output
               type: schemas
             - _id: GET_coupons-findjson
               type: endpoints
-            - _id: coupons/finding-a-coupon-output
-              type: schemas
             - _id: DELETE_coupons-coupon_id-format
               type: endpoints
-            - _id: coupons/archive-a-coupon-output
-              type: schemas
           name: Coupons - Editing
         - name: Coupons - Subcodes
           items:
@@ -29814,34 +30006,6 @@ x-stoplight:
         ## Subscriptions - Coupons
 
         In addition to the normal CRUD actions on coupons, you can also create Subscriptions using a Coupon, add a Coupon to an existing Subscription, and validate a Coupon via the API.
-
-        ## Coupon Documentation
-
-        Full documentation on how to create Coupons in the Chargify UI can be located [here](https://help.chargify.com/products/product-coupons.html).
-
-        Additionally, for documentation on how to apply a coupon to a Subscription within the Chargify UI, please see our documentation [here](https://help.chargify.com/subscriptions/subscription-summary.html#coupon).
-
-        ## Coupon Attributes
-
-        When creating a coupon, you must specify a product family using the `product_family_id`. **If no `product_family_id` is passed, the first product family available is used.** You will also need to formulate your URL to cite the Product Family ID in your request.
-
-        | name                   | The internal coupon name. This information is never displayed to customers.                                                                                                                                                                                      |
-        |------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | code                   | The coupon code. This is used by you or your customers to apply the coupon to a subscription. The code may contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): `%`, `@`, `+`, `-`, `_`, and `.` |
-        | description            | The coupon description. This will be displayed to the customers after the coupon validation.                                                                                                                                                                     |
-        | percentage             | The discount percentage. Should be an integer between 1 and 100. You should set the percentage or the amount, but not both.                                                                                                                                      |
-        | amount                 | Flat discount amount as a string with dollars and (optionally) cents, i.e. `10.00` for $10.00. You should set the percentage or the amount, but not both.                                                                                                        |
-        | allow_negative_balance | Boolean. If `true`, credits will carry forward to next billing. Otherwise discount may not exceed total of the charges.                                                                                                                                          |
-        | recurring              | Boolean. If `true`, the discount will be applied at signup and every renewal (for the number of renewals given by duration_period_count). Otherwise, discount will be applied only at signup.                                                                    |
-        | duration_period_count  | Integer. Number of renewals the coupon is good for. Recurring should be set to `true`. Setting recurring to `true` and leaving this blank indicates that the coupon applies indefinitely.                                                                        |
-        | duration_interval_unit | And `duration_interval`. Description of the number of days/months the coupon should be applied. (See Recurring Options on [Coupons](https://help.chargify.com/products/product-coupons.html) for more details.)                                                  |
-        | end_date               | Coupon ending date. If set, the coupon will expire at the end of the day in your site’s time zone on this date. (See Expiration Date on [Coupons](https://help.chargify.com/products/product-coupons.html) for more details.)                                    |
-        | conversion_limit       | Number of times this coupon (or any of its codes) may be added to a subscription                                                                                                                                                                                 |
-        | product_family_id      | The ID of the product family to which the coupon belongs. The coupon can be added only to products in this product family.                                                                                                                                       |
-        | created_at             | (Read Only) The creation date for this coupon                                                                                                                                                                                                                    |
-        | start_date             | (Read Only) Timestamp indicating when this coupon began to be valid. Defaults to `created_at`.                                                                                                                                                                   |
-        | updated_at             | (Read Only) The date of last update for this coupon                                                                                                                                                                                                              |
-        | archived_at            | Timestamp indicating when this coupon was archived                                                                                                                                                                                                               |
       public: true
     invoices-charges-intro:
       id: invoices-charges-intro
