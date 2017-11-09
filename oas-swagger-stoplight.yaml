@@ -877,44 +877,29 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading Current Quantity
+      summary: Reading the Current Status of On/Off Component
       tags:
         - Components - On/Off Toggling
       description: |-
         ## Reading Current Quantity
 
         You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
-
-        ## Querying data via Chargify gem
-
-        You can also query the current quantity via the [official Chargify Gem.]( http://github.com/chargify/chargify_api_ares)
-
-        ```# First way
-        component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-        puts component.allocated_quantity
-        # => 23
-
-        # Second way
-        component = Chargify::Subscription.find(7).component(1)
-        puts component.allocated_quantity
-        # => 23
-        ```
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/quantity/reading-current-quantity-response'
+            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
           examples:
             application/json:
               component:
-                component_id: 399850
+                component_id: 399853
                 subscription_id: 18342261
-                allocated_quantity: 29
-                name: Bronze Subscriptions 123
-                kind: quantity_based_component
-                unit_name: Bronze Subscriptions
-                pricing_scheme: per_unit
-                price_point_id: 121000
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -982,122 +967,77 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Setting Quantity at Subscription Creation
+      summary: Create Subscription with a Coupon
       tags:
         - Components - Metered Usage
       description: |-
-        ## Setting the Quantity at Subscription Creation
+        ## Create Subscription with a Coupon
 
-        You may set the quantity when you create the subscription by including some extra data in your POST request. 
-
-        In addition to the normal post data, also include a 'components’ attribute, as indicated below:
-
-        ```
-        {
-          "subscription": {
-            ...normal subscription attributes...
-            "components":[
-              {
-                "component_id": 1,
-                "allocated_quantity": 18
-              }
-            ]
-          }
-        }
-        ```
-
-        You can also optionally include a `price_point_id` along with the `component_id` to set a specific price point to use, otherwise the component's default price point will be used.
-
-        ## Via the Chargify Gem
-
-        Link to [official Chargify Gem](http://github.com/chargify/chargify_api_ares)
-
-        ```
-        Chargify::Subscription.create(
-          :product_id => 2,
-          :customer_id => 1,
-          :credit_card_attributes => {
-            :full_number => 1,
-            :first_name => "John",
-            :last_name => "Doe",
-            :expiration_month => "2",
-            :expiration_year => "2020"
-          },
-          :components => [
-            {
-              :component_id => 1,
-              :allocated_quantity => 15
-            }
-          ]
-        )
-        ```
+        This method allows you to create a Subscription within Chargify with a coupon applied at signup.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/quantity/setting-quantity-at-subscription-input'
+            $ref: '#/definitions/coupon/create-subscription-with-coupon-input'
             example:
               subscription:
                 product_handle: basic
                 customer_attributes:
-                  first_name: Matt
-                  last_name: Example
-                  email: matt@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
-                components:
-                  - component_id: 277221
-                    price_point_id: 20001
-                    allocated_quantity: 18
+                coupon_code: 100PERCENT
       responses:
-        '200':
+        '201':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/coupon/create-subscription-with-coupon-output'
           examples:
             application/json:
               subscription:
-                id: 15100172
+                id: 15479934
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2016-11-04T17:08:32-04:00'
-                created_at: '2016-11-04T17:08:31-04:00'
-                updated_at: '2016-11-04T17:08:33-04:00'
+                activated_at: '2016-12-02T15:59:08-05:00'
+                created_at: '2016-12-02T15:59:06-05:00'
+                updated_at: '2016-12-02T15:59:08-05:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2016-11-05T17:08:31-04:00'
-                next_assessment_at: '2016-11-05T17:08:31-04:00'
+                current_period_ends_at: '2016-12-03T15:59:06-05:00'
+                next_assessment_at: '2016-12-03T15:59:06-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
-                cancel_at_end_of_period: false
+                cancel_at_end_of_period: null
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-04T17:08:31-04:00'
+                current_period_started_at: '2016-12-02T15:59:06-05:00'
                 previous_state: active
-                signup_payment_id: 161034121
-                signup_revenue: '64.00'
+                signup_payment_id: 164720323
+                signup_revenue: '5.00'
                 delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 6400
+                coupon_code: 100PERCENT
+                total_revenue_in_cents: 500
                 product_price_in_cents: 1000
                 product_version_number: 7
                 payment_type: credit_card
-                referral_code: spn4qp
-                coupon_use_count: null
+                referral_code: 7b8p8v
+                coupon_use_count: 1
                 coupon_uses_allowed: null
                 customer:
-                  id: 14585723
-                  first_name: Matt
-                  last_name: Example
+                  id: 14943291
+                  first_name: Joe
+                  last_name: Blow
                   organization: null
-                  email: matt@example.com
-                  created_at: '2016-11-04T17:08:31-04:00'
-                  updated_at: '2016-11-04T17:08:34-04:00'
+                  email: joe@example.com
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T15:59:09-05:00'
                   reference: null
                   address: null
                   address_2: null
@@ -1106,11 +1046,12 @@ paths:
                   zip: null
                   country: null
                   phone: null
-                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
                   cc_emails: null
+                  tax_exempt: false
                 product:
                   id: 3792003
                   name: $10 Basic Plan
@@ -1157,14 +1098,14 @@ paths:
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                 credit_card:
-                  id: 10102844
-                  first_name: Matt
-                  last_name: Example
+                  id: 10345872
+                  first_name: Joe
+                  last_name: Blow
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 14585723
+                  customer_id: 14943291
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -1836,60 +1777,6 @@ paths:
         in: path
         required: true
         type: string
-    get:
-      operationId: GET_components-component_id-price_points-format
-      summary: List Price Points
-      tags:
-        - Components - Price Points
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/components/price-points/list-price-points-response'
-          examples:
-            application/json:
-              price_points:
-                - id: 80
-                  default: false
-                  name: Wholesale Two
-                  pricing_scheme: per_unit
-                  component_id: 74
-                  handle: wholesale-two
-                  archived_at: null
-                  created_at: '2017-07-05T13:55:40-04:00'
-                  updated_at: '2017-07-05T13:55:40-04:00'
-                  prices:
-                    - id: 121
-                      component_id: 74
-                      starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '5.0'
-                - id: 81
-                  default: false
-                  name: MSRP
-                  pricing_scheme: per_unit
-                  component_id: 74
-                  handle: msrp
-                  archived_at: null
-                  created_at: '2017-07-05T13:55:40-04:00'
-                  updated_at: '2017-07-05T13:55:40-04:00'
-                  prices:
-                    - id: 122
-                      component_id: 74
-                      starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '4.0'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_components-componentid-pricepointsformat
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
     post:
       operationId: POST_components-component_id-price_points-format
       summary: Create Price Point
@@ -1943,6 +1830,60 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_components-componentid-pricepointsformat
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_components-component_id-price_points-format
+      summary: List Price Points
+      tags:
+        - Components - Price Points
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/components/price-points/list-price-points-response'
+          examples:
+            application/json:
+              price_points:
+                - id: 80
+                  default: false
+                  name: Wholesale Two
+                  pricing_scheme: per_unit
+                  component_id: 74
+                  handle: wholesale-two
+                  archived_at: null
+                  created_at: '2017-07-05T13:55:40-04:00'
+                  updated_at: '2017-07-05T13:55:40-04:00'
+                  prices:
+                    - id: 121
+                      component_id: 74
+                      starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '5.0'
+                - id: 81
+                  default: false
+                  name: MSRP
+                  pricing_scheme: per_unit
+                  component_id: 74
+                  handle: msrp
+                  archived_at: null
+                  created_at: '2017-07-05T13:55:40-04:00'
+                  updated_at: '2017-07-05T13:55:40-04:00'
+                  prices:
+                    - id: 122
+                      component_id: 74
+                      starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '4.0'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_components-componentid-pricepointsformat
         beforeScript: null
         afterScript: null
         public: true
@@ -2464,896 +2405,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptions-subscriptionid-pricepoints-reset
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  /coupons.json:
-    post:
-      operationId: POST_coupons-format
-      summary: Create  Coupon
-      tags:
-        - Coupon
-        - Coupon Editing
-      description: |-
-        ## Create a Coupon
-
-        This request will create a coupon, based on the provided information.
-
-        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
-        `{ "<product/component_id>": boolean_value }`
-
-        The coupon's `code` may contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.”
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              coupon:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  code:
-                    type: string
-                  description:
-                    type: string
-                  percentage:
-                    type: string
-                  allow_negative_balance:
-                    type: string
-                  recurring:
-                    type: string
-                  end_date:
-                    type: string
-                  product_family_id:
-                    type: string
-              restricted_products:
-                type: object
-                properties:
-                  '1':
-                    type: boolean
-              restricted_components:
-                type: object
-                properties:
-                  '1':
-                    type: boolean
-                  '2':
-                    type: boolean
-            example:
-              coupon:
-                name: 15% off
-                code: 15OFF
-                description: 15% off for life
-                percentage: '15'
-                allow_negative_balance: 'false'
-                recurring: 'false'
-                end_date: '2012-08-29T12:00:00-04:00'
-                product_family_id: '2'
-                stackable: 'true'
-                compounding_strategy: compound
-              restricted_products:
-                '1': true
-              restricted_components:
-                '1': true
-                '2': false
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-            properties:
-              coupon:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  code:
-                    type: string
-                  description:
-                    type: string
-                  amount_in_cents:
-                    type: 'null'
-                  product_family_id:
-                    type: integer
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  start_date:
-                    type: string
-                  end_date:
-                    type: string
-                  percentage:
-                    type: integer
-                  recurring:
-                    type: boolean
-                  duration_period_count:
-                    type: 'null'
-                  duration_interval:
-                    type: 'null'
-                  duration_interval_unit:
-                    type: 'null'
-                  allow_negative_balance:
-                    type: boolean
-                  archived_at:
-                    type: 'null'
-                  conversion_limit:
-                    type: 'null'
-          examples:
-            application/json:
-              coupon:
-                id: 67
-                name: Foo Bar
-                code: YEPPER99934
-                description: my cool coupon
-                amount_in_cents: 10000
-                product_family_id: 4
-                created_at: '2017-11-08T10:01:15-05:00'
-                updated_at: '2017-11-08T10:01:15-05:00'
-                start_date: '2017-11-08T10:01:15-05:00'
-                end_date: null
-                percentage: null
-                recurring: false
-                duration_period_count: null
-                duration_interval: null
-                duration_interval_unit: null
-                allow_negative_balance: false
-                archived_at: null
-                conversion_limit: null
-                stackable: true
-                compounding_strategy: compound
-                coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_coupons-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          statusCode: 200
-          enabled: false
-    get:
-      operationId: GET_coupons-format
-      summary: List Coupons for the Default Product Family for a Site
-      tags:
-        - Coupon
-        - incomplete
-        - Coupons
-      description: |-
-        ## List Coupons for the Default Product Family
-
-        You can retrieve a list of coupons that belong to the default product family for a site via this method.
-
-        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
-          examples:
-            application/json:
-              - coupon:
-                  id: 173746
-                  name: 100% coupon
-                  code: 100PERCENT
-                  description: 100 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 50
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-              - coupon:
-                  id: 126414
-                  name: 12 week coupon
-                  code: 12WEEKS
-                  description: 12WEEKS
-                  amount_in_cents: 1818
-                  product_family_id: 527890
-                  created_at: '2016-08-03T11:52:29-04:00'
-                  updated_at: '2016-08-03T11:52:29-04:00'
-                  start_date: '2016-08-03T11:52:29-04:00'
-                  end_date: null
-                  percentage: null
-                  recurring: true
-                  duration_period_count: 2
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: false
-                  archived_at: null
-                  conversion_limit: null
-              - coupon:
-                  id: 204696
-                  name: 15% off
-                  code: 15OFF4LYFE
-                  description: 15% off for life
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-11-29T16:09:00-05:00'
-                  updated_at: '2016-11-29T16:09:00-05:00'
-                  start_date: '2016-11-29T16:09:00-05:00'
-                  end_date: '2018-08-29T23:59:59-04:00'
-                  percentage: 15
-                  recurring: false
-                  duration_period_count: null
-                  duration_interval: null
-                  duration_interval_unit: null
-                  allow_negative_balance: false
-                  archived_at: null
-                  conversion_limit: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/add_coupon.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The Subscription ID.
-        required: true
-        type: number
-    post:
-      operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-      summary: Add the Coupon to an existing Subscription
-      tags:
-        - Coupon
-        - incomplete
-        - Coupons
-      description: |-
-        ## Add the Coupon to an existing Subscription
-
-        If the Coupon is successfully applied, the Subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
-        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
-      parameters:
-        - name: code
-          in: query
-          required: true
-          type: string
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupon/add-the-coupon-to-subscription-output'
-        '422':
-          description: Unprocessable Entity
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/remove_coupon.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The Subscription ID.
-        required: true
-        type: number
-    delete:
-      operationId: DELETE_subscriptions-subscription_id-remove_coupon-format
-      summary: Remove the Coupon from the Subscription
-      tags:
-        - Coupon
-        - incomplete
-        - Coupons
-      description: |-
-        ## Remove the Coupon from the Subscription
-
-        If the Coupon is successfully removed, the string “Coupon removed.” will be returned. Otherwise, the "422 Unprocessable Entity" error will be returned.
-      parameters:
-        - name: coupon_code
-          in: query
-          description: The Coupon code.
-          required: false
-          type: string
-      responses:
-        '422':
-          description: Unprocessable Entity
-          examples:
-            application/json:
-              subscription:
-                - There's no coupon applied to this subscription
-      x-stoplight:
-        id: DELETE_subscriptions-subscription_id-remove_coupon-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/product_families/{product_family_id}/coupons.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_product_families-product_family_id-coupons-json
-      summary: List Coupons for a Product Family for a Site
-      tags:
-        - Coupons
-      description: |-
-        ## List Coupons for a Specific Product Family
-
-        List coupons for a specific Product Family in a Site.
-      produces:
-        - application/xml
-      parameters:
-        - name: product_family_id
-          in: query
-          type: integer
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
-          examples:
-            application/json:
-              - coupon:
-                  id: 999999
-                  name: 50% coupon
-                  code: 50PERCENT
-                  description: 50 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 50
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-              - coupon:
-                  id: 123456
-                  name: 100% coupon
-                  code: 100PERCENT
-                  description: 100 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 50
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-              - coupon:
-                  id: 888888
-                  name: 25% coupon
-                  code: 25PERCENT
-                  description: 25 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 25
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_productfamilies-productfamilyid-couponsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/product_families/{product_family_id}/coupons/{coupon_id}.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: string
-      - name: coupon_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_coupons-coupon_id-format
-      summary: Read a Coupon
-      tags:
-        - Coupon
-        - Coupons
-      description: |-
-        ## Read a Coupon
-
-        You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Chargify assigns.
-        If instead you would like to find a Coupon using a Coupon code, see the Coupon Find method.
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: object
-            properties:
-              coupon:
-                $ref: '#/definitions/coupons/finding-a-coupon-output'
-          examples:
-            application/json:
-              coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
-                end_date: null
-                percentage: 50
-                recurring: true
-                duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
-                archived_at: null
-                conversion_limit: 100
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-coupon_id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/coupons/{coupon_id}.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        description: The Coupon ID.
-        required: true
-        type: number
-    put:
-      operationId: PUT_coupons-coupon_id-format
-      summary: Update a Coupon
-      tags:
-        - Coupon
-        - Coupons
-      description: |-
-        ## Update a Coupon
-
-        You can update a Coupon via the API with a PUT request to the resource endpoint.
-
-        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
-        `{ "<product/component_id>": boolean_value }`
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              coupon:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  name:
-                    type: string
-                  code:
-                    type: string
-                  description:
-                    type: string
-                  percentage:
-                    type: string
-                  allow_negative_balance:
-                    type: string
-                  recurring:
-                    type: string
-                  end_date:
-                    type: string
-                  product_family_id:
-                    type: string
-              restricted_products:
-                type: object
-                properties:
-                  '1':
-                    type: boolean
-              restricted_components:
-                type: object
-                properties:
-                  '1':
-                    type: boolean
-                  '2':
-                    type: boolean
-            example:
-              coupon:
-                id: '1'
-                name: 15% off
-                code: 15OFF
-                description: 15% off for life
-                percentage: '15'
-                allow_negative_balance: 'false'
-                recurring: 'false'
-                end_date: '2018-08-29T23:59:59-04:00'
-                product_family_id: '2'
-              restricted_products:
-                '1': true
-              restricted_components:
-                '1': true
-                '2': false
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: object
-            properties:
-              coupon:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  code:
-                    type: string
-                  description:
-                    type: string
-                  amount_in_cents:
-                    type: 'null'
-                  product_family_id:
-                    type: integer
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  start_date:
-                    type: string
-                  end_date:
-                    type: string
-                  percentage:
-                    type: integer
-                  recurring:
-                    type: boolean
-                  duration_period_count:
-                    type: 'null'
-                  duration_interval:
-                    type: 'null'
-                  duration_interval_unit:
-                    type: 'null'
-                  allow_negative_balance:
-                    type: boolean
-                  archived_at:
-                    type: 'null'
-                  conversion_limit:
-                    type: 'null'
-          examples:
-            application/json:
-              coupon:
-                id: 1
-                name: 15% off
-                code: 15OFF
-                description: 15% off for life
-                amount_in_cents: null
-                product_family_id: 2
-                created_at: '2016-11-29T16:09:00-05:00'
-                updated_at: '2016-11-29T16:09:00-05:00'
-                start_date: '2016-11-29T16:09:00-05:00'
-                end_date: '2018-08-29T23:59:59-04:00'
-                percentage: 15
-                recurring: false
-                duration_period_count: null
-                duration_interval: null
-                duration_interval_unit: null
-                allow_negative_balance: false
-                archived_at: null
-                conversion_limit: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_coupons-coupon_id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-    delete:
-      operationId: DELETE_coupons-coupon_id-format
-      summary: Archive a Coupon
-      tags:
-        - Coupon
-        - Coupons
-      description: |-
-        ## Archive a Coupon
-
-        You can archive a Coupon via the API with the archive method.
-        Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
-        The `archived_at` date and time will be assigned.
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons/archive-a-coupon-output'
-          examples:
-            application/json:
-              coupon:
-                id: 126210
-                name: 1 Month Free
-                code: MMI45
-                description: 1 Month Free - MMI
-                amount_in_cents: 4500
-                product_family_id: 527890
-                created_at: '2016-08-02T11:40:04-04:00'
-                updated_at: '2016-12-02T13:09:34-05:00'
-                start_date: '2016-08-02T11:40:04-04:00'
-                end_date: null
-                percentage: null
-                recurring: true
-                duration_period_count: 1
-                duration_interval: 1
-                duration_interval_unit: month
-                allow_negative_balance: false
-                archived_at: '2016-12-02T13:09:33-05:00'
-                conversion_limit: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: DELETE_coupons-coupon_id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /coupons/validate.json:
-    get:
-      operationId: GET_coupons-validate-format
-      summary: Validate a Coupon
-      tags:
-        - Coupon
-        - incomplete
-        - Coupons
-      description: |-
-        ## Validate a Coupon
-
-        You can verify if a specific coupon code is valid using the `validate` method. This method is useful for validating coupon codes that are entered by a customer. If the coupon is found and is valid, the coupon will be returned with a 200 status code.
-
-        If the coupon is invalid, the status code will be 404 and the response will say why it is invalid. If the coupon is valid, the status code will be 200 and the coupon will be returned. The following reasons for invalidity are supported:
-
-        + Coupon not found
-        + Coupon is invalid
-        + Coupon expired
-
-        If you have more than one product family and if the coupon you are validating does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
-
-        Eg.
-
-        ```
-        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/validate.<format>?code=<coupon_code>
-        ```
-
-        Or:
-
-        ```
-        https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=1
-        ```
-      parameters:
-        - name: coupon_code
-          in: query
-          description: The Coupon Code.
-          required: false
-          type: string
-        - name: product_family_id
-          in: query
-          description: ''
-          required: false
-          type: number
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/coupons/finding-a-coupon-output'
-            example:
-              coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
-                end_date: null
-                percentage: 50
-                recurring: true
-                duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
-                archived_at: null
-                conversion_limit: 100
-      responses:
-        '404':
-          description: Not Found
-          examples:
-            application/json:
-              errors: Coupon code could not be found.
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-validate-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /coupons/find.json:
-    get:
-      operationId: GET_coupons-find-json
-      summary: Finding a Coupon
-      tags:
-        - Coupons
-      description: |-
-        ## Finding a Coupon
-
-        You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
-
-        If you have more than one product family and if the coupon you are trying to find does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
-
-        You can retrieve a coupon via the API with the show method. You must identify the coupon in this call by the id parameter that Chargify assigns. If instead you would like to find a coupon using a coupon code, see the Coupon Find method.
-
-        ```
-        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/find.<format>?code=<coupon_code>
-        ```
-
-        **OR**
-
-        ```
-        https://<subdomain>.chargify.com/coupons/find.<format>?code=<coupon_code>&product_family_id=1
-        ```
-      parameters:
-        - name: product_family_id
-          in: query
-          type: integer
-        - name: code
-          in: query
-          type: string
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons/finding-a-coupon-output'
-          examples:
-            application/json:
-              coupon:
-                id: 173746
-                name: 100% coupon
-                code: 100PERCENT
-                description: 100 PERCENT OFF
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-10-21T17:02:08-04:00'
-                updated_at: '2016-10-21T17:06:11-04:00'
-                start_date: '2016-10-21T17:02:08-04:00'
-                end_date: null
-                percentage: 50
-                recurring: true
-                duration_period_count: null
-                duration_interval: 1
-                duration_interval_unit: day
-                allow_negative_balance: true
-                archived_at: null
-                conversion_limit: 100
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-findjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/coupons/{coupon_id}/usage.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_coupons-coupon_id-usage-json
-      summary: Coupon Usage
-      tags:
-        - Coupons
-      description: |-
-        ## Coupon Usage
-
-        This request will provide details about the coupon usage as an array of data hashes, one per product.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons/coupon-usage-output'
-          examples:
-            application/json:
-              - name: No cost product
-                id: 3903594
-                signups: 0
-                savings: 0
-                savings_in_cents: 0
-                revenue: 0
-                revenue_in_cents: 0
-              - name: Product that expires
-                id: 3853680
-                signups: 0
-                savings: 0
-                savings_in_cents: 0
-                revenue: 0
-                revenue_in_cents: 0
-              - name: Trial Product
-                id: 3861800
-                signups: 1
-                savings: 30
-                savings_in_cents: 3000
-                revenue: 20
-                revenue_in_cents: 2000
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-couponid-usagejson
         beforeScript: null
         afterScript: null
         public: true
@@ -3895,6 +2946,790 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: DELETE_resource-metafieldsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/add_coupon.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The Subscription ID.
+        required: true
+        type: number
+    post:
+      operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
+      summary: Add the Coupon to an existing Subscription
+      tags:
+        - Coupon
+        - incomplete
+        - Coupons - Subscriptions
+      description: |-
+        ## Add the Coupon to an existing Subscription
+
+        If the Coupon is successfully applied, the Subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
+        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
+      parameters:
+        - name: code
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupon/add-the-coupon-to-subscription-output'
+        '422':
+          description: Unprocessable Entity
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/remove_coupon.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The Subscription ID.
+        required: true
+        type: number
+    delete:
+      operationId: DELETE_subscriptions-subscription_id-remove_coupon-format
+      summary: Remove the Coupon from the Subscription
+      tags:
+        - Coupon
+        - incomplete
+        - Coupons - Subscriptions
+      description: |-
+        ## Remove the Coupon from the Subscription
+
+        If the Coupon is successfully removed, the string “Coupon removed.” will be returned. Otherwise, the "422 Unprocessable Entity" error will be returned.
+      parameters:
+        - name: coupon_code
+          in: query
+          description: The Coupon code.
+          required: false
+          type: string
+      responses:
+        '422':
+          description: Unprocessable Entity
+          examples:
+            application/json:
+              subscription:
+                - There's no coupon applied to this subscription
+      x-stoplight:
+        id: DELETE_subscriptions-subscription_id-remove_coupon-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  /coupons.json:
+    post:
+      operationId: POST_coupons-format
+      summary: Create  Coupon
+      tags:
+        - Coupon
+        - Coupons - Editing
+      description: |-
+        ## Create a Coupon
+
+        This request will create a coupon, based on the provided information.
+
+        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
+        `{ "<product/component_id>": boolean_value }`
+
+        The coupon's `code` may contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): “%”, “@”, “+”, “-”, “_”, and “.”
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-input'
+            example:
+              coupon:
+                name: 15% off
+                code: 15OFF
+                description: 15% off for life
+                percentage: '15'
+                allow_negative_balance: 'false'
+                recurring: 'false'
+                end_date: '2012-08-29T12:00:00-04:00'
+                product_family_id: '2'
+                stackable: 'true'
+                compounding_strategy: compound
+              restricted_products:
+                '1': true
+              restricted_components:
+                '1': true
+                '2': false
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: null
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_coupons-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          statusCode: 200
+          enabled: false
+    get:
+      operationId: GET_coupons-format
+      summary: List Coupons for the Default Product Family for a Site
+      tags:
+        - Coupon
+        - incomplete
+        - Coupons - Editing
+      description: |-
+        ## List Coupons for the Default Product Family
+
+        You can retrieve a list of coupons that belong to the default product family for a site via this method.
+
+        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+          examples:
+            application/json:
+              - coupon:
+                  id: 173746
+                  name: 100% coupon
+                  code: 100PERCENT
+                  description: 100 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+              - coupon:
+                  id: 126414
+                  name: 12 week coupon
+                  code: 12WEEKS
+                  description: 12WEEKS
+                  amount_in_cents: 1818
+                  product_family_id: 527890
+                  created_at: '2016-08-03T11:52:29-04:00'
+                  updated_at: '2016-08-03T11:52:29-04:00'
+                  start_date: '2016-08-03T11:52:29-04:00'
+                  end_date: null
+                  percentage: null
+                  recurring: true
+                  duration_period_count: 2
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: false
+                  archived_at: null
+                  conversion_limit: null
+              - coupon:
+                  id: 204696
+                  name: 15% off
+                  code: 15OFF4LYFE
+                  description: 15% off for life
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-11-29T16:09:00-05:00'
+                  updated_at: '2016-11-29T16:09:00-05:00'
+                  start_date: '2016-11-29T16:09:00-05:00'
+                  end_date: '2018-08-29T23:59:59-04:00'
+                  percentage: 15
+                  recurring: false
+                  duration_period_count: null
+                  duration_interval: null
+                  duration_interval_unit: null
+                  allow_negative_balance: false
+                  archived_at: null
+                  conversion_limit: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  '/product_families/{product_family_id}/coupons/{coupon_id}.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
+      - name: coupon_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_coupons-coupon_id-format
+      summary: Read a Coupon
+      tags:
+        - Coupon
+        - Coupons - Editing
+      description: |-
+        ## Read a Coupon
+
+        You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Chargify assigns.
+        If instead you would like to find a Coupon using a Coupon code, see the Coupon Find method.
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              coupon:
+                $ref: '#/definitions/coupons/finding-a-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 173746
+                name: 100% coupon
+                code: 100PERCENT
+                description: 100 PERCENT OFF
+                amount_in_cents: null
+                product_family_id: 527890
+                created_at: '2016-10-21T17:02:08-04:00'
+                updated_at: '2016-10-21T17:06:11-04:00'
+                start_date: '2016-10-21T17:02:08-04:00'
+                end_date: null
+                percentage: 50
+                recurring: true
+                duration_period_count: null
+                duration_interval: 1
+                duration_interval_unit: day
+                allow_negative_balance: true
+                archived_at: null
+                conversion_limit: 100
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-coupon_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  /coupons/validate.json:
+    get:
+      operationId: GET_coupons-validate-format
+      summary: Validate a Coupon
+      tags:
+        - Coupon
+        - incomplete
+        - Coupons - Editing
+      description: |-
+        ## Validate a Coupon
+
+        You can verify if a specific coupon code is valid using the `validate` method. This method is useful for validating coupon codes that are entered by a customer. If the coupon is found and is valid, the coupon will be returned with a 200 status code.
+
+        If the coupon is invalid, the status code will be 404 and the response will say why it is invalid. If the coupon is valid, the status code will be 200 and the coupon will be returned. The following reasons for invalidity are supported:
+
+        + Coupon not found
+        + Coupon is invalid
+        + Coupon expired
+
+        If you have more than one product family and if the coupon you are validating does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
+
+        Eg.
+
+        ```
+        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/validate.<format>?code=<coupon_code>
+        ```
+
+        Or:
+
+        ```
+        https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=1
+        ```
+      parameters:
+        - name: coupon_code
+          in: query
+          description: The Coupon Code.
+          required: false
+          type: string
+        - name: product_family_id
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/coupons/finding-a-coupon-output'
+            example:
+              coupon:
+                id: 173746
+                name: 100% coupon
+                code: 100PERCENT
+                description: 100 PERCENT OFF
+                amount_in_cents: null
+                product_family_id: 527890
+                created_at: '2016-10-21T17:02:08-04:00'
+                updated_at: '2016-10-21T17:06:11-04:00'
+                start_date: '2016-10-21T17:02:08-04:00'
+                end_date: null
+                percentage: 50
+                recurring: true
+                duration_period_count: null
+                duration_interval: 1
+                duration_interval_unit: day
+                allow_negative_balance: true
+                archived_at: null
+                conversion_limit: 100
+      responses:
+        '404':
+          description: Not Found
+          examples:
+            application/json:
+              errors: Coupon code could not be found.
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-validate-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  '/product_families/{product_family_id}/coupons.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_product_families-product_family_id-coupons-json
+      summary: List Coupons for a Product Family for a Site
+      tags:
+        - Coupons - Editing
+      description: |-
+        ## List Coupons for a Specific Product Family
+
+        List coupons for a specific Product Family in a Site.
+      produces:
+        - application/xml
+      parameters:
+        - name: product_family_id
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+          examples:
+            application/json:
+              - coupon:
+                  id: 999999
+                  name: 50% coupon
+                  code: 50PERCENT
+                  description: 50 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 123456
+                  name: 100% coupon
+                  code: 100PERCENT
+                  description: 100 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 888888
+                  name: 25% coupon
+                  code: 25PERCENT
+                  description: 25 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 25
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_productfamilies-productfamilyid-couponsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/coupons/{coupon_id}.json':
+    parameters:
+      - name: coupon_id
+        in: path
+        description: The Coupon ID.
+        required: true
+        type: number
+    put:
+      operationId: PUT_coupons-coupon_id-format
+      summary: Update a Coupon
+      tags:
+        - Coupon
+        - Coupons - Editing
+      description: |-
+        ## Update a Coupon
+
+        You can update a Coupon via the API with a PUT request to the resource endpoint.
+
+        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
+        `{ "<product/component_id>": boolean_value }`
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-input'
+            example:
+              coupon:
+                id: '1'
+                name: 15% off
+                code: 15OFF
+                description: 15% off for life
+                percentage: '15'
+                allow_negative_balance: 'false'
+                recurring: 'false'
+                end_date: '2018-08-29T23:59:59-04:00'
+                product_family_id: '2'
+              restricted_products:
+                '1': true
+              restricted_components:
+                '1': true
+                '2': false
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              coupon:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  description:
+                    type: string
+                  amount_in_cents:
+                    type: 'null'
+                  product_family_id:
+                    type: integer
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  start_date:
+                    type: string
+                  end_date:
+                    type: string
+                  percentage:
+                    type: integer
+                  recurring:
+                    type: boolean
+                  duration_period_count:
+                    type: 'null'
+                  duration_interval:
+                    type: 'null'
+                  duration_interval_unit:
+                    type: 'null'
+                  allow_negative_balance:
+                    type: boolean
+                  archived_at:
+                    type: 'null'
+                  conversion_limit:
+                    type: 'null'
+          examples:
+            application/json:
+              coupon:
+                id: 1
+                name: 15% off
+                code: 15OFF
+                description: 15% off for life
+                amount_in_cents: null
+                product_family_id: 2
+                created_at: '2016-11-29T16:09:00-05:00'
+                updated_at: '2016-11-29T16:09:00-05:00'
+                start_date: '2016-11-29T16:09:00-05:00'
+                end_date: '2018-08-29T23:59:59-04:00'
+                percentage: 15
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: null
+                conversion_limit: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_coupons-coupon_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+    delete:
+      operationId: DELETE_coupons-coupon_id-format
+      summary: Archive a Coupon
+      tags:
+        - Coupon
+        - Coupons - Editing
+      description: |-
+        ## Archive a Coupon
+
+        You can archive a Coupon via the API with the archive method.
+        Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
+        The `archived_at` date and time will be assigned.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupons/archive-a-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 126210
+                name: 1 Month Free
+                code: MMI45
+                description: 1 Month Free - MMI
+                amount_in_cents: 4500
+                product_family_id: 527890
+                created_at: '2016-08-02T11:40:04-04:00'
+                updated_at: '2016-12-02T13:09:34-05:00'
+                start_date: '2016-08-02T11:40:04-04:00'
+                end_date: null
+                percentage: null
+                recurring: true
+                duration_period_count: 1
+                duration_interval: 1
+                duration_interval_unit: month
+                allow_negative_balance: false
+                archived_at: '2016-12-02T13:09:33-05:00'
+                conversion_limit: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_coupons-coupon_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+  '/coupons/{coupon_id}/usage.json':
+    parameters:
+      - name: coupon_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_coupons-coupon_id-usage-json
+      summary: Coupon Usage
+      tags:
+        - Coupons - Editing
+      description: |-
+        ## Coupon Usage
+
+        This request will provide details about the coupon usage as an array of data hashes, one per product.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons/coupon-usage-output'
+          examples:
+            application/json:
+              - name: No cost product
+                id: 3903594
+                signups: 0
+                savings: 0
+                savings_in_cents: 0
+                revenue: 0
+                revenue_in_cents: 0
+              - name: Product that expires
+                id: 3853680
+                signups: 0
+                savings: 0
+                savings_in_cents: 0
+                revenue: 0
+                revenue_in_cents: 0
+              - name: Trial Product
+                id: 3861800
+                signups: 1
+                savings: 30
+                savings_in_cents: 3000
+                revenue: 20
+                revenue_in_cents: 2000
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-couponid-usagejson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /coupons/find.json:
+    get:
+      operationId: GET_coupons-find-json
+      summary: Finding a Coupon
+      tags:
+        - Coupons - Editing
+      description: |-
+        ## Finding a Coupon
+
+        You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
+
+        If you have more than one product family and if the coupon you are trying to find does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
+
+        You can retrieve a coupon via the API with the show method. You must identify the coupon in this call by the id parameter that Chargify assigns. If instead you would like to find a coupon using a coupon code, see the Coupon Find method.
+
+        ```
+        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/find.<format>?code=<coupon_code>
+        ```
+
+        **OR**
+
+        ```
+        https://<subdomain>.chargify.com/coupons/find.<format>?code=<coupon_code>&product_family_id=1
+        ```
+      parameters:
+        - name: product_family_id
+          in: query
+          type: integer
+        - name: code
+          in: query
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons/finding-a-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 173746
+                name: 100% coupon
+                code: 100PERCENT
+                description: 100 PERCENT OFF
+                amount_in_cents: null
+                product_family_id: 527890
+                created_at: '2016-10-21T17:02:08-04:00'
+                updated_at: '2016-10-21T17:06:11-04:00'
+                start_date: '2016-10-21T17:02:08-04:00'
+                end_date: null
+                percentage: 50
+                recurring: true
+                duration_period_count: null
+                duration_interval: 1
+                duration_interval_unit: day
+                allow_negative_balance: true
+                archived_at: null
+                conversion_limit: 100
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-findjson
         beforeScript: null
         afterScript: null
         public: true
@@ -14405,7 +14240,9 @@ definitions:
           description:
             type: string
           amount_in_cents:
-            type: integer
+            type:
+              - integer
+              - 'null'
           product_family_id:
             type: integer
           created_at:
@@ -14417,7 +14254,9 @@ definitions:
           end_date:
             type: 'null'
           percentage:
-            type: 'null'
+            type:
+              - 'null'
+              - integer
           recurring:
             type: boolean
           duration_period_count:
@@ -28528,8 +28367,6 @@ x-stoplight:
           items:
             - _id: components-price-point-intro
               type: docTextSections
-            - _id: GET_components-componentid-pricepointsformat
-              type: endpoints
             - _id: components/price-points/list-price-points-response
               type: schemas
             - _id: POST_components-componentid-pricepointsformat
@@ -28539,6 +28376,8 @@ x-stoplight:
             - _id: components/price-points/create-price-point-response
               type: schemas
             - _id: POST_components-componentid-pricepoints-bulkformat
+              type: endpoints
+            - _id: GET_components-componentid-pricepointsformat
               type: endpoints
             - _id: components/price-points/bulk-create-price-points-request
               type: schemas
@@ -28565,59 +28404,6 @@ x-stoplight:
             Component price points allows you to charge customers different amounts for the same component. You will be able to define multiple prices and pricing schemes, and then choose which price point to use for each subscription.
 
             See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information.
-        - divider: false
-          items:
-            - _id: POST_coupons-format
-              type: endpoints
-            - _id: coupons/create-coupon-input
-              type: schemas
-            - _id: coupons/create-coupon-output
-              type: schemas
-          name: Coupon Editing
-        - items:
-            - _id: coupon-intro
-              type: docTextSections
-            - _id: POST_subscriptionsjson
-              type: endpoints
-            - _id: coupon/create-subscription-with-coupon-input
-              type: schemas
-            - _id: coupon/create-subscription-with-coupon-output
-              type: schemas
-            - _id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-              type: endpoints
-            - _id: coupon/add-the-coupon-to-subscription-output
-              type: schemas
-            - _id: DELETE_subscriptions-subscription_id-remove_coupon-format
-              type: endpoints
-            - _id: GET_coupons-format
-              type: endpoints
-            - _id: GET_productfamilies-productfamilyid-couponsjson
-              type: endpoints
-            - _id: coupons/list-coupons-for-a-site-output
-              type: schemas
-            - _id: GET_coupons-coupon_id-format
-              type: endpoints
-            - _id: PUT_coupons-coupon_id-format
-              type: endpoints
-            - _id: coupons/updating-a-coupon-input
-              type: schemas
-            - _id: coupons/updating-a-coupon-output
-              type: schemas
-            - _id: DELETE_coupons-coupon_id-format
-              type: endpoints
-            - _id: coupons/archive-a-coupon-output
-              type: schemas
-            - _id: GET_coupons-validate-format
-              type: endpoints
-            - _id: GET_coupons-findjson
-              type: endpoints
-            - _id: coupons/finding-a-coupon-output
-              type: schemas
-            - _id: GET_coupons-couponid-usagejson
-              type: endpoints
-            - _id: coupons/coupon-usage-output
-              type: schemas
-          name: Coupons
         - items:
             - _id: metadata-intro
               type: docTextSections
@@ -28702,6 +28488,62 @@ x-stoplight:
             - type: traits
               _id: metafieldsNameRequired
           divider: false
+        - items:
+            - _id: coupon-intro
+              type: docTextSections
+            - _id: POST_subscriptionsjson
+              type: endpoints
+            - _id: coupon/create-subscription-with-coupon-input
+              type: schemas
+            - _id: coupon/create-subscription-with-coupon-output
+              type: schemas
+            - _id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
+              type: endpoints
+            - _id: coupon/add-the-coupon-to-subscription-output
+              type: schemas
+            - _id: DELETE_subscriptions-subscription_id-remove_coupon-format
+              type: endpoints
+          name: Coupons - Subscriptions
+          divider: false
+        - divider: false
+          items:
+            - _id: coupons-intro
+              type: docTextSections
+            - _id: POST_coupons-format
+              type: endpoints
+            - _id: coupons/create-coupon-input
+              type: schemas
+            - _id: coupons/create-coupon-output
+              type: schemas
+            - _id: GET_coupons-coupon_id-format
+              type: endpoints
+            - _id: GET_coupons-validate-format
+              type: endpoints
+            - _id: GET_coupons-format
+              type: endpoints
+            - _id: GET_productfamilies-productfamilyid-couponsjson
+              type: endpoints
+            - _id: coupons/list-coupons-for-a-site-output
+              type: schemas
+            - _id: PUT_coupons-coupon_id-format
+              type: endpoints
+            - _id: coupons/updating-a-coupon-input
+              type: schemas
+            - _id: coupons/updating-a-coupon-output
+              type: schemas
+            - _id: GET_coupons-couponid-usagejson
+              type: endpoints
+            - _id: coupons/coupon-usage-output
+              type: schemas
+            - _id: GET_coupons-findjson
+              type: endpoints
+            - _id: coupons/finding-a-coupon-output
+              type: schemas
+            - _id: DELETE_coupons-coupon_id-format
+              type: endpoints
+            - _id: coupons/archive-a-coupon-output
+              type: schemas
+          name: Coupons - Editing
         - name: Coupons - Subcodes
           items:
             - _id: coupon-subcodes-intro-1
@@ -29969,9 +29811,9 @@ x-stoplight:
       id: coupon-intro
       name: Coupon Intro
       content: |-
-        ## Coupons Intro
+        ## Subscriptions - Coupons
 
-        Coupons can be administered in the Admin Interface ([see Coupons](https://help.chargify.com/products/product-coupons.html)) or via the API. In addition to the normal CRUD actions on coupons, you can also create Subscriptions using a Coupon, add a Coupon to an existing Subscription, and validate a Coupon via the API.
+        In addition to the normal CRUD actions on coupons, you can also create Subscriptions using a Coupon, add a Coupon to an existing Subscription, and validate a Coupon via the API.
 
         ## Coupon Documentation
 
@@ -31471,6 +31313,14 @@ x-stoplight:
         | allocated_quantity | Provided when kind is `quantity_based_componen`t or on_off_component (`1` for on and `0` for off)   |
         |--------------------|-----------------------------------------------------------------------------------------------------|
         | unit_balance       | Provided when kind is `metered_component` and gives the TOTAL of all reported usages for the period |
+      public: true
+    coupons-intro:
+      id: coupons-intro
+      name: Coupons Intro
+      content: |-
+        ## Coupons Intro
+
+        Coupons can be administered in the Admin Interface ([see Coupons](https://help.chargify.com/products/product-coupons.html)) or via the API.
       public: true
   mock:
     enabled: false
