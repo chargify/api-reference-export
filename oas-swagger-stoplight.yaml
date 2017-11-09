@@ -27323,7 +27323,9 @@ definitions:
                       ending_quantity:
                         type: string
                       unit_price:
-                        type: string
+                        type:
+                          - string
+                          - number
                     required:
                       - starting_quantity
                       - ending_quantity
@@ -29785,7 +29787,7 @@ x-stoplight:
         |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | taxable           | Boolean flag describing whether a component is taxable or not.                                                                                                                                                                                                                                      |
         | unit_name         | (Not required for On/Off Components) The name of the unit of measurement for the component. It should be singular since it will be automatically pluralized when necessary. i.e. “message”, which may then be shown as “5 messages” on a subscription’s component line-item                         |
-        | unit_price        | The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000045         |
+        | unit_price        | The amount the customer will be charged per unit when the pricing scheme is “per_unit”. For On/Off Components, this is the amount that the customer will be charged when they turn the component on for the subscription. The price can contain up to 8 decimal places. i.e. 1.00 or 0.0012 or 0.00000065         |
         | pricing_scheme    | (Not required for On/Off Components) The identifier for the pricing scheme. Available options: per_unit, volume, tiered, stairstep. See [Product Components](https://help.chargify.com/products/product-components.html) for an overview of pricing schemes.                                        |
         | prices            | (Not required for On/Off Components or ‘per_unit’ pricing schemes) One or more price brackets. See [General Price Bracket Rules](https://help.chargify.com/products/product-components.html#general-price-bracket-rules) for an overview of how price brackets work for different pricing schemes.  |
         | starting_quantity |                                                                                                                                                                                                                                                                                                     |
