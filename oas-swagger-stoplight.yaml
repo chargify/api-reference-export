@@ -2477,7 +2477,7 @@ paths:
       summary: Create  Coupon
       tags:
         - Coupon
-        - Coupons
+        - Coupon Editing
       description: |-
         ## Create a Coupon
 
@@ -2534,6 +2534,8 @@ paths:
                 recurring: 'false'
                 end_date: '2012-08-29T12:00:00-04:00'
                 product_family_id: '2'
+                stackable: 'true'
+                compounding_strategy: compound
               restricted_products:
                 '1': true
               restricted_components:
@@ -2587,17 +2589,17 @@ paths:
           examples:
             application/json:
               coupon:
-                id: 204696
-                name: 15% off
-                code: 15OFF4LYFE
-                description: 15% off for life
-                amount_in_cents: null
-                product_family_id: 527890
-                created_at: '2016-11-29T16:09:00-05:00'
-                updated_at: '2016-11-29T16:09:00-05:00'
-                start_date: '2016-11-29T16:09:00-05:00'
-                end_date: '2018-08-29T23:59:59-04:00'
-                percentage: 15
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
                 recurring: false
                 duration_period_count: null
                 duration_interval: null
@@ -2605,6 +2607,9 @@ paths:
                 allow_negative_balance: false
                 archived_at: null
                 conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -2617,7 +2622,7 @@ paths:
           enabled: false
     get:
       operationId: GET_coupons-format
-      summary: List Coupons for the default Product Family for a Site
+      summary: List Coupons for the Default Product Family for a Site
       tags:
         - Coupon
         - incomplete
@@ -2816,7 +2821,29 @@ paths:
           examples:
             application/json:
               - coupon:
-                  id: 173746
+                  id: 999999
+                  name: 50% coupon
+                  code: 50PERCENT
+                  description: 50 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 123456
                   name: 100% coupon
                   code: 100PERCENT
                   description: 100 PERCENT OFF
@@ -2834,44 +2861,31 @@ paths:
                   allow_negative_balance: true
                   archived_at: null
                   conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
               - coupon:
-                  id: 126414
-                  name: 12 week coupon
-                  code: 12WEEKS
-                  description: 12WEEKS
-                  amount_in_cents: 1818
-                  product_family_id: 527890
-                  created_at: '2016-08-03T11:52:29-04:00'
-                  updated_at: '2016-08-03T11:52:29-04:00'
-                  start_date: '2016-08-03T11:52:29-04:00'
-                  end_date: null
-                  percentage: null
-                  recurring: true
-                  duration_period_count: 2
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: false
-                  archived_at: null
-                  conversion_limit: null
-              - coupon:
-                  id: 204696
-                  name: 15% off
-                  code: 15OFF4LYFE
-                  description: 15% off for life
+                  id: 888888
+                  name: 25% coupon
+                  code: 25PERCENT
+                  description: 25 PERCENT OFF
                   amount_in_cents: null
                   product_family_id: 527890
-                  created_at: '2016-11-29T16:09:00-05:00'
-                  updated_at: '2016-11-29T16:09:00-05:00'
-                  start_date: '2016-11-29T16:09:00-05:00'
-                  end_date: '2018-08-29T23:59:59-04:00'
-                  percentage: 15
-                  recurring: false
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 25
+                  recurring: true
                   duration_period_count: null
-                  duration_interval: null
-                  duration_interval_unit: null
-                  allow_negative_balance: false
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
                   archived_at: null
-                  conversion_limit: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -14391,7 +14405,7 @@ definitions:
           description:
             type: string
           amount_in_cents:
-            type: 'null'
+            type: integer
           product_family_id:
             type: integer
           created_at:
@@ -14401,9 +14415,9 @@ definitions:
           start_date:
             type: string
           end_date:
-            type: string
+            type: 'null'
           percentage:
-            type: integer
+            type: 'null'
           recurring:
             type: boolean
           duration_period_count:
@@ -14418,34 +14432,27 @@ definitions:
             type: 'null'
           conversion_limit:
             type: 'null'
+          stackable:
+            type: boolean
+          compounding_strategy:
+            type: string
           coupon_restrictions:
             type: array
             items:
               type: object
-              properties:
-                id:
-                  type: number
-                item_type:
-                  type: string
-                item_id:
-                  type: number
-                name:
-                  type: string
-                handle:
-                  type: string
     example:
       coupon:
-        id: 204696
-        name: 15% off
-        code: 15OFF4LYFE
-        description: 15% off for life
-        amount_in_cents: null
-        product_family_id: 527890
-        created_at: '2016-11-29T16:09:00-05:00'
-        updated_at: '2016-11-29T16:09:00-05:00'
-        start_date: '2016-11-29T16:09:00-05:00'
-        end_date: '2018-08-29T23:59:59-04:00'
-        percentage: 15
+        id: 67
+        name: Foo Bar
+        code: YEPPER99934
+        description: my cool coupon
+        amount_in_cents: 10000
+        product_family_id: 4
+        created_at: '2017-11-08T10:01:15-05:00'
+        updated_at: '2017-11-08T10:01:15-05:00'
+        start_date: '2017-11-08T10:01:15-05:00'
+        end_date: null
+        percentage: null
         recurring: false
         duration_period_count: null
         duration_interval: null
@@ -14453,6 +14460,9 @@ definitions:
         allow_negative_balance: false
         archived_at: null
         conversion_limit: null
+        stackable: true
+        compounding_strategy: compound
+        coupon_restrictions: []
     x-stoplight:
       id: coupons/create-coupon-output
       name: Create Coupon Output
@@ -23200,6 +23210,13 @@ definitions:
             type: string
           product_family_id:
             type: string
+          stackable:
+            type: string
+          compounding_strategy:
+            type: string
+            enum:
+              - full-price
+              - compound
       restricted_products:
         type: object
         properties:
@@ -23222,6 +23239,8 @@ definitions:
         recurring: 'false'
         end_date: '2012-08-29T12:00:00-04:00'
         product_family_id: '2'
+        stackable: 'true'
+        compounding_strategy: compound
       restricted_products:
         '1': true
       restricted_components:
@@ -23762,9 +23781,7 @@ definitions:
             description:
               type: string
             amount_in_cents:
-              type:
-                - integer
-                - 'null'
+              type: 'null'
             product_family_id:
               type: integer
             created_at:
@@ -23774,53 +23791,56 @@ definitions:
             start_date:
               type: string
             end_date:
-              type:
-                - 'null'
-                - string
+              type: 'null'
             percentage:
-              type:
-                - integer
-                - 'null'
+              type: integer
             recurring:
               type: boolean
             duration_period_count:
-              type:
-                - integer
-                - 'null'
+              type: 'null'
             duration_interval:
-              type:
-                - integer
-                - 'null'
+              type: integer
             duration_interval_unit:
-              type:
-                - 'null'
-                - string
+              type: string
             allow_negative_balance:
               type: boolean
             archived_at:
               type: 'null'
             conversion_limit:
-              type:
-                - integer
-                - 'null'
+              type: integer
+            stackable:
+              type: boolean
+            compounding_strategy:
+              type: string
             coupon_restrictions:
               type: array
               items:
                 type: object
-                properties:
-                  id:
-                    type: number
-                  item_type:
-                    type: string
-                  item_id:
-                    type: number
-                  name:
-                    type: string
-                  handle:
-                    type: string
     example:
       - coupon:
-          id: 173746
+          id: 999999
+          name: 50% coupon
+          code: 50PERCENT
+          description: 50 PERCENT OFF
+          amount_in_cents: null
+          product_family_id: 527890
+          created_at: '2016-10-21T17:02:08-04:00'
+          updated_at: '2016-10-21T17:06:11-04:00'
+          start_date: '2016-10-21T17:02:08-04:00'
+          end_date: null
+          percentage: 50
+          recurring: true
+          duration_period_count: null
+          duration_interval: 1
+          duration_interval_unit: day
+          allow_negative_balance: true
+          archived_at: null
+          conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
+      - coupon:
+          id: 123456
           name: 100% coupon
           code: 100PERCENT
           description: 100 PERCENT OFF
@@ -23838,44 +23858,31 @@ definitions:
           allow_negative_balance: true
           archived_at: null
           conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
       - coupon:
-          id: 126414
-          name: 12 week coupon
-          code: 12WEEKS
-          description: 12WEEKS
-          amount_in_cents: 1818
-          product_family_id: 527890
-          created_at: '2016-08-03T11:52:29-04:00'
-          updated_at: '2016-08-03T11:52:29-04:00'
-          start_date: '2016-08-03T11:52:29-04:00'
-          end_date: null
-          percentage: null
-          recurring: true
-          duration_period_count: 2
-          duration_interval: 1
-          duration_interval_unit: day
-          allow_negative_balance: false
-          archived_at: null
-          conversion_limit: null
-      - coupon:
-          id: 204696
-          name: 15% off
-          code: 15OFF4LYFE
-          description: 15% off for life
+          id: 888888
+          name: 25% coupon
+          code: 25PERCENT
+          description: 25 PERCENT OFF
           amount_in_cents: null
           product_family_id: 527890
-          created_at: '2016-11-29T16:09:00-05:00'
-          updated_at: '2016-11-29T16:09:00-05:00'
-          start_date: '2016-11-29T16:09:00-05:00'
-          end_date: '2018-08-29T23:59:59-04:00'
-          percentage: 15
-          recurring: false
+          created_at: '2016-10-21T17:02:08-04:00'
+          updated_at: '2016-10-21T17:06:11-04:00'
+          start_date: '2016-10-21T17:02:08-04:00'
+          end_date: null
+          percentage: 25
+          recurring: true
           duration_period_count: null
-          duration_interval: null
-          duration_interval_unit: null
-          allow_negative_balance: false
+          duration_interval: 1
+          duration_interval_unit: day
+          allow_negative_balance: true
           archived_at: null
-          conversion_limit: null
+          conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
     x-stoplight:
       id: coupons/list-coupons-for-a-site-output
       name: List Coupons for a Site Output
@@ -28558,15 +28565,18 @@ x-stoplight:
             Component price points allows you to charge customers different amounts for the same component. You will be able to define multiple prices and pricing schemes, and then choose which price point to use for each subscription.
 
             See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information.
-        - items:
-            - _id: coupon-intro
-              type: docTextSections
+        - divider: false
+          items:
             - _id: POST_coupons-format
               type: endpoints
             - _id: coupons/create-coupon-input
               type: schemas
             - _id: coupons/create-coupon-output
               type: schemas
+          name: Coupon Editing
+        - items:
+            - _id: coupon-intro
+              type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
             - _id: coupon/create-subscription-with-coupon-input
