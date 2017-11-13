@@ -12513,7 +12513,7 @@ paths:
         - name: coupon_code
           in: query
           description: The Coupon code.
-          required: false
+          required: true
           type: string
       responses:
         '422':
