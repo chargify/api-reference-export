@@ -31888,7 +31888,7 @@ x-stoplight:
         | masked_card_number   | A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’)                                                                                                                   |
         | vault_token          | The “token” provided by your vault storage for an already stored payment profile                                                                                                                                                                |
 
-        ---------
+        ### Bank Account Attributes
 
         + `bank_account` Nested bank account attributes, if payment profile is a `bank_account`
 
@@ -31912,7 +31912,7 @@ x-stoplight:
         | masked_bank_routing_number | A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’). `payment_type` will be bank_account                                              |
         | vault_token                | The “token” provided by your vault storage for an already stored payment profile                                                                                                                                |
 
-        --------------
+        ### Subscription Information
 
         | current_period_started_at | Timestamp relating to the start of the current (recurring) period                                                                                                                                                                                                                                                                                                                                                                                                  |
         |---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
