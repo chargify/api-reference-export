@@ -446,6 +446,10 @@ paths:
         You can revoke a customer's Billing Portal invitation.
 
         If you attempt to revoke an invitation when the Billing Portal is already disabled for a Customer, you will receive a 422 error response.
+
+        ## Limitations
+
+        This endpoint will only return a JSON response.
       responses:
         '200':
           description: ''
