@@ -21507,160 +21507,293 @@ definitions:
           properties:
             id:
               type: integer
+              description: The subscription unique id within Chargify.
             state:
               type: string
+              description: The current state of the subscription.
             balance_in_cents:
               type: integer
+              description: Gives the current outstanding subscription balance in the number of cents.
             total_revenue_in_cents:
               type: integer
+              description: Gives the total revenue from the subscription in the number of cents.
             product_price_in_cents:
               type: integer
+              description: 'The recurring amount of the product (and version), currently subscribed. This may differ from the current price of the product, if you’ve changed the price of the product but haven’t, moved this subscription to a newer version.'
             product_version_number:
               type: integer
+              description: ' The version of the product currently subscribed.,NOTE: we have not exposed versions (yet) elsewhere in the API, but if,you change the price of your product the versions will increment and existing subscriptions will remain on prior versions (by default, to support price grandfathering).'
             current_period_ends_at:
               type: string
+              description: 'Timestamp relating to the end of the current (recurring) period (i.e.,when the next regularly scheduled attempted charge will occur)'
+              format: date-time
             next_assessment_at:
               type: string
+              description: 'Timestamp that indicates when capture of payment will be tried or,retried. This value will usually track the current_period_ends_at, but,will diverge if a renewal payment fails and must be retried. In that,case, the current_period_ends_at will advance to the end of the next,period (time doesn’t stop because a payment was missed) but the,next_assessment_at will be scheduled for the auto-retry time (i.e. 24,hours in the future, in some cases)'
+              format: date-time
             trial_started_at:
-              type: 'null'
+              type:
+                - 'null'
+                - string
+              description: Timestamp for when the trial period (if any) began
+              format: date-time
             trial_ended_at:
-              type: 'null'
+              type:
+                - 'null'
+                - string
+              description: Timestamp for when the trial period (if any) ended
+              format: date-time
             activated_at:
               type: string
+              description: 'Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)'
+              format: date-time
             expires_at:
-              type: 'null'
+              type:
+                - 'null'
+                - string
+              description: Timestamp giving the expiration date of this subscription (if any)
+              format: date-time
             created_at:
               type: string
+              description: The creation date for this subscription
+              format: date-time
             updated_at:
               type: string
+              description: The date of last update for this subscription
+              format: date-time
             cancellation_message:
               type:
                 - 'null'
                 - string
+              description: 'Seller-provided reason for, or note about, the cancellation.'
             cancellation_method:
               type:
                 - 'null'
                 - string
+              description: 'The process used to cancel the subscription, if the subscription has been canceled. if the subscription''s state is nil, the subscription is not canceled.'
             cancel_at_end_of_period:
               type:
                 - boolean
                 - 'null'
+              description: Whether or not the subscription will (or has) canceled at the end of the period.
             canceled_at:
               type:
                 - 'null'
                 - string
+              description: The timestamp of the most recent cancellation
+              format: date-time
             current_period_started_at:
               type: string
+              description: Timestamp relating to the start of the current (recurring) period
+              format: date-time
             previous_state:
               type: string
+              description: 'Only valid for webhook payloads The previous state for webhooks that have indicated a change in state. For normal API calls, this will always be the same as the state (current state)'
             signup_payment_id:
               type: integer
+              description: The ID of the transaction that generated the revenue
             signup_revenue:
               type: string
+              description: 'The revenue, formatted as a string of decimal separated dollars and cents, from the subscription signup ($50.00 would be formatted as `50.00`)'
             delayed_cancel_at:
-              type: 'null'
+              type:
+                - 'null'
+                - string
+              description: Timestamp for when the subscription is currently set to cancel.
+              format: date-time
             coupon_code:
               type:
                 - 'null'
                 - string
+              description: The coupon code applied to the subscription.
             payment_collection_method:
               type: string
+              description: 'The type of payment collection to be used in the subscription. '
+              enum:
+                - automatic
+                - invoice
             snap_day:
-              type: 'null'
+              type:
+                - 'null'
+                - integer
+              description: 'The day of the month that the subscription will charge according to calendar billing rules, if used.'
             reason_code:
-              type: 'null'
+              type:
+                - 'null'
+                - string
+              description: 'Code that indicates why the subscription was cancelled. '
             customer:
               type: object
               properties:
                 first_name:
                   type: string
+                  description: 'The first name of the customer. '
                 last_name:
                   type: string
+                  description: 'The last name of the subscriber. '
                 email:
                   type: string
+                  description: The email of the customer
+                  format: email
                 cc_emails:
                   type:
                     - 'null'
                     - string
+                  description: CC emails attached to the customer object
                 organization:
                   type: string
+                  description: The organization/company of the customer.
                 reference:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - string
+                  description: 'A customer “reference”, or unique identifier from your app, stored in Chargify. Can be used so that you may reference your customer’s within Chargify using the same unique value you use in your application.'
                 id:
                   type: integer
                 created_at:
                   type: string
+                  description: The created at timestamp of the customer
+                  format: date-time
                 updated_at:
                   type: string
+                  description: The timestamp of the last time the customer was updated at
+                  format: date-time
                 address:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: The customer’s shipping street address
                 address_2:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: Second line of the customer’s shipping address
                 city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: The customer’s shipping address city
                 state:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: (Optional) The customer’s shipping address state. This must conform to the in order to be valid for tax locale purposes.
                 zip:
                   type: string
+                  description: 'The customer’s shipping address zip code '
                 country:
                   type: string
+                  description: 'The customer shipping address country, required in format (i.e. “US”).'
                 phone:
                   type: string
+                  description: The phone number of the customer.
                 verified:
                   type: boolean
+                  description: If the customer has been verified to use ACH as a payment method
                 portal_customer_created_at:
                   type: string
                 portal_invite_last_sent_at:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  description: Timestamp of when the last Billing Portal invite was sent
                 portal_invite_last_accepted_at:
                   type: 'null'
+                  description: ''
             product:
               type: object
               properties:
                 id:
                   type: integer
+                  description: The ID of the product
                 name:
                   type: string
+                  description: The product name
                 handle:
                   type: string
+                  description: The product API handle
                 description:
                   type: string
+                  description: The product description
                 accounting_code:
                   type: string
+                  description: 'The product family accounting code (has no bearing in Chargify, may be used within your app)'
                 price_in_cents:
                   type: integer
+                  description: 'The product price, in cents'
                 interval:
                   type: integer
+                  description: The numerical interval. An interval of ‘30’ coupled with an interval_unit of day would mean this product would renew every 30 days.
                 interval_unit:
                   type: string
+                  description: A string representing the interval unit for this product
+                  enum:
+                    - month
+                    - day
                 initial_charge_in_cents:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - integer
+                  description: The up front charge you have specified.
                 expiration_interval:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - integer
+                  description: A numerical interval for the length a subscription to this product will run before it expires.
                 expiration_interval_unit:
-                  type: string
+                  type:
+                    - 'null'
+                    - string
+                  description: A string representing the trial interval unit for this product
+                  enum:
+                    - month
+                    - day
+                    - never
                 trial_price_in_cents:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - integer
+                  description: 'The price of the trial period for a subscription to this product, in integer cents.'
                 trial_interval:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - integer
+                  description: 'A numerical interval for the length of the trial period of a subscription to this product. '
                 trial_interval_unit:
                   type: string
+                  description: A string representing the trial interval unit for this trial
+                  enum:
+                    - month
+                    - day
                 initial_charge_after_trial:
                   type: boolean
                 return_params:
                   type: string
+                  description: The params to be appended to the return_url (public_signup_pages only)
                 request_credit_card:
                   type: boolean
+                  description: Request credit card for the product
                 require_credit_card:
                   type: boolean
+                  description: Require credit card for the product
                 created_at:
                   type: string
+                  description: Timestamp indicating when this product was created
+                  format: date-time
                 updated_at:
                   type: string
+                  description: Timestamp indicating when this product was last updated
+                  format: date-time
                 archived_at:
-                  type: 'null'
+                  type:
+                    - 'null'
+                    - string
+                  description: Timestamp indicating when this product was archived
+                  format: date-time
                 update_return_url:
                   type: string
+                  description: The url to which a customer will be returned after a successful account update
                 update_return_params:
                   type: string
                 product_family:
@@ -21668,14 +21801,21 @@ definitions:
                   properties:
                     id:
                       type: integer
+                      description: The ID of the product family
                     name:
                       type: string
+                      description: The name of the product family
                     handle:
                       type: string
+                      description: The API handle of the product family
                     accounting_code:
-                      type: 'null'
+                      type:
+                        - 'null'
+                        - string
+                      description: 'The product family accounting code (has no bearing in Chargify, may be used within your app)'
                     description:
                       type: string
+                      description: The product family description
                 public_signup_pages:
                   type: array
                   items:
@@ -21683,57 +21823,122 @@ definitions:
                     properties:
                       id:
                         type: integer
+                        description: The id of the public signup page.
                       url:
                         type: string
+                        description: The public facing URL for the Public Signup Page
+                        format: uri
                 taxable:
                   type: boolean
+                  description: Is the product taxable
                 version_number:
                   type: integer
+                  description: Version number of the product
             credit_card:
               type: object
               properties:
                 id:
                   type: integer
+                  description: The ID of the payment profile
                 payment_type:
                   type: string
+                  enum:
+                    - credit_card
+                    - bank_account
+                    - paypal_account
                 first_name:
                   type: string
+                  description: First name on card or bank account
                 last_name:
                   type: string
+                  description: Last name on card or bank account
                 masked_card_number:
                   type:
                     - 'null'
                     - string
+                  description: Masked card number only exposing the last 4 digits of the card
                 card_type:
                   type:
                     - 'null'
                     - string
+                  enum:
+                    - visa
+                    - master
+                    - discover
+                    - american_express
+                    - diners_club
+                    - jcb
+                    - switch
+                    - solo
+                    - dankort
+                    - maestro
+                    - forbrugsforeningen
+                    - laser
                 expiration_month:
                   type:
                     - integer
                     - 'null'
+                  description: Expiration month of the card on file
                 expiration_year:
                   type:
                     - integer
                     - 'null'
+                  description: Expiration year of the card on file
                 billing_address:
                   type: string
+                  description: Billing address of the card on file
                 billing_address_2:
                   type: string
+                  description: Secondary billing address of the card on file
                 billing_city:
                   type: string
+                  description: Billing city of the card on file
                 billing_state:
                   type:
                     - 'null'
                     - string
+                  description: Billing state of the card on file
                 billing_country:
                   type: string
+                  description: Billing Country of the card on file
                 billing_zip:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: Billing zip of the card on file
                 current_vault:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: Current vault of the payment method
+                  enum:
+                    - bogus
+                    - authorizenet
+                    - authorizenet_cim
+                    - beanstream
+                    - bpoint
+                    - braintree_blue
+                    - chargify
+                    - cybersource
+                    - elavon
+                    - eway
+                    - eway_rapid_std
+                    - firstdata
+                    - fusebox
+                    - litle
+                    - moneris
+                    - moneris_us
+                    - orbital
+                    - payment_express
+                    - paymill
+                    - pin
+                    - quickpay
+                    - stripe_connect
+                    - trust_commerce
+                    - wirecard
                 vault_token:
                   type: string
+                  description: 'If you have an existing vault_token from your gateway, you may associate it with this new payment profile.'
                 customer_vault_token:
                   type: 'null'
                 customer_id:
@@ -21742,16 +21947,22 @@ definitions:
               type: string
             referral_code:
               type: string
+              description: The referral code used during signup of the subscription
             next_product_id:
-              type: 'null'
+              type:
+                - 'null'
+                - integer
+              description: Next product ID if delayed product change has been scheduled
             coupon_use_count:
               type:
                 - integer
                 - 'null'
+              description: Number of times the applied coupon has been used
             coupon_uses_allowed:
               type:
                 - integer
                 - 'null'
+              description: Number of times the applied coupon can be used
     example:
       - subscription:
           id: 15236915
@@ -21785,7 +21996,7 @@ definitions:
             first_name: Curtis
             last_name: Test
             email: curtis@example.com
-            cc_emails: null
+            cc_emails: jeff@example.com
             organization: ''
             reference: null
             id: 14714298
@@ -21951,8 +22162,8 @@ definitions:
           credit_card:
             id: 10188522
             payment_type: credit_card
-            first_name: F
-            last_name: B
+            first_name: Fran
+            last_name: Becker
             masked_card_number: null
             card_type: null
             expiration_month: null
@@ -21960,7 +22171,7 @@ definitions:
             billing_address: 123 Montana Way
             billing_address_2: ''
             billing_city: Boulder
-            billing_state: AL
+            billing_state: CO
             billing_country: US
             billing_zip: '90210'
             current_vault: bogus
