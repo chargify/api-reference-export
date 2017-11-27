@@ -5879,15 +5879,12 @@ paths:
           "payment_profile": {
             "first_name": "Kelly",
             "last_name": "Test",
-            "customer_id": 14543792,
             "billing_address": "789 Juniper Court",
             "billing_city": "Boulder",
             "billing_state": "CO",
             "billing_zip": "80302",
             "billing_country": "US",
-            "customer_vault_token": null,
-            "billing_address_2": null,
-            "payment_type": "credit_card"
+            "billing_address_2": null
           }
         }
         ```
@@ -5918,7 +5915,6 @@ paths:
                 card_type: master
                 expiration_month: '04'
                 expiration_year: '2030'
-                customer_id: 17329648
                 current_vault: bogus
                 vault_token: '1'
                 billing_address: 456 Juniper Court
@@ -5926,9 +5922,7 @@ paths:
                 billing_state: CO
                 billing_zip: '80302'
                 billing_country: US
-                customer_vault_token: null
                 billing_address_2: null
-                payment_type: credit_card
       responses:
         '200':
           description: OK
@@ -27165,8 +27159,6 @@ definitions:
             type: string
           expiration_year:
             type: string
-          customer_id:
-            type: integer
           current_vault:
             type: string
           vault_token:
@@ -27181,12 +27173,8 @@ definitions:
             type: string
           billing_country:
             type: string
-          customer_vault_token:
-            type: 'null'
           billing_address_2:
             type: 'null'
-          payment_type:
-            type: string
     example:
       payment_profile:
         first_name: Graham
@@ -27195,7 +27183,6 @@ definitions:
         card_type: master
         expiration_month: '04'
         expiration_year: '2030'
-        customer_id: 17329648
         current_vault: bogus
         vault_token: '1'
         billing_address: 456 Juniper Court
@@ -27203,9 +27190,7 @@ definitions:
         billing_state: CO
         billing_zip: '80302'
         billing_country: US
-        customer_vault_token: null
         billing_address_2: null
-        payment_type: credit_card
     x-stoplight:
       id: payments/update-payment-profile
       name: Update Payment Profile
