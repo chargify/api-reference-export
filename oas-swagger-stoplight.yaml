@@ -1513,6 +1513,8 @@ paths:
 
         You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
 
+        If an invalid price_point_id is submitted, the endpoint will return an error. 
+
         ## Recording zero usage
 
         In the event that you would like to record an amount of `0` for a subscriber's component, you must substract the amount from the current usage.
