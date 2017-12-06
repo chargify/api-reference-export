@@ -1718,7 +1718,7 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/allocations/preview':
+  '/subscriptions/{subscription_id}/allocations/preview.json':
     parameters:
       - name: subscription_id
         in: path
@@ -1830,18 +1830,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/components/{component_id}/price_points.{format}':
+  '/components/{component_id}/price_points.json':
     parameters:
       - name: component_id
         in: path
         required: true
         type: string
-      - name: format
-        in: path
-        required: true
-        type: string
     post:
-      operationId: POST_components-component_id-price_points-format
+      operationId: POST_components-component_id-price_points-json
       summary: Create Price Point
       tags:
         - 'Components: Price Points'
@@ -1892,7 +1888,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_components-componentid-pricepointsformat
+        id: POST_components-componentid-pricepointsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -1901,7 +1897,7 @@ paths:
           dynamic: false
           statusCode: 200
     get:
-      operationId: GET_components-component_id-price_points-format
+      operationId: GET_components-component_id-price_points-json
       summary: List Price Points
       tags:
         - 'Components: Price Points'
@@ -1946,7 +1942,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_components-componentid-pricepointsformat
+        id: GET_components-componentid-pricepointsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -1954,18 +1950,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/components/{component_id}/price_points/bulk.{format}':
+  '/components/{component_id}/price_points/bulk.json':
     parameters:
       - name: component_id
         in: path
         required: true
         type: string
-      - name: format
-        in: path
-        required: true
-        type: string
     post:
-      operationId: POST_components-component_id-price_points-bulk-format
+      operationId: POST_components-component_id-price_points-bulk-json
       summary: Bulk Create Price Points
       tags:
         - 'Components: Price Points'
@@ -2029,7 +2021,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_components-componentid-pricepoints-bulkformat
+        id: POST_components-componentid-pricepoints-bulkjson
         beforeScript: null
         afterScript: null
         public: true
@@ -2037,7 +2029,7 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/components/{component_id}/price_points/{price_point_id}.{format}':
+  '/components/{component_id}/price_points/{price_point_id}.json':
     parameters:
       - name: component_id
         in: path
@@ -2047,12 +2039,8 @@ paths:
         in: path
         required: true
         type: string
-      - name: format
-        in: path
-        required: true
-        type: string
     put:
-      operationId: PUT_components-component_id-price_points-price_point_id-format
+      operationId: PUT_components-component_id-price_points-price_point_id-json
       summary: Update Price Point
       tags:
         - 'Components: Price Points'
@@ -2086,7 +2074,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: PUT_components-componentid-pricepoints-pricepointidformat
+        id: PUT_components-componentid-pricepoints-pricepointidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -2094,6 +2082,55 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/components/{component_id}/price_points/{price_point_id}/default.json':
+    parameters:
+      - name: component_id
+        in: path
+        required: true
+        type: string
+      - name: price_point_id
+        in: path
+        required: true
+        type: string
+    put:
+      operationId: PUT_components-component_id-price_points-price_point_id-default-json
+      summary: Promoting Price Point to Default
+      tags:
+        - 'Components: Price Points'
+      description: |-
+        Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
+
+        See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information on price points and moving subscriptions between price points.
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/components/create-response-post'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/components/{component_id}/price_points/{price_point_id}.{format}':
+    parameters:
+      - name: component_id
+        in: path
+        required: true
+        type: string
+      - name: price_point_id
+        in: path
+        required: true
+        type: string
+      - name: format
+        in: path
+        required: true
+        type: string
     delete:
       operationId: DELETE_components-component_id-price_points-price_point_id-format
       summary: Archive Price Point
@@ -2178,7 +2215,7 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/components/{component_id}/price_points/{price_point_id}/default.{format}':
+  '/components/{component_id}/price_points/{price_point_id}/unarchive.json':
     parameters:
       - name: component_id
         in: path
@@ -2188,51 +2225,8 @@ paths:
         in: path
         required: true
         type: string
-      - name: format
-        in: path
-        required: true
-        type: string
     put:
-      operationId: PUT_components-component_id-price_points-price_point_id-default-format
-      summary: Promoting Price Point to Default
-      tags:
-        - 'Components: Price Points'
-      description: |-
-        Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
-
-        See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information on price points and moving subscriptions between price points.
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/components/create-response-post'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_components-componentid-pricepoints-pricepointid-defaultformat
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/components/{component_id}/price_points/{price_point_id}/unarchive.{format}':
-    parameters:
-      - name: component_id
-        in: path
-        required: true
-        type: string
-      - name: price_point_id
-        in: path
-        required: true
-        type: string
-      - name: format
-        in: path
-        required: true
-        type: string
-    put:
-      operationId: PUT_components-component_id-price_points-price_point_id-unarchive-format
+      operationId: PUT_components-component_id-price_points-price_point_id-unarchive-json
       summary: Unarchive Price Point
       tags:
         - 'Components: Price Points'
@@ -2267,7 +2261,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: PUT_components-componentid-pricepoints-pricepointid-unarchiveformat
+        id: PUT_components-componentid-pricepoints-pricepointid-unarchivejson
         beforeScript: null
         afterScript: null
         public: true
@@ -2275,14 +2269,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/price_points':
+  '/subscriptions/{subscription_id}/price_points.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-price_points
+      operationId: POST_subscriptions-subscription_id-price_points-json
       summary: Bulk Update a Subscription's Component's Price Points
       tags:
         - 'Components: Price Points'
@@ -2343,7 +2337,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-pricepoints
+        id: POST_subscriptions-subscriptionid-pricepointsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -2351,14 +2345,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/price_points/reset':
+  '/subscriptions/{subscription_id}/price_points/reset.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-price_points-reset
+      operationId: POST_subscriptions-subscription_id-price_points-reset-json
       summary: Bulk Reset a Subscription's Component's Price Points
       tags:
         - 'Components: Price Points'
@@ -2467,7 +2461,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-pricepoints-reset
+        id: POST_subscriptions-subscriptionid-pricepoints-resetjson
         beforeScript: null
         afterScript: null
         public: true
@@ -29222,35 +29216,35 @@ x-stoplight:
               type: docTextSections
             - _id: components/price-points/list-price-points-response
               type: schemas
-            - _id: POST_components-componentid-pricepointsformat
+            - _id: POST_components-componentid-pricepointsjson
               type: endpoints
             - _id: components/price-points/create-price-point-request
               type: schemas
             - _id: components/price-points/create-price-point-response
               type: schemas
-            - _id: POST_components-componentid-pricepoints-bulkformat
+            - _id: POST_components-componentid-pricepoints-bulkjson
               type: endpoints
-            - _id: GET_components-componentid-pricepointsformat
+            - _id: GET_components-componentid-pricepointsjson
               type: endpoints
             - _id: components/price-points/bulk-create-price-points-request
               type: schemas
-            - _id: PUT_components-componentid-pricepoints-pricepointidformat
+            - _id: PUT_components-componentid-pricepoints-pricepointidjson
               type: endpoints
             - _id: components/price-points/update-price-point-request
               type: schemas
-            - _id: PUT_components-componentid-pricepoints-pricepointid-defaultformat
+            - _id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
               type: endpoints
             - _id: DELETE_components-componentid-pricepoints-pricepointidformat
               type: endpoints
-            - _id: PUT_components-componentid-pricepoints-pricepointid-unarchiveformat
+            - _id: PUT_components-componentid-pricepoints-pricepointid-unarchivejson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-pricepoints
+            - _id: POST_subscriptions-subscriptionid-pricepointsjson
               type: endpoints
             - _id: components/price-points/bulk-update-a-subscription-s-component-s-price-points
               type: schemas
             - _id: components/price-points/bulk-reset-a-subscription-s-component-s-price-points
               type: schemas
-            - _id: POST_subscriptions-subscriptionid-pricepoints-reset
+            - _id: POST_subscriptions-subscriptionid-pricepoints-resetjson
               type: endpoints
           name: 'Components: Price Points'
           description: |-
