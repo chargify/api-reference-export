@@ -191,6 +191,14 @@ paths:
 
         **Notice**: Allocations can only be updated for Quantity and On/Off Components.
 
+        ## Price Point ID usage
+
+        If you are using price points, for Quantity components, Chargify gives you the option to specify a price point in your request.
+
+        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
+
+        If an invalid price_point_id is submitted, the endpoint will return an error. 
+
         ## Input Fields
 
         | **Input Fields**           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
