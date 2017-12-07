@@ -197,7 +197,7 @@ paths:
 
         You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
 
-        If an invalid price_point_id is submitted, the endpoint will return an error. 
+        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
 
         ## Input Fields
 
@@ -276,6 +276,19 @@ paths:
                   price_point_id: 130350
                   previous_price_point_id: 130350
                   payment: null
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1521,7 +1534,7 @@ paths:
 
         You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
 
-        If an invalid price_point_id is submitted, the endpoint will return an error. 
+        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
 
         ## Recording zero usage
 
@@ -1571,6 +1584,19 @@ paths:
                 created_at: '2017-11-13T10:05:32-06:00'
                 price_point_id: 149416
                 quantity: 1000
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
