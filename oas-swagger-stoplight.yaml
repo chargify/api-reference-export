@@ -1855,6 +1855,8 @@ paths:
                   component_id: 379512
                   'on': base
                   message: Allocations can only be updated for quantity and on/off components.
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST-preview-allocation
         beforeScript: null
