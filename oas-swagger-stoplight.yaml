@@ -6002,7 +6002,7 @@ paths:
       description: |-
         ## Create a Payment Profile
 
-        This method will create a payment profile for the `customer_id` identified in the `payment_profile` object.
+        This method will create a payment profile for the `customer_id` identified in the `payment_profile` object. The `customer_id` is required for creating payment profiles in order to attach it to the proper object.
 
         ## Create a Payment Profile for ACH usage
 
@@ -6071,11 +6071,11 @@ paths:
               payment_profile:
                 first_name: Jessica
                 last_name: Test
-                last_four: 1111
+                masked_card_number: XXXX-XXXX-XXXX-1111
                 card_type: visa
                 expiration_month: 10
                 expiration_year: 2018
-                customer_id: 14543792
+                customer_id: 19195410
                 current_vault: bogus
                 vault_token: '1'
                 billing_address: 123 Main St.
@@ -6094,14 +6094,14 @@ paths:
           examples:
             application/json:
               payment_profile:
-                id: 10090015
+                id: 13731211
                 first_name: Jessica
                 last_name: Test
-                masked_card_number: XXXX-XXXX-XXXX-1111
+                masked_card_number: null
                 card_type: visa
                 expiration_month: 10
                 expiration_year: 2018
-                customer_id: 14543792
+                customer_id: 19195410
                 current_vault: bogus
                 vault_token: '1'
                 billing_address: 123 Main St.
@@ -17667,8 +17667,8 @@ definitions:
             type: string
           last_name:
             type: string
-          last_four:
-            type: integer
+          masked_card_number:
+            type: string
           card_type:
             type: string
           expiration_month:
@@ -17697,15 +17697,17 @@ definitions:
             type: 'null'
           payment_type:
             type: string
+        required:
+          - customer_id
     example:
       payment_profile:
         first_name: Jessica
         last_name: Test
-        last_four: 1111
+        masked_card_number: XXXX-XXXX-XXXX-1111
         card_type: visa
         expiration_month: 10
         expiration_year: 2018
-        customer_id: 14543792
+        customer_id: 19195410
         current_vault: bogus
         vault_token: '1'
         billing_address: 123 Main St.
@@ -17958,7 +17960,7 @@ definitions:
           last_name:
             type: string
           masked_card_number:
-            type: string
+            type: 'null'
           card_type:
             type: string
           expiration_month:
@@ -17989,14 +17991,14 @@ definitions:
             type: string
     example:
       payment_profile:
-        id: 10090015
+        id: 13731211
         first_name: Jessica
         last_name: Test
-        masked_card_number: XXXX-XXXX-XXXX-1111
+        masked_card_number: null
         card_type: visa
         expiration_month: 10
         expiration_year: 2018
-        customer_id: 14543792
+        customer_id: 19195410
         current_vault: bogus
         vault_token: '1'
         billing_address: 123 Main St.
@@ -29599,9 +29601,9 @@ x-stoplight:
               type: schemas
             - _id: POST_payment_profiles-format
               type: endpoints
-            - _id: payment-profile/create-payment-profile-output
-              type: schemas
             - _id: payment-profiles/create-payment-profile-input
+              type: schemas
+            - _id: payment-profile/create-payment-profile-output
               type: schemas
             - _id: PUT_payment_profiles-payment_profile_id-format
               type: endpoints
