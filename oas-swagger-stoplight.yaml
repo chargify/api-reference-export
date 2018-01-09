@@ -1208,11 +1208,11 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-json
-      summary: List Subscriptions
+      summary: Read Subscriptions for a Site
       tags:
         - Subscriptions
       description: |-
-        ## List Subscriptions
+        ## Read Subscriptions for a Site
 
         This method will return an array of subscriptions from a Site. Pay close attention to query string filters and pagination in order to control responses from the server.
       parameters:
@@ -30040,6 +30040,12 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-output-attributes
               type: docTextSections
+            - _id: POST_subscriptionsjson
+              type: endpoints
+            - _id: subscriptions/create-subscription-request
+              type: schemas
+            - _id: GET_subscriptions-subscription_id-format
+              type: endpoints
             - _id: GET_subscriptionsjson
               type: endpoints
             - _id: subscriptions/list-subscriptions-output
@@ -30049,12 +30055,6 @@ x-stoplight:
             - _id: 57LwHdN5jxjEFf3HH
               type: schemas
             - _id: subscription/read-subscription
-              type: schemas
-            - _id: GET_subscriptions-subscription_id-format
-              type: endpoints
-            - _id: POST_subscriptionsjson
-              type: endpoints
-            - _id: subscriptions/create-subscription-request
               type: schemas
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
