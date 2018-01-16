@@ -98,63 +98,47 @@ paths:
         type: integer
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Updating the Quantity
+      summary: Create Allocation for On/Off Component
       tags:
         - 'Components: On/Off Toggling'
       description: |-
-        ## Updating the Quantity
+        ## Create Allocation for On/Off Component
 
         For full documentation on configuring allocations for subscriptions, please view the [Allocations](#docTextSection:Fupxh2M7fACmdwsDm) endpoint documentation.
 
-        After a subscription has been created, you may set or update the quantity at any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
+        After a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
 
         The method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
 
         **Notice**: Allocations can only be updated for Quantity and On/Off Components.
 
-        ## Price Point ID usage
-
-        If you are using price points, for Quantity components, Chargify gives you the option to specify a price point in your request.
-
-        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
-
-        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
-
         ## Input Fields
 
-        | **Input Fields**           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+        | **Input Fields** | **Description** |
         |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | quantity                   | The allocated quantity to which to set the line-items allocated quantity. By default, this is an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use `1 `for on and `0` for off.                                                                                                                                                                                                                          |
-        | memo                       | (optional) A memo to record along with the allocation                                                                                                                                                                                                                                                                                                                                                                                                                        |
-        | proration_upgrade_scheme   | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. **Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**                                                                                                                                                                                               |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                           |
-        | payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
+        | quantity |For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.   |
+        | memo | (optional) A memo to record along with the allocation |
+        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
+        | payment_collection_method | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
 
         ## Output Fields
 
-        | Output Fields              | Description                                                                                                                                                                                                                                                                      |
-        |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                                                                                                                             |
-        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                                                                                                                               |
-        | quantity                   | The allocated quantity set in to effect by the allocation                                                                                                                                                                                                                        |
-        | previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                                                                                                                                     |
-        | memo                       | The memo passed when the allocation was created                                                                                                                                                                                                                                  |
-        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.**Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**  |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                               |
-        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                                                                                             |
-        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file.                                                                                                  |
+        | Output Fields              | Description                                                                                                                                                             |
+        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                    |
+        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                      |
+        | quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                                               |
+        | previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.                                                                                            |
+        | memo                       | The memo passed when the allocation was created                                                                                                                         |
+        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                       |
+        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                      |
+        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                               |
+        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
 
-        ## Response Status Codes
+        ## On/Off Component Example
 
-        | 201 Created              | Allocation created successfully                                                         |
-        |--------------------------|-----------------------------------------------------------------------------------------|
-        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
-        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
-        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
-
-        ## Quantity-based component example
-
-        The following example will set a quantity of 5 for a quantity-based component.
+        The following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.
 
         ```
         {
@@ -168,48 +152,31 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/quantity/update-the-quantity-allocation-request'
+            $ref: '#/definitions/components/onoff/toggling-on-off-request'
             example:
               allocation:
-                component_id: 375250
-                price_point_id: 75
-                quantity: 29
-                memo: Text messages usage May 2020
-                proration_downgrade_scheme: no-prorate
-                proration_collection_method: automatic
-                proration_upgrade_scheme: no-prorate
+                component_id: 399850
+                quantity: 0
+                price_point_id: 130350
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/quantity/update-the-quantity-allocation'
+            $ref: '#/definitions/components/onoff/toggling-on-off-response'
           examples:
             application/json:
               - allocation:
-                  component_id: 399850
+                  component_id: 399853
                   subscription_id: 18342261
-                  quantity: 29
-                  previous_quantity: 0
-                  memo: Text messages usage May 2020
-                  timestamp: '2017-07-12T20:01:36Z'
+                  quantity: 0
+                  previous_quantity: 1
+                  memo: null
+                  timestamp: '2017-07-10T21:00:38Z'
                   proration_upgrade_scheme: no-prorate
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 130350
-                  previous_price_point_id: 130350
+                  price_point_id: 121003
+                  previous_price_point_id: 121003
                   payment: null
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -567,151 +534,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family_id}/components.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: integer
-    get:
-      operationId: GET_product_families-product_family_id-components-json
-      summary: Read Components for a Product Family
-      tags:
-        - incomplete
-        - Component
-        - Components
-      description: |-
-        ## List Components for a Product Family
-
-        This request will return a list of components for a particular product family.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/component/list-component-product-family-get'
-          examples:
-            application/json:
-              - component:
-                  id: 399850
-                  name: $1.00 component
-                  pricing_scheme: per_unit
-                  unit_name: Component
-                  unit_price: '1.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: quantity_based_component
-                  archived: false
-                  taxable: false
-                  description: Component
-                  default_price_point_id: 121000
-                  prices:
-                    - id: 630687
-                      component_id: 399850
-                      starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '1.0'
-                      price_point_id: 121000
-                      formatted_unit_price: $1.00
-                  price_point_count: 2
-                  price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
-                  tax_code: null
-              - component:
-                  id: 399853
-                  name: Annual Support Services
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '100.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: on_off_component
-                  archived: false
-                  taxable: true
-                  description: Prepay for support services
-                  default_price_point_id: 121003
-                  price_point_count: 4
-                  price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
-                  tax_code: D0000000
-              - component:
-                  id: 386937
-                  name: Cancellation fee
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '35.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: on_off_component
-                  archived: false
-                  taxable: false
-                  description: ''
-                  default_price_point_id: 108307
-                  price_point_count: 1
-                  price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
-                  tax_code: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_productfamilies-productfamilyid-componentsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/product_families/{product_family_id}/components/{component_id}.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: integer
-      - name: component_id
-        in: path
-        required: true
-        type: integer
-    get:
-      operationId: GET_product_families-product_family_id-components-component_id-json
-      summary: List Specific Component for a Product Family
-      tags:
-        - Component
-        - Components
-      description: |-
-        ## List Specific Component for a Product Family
-
-        This request will return information regarding a component from a specific product family.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/component/list-specific-component-product-family-get'
-          examples:
-            application/json:
-              component:
-                id: 399853
-                name: Annual Support Services
-                pricing_scheme: null
-                unit_name: on/off
-                unit_price: '100.0'
-                product_family_id: 997233
-                price_per_unit_in_cents: null
-                kind: on_off_component
-                archived: false
-                taxable: true
-                description: Prepay for support services
-                default_price_point_id: 121003
-                price_point_count: 4
-                price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
-                tax_code: D0000000
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_productfamilies-productfamilyid-components-componentidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/product_families/{product_family_id}/{plural_kind}.json':
     parameters:
       - name: product_family_id
@@ -732,7 +554,7 @@ paths:
       tags:
         - Component
         - Components
-      description: "## Create Component\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Component\",\n\t\t\"description\": \"Example of JSON per-unit component example\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"unit_price\": \"10\"\n\t},\n\t\"taxable\": \"1\",\n\t\"display_on_hosted_page\": \"1\",\n\t\"allow_fractional_quantities\": \"1\",\n\t\"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON stairstep example\",\n\t\t\"pricing_scheme\": \"stairstep\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"100\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"101\",\n\t\t\t\t\"ending_quantity\": \"200\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"taxable\": \"1\",\n\t\t\t\"display_on_hosted_page\": \"1\",\n\t\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\t\"public_signup_page_ids\": [\"323397\"]\n\t\t}\n\t}\n}\n```\n\n**Volume Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON volume component example\",\n\t\t\"pricing_scheme\": \"volume\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"10\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"11\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"5\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t},\n\t\"commit\": \"Create Component\",\n\t\"product_family_id\": \"997233\"\n}\n```\n\n**Tiered Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON for tiered quantity based component\",\n\t\t\"pricing_scheme\": \"tiered\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"21\",\n\t\t\t\t\"ending_quantity\": \"40\",\n\t\t\t\t\"unit_price\": \"25\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t}\n}\n```\n\n\n## On/Off Component\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"taxable\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"]\n}\n```"
+      description: "## Create Component within a Product Family\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Component\",\n\t\t\"description\": \"Example of JSON per-unit component example\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"unit_price\": \"10\"\n\t},\n\t\"taxable\": \"1\",\n\t\"display_on_hosted_page\": \"1\",\n\t\"allow_fractional_quantities\": \"1\",\n\t\"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON stairstep example\",\n\t\t\"pricing_scheme\": \"stairstep\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"100\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"101\",\n\t\t\t\t\"ending_quantity\": \"200\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"taxable\": \"1\",\n\t\t\t\"display_on_hosted_page\": \"1\",\n\t\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\t\"public_signup_page_ids\": [\"323397\"]\n\t\t}\n\t}\n}\n```\n\n**Volume Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON volume component example\",\n\t\t\"pricing_scheme\": \"volume\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"10\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"11\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"5\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t},\n\t\"commit\": \"Create Component\",\n\t\"product_family_id\": \"997233\"\n}\n```\n\n**Tiered Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON for tiered quantity based component\",\n\t\t\"pricing_scheme\": \"tiered\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"21\",\n\t\t\t\t\"ending_quantity\": \"40\",\n\t\t\t\t\"unit_price\": \"25\"\n\t\t\t}\n\t\t},\n\t\t\"taxable\": \"1\",\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t}\n}\n```\n\n\n## On/Off Component\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"taxable\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"]\n}\n```"
       parameters:
         - name: body
           in: body
@@ -850,6 +672,14 @@ paths:
       summary: Create Component with Price Points
       tags:
         - Components
+      description: |-
+        ## Create a Component with Price Points
+
+        This endpoint will allow you to create a componenent within Chargify that has multiple endpoints.
+
+        ## Component Documentation
+
+        For more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)
       parameters:
         - name: body
           in: body
@@ -909,6 +739,151 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/product_families/{product_family_id}/components.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: integer
+    get:
+      operationId: GET_product_families-product_family_id-components-json
+      summary: Read Components for a Product Family
+      tags:
+        - incomplete
+        - Component
+        - Components
+      description: |-
+        ## Read Components for a Product Family
+
+        This request will return a list of components for a particular product family.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/component/read-components-for-a-product-family-output'
+          examples:
+            application/json:
+              - component:
+                  id: 399850
+                  name: $1.00 component
+                  pricing_scheme: per_unit
+                  unit_name: Component
+                  unit_price: '1.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: quantity_based_component
+                  archived: false
+                  taxable: false
+                  description: Component
+                  default_price_point_id: 121000
+                  prices:
+                    - id: 630687
+                      component_id: 399850
+                      starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '1.0'
+                      price_point_id: 121000
+                      formatted_unit_price: $1.00
+                  price_point_count: 2
+                  price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
+                  tax_code: null
+              - component:
+                  id: 399853
+                  name: Annual Support Services
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '100.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: on_off_component
+                  archived: false
+                  taxable: true
+                  description: Prepay for support services
+                  default_price_point_id: 121003
+                  price_point_count: 4
+                  price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+                  tax_code: D0000000
+              - component:
+                  id: 386937
+                  name: Cancellation fee
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '35.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: on_off_component
+                  archived: false
+                  taxable: false
+                  description: ''
+                  default_price_point_id: 108307
+                  price_point_count: 1
+                  price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
+                  tax_code: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_productfamilies-productfamilyid-componentsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/product_families/{product_family_id}/components/{component_id}.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: integer
+      - name: component_id
+        in: path
+        required: true
+        type: integer
+    get:
+      operationId: GET_product_families-product_family_id-components-component_id-json
+      summary: Read Specific Component for a Product Family
+      tags:
+        - Component
+        - Components
+      description: |-
+        ## Read a Specific Component for a Product Family
+
+        This request will return information regarding a component from a specific product family.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/component/list-specific-component-product-family-get'
+          examples:
+            application/json:
+              component:
+                id: 399853
+                name: Annual Support Services
+                pricing_scheme: null
+                unit_name: on/off
+                unit_price: '100.0'
+                product_family_id: 997233
+                price_per_unit_in_cents: null
+                kind: on_off_component
+                archived: false
+                taxable: true
+                description: Prepay for support services
+                default_price_point_id: 121003
+                price_point_count: 4
+                price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+                tax_code: D0000000
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_productfamilies-productfamilyid-components-componentidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -988,12 +963,12 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-format
-      summary: List Components for a Subscription
+      summary: Read Components for a Subscription
       tags:
         - Component
         - Component Line Items
       description: |-
-        ## List Components for a Subscription
+        ## Read Components for a Subscription
 
         This request will list a subscription's applied components.
 
@@ -1032,17 +1007,172 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  /subscriptions.json:
+  '/subscriptions/{subscription_id}/components/{component_id}/usages.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+      - name: component_id
+        in: path
+        required: true
+        type: string
     post:
-      operationId: POST_subscriptions-json
-      summary: Setting Quantity at Subscription Creation
+      operationId: POST_subscriptions-subscription_id-components-component_id-usages-json
+      summary: Create Usage for Subscription
       tags:
         - 'Components: Metered Usage'
+      description: |-
+        ## Create Usage for Subscription
+
+        This request will record metered usage for a subscription.
+
+        ## Price Point ID usage
+
+        If you are using price points, for metered components, Chargify gives you the option to specify a price point in your request.
+
+        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
+
+        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
+
+        ## Recording zero usage
+
+        In the event that you would like to record an amount of `0` for a subscriber's component, you must substract the amount from the current usage.
+
+        Example:
+
+        Currently recorded:
+
+        ```{
+          "usage": {
+            "quantity": 5000,
+            "memo": "My memo"
+          }
+        }
+        ```
+
+        To record a zero amount, POST the following payload:
+
+        ```{
+          "usage": {
+            "quantity": -5000,
+            "memo": "My memo"
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/metered/setting-quantity-at-subscription-creation-input'
+            $ref: '#/definitions/components/metered/create-usage-input'
+            example:
+              usage:
+                quantity: 1000
+                price_point_id: '149416'
+                memo: My memo
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/components/metered/create-usage-output'
+          examples:
+            application/json:
+              usage:
+                id: 138522957
+                memo: My memo
+                created_at: '2017-11-13T10:05:32-06:00'
+                price_point_id: 149416
+                quantity: 1000
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
+      summary: Read Usage for a Subscription's Metered Component
+      tags:
+        - 'Components: Metered Usage'
+      description: |-
+        ## Read Usage for Metered Component Usage for a Subscription
+
+        Use this endpoint to read the previously recorded components for a subscription.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/read-usage-for-a-subscriptions-metered-usage'
+          examples:
+            application/json:
+              - usage:
+                  id: 143497499
+                  memo: Fourth record
+                  created_at: '2018-01-03T08:53:52-06:00'
+                  price_point_id: 149416
+                  quantity: 200
+              - usage:
+                  id: 143497490
+                  memo: Third record
+                  created_at: '2018-01-03T08:53:36-06:00'
+                  price_point_id: 149416
+                  quantity: 50
+              - usage:
+                  id: 143497474
+                  memo: Second record
+                  created_at: '2018-01-03T08:52:46-06:00'
+                  price_point_id: 149416
+                  quantity: 20
+              - usage:
+                  id: 143497461
+                  memo: First record
+                  created_at: '2018-01-03T08:52:29-06:00'
+                  price_point_id: 149416
+                  quantity: 10
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /subscriptions.json:
+    post:
+      operationId: POST_subscriptions-json
+      summary: Create Usage When Creating a New Subscription
+      tags:
+        - 'Components: Metered Usage'
+      description: |-
+        ## Create Usage When Creating a New Subscription
+
+        This example will show you how to create usage while creating a new subscription. Please be aware that this example POSTs to the `subscriptions.json` endpoint. This example does not post to the a
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/components/metered/create-usage-when-creating-a-new-subscription Input'
             example:
               subscription:
                 product_handle: basic
@@ -1445,157 +1575,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptionsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/components/{component_id}/usages.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-      - name: component_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Read Usage for a Subscription's Metered Component
-      tags:
-        - 'Components: Metered Usage'
-      description: |-
-        ## Read Usage for Metered Component Usage for a Subscription
-
-        Use this endpoint to read the previously recorded components for a subscription.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/read-usage-for-a-subscriptions-metered-usage'
-          examples:
-            application/json:
-              - usage:
-                  id: 143497499
-                  memo: Fourth record
-                  created_at: '2018-01-03T08:53:52-06:00'
-                  price_point_id: 149416
-                  quantity: 200
-              - usage:
-                  id: 143497490
-                  memo: Third record
-                  created_at: '2018-01-03T08:53:36-06:00'
-                  price_point_id: 149416
-                  quantity: 50
-              - usage:
-                  id: 143497474
-                  memo: Second record
-                  created_at: '2018-01-03T08:52:46-06:00'
-                  price_point_id: 149416
-                  quantity: 20
-              - usage:
-                  id: 143497461
-                  memo: First record
-                  created_at: '2018-01-03T08:52:29-06:00'
-                  price_point_id: 149416
-                  quantity: 10
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    post:
-      operationId: POST_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Create Usage for Subscription
-      tags:
-        - 'Components: Metered Usage'
-      description: |-
-        ## Create Usage for Subscription
-
-        This request will record metered usage for a subscription.
-
-        ## Price Point ID usage
-
-        If you are using price points, for metered components, Chargify gives you the option to specify a price point in your request.
-
-        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
-
-        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
-
-        ## Recording zero usage
-
-        In the event that you would like to record an amount of `0` for a subscriber's component, you must substract the amount from the current usage.
-
-        Example:
-
-        Currently recorded:
-
-        ```{
-          "usage": {
-            "quantity": 5000,
-            "memo": "My memo"
-          }
-        }
-        ```
-
-        To record a zero amount, POST the following payload:
-
-        ```{
-          "usage": {
-            "quantity": -5000,
-            "memo": "My memo"
-          }
-        }
-        ```
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/components/metered/create-usage-input'
-            example:
-              usage:
-                quantity: 1000
-                price_point_id: '149416'
-                memo: My memo
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/components/metered/create-usage-output'
-          examples:
-            application/json:
-              usage:
-                id: 138522957
-                memo: My memo
-                created_at: '2017-11-13T10:05:32-06:00'
-                price_point_id: 149416
-                quantity: 1000
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Price point: could not be found.'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
         beforeScript: null
         afterScript: null
         public: true
@@ -16215,8 +16194,8 @@ definitions:
       id: components/create-response-post
       name: Create a Component Response POST
       public: true
-  component/list-component-product-family-get:
-    title: List Component Product Family GET
+  component/read-components-for-a-product-family-output:
+    title: Read Components for a Product Family Output
     type: array
     items:
       type: object
@@ -16335,11 +16314,11 @@ definitions:
           price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
           tax_code: null
     x-stoplight:
-      id: component/list-component-product-family-get
-      name: List Component Product Family GET
+      id: component/read-components-for-a-product-family-output
+      name: Read Components for a Product Family Output
       public: true
   component/list-specific-component-product-family-get:
-    title: List Specific Component Product Family GET
+    title: Read Specific Component Product Family GET
     type: object
     properties:
       component:
@@ -16394,7 +16373,7 @@ definitions:
         tax_code: D0000000
     x-stoplight:
       id: component/list-specific-component-product-family-get
-      name: List Specific Component Product Family GET
+      name: Read Specific Component Product Family GET
       public: true
   component/create:
     title: Create a Component Request POST
@@ -16581,8 +16560,8 @@ definitions:
       id: charges/create-a-charge-response-post
       name: Create a charge / Response POST
       public: true
-  components/list-specific-component-get:
-    title: List Specific Component GET
+  components/read-specific-component-get:
+    title: Read Specific Component GET
     type: object
     properties:
       component:
@@ -16612,8 +16591,8 @@ definitions:
         kind: quantity_based_component
         unit_name: Users
     x-stoplight:
-      id: components/list-specific-component-get
-      name: List Specific Component GET
+      id: components/read-specific-component-get
+      name: Read Specific Component GET
       public: true
   charges/create-a-charge-request-post:
     title: Create a charge / Request POST
@@ -17574,8 +17553,8 @@ definitions:
       id: metafields/update-metafields-output
       name: Update Metafields Output
       public: true
-  components/metered/list-usage-output:
-    title: List Usage Output
+  components/metered/read-usage-output-subscription:
+    title: Read Usage by Component for a Subscription
     type: array
     items:
       type: object
@@ -17598,8 +17577,8 @@ definitions:
           created_at: '2016-11-29T15:22:18-05:00'
           quantity: 100
     x-stoplight:
-      id: components/metered/list-usage-output
-      name: List Usage Output
+      id: components/metered/read-usage-output-subscription
+      name: Read Usage by Component for a Subscription
       public: true
   components/metered/create-usage-input:
     title: Create Usage Input
@@ -25842,8 +25821,8 @@ definitions:
       id: metadata/update-metadata-output
       name: Update Metadata Output
       public: true
-  components/metered/setting-quantity-at-subscription-creation-input:
-    title: Setting Quantity at Subscription Creation Input
+  components/metered/create-usage-when-creating-a-new-subscription Input:
+    title: Create Usage When Creating a New Subscription Input
     type: object
     properties:
       subscription:
@@ -25896,8 +25875,8 @@ definitions:
             unit_balance: 20
             price_point_id: 12345
     x-stoplight:
-      id: components/metered/setting-quantity-at-subscription-creation-input
-      name: Setting Quantity at Subscription Creation Input
+      id: components/metered/create-usage-when-creating-a-new-subscription Input
+      name: Create Usage When Creating a New Subscription Input
       public: true
   components/quantity/update-the-quantity-allocation-request:
     title: Update the quantity allocation
@@ -27930,8 +27909,8 @@ definitions:
       id: components/price-points/update-price-point-request
       name: Update Price Point Request
       public: true
-  components/onoff/toggling-component-on-at-subscription-creation-request:
-    title: Toggling Component On at Subscription Creation Request
+  components/onoff/create-subscription-with-onoff-component:
+    title: Create Subscription with On/Off Component Request
     type: object
     properties:
       subscription:
@@ -27982,11 +27961,11 @@ definitions:
             enabled: true
             price_point_id: 123456
     x-stoplight:
-      id: components/onoff/toggling-component-on-at-subscription-creation-request
-      name: Toggling Component On at Subscription Creation Request
+      id: components/onoff/create-subscription-with-onoff-component
+      name: Create Subscription with On/Off Component Request
       public: true
   components/onoff/toggling-on-off-request:
-    title: Toggling On/Off Request
+    title: Create Allocation for On/Off Component Request
     type: object
     properties:
       allocation:
@@ -28005,10 +27984,10 @@ definitions:
         price_point_id: 130350
     x-stoplight:
       id: components/onoff/toggling-on-off-request
-      name: Toggling On/Off Request
+      name: Create Allocation for On/Off Component Request
       public: true
   components/onoff/toggling-on-off-response:
-    title: Toggling On/Off Response
+    title: Create Allocation for On/Off Component Response
     type: array
     items:
       type: object
@@ -28053,7 +28032,7 @@ definitions:
           payment: null
     x-stoplight:
       id: components/onoff/toggling-on-off-response
-      name: Toggling On/Off Response
+      name: Create Allocation for On/Off Component Response
       public: true
   components/ononff/reading-the-current-status-response:
     title: Reading the current status response
@@ -30232,16 +30211,6 @@ x-stoplight:
           items:
             - _id: components-intro
               type: docTextSections
-            - _id: GET_productfamilies-productfamilyid-componentsjson
-              type: endpoints
-            - _id: components/read-components-get
-              type: schemas
-            - _id: component/list-component-product-family-get
-              type: schemas
-            - _id: GET_productfamilies-productfamilyid-components-componentidjson
-              type: endpoints
-            - _id: component/list-specific-component-product-family-get
-              type: schemas
             - _id: POST_productfamilies-productfamilyid-pluralkindjson
               type: endpoints
             - _id: component/create
@@ -30252,24 +30221,40 @@ x-stoplight:
               type: endpoints
             - _id: components/create-component-with-price-points-request
               type: schemas
+            - _id: GET_productfamilies-productfamilyid-componentsjson
+              type: endpoints
+            - _id: component/read-components-for-a-product-family-output
+              type: schemas
+            - _id: GET_productfamilies-productfamilyid-components-componentidjson
+              type: endpoints
+            - _id: component/list-specific-component-product-family-get
+              type: schemas
         - divider: false
           items:
             - _id: component-line-items
               type: docTextSections
             - _id: GET_subscriptions-subscription_id-components-component_id-format
               type: endpoints
+            - _id: components/read-specific-component-get
+              type: schemas
             - _id: GET_subscriptions-subscription_id-components-format
               type: endpoints
-            - _id: components/list-specific-component-get
+            - _id: components/read-components-get
               type: schemas
           name: Component Line Items
         - name: 'Components: Metered Usage'
           items:
             - _id: metered-usage-intro
               type: docTextSections
+            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
+              type: endpoints
+            - _id: components/metered/create-usage-input
+              type: schemas
+            - _id: components/metered/create-usage-output
+              type: schemas
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/metered/setting-quantity-at-subscription-creation-input
+            - _id: components/metered/create-usage-when-creating-a-new-subscription Input
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
@@ -30277,13 +30262,7 @@ x-stoplight:
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
-            - _id: components/metered/list-usage-output
-              type: schemas
-            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: components/metered/create-usage-input
-              type: schemas
-            - _id: components/metered/create-usage-output
+            - _id: components/metered/read-usage-output-subscription
               type: schemas
             - _id: componentParameters
               type: traits
@@ -30294,7 +30273,7 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/onoff/toggling-component-on-at-subscription-creation-request
+            - _id: components/onoff/create-subscription-with-onoff-component
               type: schemas
             - _id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
