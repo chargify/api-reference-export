@@ -98,47 +98,63 @@ paths:
         type: integer
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Create Allocation for On/Off Component
+      summary: Updating the Quantity
       tags:
         - 'Components: On/Off Toggling'
       description: |-
-        ## Create Allocation for On/Off Component
+        ## Updating the Quantity
 
         For full documentation on configuring allocations for subscriptions, please view the [Allocations](#docTextSection:Fupxh2M7fACmdwsDm) endpoint documentation.
 
-        After a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
+        After a subscription has been created, you may set or update the quantity at any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
 
         The method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
 
         **Notice**: Allocations can only be updated for Quantity and On/Off Components.
 
+        ## Price Point ID usage
+
+        If you are using price points, for Quantity components, Chargify gives you the option to specify a price point in your request.
+
+        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
+
+        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
+
         ## Input Fields
 
-        | **Input Fields** | **Description** |
+        | **Input Fields**           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
         |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | quantity |For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.   |
-        | memo | (optional) A memo to record along with the allocation |
-        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
-        | payment_collection_method | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
+        | quantity                   | The allocated quantity to which to set the line-items allocated quantity. By default, this is an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use `1 `for on and `0` for off.                                                                                                                                                                                                                          |
+        | memo                       | (optional) A memo to record along with the allocation                                                                                                                                                                                                                                                                                                                                                                                                                        |
+        | proration_upgrade_scheme   | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. **Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**                                                                                                                                                                                               |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                           |
+        | payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
 
         ## Output Fields
 
-        | Output Fields              | Description                                                                                                                                                             |
-        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                    |
-        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                      |
-        | quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                                               |
-        | previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.                                                                                            |
-        | memo                       | The memo passed when the allocation was created                                                                                                                         |
-        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                       |
-        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                      |
-        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                               |
-        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
+        | Output Fields              | Description                                                                                                                                                                                                                                                                      |
+        |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                                                                                                                             |
+        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                                                                                                                               |
+        | quantity                   | The allocated quantity set in to effect by the allocation                                                                                                                                                                                                                        |
+        | previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                                                                                                                                     |
+        | memo                       | The memo passed when the allocation was created                                                                                                                                                                                                                                  |
+        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.**Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**  |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                               |
+        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                                                                                             |
+        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file.                                                                                                  |
 
-        ## On/Off Component Example
+        ## Response Status Codes
 
-        The following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.
+        | 201 Created              | Allocation created successfully                                                         |
+        |--------------------------|-----------------------------------------------------------------------------------------|
+        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
+        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
+        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
+
+        ## Quantity-based component example
+
+        The following example will set a quantity of 5 for a quantity-based component.
 
         ```
         {
@@ -152,31 +168,48 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/onoff/toggling-on-off-request'
+            $ref: '#/definitions/components/quantity/update-the-quantity-allocation-request'
             example:
               allocation:
-                component_id: 399850
-                quantity: 0
-                price_point_id: 130350
+                component_id: 375250
+                price_point_id: 75
+                quantity: 29
+                memo: Text messages usage May 2020
+                proration_downgrade_scheme: no-prorate
+                proration_collection_method: automatic
+                proration_upgrade_scheme: no-prorate
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/onoff/toggling-on-off-response'
+            $ref: '#/definitions/components/quantity/update-the-quantity-allocation'
           examples:
             application/json:
               - allocation:
-                  component_id: 399853
+                  component_id: 399850
                   subscription_id: 18342261
-                  quantity: 0
-                  previous_quantity: 1
-                  memo: null
-                  timestamp: '2017-07-10T21:00:38Z'
+                  quantity: 29
+                  previous_quantity: 0
+                  memo: Text messages usage May 2020
+                  timestamp: '2017-07-12T20:01:36Z'
                   proration_upgrade_scheme: no-prorate
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 121003
-                  previous_price_point_id: 121003
+                  price_point_id: 130350
+                  previous_price_point_id: 130350
                   payment: null
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -190,53 +223,53 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Read History for Subscription's On/Off Components
+      summary: Read Allocations for a Subscription's Quantity-based Components
       tags:
         - 'Components: On/Off Toggling'
       description: |-
-        ## Read History for Subscription's On/Off Components
+        ## Read Allocations for Quantity-based Component Usage for a Subscription
 
-        Disply the history of the subscription's on/off component. When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
+        Use this endpoint to read the previously allocated components for a subscription.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/read-history-for-subscriptions-on-off-component'
+            $ref: '#/definitions/read-allocations-for-a-subscriptions-quantity-based-components'
           examples:
             application/json:
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:37:12Z'
+                  quantity: '100.0'
+                  previous_quantity: '50.0'
+                  memo: Third record
+                  timestamp: '2018-01-03T15:15:41Z'
                   proration_upgrade_scheme: prorate-delay-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 0
-                  previous_quantity: 1
-                  memo: Canceled hosting
-                  timestamp: '2018-01-03T15:36:33Z'
-                  proration_upgrade_scheme: no-prorate
-                  proration_downgrade_scheme: prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
-              - allocation:
-                  component_id: 426655
-                  subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:36:10Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
+                  quantity: '50.0'
+                  previous_quantity: '10.0'
+                  memo: Second record
+                  timestamp: '2018-01-03T15:15:13Z'
+                  proration_upgrade_scheme: full-price-attempt-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
+              - allocation:
+                  component_id: 426645
+                  subscription_id: 20310847
+                  quantity: '10.0'
+                  previous_quantity: '0.0'
+                  memo: First record
+                  timestamp: '2018-01-03T15:14:46Z'
+                  proration_upgrade_scheme: full-price-delay-capture
+                  proration_downgrade_scheme: no-prorate
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1109,44 +1142,40 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Read Usage for a Subscription's Metered Component
+      summary: Read Usage by Component for a Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Read Usage for Metered Component Usage for a Subscription
+        ## Read Usage by Component
 
-        Use this endpoint to read the previously recorded components for a subscription.
+        This request will return a list of the usages associated with a subscription for a particular metered component.
+
+        This endpoint is not compatible with quantity-based components.
+
+        ## Since Date and Until Date Usage 
+
+        Note: The `since_date` and `until_date` attributes each default to midnight on the date specified. For example, in order to list usages for January 20th, you would need to append the following to the URL. 
+
+        ```?since_date=2016-01-20&until_date=2016-01-21```
+      parameters:
+        - $ref: '#/parameters/trait:componentParameters:since_id'
+        - $ref: '#/parameters/trait:componentParameters:max_id'
+        - $ref: '#/parameters/trait:componentParameters:since_date'
+        - $ref: '#/parameters/trait:componentParameters:until_date'
+        - $ref: '#/parameters/trait:componentParameters:page'
+        - $ref: '#/parameters/trait:componentParameters:per_page'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/read-usage-for-a-subscriptions-metered-usage'
+            $ref: '#/definitions/components/metered/read-usage-output-subscription'
           examples:
             application/json:
               - usage:
-                  id: 143497499
-                  memo: Fourth record
-                  created_at: '2018-01-03T08:53:52-06:00'
-                  price_point_id: 149416
-                  quantity: 200
-              - usage:
-                  id: 143497490
-                  memo: Third record
-                  created_at: '2018-01-03T08:53:36-06:00'
-                  price_point_id: 149416
-                  quantity: 50
-              - usage:
-                  id: 143497474
-                  memo: Second record
-                  created_at: '2018-01-03T08:52:46-06:00'
-                  price_point_id: 149416
-                  quantity: 20
-              - usage:
-                  id: 143497461
-                  memo: First record
-                  created_at: '2018-01-03T08:52:29-06:00'
-                  price_point_id: 149416
-                  quantity: 10
+                  id: 109806402
+                  memo: ''
+                  created_at: '2016-11-29T15:22:18-05:00'
+                  quantity: 100
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1161,52 +1190,94 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Usage When Creating a New Subscription
+      summary: Create Subscription with Quantity-based Component
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Create Usage When Creating a New Subscription
+        ## Create Subscription with Quantity-based Component
 
-        This example will show you how to create usage while creating a new subscription. Please be aware that this example POSTs to the `subscriptions.json` endpoint. This example does not post to the a
+        You may set the quantity when you create the subscription by including some extra data in your POST request. 
+
+        In addition to the normal post data, also include a 'components’ attribute, as indicated below:
+
+        ```
+        {
+          "subscription": {
+            ...normal subscription attributes...
+            "components":[
+              {
+                "component_id": 1,
+                "allocated_quantity": 18
+              }
+            ]
+          }
+        }
+        ```
+
+        You can also optionally include a `price_point_id` along with the `component_id` to set a specific price point to use, otherwise the component's default price point will be used.
+
+        ## Via the Chargify Gem
+
+        Link to [official Chargify Gem](http://github.com/chargify/chargify_api_ares)
+
+        ```
+        Chargify::Subscription.create(
+          :product_id => 2,
+          :customer_id => 1,
+          :credit_card_attributes => {
+            :full_number => 1,
+            :first_name => "John",
+            :last_name => "Doe",
+            :expiration_month => "2",
+            :expiration_year => "2020"
+          },
+          :components => [
+            {
+              :component_id => 1,
+              :allocated_quantity => 15
+            }
+          ]
+        )
+        ```
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/metered/create-usage-when-creating-a-new-subscription Input'
+            $ref: '#/definitions/components/quantity/create-subscription-with-quantity-based-component'
             example:
               subscription:
                 product_handle: basic
                 customer_attributes:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe1049am@example.com
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
                 components:
-                  - component_id: 195268
-                    unit_balance: 20
-                    price_point_id: 12345
+                  - component_id: 277221
+                    price_point_id: 20001
+                    allocated_quantity: 18
       responses:
-        '201':
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/subscription/read-subscription'
           examples:
             application/json:
               subscription:
-                id: 15569578
+                id: 15100172
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2016-12-09T11:49:23-05:00'
-                created_at: '2016-12-09T11:49:20-05:00'
-                updated_at: '2016-12-09T11:49:23-05:00'
+                activated_at: '2016-11-04T17:08:32-04:00'
+                created_at: '2016-11-04T17:08:31-04:00'
+                updated_at: '2016-11-04T17:08:33-04:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2016-12-10T11:49:20-05:00'
-                next_assessment_at: '2016-12-10T11:49:20-05:00'
+                current_period_ends_at: '2016-11-05T17:08:31-04:00'
+                next_assessment_at: '2016-11-05T17:08:31-04:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -1214,27 +1285,27 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-12-09T11:49:20-05:00'
+                current_period_started_at: '2016-11-04T17:08:31-04:00'
                 previous_state: active
-                signup_payment_id: 165589525
-                signup_revenue: '30010.00'
+                signup_payment_id: 161034121
+                signup_revenue: '64.00'
                 delayed_cancel_at: null
                 coupon_code: null
-                total_revenue_in_cents: 3001000
+                total_revenue_in_cents: 6400
                 product_price_in_cents: 1000
                 product_version_number: 7
                 payment_type: credit_card
-                referral_code: zf6s86
+                referral_code: spn4qp
                 coupon_use_count: null
                 coupon_uses_allowed: null
                 customer:
-                  id: 15029690
-                  first_name: Joe
-                  last_name: Blow
+                  id: 14585723
+                  first_name: Matt
+                  last_name: Example
                   organization: null
-                  email: joe@example.com
-                  created_at: '2016-12-09T11:49:20-05:00'
-                  updated_at: '2016-12-09T11:49:25-05:00'
+                  email: matt@example.com
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-11-04T17:08:34-04:00'
                   reference: null
                   address: null
                   address_2: null
@@ -1243,12 +1314,11 @@ paths:
                   zip: null
                   country: null
                   phone: null
-                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
                   cc_emails: null
-                  tax_exempt: false
                 product:
                   id: 3792003
                   name: $10 Basic Plan
@@ -1295,14 +1365,14 @@ paths:
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                 credit_card:
-                  id: 10405758
-                  first_name: Joe
-                  last_name: Blow
+                  id: 10102844
+                  first_name: Matt
+                  last_name: Example
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 15029690
+                  customer_id: 14585723
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -1313,6 +1383,8 @@ paths:
                   customer_vault_token: null
                   billing_address_2: null
                   payment_type: credit_card
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -3925,150 +3997,6 @@ paths:
           statusCode: 200
           enabled: false
   /customers.json:
-    get:
-      operationId: GET_customers-json
-      summary: Read Customers for a Site
-      tags:
-        - Customers
-      description: |-
-        ## Read Customers for a Site
-
-        This request will list all customers associated with your Site.
-      parameters:
-        - $ref: '#/parameters/trait:pagination50:page'
-        - $ref: '#/parameters/trait:direction:direction'
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                customer:
-                  type: object
-                  properties:
-                    first_name:
-                      type: string
-                    last_name:
-                      type: string
-                    email:
-                      type: string
-                    cc_emails:
-                      type: string
-                    organization:
-                      type: string
-                    reference:
-                      type: 'null'
-                    id:
-                      type: integer
-                    created_at:
-                      type: string
-                    updated_at:
-                      type: string
-                    address:
-                      type: string
-                    address_2:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    zip:
-                      type: string
-                    country:
-                      type: string
-                    phone:
-                      type: string
-                    verified:
-                      type: 'null'
-                    portal_customer_created_at:
-                      type: string
-                    portal_invite_last_sent_at:
-                      type: string
-                    portal_invite_last_accepted_at:
-                      type: 'null'
-                    tax_exempt:
-                      type: boolean
-          examples:
-            application/json:
-              - customer:
-                  first_name: Kayla
-                  last_name: Test
-                  email: kayla@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14126091
-                  created_at: '2016-10-04T15:22:27-04:00'
-                  updated_at: '2016-10-04T15:22:30-04:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: 'Nick '
-                  last_name: Test
-                  email: nick@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14254093
-                  created_at: '2016-10-13T16:52:51-04:00'
-                  updated_at: '2016-10-13T16:52:54-04:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Don
-                  last_name: Test
-                  email: don@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14332342
-                  created_at: '2016-10-19T10:49:13-04:00'
-                  updated_at: '2016-10-19T10:49:19-04:00'
-                  address: 1737 15th St
-                  address_2: ''
-                  city: Boulder
-                  state: CO
-                  zip: '80302'
-                  country: US
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_customersjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
     post:
       operationId: POST_customers-format
       summary: Create a Customer
@@ -4160,6 +4088,137 @@ paths:
         public: true
         mock:
           enabled: false
+          statusCode: 200
+    get:
+      operationId: GET_customers-json
+      summary: Search for Customer
+      tags:
+        - Customers
+      description: |-
+        ## Search for Customer
+
+        Use the search feature to retrieve a single or group of customers. 
+
+        Common use cases are:
+
+        + Search by email
+        + Search by Chargify ID
+        + Search by Reference (Your App)
+        + Search by Organization
+
+        If multiple customers meet the criteria for the search string, please expect an array.
+      parameters:
+        - $ref: '#/parameters/trait:searchString:q'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                customer:
+                  $ref: '#/definitions/customer/customer-output'
+          examples:
+            application/json:
+              - customer:
+                  first_name: Amelia
+                  last_name: Example
+                  email: amelia@example.com
+                  cc_emails: 'john@example.com, joe@example.com'
+                  organization: Acme
+                  reference: JQPUBLIC
+                  id: 14399371
+                  created_at: '2016-10-24T16:20:12-04:00'
+                  updated_at: '2016-10-26T13:25:33-04:00'
+                  address: 123 Anywhere Street
+                  address_2: ''
+                  city: Anywhere
+                  state: MA
+                  zip: '02120'
+                  country: US
+                  phone: 555-555-1212
+                  verified: false
+                  portal_customer_created_at: null
+                  portal_invite_last_sent_at: null
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme
+                  reference: '1234'
+                  id: 14585723
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-12-02T18:03:36-05:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: false
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: John
+                  last_name: Doe
+                  email: john.doe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme Widgets
+                  reference: '123'
+                  id: 14731081
+                  created_at: '2016-11-15T15:33:44-05:00'
+                  updated_at: '2016-11-15T15:33:45-05:00'
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme
+                  reference: ABC123
+                  id: 14943291
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T18:03:17-05:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: false
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_customersjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
           statusCode: 200
   '/customers/{id}.json':
     parameters:
@@ -4513,7 +4572,7 @@ paths:
   /events.json:
     get:
       operationId: list-events
-      summary: List Events for a Site
+      summary: Read Events for a Site
       tags:
         - Event
         - incomplete
@@ -4578,13 +4637,13 @@ paths:
         type: string
     get:
       operationId: list-events
-      summary: List Events for a Subscription
+      summary: Read Events for a Subscription
       tags:
         - Event
         - incomplete
         - Events
       description: |-
-        ## List Events for a Subscription
+        ## Read Events for a Subscription
 
         The following request will return a list of events for a subscription.
 
@@ -4644,13 +4703,13 @@ paths:
   /events/count.json:
     get:
       operationId: GET_events_count-format
-      summary: Count Events for a Site
+      summary: Read the Count of Events for a Site
       tags:
         - Event
         - incomplete
         - Events
       description: |-
-        ## Count Events for a Site
+        ## Read the Count of Events for a Site
 
         Obtain a count of the entire events for a given site by using this method.
       parameters:
@@ -4684,12 +4743,14 @@ paths:
   /invoices.json:
     get:
       operationId: GET_list-invoices-by-subscription
-      summary: List All Invoices (Multiple Query Options)
+      summary: Read All Invoices (Multiple Query Options)
       tags:
         - Invoice
         - incomplete
         - Invoices
       description: |-
+        ## Read All Invoices (Multiple Query Options)
+
         ## Filters
 
         In order to generate a set of invoices that meet certain criteria, please use the query string filters below for best results. 
@@ -5157,13 +5218,13 @@ paths:
         type: number
     get:
       operationId: GET_invoices-invoice_id-payments-format
-      summary: List Payments for an Invoice
+      summary: Read Payments for an Invoice
       tags:
         - Invoice Payment
         - incomplete
         - Invoices
       description: |-
-        ## List Payments for an Invoice
+        ## Read Payments for an Invoice
 
         This method allows the user to display information regarding payments applied to an invoice. Specify the invoice ID, and the server response will be a list of all current payments applied to the invoice.
       parameters:
@@ -5259,13 +5320,13 @@ paths:
         type: number
     get:
       operationId: GET_invoices-invoice_id-charges-format
-      summary: List Charges for an Invoice
+      summary: Read Charges for an Invoice
       tags:
         - Invoice Charge
         - incomplete
         - Invoices
       description: |-
-        ## List Charges for an Invoice
+        ## Read Charges for an Invoice
 
         This method allows the user to display information regarding charges applied to an invoice. Specify the invoice ID, and the server response will be a list of all current charges applied to the invoice.
       parameters:
@@ -5552,56 +5613,6 @@ paths:
         description: The Subscription ID.
         required: true
         type: number
-    get:
-      operationId: GET_subscriptions-subscription_id-notes-format
-      summary: List Notes for a Subscription
-      tags:
-        - Note
-        - incomplete
-        - Notes
-      description: |-
-        ## List Notes for a Subscription
-
-        Use this method to retrieve a list of Notes associated with a Subscription. The response will be an array of Notes.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/notes/list-notes-output'
-            example:
-              - note:
-                  body: Test note.
-                  created_at: '2015-06-15T13:26:47-04:00'
-                  id: 5
-                  sticky: false
-                  subscription_id: 100046
-                  updated_at: '2015-06-15T13:28:12-04:00'
-              - note:
-                  body: Another test note.
-                  created_at: '2015-06-15T12:04:46-04:00'
-                  id: 4
-                  sticky: false
-                  subscription_id: 100046
-                  updated_at: '2015-06-15T13:26:33-04:00'
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/notes/create-note-output'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscription_id-notes-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
     post:
       operationId: POST_subscriptions-subscription_id-notes-format
       summary: Create a Note
@@ -5646,6 +5657,56 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+    get:
+      operationId: GET_subscriptions-subscription_id-notes-format
+      summary: Read Notes for a Subscription
+      tags:
+        - Note
+        - incomplete
+        - Notes
+      description: |-
+        ## Read Notes for a Subscription
+
+        Use this method to retrieve a list of Notes associated with a Subscription. The response will be an array of Notes.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/notes/list-notes-output'
+            example:
+              - note:
+                  body: Test note.
+                  created_at: '2015-06-15T13:26:47-04:00'
+                  id: 5
+                  sticky: false
+                  subscription_id: 100046
+                  updated_at: '2015-06-15T13:28:12-04:00'
+              - note:
+                  body: Another test note.
+                  created_at: '2015-06-15T12:04:46-04:00'
+                  id: 4
+                  sticky: false
+                  subscription_id: 100046
+                  updated_at: '2015-06-15T13:26:33-04:00'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/notes/create-note-output'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscription_id-notes-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/notes/{note_id}.json':
     parameters:
       - name: subscription_id
@@ -5658,7 +5719,7 @@ paths:
         type: string
     get:
       operationId: GET_subscriptions-subscription_id-notes-note_id-json
-      summary: Read/Show Specific Note
+      summary: Read Specific Note
       tags:
         - incomplete
         - Notes
@@ -5829,164 +5890,6 @@ paths:
         mock:
           enabled: false
           dynamic: false
-          statusCode: 200
-  '/payment_profiles/{payment_profile_id}.json':
-    parameters:
-      - name: payment_profile_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_payment_profiles-payment_profile_id-json
-      summary: Read Payment Profile - Bank Account
-      tags:
-        - Payment Profiles
-      description: |-
-        ## Read a Payment Profile - Bank Account
-
-        Using the GET method you can retrieve a Payment Profile identified by its unique ID. 
-
-        Please note that a different JSON object will be returned if the card method on file is a credit card.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/payment-profile/read-payment-output-bank-account'
-          examples:
-            application/json:
-              payment_profile:
-                id: 10089892
-                first_name: Chester
-                last_name: Tester
-                customer_id: 14543792
-                current_vault: bogus
-                vault_token: '0011223344'
-                billing_address: 456 Juniper Court
-                billing_city: Boulder
-                billing_state: CO
-                billing_zip: '80302'
-                billing_country: US
-                customer_vault_token: null
-                billing_address_2: ''
-                bank_name: Bank of Kansas City
-                masked_bank_routing_number: XXXX6789
-                masked_bank_account_number: XXXX3344
-                bank_account_type: checking
-                bank_account_holder_type: personal
-                payment_type: bank_account
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_paymentprofiles-paymentprofileidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    put:
-      operationId: PUT_payment_profiles-payment_profile_id-format
-      summary: Update the Payment Profile
-      tags:
-        - Payment Profile
-        - incomplete
-        - Payment Profiles
-      description: |-
-        ## Update the Payment Profile
-
-        Augment an existing `payment_profile_id` by using this endpoint and method.
-
-        ## Partial Card Updates
-
-        In the event that you are using the Authorize.net or Stripe payment gateways, you can update just the billing and contact information for a payment method. Note the lack of credit-card related data contained in the JSON payload. 
-
-        In this case, the following JSON is acceptable:
-
-        ```
-        {
-          "payment_profile": {
-            "first_name": "Kelly",
-            "last_name": "Test",
-            "billing_address": "789 Juniper Court",
-            "billing_city": "Boulder",
-            "billing_state": "CO",
-            "billing_zip": "80302",
-            "billing_country": "US",
-            "billing_address_2": null
-          }
-        }
-        ```
-
-        The result will be that you have updated the billing information for the card, yet retained the original card number data. 
-
-        ## Specific notes on updating payment profiles
-
-        - Merchants with **Authorize.net** or **Stripe** as their payment gateway can update their Customer’s credit cards without passing in the full credit card number and CVV.
-
-        - If you are using **Authorize.net** or **Stripe**, Chargify will ignore the credit card number and CVV when processing an update via the API, and attempt a partial update instead. If you wish to change the card number on a payment profile, you will need to create a new payment profile for the given customer.
-
-        - A Payment Profile cannot be updated with the attributes of another type of Payment Profile. For example, if the payment profile you are attempting to update is a credit card, you cannot pass in bank account attributes (like `bank_account_number`), and vice versa.
-
-        - Updating a payment profile directly will not trigger an attempt to capture a past-due balance. If this is the intent, update the card details via the Subscription instead.
-
-        - If you are using Authorize.net or Stripe, you may elect to manually trigger a retry for a past due subscription after a partial update.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/payments/update-payment-profile'
-            example:
-              payment_profile:
-                first_name: Graham
-                last_name: Test
-                full_number: '4111111111111111'
-                card_type: master
-                expiration_month: '04'
-                expiration_year: '2030'
-                current_vault: bogus
-                vault_token: '1'
-                billing_address: 456 Juniper Court
-                billing_city: Boulder
-                billing_state: CO
-                billing_zip: '80302'
-                billing_country: US
-                billing_address_2: null
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/payments/create-payment-output'
-          examples:
-            application/json:
-              payment_profile:
-                id: 10090015
-                first_name: Graham
-                last_name: Test
-                masked_card_number: XXXX-XXXX-XXXX-1111
-                card_type: visa
-                expiration_month: 10
-                expiration_year: 2022
-                customer_id: 14543792
-                current_vault: bogus
-                vault_token: '1'
-                billing_address: 456 Juniper Court
-                billing_city: Boulder
-                billing_state: CO
-                billing_zip: '80302'
-                billing_country: US
-                customer_vault_token: null
-                billing_address_2: null
-                payment_type: credit_card
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_payment_profiles-payment_profile_id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
           statusCode: 200
   /payment_profiles.json:
     post:
@@ -6194,6 +6097,164 @@ paths:
         mock:
           statusCode: 200
           enabled: false
+  '/payment_profiles/{payment_profile_id}.json':
+    parameters:
+      - name: payment_profile_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_payment_profiles-payment_profile_id-json
+      summary: Read Payment Profile - Bank Account
+      tags:
+        - Payment Profiles
+      description: |-
+        ## Read a Payment Profile - Bank Account
+
+        Using the GET method you can retrieve a Payment Profile identified by its unique ID. 
+
+        Please note that a different JSON object will be returned if the card method on file is a credit card.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/payment-profile/read-payment-output-bank-account'
+          examples:
+            application/json:
+              payment_profile:
+                id: 10089892
+                first_name: Chester
+                last_name: Tester
+                customer_id: 14543792
+                current_vault: bogus
+                vault_token: '0011223344'
+                billing_address: 456 Juniper Court
+                billing_city: Boulder
+                billing_state: CO
+                billing_zip: '80302'
+                billing_country: US
+                customer_vault_token: null
+                billing_address_2: ''
+                bank_name: Bank of Kansas City
+                masked_bank_routing_number: XXXX6789
+                masked_bank_account_number: XXXX3344
+                bank_account_type: checking
+                bank_account_holder_type: personal
+                payment_type: bank_account
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_paymentprofiles-paymentprofileidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    put:
+      operationId: PUT_payment_profiles-payment_profile_id-format
+      summary: Update the Payment Profile
+      tags:
+        - Payment Profile
+        - incomplete
+        - Payment Profiles
+      description: |-
+        ## Update the Payment Profile
+
+        Augment an existing `payment_profile_id` by using this endpoint and method.
+
+        ## Partial Card Updates
+
+        In the event that you are using the Authorize.net or Stripe payment gateways, you can update just the billing and contact information for a payment method. Note the lack of credit-card related data contained in the JSON payload. 
+
+        In this case, the following JSON is acceptable:
+
+        ```
+        {
+          "payment_profile": {
+            "first_name": "Kelly",
+            "last_name": "Test",
+            "billing_address": "789 Juniper Court",
+            "billing_city": "Boulder",
+            "billing_state": "CO",
+            "billing_zip": "80302",
+            "billing_country": "US",
+            "billing_address_2": null
+          }
+        }
+        ```
+
+        The result will be that you have updated the billing information for the card, yet retained the original card number data. 
+
+        ## Specific notes on updating payment profiles
+
+        - Merchants with **Authorize.net** or **Stripe** as their payment gateway can update their Customer’s credit cards without passing in the full credit card number and CVV.
+
+        - If you are using **Authorize.net** or **Stripe**, Chargify will ignore the credit card number and CVV when processing an update via the API, and attempt a partial update instead. If you wish to change the card number on a payment profile, you will need to create a new payment profile for the given customer.
+
+        - A Payment Profile cannot be updated with the attributes of another type of Payment Profile. For example, if the payment profile you are attempting to update is a credit card, you cannot pass in bank account attributes (like `bank_account_number`), and vice versa.
+
+        - Updating a payment profile directly will not trigger an attempt to capture a past-due balance. If this is the intent, update the card details via the Subscription instead.
+
+        - If you are using Authorize.net or Stripe, you may elect to manually trigger a retry for a past due subscription after a partial update.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/payments/update-payment-profile'
+            example:
+              payment_profile:
+                first_name: Graham
+                last_name: Test
+                full_number: '4111111111111111'
+                card_type: master
+                expiration_month: '04'
+                expiration_year: '2030'
+                current_vault: bogus
+                vault_token: '1'
+                billing_address: 456 Juniper Court
+                billing_city: Boulder
+                billing_state: CO
+                billing_zip: '80302'
+                billing_country: US
+                billing_address_2: null
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/payments/create-payment-output'
+          examples:
+            application/json:
+              payment_profile:
+                id: 10090015
+                first_name: Graham
+                last_name: Test
+                masked_card_number: XXXX-XXXX-XXXX-1111
+                card_type: visa
+                expiration_month: 10
+                expiration_year: 2022
+                customer_id: 14543792
+                current_vault: bogus
+                vault_token: '1'
+                billing_address: 456 Juniper Court
+                billing_city: Boulder
+                billing_state: CO
+                billing_zip: '80302'
+                billing_country: US
+                customer_vault_token: null
+                billing_address_2: null
+                payment_type: credit_card
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_payment_profiles-payment_profile_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/payment_profiles/{payment_profile_id}.json':
     parameters:
       - name: subscription_id
@@ -6319,219 +6380,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family_id}/products.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        description: ID of the Product Family.
-        required: true
-        type: number
-    get:
-      operationId: GET_products-format
-      summary: List Products for a Product Family
-      tags:
-        - Product
-        - Note
-        - incomplete
-        - Products
-      description: |-
-        ## List Products
-
-        This method allows a merchant to retrieve a list of Products. The response will contain a "Products" array with "Product" elements.
-
-        ## 404 Response
-
-        If the product family does not exist or fails to retrieve a list of products, a plain text message will be returned.
-
-        ```
-        A valid product_family_id is required
-        ```
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                product: {}
-          examples:
-            application/json:
-              - product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 4
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 283460
-                      return_url: null
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
-              - product:
-                  id: 3858146
-                  name: Calendar Billing Product
-                  handle: calendar-billing-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-07-05T13:07:38-04:00'
-                  updated_at: '2016-07-05T13:07:38-04:00'
-                  price_in_cents: 10000
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: true
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 289193
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_products-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/product_families/{id}.json':
-    parameters:
-      - name: id
-        in: path
-        description: ''
-        required: true
-        type: number
-    get:
-      operationId: POST_product_families-id-format
-      summary: Read Product Family via Chargify ID
-      tags:
-        - Product Family
-        - incomplete
-        - Product Families
-      description: |-
-        ## List Product Family via Chargify ID
-
-        This method allows to retrieve a Product Family via the `product_family_id`. The response will contain a Product Family object.
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/product-families/list-product-family-by-id'
-          examples:
-            application/json:
-              product_family:
-                id: 527890
-                name: Acme Projects
-                description: ''
-                handle: billing-plans
-                accounting_code: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_product_families-id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /product_families.json:
-    post:
-      operationId: POST_product_families-product_family_id-products-format
-      summary: Create a Product Family
-      tags:
-        - Product
-        - incomplete
-        - Product Families
-      description: |-
-        ## Create a Product Family
-
-        This method will create a Product Family within your Chargify Domain. Create a Product Family to act as a container for your products, components and coupons.
-
-        ## 422 Errors
-
-        If you receive a `422 Unprocessable Entity` error, please check the JSON response for missing elements.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/product-families/create-product-family-input'
-            example:
-              product_family:
-                name: Acme Projects
-                description: Amazing project management tool
-      responses:
-        '201':
-          description: Created
-          schema:
-            $ref: '#/definitions/product-families/create-product-family-output'
-          examples:
-            application/json:
-              product_family:
-                id: 933860
-                name: Acme Projects
-                description: Amazing project management tool
-                handle: acme-projects
-                accounting_code: null
-        '422':
-          description: Unprocessable Entity
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_product_families-product_family_id-products-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          statusCode: 200
-          enabled: false
   '/product_families/{product_family.id}/products.json':
     post:
       operationId: POST_product_families-product_family-id-products-json
@@ -6886,6 +6734,123 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/product_families/{product_family_id}/products.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_products-format
+      summary: Read Products for a Product Family
+      tags:
+        - Product
+        - Note
+        - incomplete
+        - Products
+      description: |-
+        ## Read Products
+
+        This method allows to retrieve a list of Products belonging to a Product Family. `product_family_id` is the required parameter. The response will contain a "products" array with "product" elements.
+
+        ## 404 Response
+
+        If the product family does not exist or fails to retrieve a list of products, a plain text message will be returned.
+
+        ```
+        A valid product_family_id is required
+        ```
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/products/list-products-output'
+          examples:
+            application/json:
+              - product:
+                  id: 3801242
+                  name: Free product
+                  handle: zero-dollar-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2016-04-21T16:08:39-04:00'
+                  updated_at: '2016-08-03T11:27:53-04:00'
+                  price_in_cents: 10000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: 0
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: false
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  initial_charge_after_trial: false
+                  version_number: 4
+                  update_return_params: ''
+                  product_family:
+                    id: 527890
+                    name: Acme Projects
+                    description: ''
+                    handle: billing-plans
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 283460
+                      return_url: null
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+              - product:
+                  id: 3858146
+                  name: Calendar Billing Product
+                  handle: calendar-billing-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2016-07-05T13:07:38-04:00'
+                  updated_at: '2016-07-05T13:07:38-04:00'
+                  price_in_cents: 10000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: true
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  initial_charge_after_trial: false
+                  version_number: 1
+                  update_return_params: ''
+                  product_family:
+                    id: 527890
+                    name: Acme Projects
+                    description: ''
+                    handle: billing-plans
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 289193
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_products-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/products/handle/{api_handle}.json':
     parameters:
       - name: api_handle
@@ -6979,14 +6944,14 @@ paths:
         type: number
     get:
       operationId: GET_products-id-format
-      summary: Read the Product via Chargify ID
+      summary: Read the Product by Product ID
       tags:
         - Product
         - Note
         - incomplete
         - Products
       description: |-
-        ## Read the Product via Chargify ID
+        ## Read the Product by ID
 
         This method allows to retrieve a Product object by its the `product_id`. The response will contain a single product object.
       responses:
@@ -7123,69 +7088,106 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  /reason_codes.json:
-    get:
-      operationId: GET_reason_codes-json
-      summary: Index View
+  /product_families.json:
+    post:
+      operationId: POST_product_families-product_family_id-products-format
+      summary: Create a Product Family
       tags:
-        - Reason Codes
+        - Product
+        - incomplete
+        - Product Families
       description: |-
-        ## Index View
+        ## Create a Product Family
 
-        This method gives a merchant the option to retrieve a list of all of the current churn codes for a given site.
+        This method will create a Product Family within your Chargify Domain. Create a Product Family to act as a container for your products, components and coupons.
+
+        ## 422 Errors
+
+        If you receive a `422 Unprocessable Entity` error, please check the JSON response for missing elements.
       parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
+        - name: body
+          in: body
           schema:
-            $ref: '#/definitions/reason_code/list_response'
+            $ref: '#/definitions/product-families/create-product-family-input'
+            example:
+              product_family:
+                name: Acme Projects
+                description: Amazing project management tool
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/product-families/create-product-family-output'
           examples:
             application/json:
-              - reason_code:
-                  id: 2
-                  site_id: 2
-                  code: LARGE
-                  description: This is too complicated
-                  position: 1
-                  created_at: '2017-02-16T16:49:07-05:00'
-                  updated_at: '2017-02-17T16:29:51-05:00'
-              - reason_code:
-                  id: 1
-                  site_id: 2
-                  code: CH1
-                  description: This doesnt meet my needs
-                  position: 2
-                  created_at: '2017-02-16T16:48:45-05:00'
-                  updated_at: '2017-02-17T16:29:59-05:00'
-              - reason_code:
-                  id: 5
-                  site_id: 2
-                  code: HAN99
-                  description: Hard to setup
-                  position: 3
-                  created_at: '2017-02-17T16:29:42-05:00'
-                  updated_at: '2017-02-17T16:29:59-05:00'
+              product_family:
+                id: 933860
+                name: Acme Projects
+                description: Amazing project management tool
+                handle: acme-projects
+                accounting_code: null
+        '422':
+          description: Unprocessable Entity
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_reasoncodesjson
+        id: POST_product_families-product_family_id-products-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          statusCode: 200
+          enabled: false
+  '/product_families/{id}.json':
+    parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        type: number
+    get:
+      operationId: POST_product_families-id-format
+      summary: Read Product Family via Product Family ID
+      tags:
+        - Product Family
+        - incomplete
+        - Product Families
+      description: |-
+        ## Read Product Family via Product Family ID
+
+        This method allows to retrieve a Product Family via the `product_family_id`. The response will contain a Product Family object.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/product-families/list-product-family-by-id'
+          examples:
+            application/json:
+              product_family:
+                id: 527890
+                name: Acme Projects
+                description: ''
+                handle: billing-plans
+                accounting_code: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_product_families-id-format
         beforeScript: null
         afterScript: null
         public: true
         mock:
           enabled: false
-          dynamic: false
           statusCode: 200
+  /reason_codes.json:
     post:
       operationId: POST_reason_codes-json
-      summary: ReasonCode Create
+      summary: Create Reason Code
       tags:
         - ReasonCode
         - Reason Codes
       description: |-
-        ## ReasonCode Create
+        ## Create Reason Code
 
         This method gives a merchant the option to create a reason codes for a given Site.
 
@@ -7238,6 +7240,60 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+    get:
+      operationId: GET_reason_codes-json
+      summary: Read Reason Codes for a Site
+      tags:
+        - Reason Codes
+      description: |-
+        ## Index View
+
+        This method gives a merchant the option to retrieve a list of all of the current churn codes for a given site.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_code/list_response'
+          examples:
+            application/json:
+              - reason_code:
+                  id: 2
+                  site_id: 2
+                  code: LARGE
+                  description: This is too complicated
+                  position: 1
+                  created_at: '2017-02-16T16:49:07-05:00'
+                  updated_at: '2017-02-17T16:29:51-05:00'
+              - reason_code:
+                  id: 1
+                  site_id: 2
+                  code: CH1
+                  description: This doesnt meet my needs
+                  position: 2
+                  created_at: '2017-02-16T16:48:45-05:00'
+                  updated_at: '2017-02-17T16:29:59-05:00'
+              - reason_code:
+                  id: 5
+                  site_id: 2
+                  code: HAN99
+                  description: Hard to setup
+                  position: 3
+                  created_at: '2017-02-17T16:29:42-05:00'
+                  updated_at: '2017-02-17T16:29:59-05:00'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_reasoncodesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/reason_codes/{reason_code_id}.json':
     parameters:
       - name: reason_code_id
@@ -7246,11 +7302,11 @@ paths:
         type: string
     get:
       operationId: GET_reason_codes-reason_code_id-json
-      summary: ReasonCode Show
+      summary: Read a Specific Reason Code
       tags:
         - Reason Codes
       description: |-
-        ## ReasonCode Show
+        ## Read a Specific Reason Code
 
         This method gives a merchant the option to retrieve a list of a particular code for a given Site by providing the unique numerical ID of the code.
       responses:
@@ -7283,46 +7339,13 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-    delete:
-      operationId: DELETE_reason_codes-reason_code_id-json
-      summary: ReasonCode Delete
-      tags:
-        - ReasonCode
-        - Reason Codes
-      description: |-
-        ## ReasonCode Delete
-
-        This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/reason_codes/delete_response'
-          examples:
-            application/json:
-              ok: ok
-        '404':
-          description: ''
-          schema:
-            type: 'null'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: DELETE_reasoncodes-reasoncodeidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
     put:
       operationId: PUT_reason_codes-reason_code_id-json
-      summary: ReasonCode Update
+      summary: Update Reason Code
       tags:
         - Reason Codes
       description: |-
-        ## ReasonCode Update
+        ## Update Reason Code
 
         This method gives a merchant the option to update an existing reason code for a given site.
       parameters:
@@ -7352,6 +7375,39 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: PUT_reasoncodes-reasoncodeidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    delete:
+      operationId: DELETE_reason_codes-reason_code_id-json
+      summary: Delete a Reason Code
+      tags:
+        - ReasonCode
+        - Reason Codes
+      description: |-
+        ## Delete a Reason Code
+
+        This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/reason_codes/delete_response'
+          examples:
+            application/json:
+              ok: ok
+        '404':
+          description: ''
+          schema:
+            type: 'null'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_reasoncodes-reasoncodeidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -11256,63 +11312,40 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_subscriptions-subscription_id-format
-      summary: 'Update Subscription: Calendar Billing Day Change'
+      summary: 'Update Subscription: Product Change'
       tags:
         - Subscription
         - incomplete
         - Subscriptions
       description: |-
-        ## Update Subscription: Regular Billing Day Change
+        ## Update Subscription: Product Change
 
-        This payload will change the billing date to the specified date in your request. This will not set a new calendar billing (snap_day) date. This example below outlines the JSON payload to set a subscription's new billing date. After this billing date occurs, the next billing date for the subscription is relative to the recurring time period of the product subscribed to in Chargify.
+        This method merely changes the product, and the new payment amount is calculated and charged at the normal start of the next period. If you desire prorated upgrades and downgrades instead, please see the docs on upgrades/downgrades and the [Migrations API](#docTextSection:HRFQ33cF69MpBa5dE).
 
-        To update just the date of the next billing, pass the following payload:
+        To perform a Product Change, simply set the `product_handle` attribute with the `handle` of a different product from the same site as the subscription. Note that no proration or period reset is initiated when you change the product using this method. 
 
-        ```
-        {
-          "subscription": {
-            "next_billing_at": "2010-08-06T15:34:00Z"
-          }
-        }
-        ```
+        ## Delayed Product Change
 
-        ## Update Subscription: Snap Day / Calendar Billing Day Change
+        This method also merely changes the product, and the new payment amount is calculated and charged at the normal start of the next period. 
 
-        Use this method to change the snap day value for Calendar Billing. You can use this method to change the subscription to a different snap day by setting a new value for `snap_day`. The following example will set a `snap_day` for the 15th of the month
+        This method schedules the product change to happen automatically at the subscription’s next renewal date. To perform a Delayed Product Change, set the `product_handle` attribute as you would in a regular Product Change, but also set the `product_change_delayed` attribute to `true`. No proration applies in this case.
 
         ```
         {
           "subscription": {
-            "snap_day": "15"
+            "product_handle": "gold-product",
+            "product_change_delayed": true
           }
         }
         ```
-
-        The value of the snap day, can be a value between 1 - 28 or `end`.
-
-        ## Snap Day Limitations
-
-        Snap days can only be applied to subscriptions to monthly products. Snap days are not available at this time for annual products.
-
-        If you change the snap day on an existing subscription, you can expect that the current `next_billing` date will remain unchanged. After the `next_billing` timestamp arrives, the subscription will then "snap" to the new `snap_date.`
-
-        ## Server Response
-
-        When you update the `next_billing` timestamp through the `PUT` method, the server response will not return data under the key/value pair of `next_billing`. 
-
-        Please view the key/value pair of `current_period_ends_at` to verify that the `next_billing` date has been changed successfully.
-
-        ## Snap Day and Product Changes & Upgrade/Downgrades
-
-        If you change the product associated with a subscription that contains a `snap_date`, if you immediately `READ/GET` the subscription data, it will still contain evidence of the existing `snap_date`. This is due to the fact that a product change is instantanous and only affects the product associated with a subscription. After the `next_billing` date arrives, the `snap_day` associated with the subscription will return to `null.` Another way of looking at this is that you willl have to wait for the next billing cycle to arrive before the `snap_date` will reset to `null.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-request'
+            $ref: '#/definitions/subscriptions/update-subscription-product-change-request'
             example:
               subscription:
-                next_billing_at: '2028-12-15'
+                product_handle: gold
       responses:
         '200':
           description: OK
@@ -11321,61 +11354,64 @@ paths:
           examples:
             application/json:
               subscription:
-                id: 16474328
+                id: 18220670
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-02-20T18:28:48-05:00'
-                created_at: '2017-02-20T18:28:47-05:00'
-                updated_at: '2017-02-22T09:58:07-05:00'
+                activated_at: '2017-06-27T13:45:15-05:00'
+                created_at: '2017-06-27T13:45:13-05:00'
+                updated_at: '2017-06-30T09:26:50-05:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-03-20T19:28:47-04:00'
-                next_assessment_at: '2017-03-20T19:28:47-04:00'
+                balance_in_cents: 10000
+                current_period_ends_at: '2017-06-30T12:00:00-05:00'
+                next_assessment_at: '2017-06-30T12:00:00-05:00'
                 canceled_at: null
                 cancellation_message: null
-                next_product_id: 4442358
+                next_product_id: null
                 cancel_at_end_of_period: false
                 payment_collection_method: automatic
                 snap_day: end
                 cancellation_method: null
-                current_period_started_at: '2017-02-20T18:28:47-05:00'
+                current_period_started_at: '2017-06-27T13:45:13-05:00'
                 previous_state: active
-                signup_payment_id: 174876340
+                signup_payment_id: 191819284
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 0
                 product_price_in_cents: 0
                 product_version_number: 1
-                payment_type: credit_card
-                referral_code: ww6mq5
+                payment_type: null
+                referral_code: d3pw7f
                 coupon_use_count: null
                 coupon_uses_allowed: null
+                reason_code: null
+                automatically_resume_at: null
+                current_billing_amount_in_cents: 10000
                 customer:
-                  id: 15102905
-                  first_name: Amelia
-                  last_name: Example
-                  organization: ''
-                  email: joe.blow@example.com
-                  created_at: '2016-12-15T09:33:15-05:00'
-                  updated_at: '2016-12-15T09:34:09-05:00'
-                  reference: null
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  portal_invite_last_sent_at: null
+                  id: 17780587
+                  first_name: Catie
+                  last_name: Test
+                  organization: 'Acme, Inc.'
+                  email: catie@example.com
+                  created_at: '2017-06-27T13:01:05-05:00'
+                  updated_at: '2017-06-30T09:23:10-05:00'
+                  reference: 123ABC
+                  address: 123 Anywhere Street
+                  address_2: 'Apartment #10'
+                  city: Los Angeles
+                  state: CA
+                  zip: '90210'
+                  country: US
+                  phone: 555-555-5555
+                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
                   portal_invite_last_accepted_at: null
-                  verified: null
-                  portal_customer_created_at: '2016-12-15T09:33:21-05:00'
-                  cc_emails: null
-                  tax_exempt: false
+                  verified: true
+                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
+                  cc_emails: support@example.com
+                  tax_exempt: true
                 product:
-                  id: 4461042
+                  id: 4470347
                   name: Zero Dollar Product
                   handle: zero-dollar-product
                   description: ''
@@ -11383,8 +11419,8 @@ paths:
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-02-20T18:28:18-05:00'
-                  updated_at: '2017-02-20T18:28:18-05:00'
+                  created_at: '2017-03-23T10:54:12-05:00'
+                  updated_at: '2017-04-20T15:18:46-05:00'
                   price_in_cents: 0
                   interval: 1
                   interval_unit: month
@@ -11393,43 +11429,25 @@ paths:
                   trial_interval: null
                   trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: true
+                  require_credit_card: false
                   return_params: ''
                   taxable: false
                   update_return_url: ''
+                  tax_code: ''
                   initial_charge_after_trial: false
                   version_number: 1
                   update_return_params: ''
                   product_family:
-                    id: 986840
+                    id: 997233
                     name: Acme Products
                     description: ''
                     handle: acme-products
                     accounting_code: null
                   public_signup_pages:
-                    - id: 312984
-                      return_url: null
+                    - id: 316810
+                      return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/yt4ybcgk7998/zero-dollar-product'
-                credit_card:
-                  id: 10548239
-                  first_name: Amelia
-                  last_name: Example
-                  masked_card_number: XXXX-XXXX-XXXX-2
-                  card_type: bogus
-                  expiration_month: 2
-                  expiration_year: 2017
-                  customer_id: 15102905
-                  current_vault: bogus
-                  vault_token: '2'
-                  billing_address: ''
-                  billing_city: ''
-                  billing_state: ''
-                  billing_zip: ''
-                  billing_country: ''
-                  customer_vault_token: null
-                  billing_address_2: ''
-                  payment_type: credit_card
+                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
         '422':
           description: Unprocessable Entity
       security:
@@ -13150,13 +13168,13 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration
+      summary: Create Migration with Trial
       tags:
         - 'Subscription: Product Changes / Migrations / Upgrades / Downgrades'
       description: |-
-        ## Create Migration
+        ## Create Migration with Trial
 
-        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
+        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
 
         The response will be the updated subscription.
       parameters:
@@ -13170,28 +13188,31 @@ paths:
                 properties:
                   product_id:
                     type: integer
+                  include_trial:
+                    type: integer
             example:
               migration:
-                product_id: 3801242
+                product_id: 3861800
+                include_trial: 1
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-output'
+            $ref: '#/definitions/migrations/create-migration-input-trial-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
+                state: trialing
+                trial_started_at: '2016-11-03T13:43:36-04:00'
+                trial_ended_at: '2016-11-10T12:43:36-05:00'
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:31:49-04:00'
+                updated_at: '2016-11-03T13:43:36-04:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T12:31:49-05:00'
-                next_assessment_at: '2016-12-03T12:31:49-05:00'
+                balance_in_cents: -13989
+                current_period_ends_at: '2016-11-10T12:43:36-05:00'
+                next_assessment_at: '2016-11-10T12:43:36-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -13199,15 +13220,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:31:48-04:00'
+                current_period_started_at: '2016-11-03T13:43:35-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 10000
-                product_version_number: 4
+                product_price_in_cents: 1000
+                product_version_number: 6
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -13234,30 +13255,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
+                  id: 3861800
+                  name: Trial Product
+                  handle: trial-product
+                  description: Trial period with payment expected at end of trial.
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
+                  created_at: '2016-07-08T09:53:55-04:00'
+                  updated_at: '2016-09-05T13:00:36-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: 0
+                  trial_interval: 7
+                  trial_interval_unit: day
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 4
+                  version_number: 6
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -13266,10 +13287,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 283460
-                      return_url: null
+                    - id: 294791
+                      return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -13287,21 +13308,8 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 1
+                  billing_address_2: Apt. 10
                   payment_type: credit_card
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - Invalid Product
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -14343,7 +14351,7 @@ definitions:
       name: List Webhook Output
       public: true
   events/list-events-for-subscription:
-    title: List Events for Subscription
+    title: Read Events for Subscription
     type: array
     items:
       type: object
@@ -14391,7 +14399,7 @@ definitions:
           event_specific_data: null
     x-stoplight:
       id: events/list-events-for-subscription
-      name: List Events for Subscription
+      name: Read Events for Subscription
       public: true
   notes/create-note-output:
     title: Create Note Output
@@ -14425,7 +14433,7 @@ definitions:
       name: Create Note Output
       public: true
   events/list-site-event-output:
-    title: List Site Event Output
+    title: Read Site Event Output
     type: array
     items:
       type: object
@@ -14478,7 +14486,7 @@ definitions:
           event_specific_data: null
     x-stoplight:
       id: events/list-site-event-output
-      name: List Site Event Output
+      name: Read Site Event Output
       public: true
   customer/customer-output:
     title: Customer Output
@@ -15163,7 +15171,7 @@ definitions:
       name: Allocation Response GET
       public: true
   products/list-products-output:
-    title: List by Products Output
+    title: Read by Products Output
     type: array
     items:
       type: object
@@ -15328,7 +15336,7 @@ definitions:
               url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
     x-stoplight:
       id: products/list-products-output
-      name: List by Products Output
+      name: Read by Products Output
       public: true
   /transations/list-transaction-site-response:
     title: List Transactions for a Site Response
@@ -17775,7 +17783,7 @@ definitions:
       name: Preview Migration Input
       public: true
   notes/read-show-specific-note-output:
-    title: Read/Show Specific Note Output
+    title: Read Specific Note Output
     type: object
     properties:
       note:
@@ -17803,7 +17811,7 @@ definitions:
         updated_at: '2015-06-15T13:28:12-04:00'
     x-stoplight:
       id: notes/read-show-specific-note-output
-      name: Read/Show Specific Note Output
+      name: Read Specific Note Output
       public: true
   notes/update-note-input:
     title: Update Note Input
@@ -17929,7 +17937,7 @@ definitions:
       name: Create Migration Input Trial
       public: true
   notes/list-notes-output:
-    title: List Notes Output
+    title: Read Notes Output
     type: array
     items:
       type: object
@@ -17966,7 +17974,7 @@ definitions:
           updated_at: '2015-06-15T13:26:33-04:00'
     x-stoplight:
       id: notes/list-notes-output
-      name: List Notes Output
+      name: Read Notes Output
       public: true
   payment-profiles/create-payment-profile-input:
     title: Create Payment Profile Input
@@ -18768,7 +18776,7 @@ definitions:
       name: Create Product Family Input
       public: true
   products/read-the-product-via-chargify-id:
-    title: Read the Product via Chargify ID
+    title: Read the Product by Product ID
     type: object
     properties:
       product:
@@ -18890,7 +18898,7 @@ definitions:
             url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
     x-stoplight:
       id: products/read-the-product-via-chargify-id
-      name: Read the Product via Chargify ID
+      name: Read the Product by Product ID
       public: true
   products/create-a-product-input:
     title: Create a Product Input
@@ -18934,42 +18942,6 @@ definitions:
     x-stoplight:
       id: products/create-a-product-input
       name: Create a Product Input
-      public: true
-  product-families/list-product-families-output:
-    title: List Product within Product Family Output
-    type: array
-    items:
-      type: object
-      properties:
-        product_family:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-            description:
-              type: string
-            handle:
-              type: string
-            accounting_code:
-              type: 'null'
-    example:
-      - product_family:
-          id: 527890
-          name: Acme Projects
-          description: ''
-          handle: billing-plans
-          accounting_code: null
-      - product_family:
-          id: 528484
-          name: Products
-          description: Products
-          handle: wild-about-animals
-          accounting_code: null
-    x-stoplight:
-      id: product-families/list-product-families-output
-      name: List Product within Product Family Output
       public: true
   products/update-product-input:
     title: Update Product Input
@@ -19103,7 +19075,7 @@ definitions:
       name: Create Subscription with Quantity-based Component
       public: true
   product-families/list-product-family-by-id:
-    title: Read Product Family by ID
+    title: Read Product Family via Product Family ID
     type: object
     properties:
       product_family:
@@ -19128,7 +19100,7 @@ definitions:
         accounting_code: null
     x-stoplight:
       id: product-families/list-product-family-by-id
-      name: Read Product Family by ID
+      name: Read Product Family via Product Family ID
       public: true
   products/create-a-product-output:
     title: Create a Product Output
@@ -27349,7 +27321,7 @@ definitions:
       name: ReasonCode Show Response
       public: true
   reason_codes/delete_response:
-    title: ReasonCode Delete Response
+    title: Delete a Reason Code Response
     type: object
     properties:
       ok:
@@ -27358,10 +27330,10 @@ definitions:
       ok: ok
     x-stoplight:
       id: reason_codes/delete_response
-      name: ReasonCode Delete Response
+      name: Delete a Reason Code Response
       public: true
   reason_code/list_response:
-    title: ReasonCode List Response
+    title: Read Reason Codes for a Site Response
     type: array
     items:
       type: object
@@ -27410,7 +27382,7 @@ definitions:
           updated_at: '2017-02-17T16:29:59-05:00'
     x-stoplight:
       id: reason_code/list_response
-      name: ReasonCode List Response
+      name: Read Reason Codes for a Site Response
       public: true
   reason_codes/create_code_response:
     title: ReasonCode Create Response
@@ -28095,7 +28067,7 @@ definitions:
       name: Reading the current status response
       public: true
   invoice/list-charges-response:
-    title: List Charges Response
+    title: Read Charges Response
     type: object
     properties:
       invoice:
@@ -28392,7 +28364,7 @@ definitions:
             customer_id: 17034509
     x-stoplight:
       id: invoice/list-charges-response
-      name: List Charges Response
+      name: Read Charges Response
       public: true
   components/quantity/update-the-quantity-allocation:
     title: Update the quantity allocation response
@@ -30525,12 +30497,18 @@ x-stoplight:
           items:
             - _id: customers-intro
               type: docTextSections
+            - _id: POST_customers-format
+              type: endpoints
+            - _id: customer/create-a-customer-input
+              type: schemas
+            - _id: customer/create-a-customer-output
+              type: schemas
+            - _id: GET_customers-id-format
+              type: endpoints
             - _id: GET_customersjson
               type: endpoints
             - _id: customers/list-customers-for-a-site-output
               type: schemas
-            - _id: GET_customers-id-format
-              type: endpoints
             - _id: GET_customers-lookupjson
               type: endpoints
             - _id: GET_customers-customer_id-subscriptions-format
@@ -30540,12 +30518,6 @@ x-stoplight:
             - _id: GET_customersjson
               type: endpoints
             - _id: customers/search-for-customer-output
-              type: schemas
-            - _id: POST_customers-format
-              type: endpoints
-            - _id: customer/create-a-customer-input
-              type: schemas
-            - _id: customer/create-a-customer-output
               type: schemas
             - _id: PUT_customers-id-format
               type: endpoints
@@ -30641,19 +30613,19 @@ x-stoplight:
           items:
             - _id: introduction-to-notes
               type: docTextSections
-            - _id: GET_subscriptions-subscription_id-notes-format
-              type: endpoints
-            - _id: notes/list-notes-output
-              type: schemas
-            - _id: GET_subscriptions-subscriptionid-notes-noteidjson
-              type: endpoints
-            - _id: notes/read-show-specific-note-output
-              type: schemas
             - _id: POST_subscriptions-subscription_id-notes-format
               type: endpoints
             - _id: notes/create-note-input
               type: schemas
             - _id: notes/create-note-output
+              type: schemas
+            - _id: GET_subscriptions-subscriptionid-notes-noteidjson
+              type: endpoints
+            - _id: notes/read-show-specific-note-output
+              type: schemas
+            - _id: GET_subscriptions-subscription_id-notes-format
+              type: endpoints
+            - _id: notes/list-notes-output
               type: schemas
             - type: endpoints
               _id: PUT_subscriptions-subscription_id-notes-note_id-format
@@ -30685,6 +30657,12 @@ x-stoplight:
           items:
             - type: docTextSections
               _id: intro-to-payment-profiles
+            - _id: POST_payment_profiles-format
+              type: endpoints
+            - _id: payment-profiles/create-payment-profile-input
+              type: schemas
+            - _id: payment-profile/create-payment-profile-output
+              type: schemas
             - _id: GET_payment_profiles-payment_profile_cc_id-format
               type: endpoints
             - _id: payment-profiles/read-payment-output-cc
@@ -30692,12 +30670,6 @@ x-stoplight:
             - _id: GET_paymentprofiles-paymentprofileidjson
               type: endpoints
             - _id: payment-profile/read-payment-output-bank-account
-              type: schemas
-            - _id: POST_payment_profiles-format
-              type: endpoints
-            - _id: payment-profiles/create-payment-profile-input
-              type: schemas
-            - _id: payment-profile/create-payment-profile-output
               type: schemas
             - _id: PUT_payment_profiles-payment_profile_id-format
               type: endpoints
@@ -30711,25 +30683,6 @@ x-stoplight:
               type: endpoints
             - _id: PUT_bank_accounts-verification
               type: endpoints
-          divider: false
-        - name: Product Families
-          items:
-            - _id: product-family-intro
-              type: docTextSections
-            - _id: GET_product_families-product_family_id-products-format
-              type: endpoints
-            - _id: product-families/list-product-families-output
-              type: schemas
-            - _id: POST_product_families-id-format
-              type: endpoints
-            - _id: product-families/list-product-family-by-id
-              type: schemas
-            - _id: POST_product_families-product_family_id-products-format
-              type: endpoints
-            - _id: product-families/create-product-family-input
-              type: schemas
-            - _id: product-families/create-product-family-output
-              type: schemas
           divider: false
         - name: Products
           items:
@@ -30745,16 +30698,6 @@ x-stoplight:
               type: endpoints
             - _id: read-a-product-output
               type: schemas
-            - _id: PUT_products-productidjson
-              type: endpoints
-            - _id: products/update-product-input
-              type: schemas
-            - _id: products/update-product-output
-              type: schemas
-            - _id: DELETE_products-productidjson
-              type: endpoints
-            - _id: archive-a-product-output
-              type: schemas
             - _id: GET_products-format
               type: endpoints
             - _id: products/list-products-output
@@ -30765,10 +30708,41 @@ x-stoplight:
               type: endpoints
             - _id: products/read-the-product-via-chargify-id
               type: schemas
+            - _id: PUT_products-productidjson
+              type: endpoints
+            - _id: products/update-product-input
+              type: schemas
+            - _id: products/update-product-output
+              type: schemas
+            - _id: DELETE_products-productidjson
+              type: endpoints
+            - _id: archive-a-product-output
+              type: schemas
+        - name: Product Families
+          items:
+            - _id: product-family-intro
+              type: docTextSections
+            - _id: POST_product_families-product_family_id-products-format
+              type: endpoints
+            - _id: product-families/create-product-family-input
+              type: schemas
+            - _id: product-families/create-product-family-output
+              type: schemas
+            - _id: POST_product_families-id-format
+              type: endpoints
+            - _id: product-families/list-product-family-by-id
+              type: schemas
+          divider: false
         - divider: false
           items:
             - _id: reason-code-intro
               type: docTextSections
+            - _id: POST_reasoncodesjson
+              type: endpoints
+            - _id: /reason_codes/create_code_request
+              type: schemas
+            - _id: reason_codes/create_code_response
+              type: schemas
             - _id: GET_reasoncodesjson
               type: endpoints
             - _id: reason_code/list_response
@@ -30777,19 +30751,13 @@ x-stoplight:
               type: endpoints
             - _id: reason_code/show_response
               type: schemas
-            - _id: DELETE_reasoncodes-reasoncodeidjson
-              type: endpoints
-            - _id: reason_codes/delete_response
-              type: schemas
-            - _id: POST_reasoncodesjson
-              type: endpoints
-            - _id: /reason_codes/create_code_request
-              type: schemas
-            - _id: reason_codes/create_code_response
-              type: schemas
             - _id: PUT_reasoncodes-reasoncodeidjson
               type: endpoints
             - _id: reason_code/update_response
+              type: schemas
+            - _id: DELETE_reasoncodes-reasoncodeidjson
+              type: endpoints
+            - _id: reason_codes/delete_response
               type: schemas
           name: Reason Codes
           description: Reason Codes are the items that are presented when a user cancels their Chargify Subscription.   It allows you too get a granular view as to why a user is discontinuing your service or product.
