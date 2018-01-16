@@ -1908,9 +1908,13 @@ paths:
           statusCode: 200
     get:
       operationId: GET_components-component_id-price_points-json
-      summary: List Price Points
+      summary: Read Price Points
       tags:
         - 'Components: Price Points'
+      description: |-
+        ## Read Price Points
+
+        Use this endpoint to read current price points that are associated with a component.
       responses:
         '201':
           description: ''
@@ -1968,7 +1972,7 @@ paths:
         type: string
     post:
       operationId: POST_components-component_id-price_points-bulk-json
-      summary: Bulk Create Price Points
+      summary: Create Bulk Price Points
       tags:
         - 'Components: Price Points'
       parameters:
@@ -2291,6 +2295,8 @@ paths:
       tags:
         - 'Components: Price Points'
       description: |-
+        ## Bulk Update a Subscription's Component's Price Points
+
         Updates the price points on one or more of a subscription's components.
 
         The `price_point` key can take either a:
@@ -2479,205 +2485,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /subscriptions/metadata.json:
-    get:
-      operationId: GET_subscriptions-metadata-json
-      summary: List Metadata for Subscribers
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## List Metadata by Subscription
-
-        This method will provide you information on usage of metadata across your subscribers. The `resource_id` is the **Subscription ID**.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/metadata/list-metadata-subscribers-output'
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: The quick brown fox
-                  resource_id: 15479934
-                  name: Comments
-                - value: L
-                  resource_id: 15479934
-                  name: T-Shirt Size
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  /customers/metadata.json:
-    get:
-      operationId: GET_customers-metadata-json
-      summary: List Metadata for Customers
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## List Metadata for Customers 
-
-        This endpoint will list the number of pages of metadata information that are contained within a site.
-
-        Use the information retrieved to set your pagination settings properly.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: object
-            properties:
-              total_count:
-                type: integer
-              current_page:
-                type: integer
-              total_pages:
-                type: integer
-              per_page:
-                type: integer
-              metadata:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                    resource_id:
-                      type: integer
-                    name:
-                      type: string
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: Red
-                  resource_id: 19186044
-                  name: Shirt Color
-                - value: Blue
-                  resource_id: 19186076
-                  name: Shirt Color
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_customers-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/customers/{customer_id}/metadata.json':
-    parameters:
-      - name: customer_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_customers-customer_id-metadata-json
-      summary: List Metadata for a Customer
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## List Metadata a Customer
-
-        This endpoint will list the number of pages of metadata information that are contained within a site.
-
-        Use the information retrieved to set your pagination settings properly.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/metadata/list-metadata-for-customers-output'
-          examples:
-            application/json:
-              total_count: 1
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: Red
-                  resource_id: 19186044
-                  name: Shirt Color
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_customers-customerid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/metadata.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_subscriptions-subscription_id-metadata-json
-      summary: List Metadata for a Subscriber
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## List Metadata for a Subscriber
-
-        This request will list all of the metadata belonging to a particular subscription.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/list-metadata-for-a-subscriber-output'
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: The quick brown fox
-                  resource_id: 15479934
-                  name: Comments
-                - value: L
-                  resource_id: 15479934
-                  name: T-Shirt Size
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/{resource}/{resource_id}/metadata.json':
     parameters:
       - name: resource
@@ -2854,56 +2661,45 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/{resource}/metafields.json':
-    parameters:
-      - name: resource
-        in: path
-        description: ''
-        required: true
-        type: string
+  /subscriptions/metadata.json:
     get:
-      operationId: GET_resource-metafields-json
-      summary: List Metafields
+      operationId: GET_subscriptions-metadata-json
+      summary: Read Metadata for Subscribers
       tags:
-        - 'Custom Fields: Metafields'
+        - 'Custom Fields: Metadata'
       description: |-
-        ## List Metafields
+        ## Read Metadata by Subscription
 
-        This endpoint lists associated with a Site. The metafield description and usage is contained in the response. 
+        This method will provide you information on usage of metadata across your subscribers. The `resource_id` is the **Subscription ID**.
 
-        ## Data Count 
+        ## Metadata Data
 
-        When `data_count` is encountered in the response for metafields, this indicates the amount of subscriptions this metafield has been applied to in Chargify.
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
       parameters:
-        - $ref: '#/parameters/trait:metafieldsNameOptional:name'
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields/list-metafields-output'
+            $ref: '#/definitions/metadata/read-metadata-subscribers-output'
           examples:
             application/json:
-              total_count: 1
+              total_count: 2
               current_page: 1
               total_pages: 1
               per_page: 20
-              metafields:
-                - name: Pants
-                  scope:
-                    hosted: []
-                    csv: '0'
-                    statements: '0'
-                    invoices: '0'
-                    portal: '0'
-                  data_count: 1
-                  input_type: text
-                  enum: null
+              metadata:
+                - value: The quick brown fox
+                  resource_id: 15479934
+                  name: Comments
+                - value: L
+                  resource_id: 15479934
+                  name: T-Shirt Size
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_resource-metafieldsjson
+        id: GET_subscriptions-metadatajson
         beforeScript: null
         afterScript: null
         public: true
@@ -2911,6 +2707,183 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /customers/metadata.json:
+    get:
+      operationId: GET_customers-metadata-json
+      summary: Read Metadata Data for a Site
+      tags:
+        - 'Custom Fields: Metadata'
+      description: |-
+        ## Read Metadata for a Site 
+
+        This endpoint will list the number of pages of metadata information that are contained within a site.
+
+        This method will provide you information on usage of metadata across your customers. The `resource_id` is the **Subscription ID**.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              total_count:
+                type: integer
+              current_page:
+                type: integer
+              total_pages:
+                type: integer
+              per_page:
+                type: integer
+              metadata:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                    resource_id:
+                      type: integer
+                    name:
+                      type: string
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: Red
+                  resource_id: 19186044
+                  name: Shirt Color
+                - value: Blue
+                  resource_id: 19186076
+                  name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_customers-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/customers/{customer_id}/metadata.json':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_customers-customer_id-metadata-json
+      summary: Read Metadata Data for a Customer
+      tags:
+        - 'Custom Fields: Metadata'
+      description: |-
+        ## Read Metadata for a Customer
+
+        This endpoint will list the metadata associated with a customer. Additionally, the endpoint will return the number of pages of metadata information that are contained within a site.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/metadata/read-metadata-for-a-site'
+          examples:
+            application/json:
+              total_count: 1
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: Red
+                  resource_id: 19186044
+                  name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_customers-customerid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/metadata.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_subscriptions-subscription_id-metadata-json
+      summary: Read Metadata for a Subscriber
+      tags:
+        - 'Custom Fields: Metadata'
+      description: |-
+        ## Read Metadata for a Subscriber
+
+        This request will list all of the metadata belonging to a particular subscription.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/list-metadata-for-a-subscriber-output'
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: The quick brown fox
+                  resource_id: 15479934
+                  name: Comments
+                - value: L
+                  resource_id: 15479934
+                  name: T-Shirt Size
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/{resource}/metafields.json':
+    parameters:
+      - name: resource
+        in: path
+        description: ''
+        required: true
+        type: string
+        enum:
+          - subscription
+          - customer
     post:
       operationId: POST_resource-metafields-json
       summary: Create Metafields
@@ -2949,6 +2922,56 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_resource-metafieldsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_resource-metafields-json
+      summary: Read Metafields Stats for Site
+      tags:
+        - 'Custom Fields: Metafields'
+      description: |-
+        ## Read Metafields
+
+        This endpoint lists associated with a Site. The metafield description and usage is contained in the response. 
+
+        ## Data Count 
+
+        When `data_count` is encountered in the response for metafields, this indicates the amount of subscriptions this metafield has been applied to in Chargify.
+      parameters:
+        - $ref: '#/parameters/trait:metafieldsNameOptional:name'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/metafields/list-metafields-output'
+          examples:
+            application/json:
+              total_count: 1
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metafields:
+                - name: Pants
+                  scope:
+                    hosted: []
+                    csv: '0'
+                    statements: '0'
+                    invoices: '0'
+                    portal: '0'
+                  data_count: 1
+                  input_type: text
+                  enum: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_resource-metafieldsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -3099,13 +3122,13 @@ paths:
           enabled: false
     get:
       operationId: GET_coupons-format
-      summary: List Coupons for the Default Product Family for a Site
+      summary: Read Coupons for the Default Product Family for a Site
       tags:
         - Coupon
         - incomplete
         - 'Coupons: Editing'
       description: |-
-        ## List Coupons for the Default Product Family
+        ## Read Coupons for the Default Product Family
 
         You can retrieve a list of coupons that belong to the default product family for a site via this method.
 
@@ -3256,6 +3279,131 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+  '/coupons/{coupon_id}/usage.json':
+    parameters:
+      - name: coupon_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_coupons-coupon_id-usage-json
+      summary: Read Coupon Usage for a Site
+      tags:
+        - 'Coupons: Editing'
+      description: |-
+        ## Read Coupon Usage for a Site
+
+        This request will provide details about the coupon usage as an array of data hashes, one per product.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons/coupon-usage-output'
+          examples:
+            application/json:
+              - name: No cost product
+                id: 3903594
+                signups: 0
+                savings: 0
+                savings_in_cents: 0
+                revenue: 0
+                revenue_in_cents: 0
+              - name: Product that expires
+                id: 3853680
+                signups: 0
+                savings: 0
+                savings_in_cents: 0
+                revenue: 0
+                revenue_in_cents: 0
+              - name: Trial Product
+                id: 3861800
+                signups: 1
+                savings: 30
+                savings_in_cents: 3000
+                revenue: 20
+                revenue_in_cents: 2000
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-couponid-usagejson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /coupons/find.json:
+    get:
+      operationId: GET_coupons-find-json
+      summary: Finding a Coupon
+      tags:
+        - 'Coupons: Editing'
+      description: |-
+        ## Finding a Coupon
+
+        You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
+
+        If you have more than one product family and if the coupon you are trying to find does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
+
+        You can retrieve a coupon via the API with the show method. You must identify the coupon in this call by the id parameter that Chargify assigns. If instead you would like to find a coupon using a coupon code, see the Coupon Find method.
+
+        ```
+        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/find.<format>?code=<coupon_code>
+        ```
+
+        **OR**
+
+        ```
+        https://<subdomain>.chargify.com/coupons/find.<format>?code=<coupon_code>&product_family_id=1
+        ```
+      parameters:
+        - name: product_family_id
+          in: query
+          type: integer
+        - name: code
+          in: query
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-output'
+          examples:
+            application/json:
+              coupon:
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: null
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-findjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /coupons/validate.json:
     get:
       operationId: GET_coupons-validate-format
@@ -3351,11 +3499,11 @@ paths:
         type: string
     get:
       operationId: GET_product_families-product_family_id-coupons-json
-      summary: List Coupons for a Product Family for a Site
+      summary: Read Coupons for a Product Family for a Site
       tags:
         - 'Coupons: Editing'
       description: |-
-        ## List Coupons for a Specific Product Family
+        ## Read Coupons for a Specific Product Family
 
         List coupons for a specific Product Family in a Site.
       produces:
@@ -3582,131 +3730,6 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  '/coupons/{coupon_id}/usage.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_coupons-coupon_id-usage-json
-      summary: Coupon Usage
-      tags:
-        - 'Coupons: Editing'
-      description: |-
-        ## Coupon Usage
-
-        This request will provide details about the coupon usage as an array of data hashes, one per product.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons/coupon-usage-output'
-          examples:
-            application/json:
-              - name: No cost product
-                id: 3903594
-                signups: 0
-                savings: 0
-                savings_in_cents: 0
-                revenue: 0
-                revenue_in_cents: 0
-              - name: Product that expires
-                id: 3853680
-                signups: 0
-                savings: 0
-                savings_in_cents: 0
-                revenue: 0
-                revenue_in_cents: 0
-              - name: Trial Product
-                id: 3861800
-                signups: 1
-                savings: 30
-                savings_in_cents: 3000
-                revenue: 20
-                revenue_in_cents: 2000
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-couponid-usagejson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  /coupons/find.json:
-    get:
-      operationId: GET_coupons-find-json
-      summary: Finding a Coupon
-      tags:
-        - 'Coupons: Editing'
-      description: |-
-        ## Finding a Coupon
-
-        You can search for a coupon via the API with the find method. By passing a code parameter, the find will attempt to locate a coupon that matches that code. If no coupon is found, a 404 is returned.
-
-        If you have more than one product family and if the coupon you are trying to find does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
-
-        You can retrieve a coupon via the API with the show method. You must identify the coupon in this call by the id parameter that Chargify assigns. If instead you would like to find a coupon using a coupon code, see the Coupon Find method.
-
-        ```
-        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/find.<format>?code=<coupon_code>
-        ```
-
-        **OR**
-
-        ```
-        https://<subdomain>.chargify.com/coupons/find.<format>?code=<coupon_code>&product_family_id=1
-        ```
-      parameters:
-        - name: product_family_id
-          in: query
-          type: integer
-        - name: code
-          in: query
-          type: string
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons/create-coupon-output'
-          examples:
-            application/json:
-              coupon:
-                id: 67
-                name: Foo Bar
-                code: YEPPER99934
-                description: my cool coupon
-                amount_in_cents: 10000
-                product_family_id: 4
-                created_at: '2017-11-08T10:01:15-05:00'
-                updated_at: '2017-11-08T10:01:15-05:00'
-                start_date: '2017-11-08T10:01:15-05:00'
-                end_date: null
-                percentage: null
-                recurring: false
-                duration_period_count: null
-                duration_interval: null
-                duration_interval_unit: null
-                allow_negative_balance: false
-                archived_at: null
-                conversion_limit: null
-                stackable: true
-                compounding_strategy: compound
-                coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-findjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/coupons/{coupon_id}/codes.json':
     parameters:
       - name: coupon_id
@@ -3739,11 +3762,11 @@ paths:
           statusCode: 200
     get:
       operationId: GET_coupons-coupon_id-codes-json
-      summary: Retrieve Coupon Subcodes
+      summary: Read Coupon Subcodes for a Site
       tags:
         - 'Coupons: Subcodes'
       description: |-
-        ## Retrieve Coupon Subcodes
+        ## Read Coupon Subcodes for a Site
 
         This request allows you to request the subcodes that are attached to a coupon.
       parameters:
@@ -3904,11 +3927,11 @@ paths:
   /customers.json:
     get:
       operationId: GET_customers-json
-      summary: List Customers for a Site
+      summary: Read Customers for a Site
       tags:
         - Customers
       description: |-
-        ## List Customers for a Site
+        ## Read Customers for a Site
 
         This request will list all customers associated with your Site.
       parameters:
@@ -4147,13 +4170,13 @@ paths:
         type: number
     get:
       operationId: GET_customers-id-format
-      summary: Read the Customer by Chargify ID
+      summary: Read Customer Data
       tags:
         - Customer
         - incomplete
         - Customers
       description: |-
-        ## Read the Customer by Chargify ID
+        ## Read Customer Data
 
         This method allows to retrieve the Customer properties by Chargify-generated Customer ID.
       responses:
@@ -4487,6 +4510,66 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /events.json:
+    get:
+      operationId: list-events
+      summary: List Events for a Site
+      tags:
+        - Event
+        - incomplete
+        - Events
+      description: |-
+        ## List Events for a Site
+
+        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:page'
+        - $ref: '#/parameters/trait:eventsFilters:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:since_id'
+        - $ref: '#/parameters/trait:eventsFilters:max_id'
+        - $ref: '#/parameters/trait:eventsFilters:direction'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/events/list-site-event-output'
+          examples:
+            application/json:
+              - event:
+                  id: 343087780
+                  key: subscription_state_change
+                  message: State changed on Test subscription to Monthly Product from active to past_due
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:22-04:00'
+                  event_specific_data:
+                    previous_subscription_state: active
+                    new_subscription_state: past_due
+              - event:
+                  id: 343087742
+                  key: billing_date_change
+                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:19-04:00'
+                  event_specific_data: null
+              - event:
+                  id: 343085267
+                  key: statement_closed
+                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
+                  subscription_id: 14950975
+                  created_at: '2016-10-27T16:40:40-04:00'
+                  event_specific_data: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: list-events
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/events.json':
     parameters:
       - name: subscription_id
@@ -4547,66 +4630,6 @@ paths:
                   message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
                   subscription_id: 14900541
                   created_at: '2016-11-01T12:41:25-04:00'
-                  event_specific_data: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: list-events
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /events.json:
-    get:
-      operationId: list-events
-      summary: List Events for a Site
-      tags:
-        - Event
-        - incomplete
-        - Events
-      description: |-
-        ## List Events for a Site
-
-        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:page'
-        - $ref: '#/parameters/trait:eventsFilters:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:since_id'
-        - $ref: '#/parameters/trait:eventsFilters:max_id'
-        - $ref: '#/parameters/trait:eventsFilters:direction'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/events/list-site-event-output'
-          examples:
-            application/json:
-              - event:
-                  id: 343087780
-                  key: subscription_state_change
-                  message: State changed on Test subscription to Monthly Product from active to past_due
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:22-04:00'
-                  event_specific_data:
-                    previous_subscription_state: active
-                    new_subscription_state: past_due
-              - event:
-                  id: 343087742
-                  key: billing_date_change
-                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:19-04:00'
-                  event_specific_data: null
-              - event:
-                  id: 343085267
-                  key: statement_closed
-                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
-                  subscription_id: 14950975
-                  created_at: '2016-10-27T16:40:40-04:00'
                   event_specific_data: null
       security:
         - <<api_key>>: []
@@ -19019,8 +19042,8 @@ definitions:
       id: product-families/create-product-family-output
       name: Create Product Family Output
       public: true
-  components/quantity/setting-quantity-at-subscription-input:
-    title: Setting Quantity at Subscription Creation Input
+  components/quantity/create-subscription-with-quantity-based-component:
+    title: Create Subscription with Quantity-based Component
     type: object
     properties:
       subscription:
@@ -19076,8 +19099,8 @@ definitions:
             price_point_id: 20001
             allocated_quantity: 18
     x-stoplight:
-      id: components/quantity/setting-quantity-at-subscription-input
-      name: Setting Quantity at Subscription Creation Input
+      id: components/quantity/create-subscription-with-quantity-based-component
+      name: Create Subscription with Quantity-based Component
       public: true
   product-families/list-product-family-by-id:
     title: Read Product Family by ID
@@ -24147,7 +24170,7 @@ definitions:
       name: List Coupons for a Site Output
       public: true
   customers/list-customers-for-a-site-output:
-    title: List Customers for a Site Output
+    title: Read Customers for a Site Output
     type: array
     items:
       type: object
@@ -24266,7 +24289,7 @@ definitions:
           tax_exempt: false
     x-stoplight:
       id: customers/list-customers-for-a-site-output
-      name: List Customers for a Site Output
+      name: Read Customers for a Site Output
       public: true
   coupon/subcodes/create-a-coupon-subcode:
     title: Create a Coupon Subcode Input
@@ -24434,7 +24457,7 @@ definitions:
       name: Create a Coupon Subcode Output
       public: true
   coupons/subcodes/retrieve-coupon-subcodes-output:
-    title: Retrieve Coupon Subcodes Output
+    title: Read Coupon Subcodes for a Site
     type: object
     properties:
       codes:
@@ -24465,7 +24488,7 @@ definitions:
         - 9FH1ED
     x-stoplight:
       id: coupons/subcodes/retrieve-coupon-subcodes-output
-      name: Retrieve Coupon Subcodes Output
+      name: Read Coupon Subcodes for a Site
       public: true
   customers/search-for-customer-output:
     title: Search for Customer Output
@@ -24631,8 +24654,8 @@ definitions:
       id: customers/search-for-customer-output
       name: Search for Customer Output
       public: true
-  metadata/list-metadata-for-customers-output:
-    title: List Metadata for Customers Output
+  metadata/read-metadata-for-a-site:
+    title: Read Metadata Data for Site Output
     type: object
     properties:
       total_count:
@@ -24667,8 +24690,8 @@ definitions:
           resource_id: 19186076
           name: Shirt Color
     x-stoplight:
-      id: metadata/list-metadata-for-customers-output
-      name: List Metadata for Customers Output
+      id: metadata/read-metadata-for-a-site
+      name: Read Metadata Data for Site Output
       public: true
   invoices/payments/create-payment-output:
     title: Create Payment Output
@@ -24831,8 +24854,8 @@ definitions:
       id: customer/create-a-customer-output
       name: Create a Customer Output
       public: true
-  metadata/list-metadata-subscribers-output:
-    title: List Metadata for Subscribers Output
+  metadata/read-metadata-subscribers-output:
+    title: Read Metadata for Subscribers Output
     type: object
     properties:
       total_count:
@@ -24867,11 +24890,11 @@ definitions:
           resource_id: 15479934
           name: T-Shirt Size
     x-stoplight:
-      id: metadata/list-metadata-subscribers-output
-      name: List Metadata for Subscribers Output
+      id: metadata/read-metadata-subscribers-output
+      name: Read Metadata for Subscribers Output
       public: true
   customers/list-customers-subscriptions-array-output:
-    title: List Customers Subscriptions Array Output
+    title: Read Customers Subscriptions Array Output
     type: array
     items:
       type: object
@@ -25319,7 +25342,7 @@ definitions:
           coupon_uses_allowed: null
     x-stoplight:
       id: customers/list-customers-subscriptions-array-output
-      name: List Customers Subscriptions Array Output
+      name: Read Customers Subscriptions Array Output
       public: true
   customer/create-a-customer-input:
     title: Create a Customer Input
@@ -25763,7 +25786,7 @@ definitions:
       name: Get a Sales Receipt Output
       public: true
   list-metadata-for-a-subscriber-output:
-    title: List Metadata for a Subscriber Output
+    title: Read Metadata for a Subscriber Output
     type: object
     properties:
       total_count:
@@ -25799,7 +25822,7 @@ definitions:
           name: T-Shirt Size
     x-stoplight:
       id: list-metadata-for-a-subscriber-output
-      name: List Metadata for a Subscriber Output
+      name: Read Metadata for a Subscriber Output
       public: true
   metadata/update-metadata-output:
     title: Update Metadata Output
@@ -28550,7 +28573,7 @@ definitions:
       name: Bulk Reset a Subscription's Component's Price Points
       public: true
   /customfields/metadata/list-metadata-for-a-customer-output:
-    title: List Metadata for a Customer Output
+    title: Read Metadata Data for a Customer Output
     type: object
     properties:
       total_count:
@@ -28583,7 +28606,7 @@ definitions:
           name: Shirt Color
     x-stoplight:
       id: /customfields/metadata/list-metadata-for-a-customer-output
-      name: List Metadata for a Customer Output
+      name: Read Metadata Data for a Customer Output
       public: true
   coupon/add-the-coupon-newness:
     title: Add the Coupon to Subscription Output
@@ -30296,7 +30319,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/quantity/setting-quantity-at-subscription-input
+            - _id: components/quantity/create-subscription-with-quantity-based-component
+              type: schemas
+            - _id: POST_subscriptions-sub_id-allocations-json
+              type: endpoints
+            - _id: allocation/multiple-request-post
+              type: schemas
+            - _id: allocation/multiple-response-post
+              type: schemas
+            - _id: GET_subscriptions-subscriptionid-components-componentidjson
+              type: endpoints
+            - _id: components/quantity/reading-current-quantity-response
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
@@ -30308,25 +30341,15 @@ x-stoplight:
               type: schemas
             - _id: components/quantity/update-the-quantity-allocation
               type: schemas
-            - _id: GET_subscriptions-subscriptionid-components-componentidjson
-              type: endpoints
-            - _id: components/quantity/reading-current-quantity-response
-              type: schemas
-            - _id: POST_subscriptions-sub_id-allocations-json
-              type: endpoints
-            - _id: allocation/multiple-request-post
-              type: schemas
-            - _id: allocation/multiple-response-post
-              type: schemas
             - _id: POST-preview-allocation
               type: endpoints
           divider: false
         - divider: false
           items:
-            - _id: components-price-point-intro
-              type: docTextSections
             - _id: components/price-points/list-price-points-response
               type: schemas
+            - _id: components-price-point-intro
+              type: docTextSections
             - _id: POST_components-componentid-pricepointsjson
               type: endpoints
             - _id: components/price-points/create-price-point-request
@@ -30377,13 +30400,19 @@ x-stoplight:
               type: endpoints
             - _id: y8iW4wHKhe3wRZEQc
               type: schemas
+            - _id: POST_resource-resourceid-metadatajson
+              type: endpoints
+            - _id: metadata/create-metadata-input
+              type: schemas
+            - _id: metadata/create-output
+              type: schemas
             - _id: GET_subscriptions-metadatajson
               type: endpoints
-            - _id: metadata/list-metadata-subscribers-output
+            - _id: metadata/read-metadata-subscribers-output
               type: schemas
             - _id: GET_customers-metadatajson
               type: endpoints
-            - _id: metadata/list-metadata-for-customers-output
+            - _id: metadata/read-metadata-for-a-site
               type: schemas
             - _id: GET_customers-customerid-metadatajson
               type: endpoints
@@ -30396,12 +30425,6 @@ x-stoplight:
             - _id: GET_subscriptions-subscriptionid-metadatajson
               type: endpoints
             - _id: list-metadata-for-a-subscriber-output
-              type: schemas
-            - _id: POST_resource-resourceid-metadatajson
-              type: endpoints
-            - _id: metadata/create-metadata-input
-              type: schemas
-            - _id: metadata/create-output
               type: schemas
             - _id: PUT_resource-resourceid-metadatajson
               type: endpoints
@@ -30422,15 +30445,15 @@ x-stoplight:
             - _id: metafields-intro
               type: docTextSections
             - type: endpoints
-              _id: GET_resource-metafieldsjson
-            - type: schemas
-              _id: metafields/list-metafields-output
-            - type: endpoints
               _id: POST_resource-metafieldsjson
             - type: schemas
               _id: metafields/create-metafields-input
             - type: schemas
               _id: metafields/create-metafields-output
+            - type: endpoints
+              _id: GET_resource-metafieldsjson
+            - type: schemas
+              _id: metafields/list-metafields-output
             - type: endpoints
               _id: PUT_resource-metafieldsjson
             - type: schemas
@@ -30458,6 +30481,12 @@ x-stoplight:
               type: schemas
             - _id: GET_coupons-coupon_id-format
               type: endpoints
+            - _id: GET_coupons-couponid-usagejson
+              type: endpoints
+            - _id: coupons/coupon-usage-output
+              type: schemas
+            - _id: GET_coupons-findjson
+              type: endpoints
             - _id: GET_coupons-validate-format
               type: endpoints
             - _id: GET_coupons-format
@@ -30467,12 +30496,6 @@ x-stoplight:
             - _id: coupons/list-coupons-for-a-site-output
               type: schemas
             - _id: PUT_coupons-coupon_id-format
-              type: endpoints
-            - _id: GET_coupons-couponid-usagejson
-              type: endpoints
-            - _id: coupons/coupon-usage-output
-              type: schemas
-            - _id: GET_coupons-findjson
               type: endpoints
             - _id: DELETE_coupons-coupon_id-format
               type: endpoints
@@ -30510,6 +30533,10 @@ x-stoplight:
               type: endpoints
             - _id: GET_customers-lookupjson
               type: endpoints
+            - _id: GET_customers-customer_id-subscriptions-format
+              type: endpoints
+            - _id: customers/list-customers-subscriptions-array-output
+              type: schemas
             - _id: GET_customersjson
               type: endpoints
             - _id: customers/search-for-customer-output
@@ -30524,10 +30551,6 @@ x-stoplight:
               type: endpoints
             - _id: DELETE_customers-id-format
               type: endpoints
-            - _id: GET_customers-customer_id-subscriptions-format
-              type: endpoints
-            - _id: customers/list-customers-subscriptions-array-output
-              type: schemas
             - _id: customer/customer-output
               type: schemas
             - _id: direction
