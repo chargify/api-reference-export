@@ -3295,7 +3295,99 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output'
+            type: object
+            properties:
+              coupon:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: |
+                      The ID of the coupon
+                  name:
+                    type: string
+                    description: The internal coupon name. This information is never displayed to customers.
+                  code:
+                    type: string
+                    description: 'The coupon code. This is used by you or your customers to apply the coupon to a subscription. The code may contain uppercase alphanumeric characters and these special characters (which allow for email addresses to be used): `%`, `@`, `+`, `-`, `_`, and `.`'
+                  description:
+                    type: string
+                    description: The coupon description. This will be displayed to the customers after the coupon validation.
+                  amount_in_cents:
+                    type: integer
+                    description: The amount in cents of the discount of the coupon.
+                  product_family_id:
+                    type: integer
+                    description: 'The ID of the product family to which the coupon belongs. The coupon can be added only to products in this product family. '
+                  created_at:
+                    type: string
+                    description: The timestamp when the coupon was created.
+                    format: date-time
+                  updated_at:
+                    type: string
+                    description: The timestamp when the coupon was updated
+                    format: date-time
+                  start_date:
+                    type: string
+                    description: The start date of the coupon
+                    format: date-time
+                  end_date:
+                    type:
+                      - 'null'
+                      - string
+                    description: The expiration date of the coupon
+                    format: date-time
+                  percentage:
+                    type:
+                      - 'null'
+                      - number
+                    description: 'The discount percentage. Should be an integer between 1 and 100. You should set the percentage or the amount, but not both.'
+                    minimum: 1
+                    maximum: 100
+                  recurring:
+                    type: boolean
+                    description: 'If true, the discount will be applied at signup and every renewal (for the number of renewals given by duration_period_count). Otherwise, discount will be applied only at signup.'
+                  duration_period_count:
+                    type:
+                      - number
+                      - integer
+                      - 'null'
+                    description: Number of renewals the coupon is good for. Recurring should be set to true. Setting recurring to true and leaving this blank indicates that the coupon applies indefinitely.
+                  duration_interval:
+                    type:
+                      - 'null'
+                      - integer
+                    description: Integer used to measure the interval unit.
+                  duration_interval_unit:
+                    type:
+                      - 'null'
+                      - string
+                    description: Description of the number of days/months the coupon should be applied.
+                  allow_negative_balance:
+                    type: boolean
+                    description: 'Boolean. If true, credits will carry forward to next billing. Otherwise discount may not exceed total of the charges.'
+                  archived_at:
+                    type:
+                      - 'null'
+                      - string
+                    description: Timestamp indicating when this coupon was archived
+                    format: date-time
+                  conversion_limit:
+                    type: 'null'
+                    description: Number of times this coupon (or any of its codes) may be added to a subscription
+                  stackable:
+                    type: boolean
+                    description: If true coupon can be combined with other stackable coupons to produce a larger discount. If false coupon cannot be combined with other coupons.
+                  compounding_strategy:
+                    type: string
+                    description: ''
+                    enum:
+                      - compound
+                      - full-price
+                  coupon_restrictions:
+                    type: array
+                    items:
+                      type: object
           examples:
             application/json:
               coupon:
@@ -23965,18 +24057,31 @@ definitions:
       properties:
         name:
           type: string
+          description: Name of the product
         id:
           type: integer
+          description: ID of the product
         signups:
           type: integer
+          description: Number of times the coupon has been applied
         savings:
-          type: integer
+          type:
+            - number
+            - 'null'
+          description: Dollar amount of customer savings as a result of the coupon.
         savings_in_cents:
-          type: integer
+          type:
+            - number
+            - 'null'
+          description: Dollar amount of customer savings as a result of the coupon.
         revenue:
-          type: integer
+          type:
+            - number
+            - 'null'
+          description: Total revenue of the all subscriptions that have received a discount from this coupon.
         revenue_in_cents:
-          type: integer
+          type: number
+          description: Total revenue of the all subscriptions that have received a discount from this coupon.
     example:
       - name: No cost product
         id: 3903594
@@ -24059,8 +24164,10 @@ definitions:
           properties:
             id:
               type: integer
+              description: The ID of the coupon in Chargify.
             name:
               type: string
+              description: The na
             code:
               type: string
             description:
