@@ -298,34 +298,26 @@ paths:
         ## Read the Management Link
 
         This method will provide to the API user the exact URL required for a subscriber to access the Billing Portal.
-
-        ## JSON Read Call Example
-
-        ```json
-        curl -u <API_KEY>:x -H "Accept: application/json" https://<subdomain>chargify.com/portal/customers/<customer_id>/management_link.json
-
-        {
-          "url": "https://www.billingportal.com/manage/123/1383672520/a5b33efa2fdedb11",
-          "fetch_count": 1,
-          "created_at": "2013-11-05T00:00:00Z",
-          "new_link_available_at": "2013-11-20T00:00:00Z",
-          "expires_at": "2014-01-09T00:00:00Z"
-        }
-
-        # After too many requests (status code: 429):
-
-        {"errors":{"error":"Too many requests for this customer's management link"}}
-        ```
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/billing-portal-get'
       responses:
         '200':
           description: OK
           schema:
             $ref: '#/definitions/billing-portal-get-response'
+          examples:
+            application/json:
+              url: 'https://www.billingportal.com/manage/19804639/1517596469/bd16498719a7d3e6'
+              fetch_count: 1
+              created_at: '2018-02-02T18:34:29Z'
+              new_link_available_at: '2018-02-17T18:34:29Z'
+              expires_at: '2018-04-08T17:34:29Z'
+        '429':
+          description: ''
+          schema:
+            $ref: '#/definitions/billing-portal/request'
+          examples:
+            application/json:
+              errors:
+                error: Too many requests for this customer's management link
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -15954,17 +15946,22 @@ definitions:
       url:
         type: string
         format: uri
+        description: The customer’s management URL
       fetch_count:
         type: integer
+        description: Number of times this link has been retrieved (at 15 you will be blocked)
       created_at:
         type: string
         format: date-time
+        description: When this link was created
       new_link_available_at:
         type: string
         format: date-time
+        description: When a new link will be available and fetch_count is reset (15 days from when it was created)
       expires_at:
         type: string
         format: date-time
+        description: When this link expires (65 days from when it was created)
     example:
       url: 'https://www.billingportal.com/manage/123/1383672520/a5b33efa2fdedb11'
       fetch_count: 1
@@ -32298,16 +32295,6 @@ x-stoplight:
         + You must cache and remember this URL if you are going to need it again within 15 days
         + Only request a new URL after the `new_link_available_at` date
         + You are limited to 15 requests for the same URL. If you make more than 15 requests before `new_link_available_at`, you will be blocked from further Management URL requests (with a response code `429`)
-
-        ## Management Link Attributes
-
-        All of the attribute fields are returned from GET (read) operations, and all are read only.
-
-        + `url` The customer’s management URL
-        + `fetch_count` Number of times this link has been retrieved (at 15 you will be blocked)
-        + `created_at` When this link was created
-        + `new_link_available_at` When a new link will be available and fetch_count is reset (15 days from when it was created)
-        + `expires_at` When this link expires (65 days from when it was created)
       public: true
     quantity-allocations-intro:
       id: quantity-allocations-intro
