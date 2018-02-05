@@ -30251,6 +30251,37 @@ definitions:
       id: archive-a-product-output
       name: Archive a Product Output
       public: true
+  subscription-preview-price-point-id:
+    title: Subscription Preview Price Point ID
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          product_handle:
+            type: string
+          components:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                price_point_id:
+                  type: integer
+                allocated_quantity:
+                  type: integer
+    example:
+      subscription:
+        product_handle: monthly-product
+        components:
+          - component_id: 462149
+            price_point_id: 200543
+            allocated_quantity: 10
+    x-stoplight:
+      id: subscription-preview-price-point-id
+      name: Subscription Preview Price Point ID
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -31166,6 +31197,8 @@ x-stoplight:
             - _id: POST_subscriptions-preview-format
               type: endpoints
             - _id: subscriptions/subscription-preview-response
+              type: schemas
+            - _id: subscription-preview-price-point-id
               type: schemas
           divider: false
         - name: Transactions
