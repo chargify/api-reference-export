@@ -31404,7 +31404,7 @@ x-stoplight:
 
         ## Testing Guide
 
-        Chargify has compiled a testing guide that covers a list of important factors to consider while in the testing phase. Here's a high-level overiew of what's covered in our testing guide:
+        Chargify has compiled a [testing guide](https://help.chargify.com/testing/testing-intro.html) that covers a list of important factors to consider while in the testing phase. Here's a high-level overiew of what's covered in our testing guide:
 
         + Test credit card basics
         + Test site limits
@@ -31420,7 +31420,7 @@ x-stoplight:
 
         ## Support Access
 
-        Access to our Technical Specialist team for API support is currently only available to customers on our Basic ($149) plan or above given the cost of providing that level of support.
+        Access to our Technical Specialist team for API support is currently limited to purchasers of our larger Chargify support plans. 
 
         But don’t worry! There are quite a few options to help you get the answers you need:
 
