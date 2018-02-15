@@ -16235,6 +16235,8 @@ definitions:
             type: integer
           name:
             type: string
+          handle:
+            type: string
           pricing_scheme:
             type: string
           unit_name:
@@ -16481,11 +16483,23 @@ definitions:
     properties:
       metered_component:
         type: object
+        required:
+          - name
+          - unit_name
         properties:
           name:
             type: string
+            description: 'A name for this component that is suitable for showing customers and displaying on billing statements, ie. "Minutes".'
           unit_name:
             type: string
+            description: 'A name for the unit this component is measured in. Should be lower case and in singular form, i.e. "minute". We may pluralize this value when constructing reports, i.e. "20 minutes".'
+          description:
+            type: string
+            description: A description for the component that will be displayed to the user on the hosted signup page.
+          handle:
+            type: string
+            description: 'A unique identifier for your use that can be used to retrieve this component is subsequent requests.  Must start with a letter or number and may only contain lowercase letters, numbers, or the characters ''.'', '':'', ''-'', or ''_''.'
+            pattern: '\A[a-z0-9][a-z0-9\-_:.]*\z'
           taxable:
             type: boolean
           pricing_scheme:
@@ -16501,6 +16515,8 @@ definitions:
                   type: integer
                 component:
                   type: 'null'
+    required:
+      - metered_component
     example:
       metered_component:
         name: Text messages
