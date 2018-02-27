@@ -11280,74 +11280,74 @@ paths:
           examples:
             application/json:
               subscription:
-                id: 18220670
+                id: 21000969
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-06-27T13:45:15-05:00'
-                created_at: '2017-06-27T13:45:13-05:00'
-                updated_at: '2017-06-30T09:26:50-05:00'
+                activated_at: '2018-02-27T14:13:30-06:00'
+                created_at: '2018-02-27T14:13:30-06:00'
+                updated_at: '2018-02-27T14:13:30-06:00'
                 expires_at: null
-                balance_in_cents: 10000
-                current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                next_assessment_at: '2017-06-30T12:00:00-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2018-03-27T15:13:30-05:00'
+                next_assessment_at: '2018-03-27T15:13:30-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
                 payment_collection_method: automatic
-                snap_day: end
+                snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-06-27T13:45:13-05:00'
+                current_period_started_at: '2018-02-27T14:13:30-06:00'
                 previous_state: active
-                signup_payment_id: 191819284
-                signup_revenue: '0.00'
+                signup_payment_id: 228415132
+                signup_revenue: '1000.00'
                 delayed_cancel_at: null
                 coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
+                total_revenue_in_cents: 100000
+                product_price_in_cents: 100000
                 product_version_number: 1
-                payment_type: null
-                referral_code: d3pw7f
+                payment_type: credit_card
+                referral_code: kszx2g
                 coupon_use_count: null
                 coupon_uses_allowed: null
                 reason_code: null
                 automatically_resume_at: null
-                current_billing_amount_in_cents: 10000
+                coupon_codes: []
                 customer:
-                  id: 17780587
-                  first_name: Catie
+                  id: 20613561
+                  first_name: Alysa
                   last_name: Test
-                  organization: 'Acme, Inc.'
-                  email: catie@example.com
-                  created_at: '2017-06-27T13:01:05-05:00'
-                  updated_at: '2017-06-30T09:23:10-05:00'
-                  reference: 123ABC
-                  address: 123 Anywhere Street
-                  address_2: 'Apartment #10'
-                  city: Los Angeles
-                  state: CA
-                  zip: '90210'
-                  country: US
-                  phone: 555-555-5555
-                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
+                  organization: null
+                  email: alysa@example.com
+                  created_at: '2018-02-27T14:13:30-06:00'
+                  updated_at: '2018-02-27T14:13:31-06:00'
+                  reference: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2018-02-27T14:13:31-06:00'
                   portal_invite_last_accepted_at: null
-                  verified: true
-                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                  cc_emails: support@example.com
-                  tax_exempt: true
+                  verified: false
+                  portal_customer_created_at: '2018-02-27T14:13:31-06:00'
+                  cc_emails: null
+                  tax_exempt: false
                 product:
-                  id: 4470347
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
+                  id: 4581816
+                  name: Basic
+                  handle: basic
                   description: ''
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-03-23T10:54:12-05:00'
-                  updated_at: '2017-04-20T15:18:46-05:00'
-                  price_in_cents: 0
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2017-11-07T09:20:12-06:00'
+                  price_in_cents: 100000
                   interval: 1
                   interval_unit: month
                   initial_charge_in_cents: null
@@ -11355,7 +11355,7 @@ paths:
                   trial_interval: null
                   trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
@@ -11364,16 +11364,39 @@ paths:
                   version_number: 1
                   update_return_params: ''
                   product_family:
-                    id: 997233
+                    id: 1025627
                     name: Acme Products
                     description: ''
                     handle: acme-products
                     accounting_code: null
                   public_signup_pages:
-                    - id: 316810
+                    - id: 333589
                       return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
+                    - id: 335926
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
+                credit_card:
+                  id: 14345100
+                  first_name: Alysa
+                  last_name: Test
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 10
+                  expiration_year: 2020
+                  customer_id: 20613561
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: null
+                  billing_country: null
+                  customer_vault_token: null
+                  billing_address_2: null
+                  payment_type: credit_card
       security:
         - <<api_key>>: []
       x-stoplight:
