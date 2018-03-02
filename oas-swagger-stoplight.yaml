@@ -30403,6 +30403,34 @@ definitions:
       id: subscription-preview-price-points-response
       name: Subscription Preview Price Points Response
       public: true
+  update-subscription-request:
+    title: Update Subscription Request
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          next_billing_at:
+            type: string
+          product_handle:
+            type: string
+          product_id:
+            type: integer
+          expires_at:
+            type: string
+          payment_collection_method:
+            type: string
+    example:
+      subscription:
+        next_billing_at: '2010-08-06T15:34:00Z'
+        product_handle: basic
+        product_id: 123456789
+        expires_at: '2018-12-31'
+        payment_collection_method: invoice
+    x-stoplight:
+      id: update-subscription-request
+      name: Update Subscription Request
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -31191,6 +31219,8 @@ x-stoplight:
               type: schemas
             - _id: PUT_subscriptions-subscriptionidjson
               type: endpoints
+            - _id: update-subscription-request
+              type: schemas
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
             - _id: subscriptions/update-subscription-billing-day-change-request
@@ -32748,7 +32778,7 @@ x-stoplight:
 
         The product may be specified by `product_id` or by `product_handle` (API Handle).
 
-        An existing customer may be specified by a `customer_id` (ID within Chargify) or a `ustomer_reference` (unique value within your app that you have shared with Chargify via the reference attribute on a customer). A new customer may be created by providing `customer_attributes`.
+        An existing customer may be specified by a `customer_id` (ID within Chargify) or a `customer_reference` (unique value within your app that you have shared with Chargify via the reference attribute on a customer). A new customer may be created by providing `customer_attributes`.
 
         | product_handle     | The API Handle of the product for which you are creating a subscription. Required, unless a `product_id` is given instead.                                        |
         |--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -32779,6 +32809,8 @@ x-stoplight:
 
         ## Payment Profile Attributes
 
+        These attributes can be updated by sending a PUT request to the [payment profile](https://reference.chargify.com/v1/payment-profiles/update-the-payment-profile) endpoint.
+
         | payment_profile_id         | The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription. If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription, use `payment_profile_attributes` instead to create a new payment profile along with the subscription. (This value is available on an existing subscription via the API as `credit_card` > id or `bank_account` > id) |
         |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | payment_profile_attributes | (this may also be referred to as `credit_card_attributes` or `bank_account_attributes`)                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -32804,6 +32836,10 @@ x-stoplight:
         | bank_account_number        | (Required when creating a subscription with ACH) The customer’s bank account number                                                                                                                                                                                                                                                                                                                                                                                                                               |
           
         --------
+
+        ## Subscription Attributes
+
+
             
         | cancellation_message                  | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to make a note about the reason for cancellation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
         |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
