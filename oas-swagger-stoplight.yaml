@@ -13901,9 +13901,14 @@ paths:
       parameters:
         - name: status
           in: query
-          description: 'A string indicating which type of Webhooks to return, either “successful” or “failed”'
+          description: ''
           required: false
           type: string
+          enum:
+            - successful
+            - failed
+            - pending
+            - paused
         - name: since_date
           in: query
           description: Format YYYY-MM-DD. Returns Webhooks with the `created_at date` greater than or equal to the one specified.
