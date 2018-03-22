@@ -13676,7 +13676,7 @@ paths:
                   transaction_type: payment
                   success: true
                   amount_in_cents: 1000
-                  memo: 'Amelia Example - $10 Basic Plan: Renewal payment'
+                  memo: 'Pookie Test - $10 Basic Plan: Renewal payment'
                   created_at: '2016-11-17T14:03:14-05:00'
                   starting_balance_in_cents: 1000
                   ending_balance_in_cents: 0
@@ -13689,6 +13689,7 @@ paths:
                   component_id: null
                   statement_id: 80669157
                   customer_id: 14743839
+                  item_name: $10 Basic Plan
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13701,7 +13702,7 @@ paths:
                   transaction_type: payment
                   success: true
                   amount_in_cents: 2000
-                  memo: 'Abigail Example - $10 Basic Plan: Renewal payment'
+                  memo: 'Pookie Test - $10 Basic Plan: Renewal payment'
                   created_at: '2016-11-17T14:03:14-05:00'
                   starting_balance_in_cents: 2000
                   ending_balance_in_cents: 0
@@ -13714,6 +13715,7 @@ paths:
                   component_id: null
                   statement_id: 80669162
                   customer_id: 14743895
+                  item_name: $10 Basic Plan
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13781,6 +13783,7 @@ paths:
                 component_id: null
                 statement_id: 80669157
                 customer_id: 14743839
+                item_name: $10 Basic Plan
                 card_number: XXXX-XXXX-XXXX-1
                 card_expiration: 10/2020
                 card_type: bogus
@@ -15600,6 +15603,7 @@ definitions:
           component_id: null
           statement_id: 80669157
           customer_id: 14743839
+          item_name: $10 Basic Plan
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -15625,6 +15629,7 @@ definitions:
           component_id: null
           statement_id: 80669162
           customer_id: 14743895
+          item_name: $10 Basic Plan
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -23245,6 +23250,7 @@ definitions:
         component_id: null
         statement_id: 80669157
         customer_id: 14743839
+        item_name: $10 Basic Plan
         card_number: XXXX-XXXX-XXXX-1
         card_expiration: 10/2020
         card_type: bogus
@@ -31796,14 +31802,11 @@ x-stoplight:
         | gateway_transaction_id    | The transaction ID from the remote gateway (i.e. Authorize.Net), if one exists                                                                                                                                                                                                                |
         | gateway_order_id          | A gateway-specific identifier for the transaction, separate from the `gateway_transaction_id`                                                                                                                                                                                                 |
         | component_id              | ID of the component, only available in the `charge`                                                                                                                                                                                                                                           |
-
-
-
-
-        | **Gateway**        | **Value in gateway_order_id**                 |
-        |--------------------|-----------------------------------------------|
-        | BPoint             | “ReceiptNumber” from the transaction response |
-        | All other gateways | Undefined at this time                        |
+        | customer_id               | The ID of the customer                                                                                                                                                                                                                                                                        |
+        | item_name                 | The name of the product or component                                                                                                                                                                                                                                                          |
+        | **Gateway**               | **Value in gateway_order_id**                                                                                                                                                                                                                                                                 |
+        | BPoint                    | “ReceiptNumber” from the transaction response                                                                                                                                                                                                                                                 |
+        | All other gateways        | Undefined at this time                                                                                                                                                                                                                                                                        |
       public: true
     duplicate-prevention:
       id: duplicate-prevention
