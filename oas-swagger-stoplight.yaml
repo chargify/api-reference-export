@@ -8283,7 +8283,211 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/statements/list-statements-for-a-subscription-response'
+            type: array
+            items:
+              type: object
+              properties:
+                statement:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    basic_html_view:
+                      type: string
+                    closed_at:
+                      type: string
+                    created_at:
+                      type: string
+                    customer_billing_address:
+                      type: string
+                    customer_billing_address_2:
+                      type: string
+                    customer_billing_city:
+                      type: string
+                    customer_billing_country:
+                      type: string
+                    customer_billing_state:
+                      type: string
+                    customer_billing_zip:
+                      type: string
+                    customer_first_name:
+                      type: string
+                    customer_last_name:
+                      type: string
+                    customer_organization:
+                      type: string
+                    customer_shipping_address:
+                      type: string
+                    customer_shipping_address_2:
+                      type: string
+                    customer_shipping_city:
+                      type: string
+                    customer_shipping_country:
+                      type: string
+                    customer_shipping_state:
+                      type: string
+                    customer_shipping_zip:
+                      type: string
+                    ending_balance_in_cents:
+                      type: integer
+                    future_payments:
+                      type: array
+                      items:
+                        type: object
+                    html_view:
+                      type: string
+                    memo:
+                      type: string
+                    opened_at:
+                      type: string
+                    settled_at:
+                      type: string
+                    starting_balance_in_cents:
+                      type: integer
+                    subscription_id:
+                      type: integer
+                    text_view:
+                      type: string
+                    updated_at:
+                      type: string
+                    total_in_cents:
+                      type: integer
+                    transactions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          subscription_id:
+                            type: integer
+                          type:
+                            type: string
+                          kind:
+                            type:
+                              - 'null'
+                              - string
+                          transaction_type:
+                            type: string
+                          success:
+                            type: boolean
+                          amount_in_cents:
+                            type: integer
+                          memo:
+                            type: string
+                          created_at:
+                            type: string
+                          starting_balance_in_cents:
+                            type: integer
+                          ending_balance_in_cents:
+                            type: integer
+                          gateway_used:
+                            type:
+                              - 'null'
+                              - string
+                          gateway_transaction_id:
+                            type:
+                              - 'null'
+                              - string
+                          gateway_order_id:
+                            type: 'null'
+                          payment_id:
+                            type:
+                              - integer
+                              - 'null'
+                          product_id:
+                            type: integer
+                          tax_id:
+                            type: 'null'
+                          component_id:
+                            type: 'null'
+                          statement_id:
+                            type: integer
+                          customer_id:
+                            type: integer
+                          item_name:
+                            type: string
+                          original_amount_in_cents:
+                            type: 'null'
+                          discount_amount_in_cents:
+                            type: 'null'
+                          taxable_amount_in_cents:
+                            type:
+                              - integer
+                              - 'null'
+                          taxations:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                tax_id:
+                                  type: 'null'
+                                tax_charge_id:
+                                  type: integer
+                                tax_name:
+                                  type: string
+                                rate:
+                                  type: string
+                                tax_amount_in_cents:
+                                  type: integer
+                                tax_rules:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      tax_rule_id:
+                                        type: 'null'
+                                      country_code:
+                                        type: string
+                                      subdivision_code:
+                                        type: string
+                                      rate:
+                                        type: string
+                                      tax_amount_in_cents:
+                                        type: integer
+                                      description:
+                                        type: string
+                          card_number:
+                            type: string
+                          card_expiration:
+                            type: string
+                          card_type:
+                            type: string
+                          refunded_amount_in_cents:
+                            type: integer
+                    events:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          event:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              key:
+                                type: string
+                              message:
+                                type: string
+                              subscription_id:
+                                type: integer
+                              created_at:
+                                type: string
+                              event_specific_data:
+                                type:
+                                  - 'null'
+                                  - object
+                                properties:
+                                  product_id:
+                                    type: integer
+                                  account_transaction_id:
+                                    type:
+                                      - integer
+                                      - 'null'
+                                  previous_subscription_state:
+                                    type: string
+                                  new_subscription_state:
+                                    type: string
           examples:
             application/json:
               - statement:
@@ -8750,6 +8954,7 @@ paths:
                       component_id: null
                       statement_id: 79221109
                       customer_id: 14399371
+                      item_name: Trial Price
                       original_amount_in_cents: null
                       discount_amount_in_cents: null
                       taxable_amount_in_cents: null
@@ -9459,7 +9664,211 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/statements/list-statements-for-a-site'
+            type: array
+            items:
+              type: object
+              properties:
+                statement:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    basic_html_view:
+                      type: string
+                    closed_at:
+                      type: string
+                    created_at:
+                      type: string
+                    customer_billing_address:
+                      type: string
+                    customer_billing_address_2:
+                      type: string
+                    customer_billing_city:
+                      type: string
+                    customer_billing_country:
+                      type: string
+                    customer_billing_state:
+                      type: string
+                    customer_billing_zip:
+                      type: string
+                    customer_first_name:
+                      type: string
+                    customer_last_name:
+                      type: string
+                    customer_organization:
+                      type: string
+                    customer_shipping_address:
+                      type: string
+                    customer_shipping_address_2:
+                      type: string
+                    customer_shipping_city:
+                      type: string
+                    customer_shipping_country:
+                      type: string
+                    customer_shipping_state:
+                      type: string
+                    customer_shipping_zip:
+                      type: string
+                    ending_balance_in_cents:
+                      type: integer
+                    future_payments:
+                      type: array
+                      items:
+                        type: object
+                    html_view:
+                      type: string
+                    memo:
+                      type: string
+                    opened_at:
+                      type: string
+                    settled_at:
+                      type: string
+                    starting_balance_in_cents:
+                      type: integer
+                    subscription_id:
+                      type: integer
+                    text_view:
+                      type: string
+                    updated_at:
+                      type: string
+                    total_in_cents:
+                      type: integer
+                    transactions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          subscription_id:
+                            type: integer
+                          type:
+                            type: string
+                          kind:
+                            type:
+                              - 'null'
+                              - string
+                          transaction_type:
+                            type: string
+                          success:
+                            type: boolean
+                          amount_in_cents:
+                            type: integer
+                          memo:
+                            type: string
+                          created_at:
+                            type: string
+                          starting_balance_in_cents:
+                            type: integer
+                          ending_balance_in_cents:
+                            type: integer
+                          gateway_used:
+                            type:
+                              - 'null'
+                              - string
+                          gateway_transaction_id:
+                            type:
+                              - 'null'
+                              - string
+                          gateway_order_id:
+                            type: 'null'
+                          payment_id:
+                            type:
+                              - integer
+                              - 'null'
+                          product_id:
+                            type: integer
+                          tax_id:
+                            type: 'null'
+                          component_id:
+                            type: 'null'
+                          statement_id:
+                            type: integer
+                          customer_id:
+                            type: integer
+                          item_name:
+                            type: string
+                          original_amount_in_cents:
+                            type: 'null'
+                          discount_amount_in_cents:
+                            type: 'null'
+                          taxable_amount_in_cents:
+                            type:
+                              - integer
+                              - 'null'
+                          taxations:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                tax_id:
+                                  type: 'null'
+                                tax_charge_id:
+                                  type: integer
+                                tax_name:
+                                  type: string
+                                rate:
+                                  type: string
+                                tax_amount_in_cents:
+                                  type: integer
+                                tax_rules:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      tax_rule_id:
+                                        type: 'null'
+                                      country_code:
+                                        type: string
+                                      subdivision_code:
+                                        type: string
+                                      rate:
+                                        type: string
+                                      tax_amount_in_cents:
+                                        type: integer
+                                      description:
+                                        type: string
+                          card_number:
+                            type: string
+                          card_expiration:
+                            type: string
+                          card_type:
+                            type: string
+                          refunded_amount_in_cents:
+                            type: integer
+                    events:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          event:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              key:
+                                type: string
+                              message:
+                                type: string
+                              subscription_id:
+                                type: integer
+                              created_at:
+                                type: string
+                              event_specific_data:
+                                type:
+                                  - 'null'
+                                  - object
+                                properties:
+                                  product_id:
+                                    type: integer
+                                  account_transaction_id:
+                                    type:
+                                      - integer
+                                      - 'null'
+                                  previous_subscription_state:
+                                    type: string
+                                  new_subscription_state:
+                                    type: string
           examples:
             application/json:
               - statement:
@@ -9926,6 +10335,7 @@ paths:
                       component_id: null
                       statement_id: 79221109
                       customer_id: 14399371
+                      item_name: Trial Price
                       original_amount_in_cents: null
                       discount_amount_in_cents: null
                       taxable_amount_in_cents: null
@@ -11107,6 +11517,7 @@ paths:
                     component_id: null
                     statement_id: 79221109
                     customer_id: 14399371
+                    item_name: Trial Price
                     original_amount_in_cents: null
                     discount_amount_in_cents: null
                     taxable_amount_in_cents: null
@@ -13665,7 +14076,65 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions//transations/list-transaction-site-response'
+            type: array
+            items:
+              type: object
+              properties:
+                transaction:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    subscription_id:
+                      type: integer
+                    type:
+                      type: string
+                    kind:
+                      type: 'null'
+                    transaction_type:
+                      type: string
+                    success:
+                      type: boolean
+                    amount_in_cents:
+                      type: integer
+                    memo:
+                      type: string
+                    created_at:
+                      type: string
+                    starting_balance_in_cents:
+                      type: integer
+                    ending_balance_in_cents:
+                      type: integer
+                    gateway_used:
+                      type: string
+                    gateway_transaction_id:
+                      type: string
+                    gateway_order_id:
+                      type: 'null'
+                    payment_id:
+                      type: 'null'
+                    product_id:
+                      type: integer
+                    tax_id:
+                      type: 'null'
+                    component_id:
+                      type: 'null'
+                    statement_id:
+                      type: integer
+                    customer_id:
+                      type: integer
+                    '':
+                      type:
+                        - 'null'
+                        - string
+                    card_number:
+                      type: string
+                    card_expiration:
+                      type: string
+                    card_type:
+                      type: string
+                    refunded_amount_in_cents:
+                      type: integer
           examples:
             application/json:
               - transaction:
@@ -13689,7 +14158,7 @@ paths:
                   component_id: null
                   statement_id: 80669157
                   customer_id: 14743839
-                  item_name: $10 Basic Plan
+                  item_name: null
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13715,7 +14184,7 @@ paths:
                   component_id: null
                   statement_id: 80669162
                   customer_id: 14743895
-                  item_name: $10 Basic Plan
+                  item_name: null
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13835,7 +14304,83 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/transactions/list-transactions-subscription-response'
+            type: array
+            items:
+              type: object
+              properties:
+                transaction:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    subscription_id:
+                      type: integer
+                    type:
+                      type: string
+                    kind:
+                      type:
+                        - 'null'
+                        - string
+                    transaction_type:
+                      type: string
+                    success:
+                      type: boolean
+                    amount_in_cents:
+                      type: integer
+                    memo:
+                      type: string
+                    created_at:
+                      type: string
+                    starting_balance_in_cents:
+                      type: integer
+                    ending_balance_in_cents:
+                      type: integer
+                    gateway_used:
+                      type:
+                        - 'null'
+                        - string
+                    gateway_transaction_id:
+                      type:
+                        - 'null'
+                        - string
+                    gateway_order_id:
+                      type: 'null'
+                    payment_id:
+                      type:
+                        - integer
+                        - 'null'
+                    product_id:
+                      type: integer
+                    tax_id:
+                      type: 'null'
+                    component_id:
+                      type: 'null'
+                    statement_id:
+                      type: integer
+                    customer_id:
+                      type: integer
+                    item_name:
+                      type:
+                        - 'null'
+                        - string
+                    card_number:
+                      type: string
+                    card_expiration:
+                      type: string
+                    card_type:
+                      type: string
+                    refunded_amount_in_cents:
+                      type: integer
+                    original_amount_in_cents:
+                      type: 'null'
+                    discount_amount_in_cents:
+                      type: 'null'
+                    taxable_amount_in_cents:
+                      type: 'null'
+                    taxations:
+                      type: array
+                      items:
+                        type: object
           examples:
             application/json:
               - transaction:
@@ -13859,6 +14404,7 @@ paths:
                   component_id: null
                   statement_id: 80669157
                   customer_id: 14743839
+                  item_name: null
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13884,6 +14430,7 @@ paths:
                   component_id: null
                   statement_id: 80669157
                   customer_id: 14743839
+                  item_name: $10 Basic Plan
                   original_amount_in_cents: null
                   discount_amount_in_cents: null
                   taxable_amount_in_cents: null
@@ -13909,6 +14456,7 @@ paths:
                   component_id: null
                   statement_id: 80612887
                   customer_id: 14743839
+                  item_name: null
                   card_number: XXXX-XXXX-XXXX-1
                   card_expiration: 10/2020
                   card_type: bogus
@@ -13934,6 +14482,7 @@ paths:
                   component_id: null
                   statement_id: 80612887
                   customer_id: 14743839
+                  item_name: $10 Basic Plan
                   original_amount_in_cents: null
                   discount_amount_in_cents: null
                   taxable_amount_in_cents: null
@@ -14300,6 +14849,19 @@ parameters:
     in: query
     description: 'The current state of the subscription. '
     type: string
+    enum:
+      - active
+      - canceled
+      - expired
+      - expired_cards
+      - on_hold
+      - past_due
+      - pending_cancellation
+      - pending_renewal
+      - suspended
+      - trial_ended
+      - trialing
+      - unpaid
   'trait:subscriptionQueryString:product':
     name: product
     in: query
@@ -15041,6 +15603,10 @@ definitions:
               type: integer
             customer_id:
               type: integer
+            item_name:
+              type:
+                - 'null'
+                - string
             card_number:
               type: string
             card_expiration:
@@ -15081,6 +15647,7 @@ definitions:
           component_id: null
           statement_id: 80669157
           customer_id: 14743839
+          item_name: null
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -15106,6 +15673,7 @@ definitions:
           component_id: null
           statement_id: 80669157
           customer_id: 14743839
+          item_name: $10 Basic Plan
           original_amount_in_cents: null
           discount_amount_in_cents: null
           taxable_amount_in_cents: null
@@ -15131,6 +15699,7 @@ definitions:
           component_id: null
           statement_id: 80612887
           customer_id: 14743839
+          item_name: null
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -15156,6 +15725,7 @@ definitions:
           component_id: null
           statement_id: 80612887
           customer_id: 14743839
+          item_name: $10 Basic Plan
           original_amount_in_cents: null
           discount_amount_in_cents: null
           taxable_amount_in_cents: null
@@ -15573,6 +16143,10 @@ definitions:
               type: integer
             customer_id:
               type: integer
+            '':
+              type:
+                - 'null'
+                - string
             card_number:
               type: string
             card_expiration:
@@ -15603,7 +16177,7 @@ definitions:
           component_id: null
           statement_id: 80669157
           customer_id: 14743839
-          item_name: $10 Basic Plan
+          item_name: null
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -15629,7 +16203,7 @@ definitions:
           component_id: null
           statement_id: 80669162
           customer_id: 14743895
-          item_name: $10 Basic Plan
+          item_name: null
           card_number: XXXX-XXXX-XXXX-1
           card_expiration: 10/2020
           card_type: bogus
@@ -19845,6 +20419,8 @@ definitions:
                     type: integer
                   customer_id:
                     type: integer
+                  item_name:
+                    type: string
                   original_amount_in_cents:
                     type: 'null'
                   discount_amount_in_cents:
@@ -20391,6 +20967,7 @@ definitions:
               component_id: null
               statement_id: 79221109
               customer_id: 14399371
+              item_name: Trial Price
               original_amount_in_cents: null
               discount_amount_in_cents: null
               taxable_amount_in_cents: null
@@ -21186,6 +21763,8 @@ definitions:
                   type: integer
                 customer_id:
                   type: integer
+                item_name:
+                  type: string
                 original_amount_in_cents:
                   type: 'null'
                 discount_amount_in_cents:
@@ -21686,6 +22265,7 @@ definitions:
             component_id: null
             statement_id: 79221109
             customer_id: 14399371
+            item_name: Trial Price
             original_amount_in_cents: null
             discount_amount_in_cents: null
             taxable_amount_in_cents: null
@@ -26163,6 +26743,8 @@ definitions:
           properties:
             id:
               type: integer
+            basic_html_view:
+              type: string
             closed_at:
               type: string
             created_at:
@@ -26203,6 +26785,8 @@ definitions:
               type: array
               items:
                 type: object
+            html_view:
+              type: string
             memo:
               type: string
             opened_at:
@@ -26213,6 +26797,8 @@ definitions:
               type: integer
             subscription_id:
               type: integer
+            text_view:
+              type: string
             updated_at:
               type: string
             total_in_cents:
@@ -26270,6 +26856,8 @@ definitions:
                     type: integer
                   customer_id:
                     type: integer
+                  item_name:
+                    type: string
                   original_amount_in_cents:
                     type: 'null'
                   discount_amount_in_cents:
@@ -26816,6 +27404,7 @@ definitions:
               component_id: null
               statement_id: 79221109
               customer_id: 14399371
+              item_name: Trial Price
               original_amount_in_cents: null
               discount_amount_in_cents: null
               taxable_amount_in_cents: null
