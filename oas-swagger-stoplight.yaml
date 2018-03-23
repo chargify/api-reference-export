@@ -14123,7 +14123,7 @@ paths:
                       type: integer
                     customer_id:
                       type: integer
-                    '':
+                    item_name:
                       type:
                         - 'null'
                         - string
@@ -14228,7 +14228,63 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/transactions/list-transaction-by-id-response'
+            type: object
+            properties:
+              transaction:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  subscription_id:
+                    type: integer
+                  type:
+                    type: string
+                  kind:
+                    type: 'null'
+                  transaction_type:
+                    type: string
+                  success:
+                    type: boolean
+                  amount_in_cents:
+                    type: integer
+                  memo:
+                    type: string
+                  created_at:
+                    type: string
+                  starting_balance_in_cents:
+                    type: integer
+                  ending_balance_in_cents:
+                    type: integer
+                  gateway_used:
+                    type: string
+                  gateway_transaction_id:
+                    type: string
+                  gateway_order_id:
+                    type: 'null'
+                  payment_id:
+                    type: 'null'
+                  product_id:
+                    type: integer
+                  tax_id:
+                    type: 'null'
+                  component_id:
+                    type: 'null'
+                  statement_id:
+                    type: integer
+                  customer_id:
+                    type: integer
+                  item_name:
+                    type:
+                      - 'null'
+                      - string
+                  card_number:
+                    type: string
+                  card_expiration:
+                    type: string
+                  card_type:
+                    type: string
+                  refunded_amount_in_cents:
+                    type: integer
           examples:
             application/json:
               transaction:
@@ -16143,7 +16199,7 @@ definitions:
               type: integer
             customer_id:
               type: integer
-            '':
+            item_name:
               type:
                 - 'null'
                 - string
@@ -23800,6 +23856,10 @@ definitions:
             type: integer
           customer_id:
             type: integer
+          item_name:
+            type:
+              - string
+              - 'null'
           card_number:
             type: string
           card_expiration:
