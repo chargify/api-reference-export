@@ -7608,9 +7608,7 @@ paths:
       description: |-
         ## Renewal Preview
 
-        The Chargify API allows you to preview a renewal by posting JSON or XML that includes:
-
-        + `subscription_id`: Integer, the id for the subscription that is to be previewed.
+        The Chargify API allows you to preview a renewal by posting to the renewals endpoint. 
 
 
         ## Renewal Output Fields
