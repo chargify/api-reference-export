@@ -595,7 +595,7 @@ paths:
       description: |-
         ## Create a Component with Price Points
 
-        This endpoint will allow you to create a componenent within Chargify that has multiple endpoints.
+        This endpoint will allow you to create a componenent within Chargify that has multiple price points.
 
         ## Component Documentation
 
