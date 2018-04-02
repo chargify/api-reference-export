@@ -5896,6 +5896,8 @@ paths:
 
         This method will create a payment profile for the `customer_id` identified in the `payment_profile` object. The `customer_id` is required for creating payment profiles in order to attach it to the proper object.
 
+        You must include a `customer_id` so that Chargify will attach it to the customer entry. If no `customer_id` is included the API will return a `404`.
+
         ## Create a Payment Profile for ACH usage
 
         If you would like to create a payment method that is a Bank Account applicable for ACH payments use the following:
@@ -6004,6 +6006,8 @@ paths:
                 customer_vault_token: null
                 billing_address_2: null
                 payment_type: credit_card
+        '404':
+          description: ''
       security:
         - <<api_key>>: []
       x-stoplight:
