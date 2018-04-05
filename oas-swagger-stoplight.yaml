@@ -13929,6 +13929,8 @@ paths:
                   end_date: '2018-04-05T19:36:55Z'
                   period_type: recurring
                   existing_balance_in_cents: 0
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptions-previewjson
         beforeScript: null
