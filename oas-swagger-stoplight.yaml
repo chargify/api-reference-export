@@ -13392,6 +13392,19 @@ paths:
                       return_url: ''
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - This subscription is not eligible to be put on hold.
       security:
         - <<api_key>>: []
       x-stoplight:
