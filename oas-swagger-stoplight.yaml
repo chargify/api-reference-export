@@ -2881,6 +2881,7 @@ paths:
                   csv: '0'
                   invoices: '1'
                   statements: '1'
+                  portal: '0'
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:name'
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:current_name'
       responses:
@@ -2987,8 +2988,17 @@ paths:
             $ref: '#/definitions/metafields/update-metafields-input'
             example:
               metafields:
-                current_name: Pant Style
-                name: Style
+                current_name: shirt
+                name: new-shirt
+                scope:
+                  hosted:
+                    - '1'
+                    - '1'
+                    - '1'
+                  csv: '1'
+                  invoices: '1'
+                  statements: '1'
+                  portal: '0'
         - $ref: '#/parameters/trait:metafieldsNameRequired:name'
       responses:
         '200':
@@ -18308,6 +18318,8 @@ definitions:
                 type: string
               statements:
                 type: string
+              portal:
+                type: string
     example:
       metafields:
         name: Color
@@ -18319,6 +18331,7 @@ definitions:
           csv: '0'
           invoices: '1'
           statements: '1'
+          portal: '0'
     x-stoplight:
       id: metafields/create-metafields-input
       name: Create Metafields Input
@@ -18334,10 +18347,32 @@ definitions:
             type: string
           name:
             type: string
+          scope:
+            type: object
+            properties:
+              hosted:
+                type: array
+                items:
+                  type: string
+              csv:
+                type: string
+              invoices:
+                type: string
+              statements:
+                type: string
     example:
       metafields:
-        current_name: Pant Style
-        name: Style
+        current_name: shirt
+        name: new-shirt
+        scope:
+          hosted:
+            - '1'
+            - '1'
+            - '1'
+          csv: '1'
+          invoices: '1'
+          statements: '1'
+          portal: '0'
     x-stoplight:
       id: metafields/update-metafields-input
       name: Update Metafields Input
