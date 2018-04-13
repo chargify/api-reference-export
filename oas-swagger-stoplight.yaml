@@ -2841,8 +2841,8 @@ paths:
         required: true
         type: string
         enum:
-          - subscription
-          - customer
+          - subscriptions
+          - customers
     post:
       operationId: POST_resource-metafields-json
       summary: Create Metafields
@@ -2870,6 +2870,17 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/metadata/create-metadata-input'
+            example:
+              metafields:
+                name: Color
+                scope:
+                  hosted:
+                    - '1'
+                    - '2'
+                    - '3'
+                  csv: '0'
+                  invoices: '1'
+                  statements: '1'
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:name'
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:current_name'
       responses:
@@ -2877,6 +2888,28 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/metafields/create-metafields-output'
+          examples:
+            application/json:
+              - name: Color
+                scope:
+                  hosted: []
+                  csv: '0'
+                  statements: '0'
+                  invoices: '0'
+                  portal: '0'
+                data_count: 0
+                input_type: text
+                enum: null
+              - name: Brand
+                scope:
+                  hosted: []
+                  csv: '0'
+                  statements: '0'
+                  invoices: '0'
+                  portal: '0'
+                data_count: 0
+                input_type: text
+                enum: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -2948,11 +2981,32 @@ paths:
 
         Use the following method to update metafields for your Site. Metafields can be populated with metadata after the fact.
       parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/metafields/update-metafields-input'
+            example:
+              metafields:
+                current_name: Pant Style
+                name: Style
         - $ref: '#/parameters/trait:metafieldsNameRequired:name'
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/metafields/update-metafields-output'
+          examples:
+            application/json:
+              - name: Shirts
+                scope:
+                  hosted: []
+                  csv: '0'
+                  statements: '0'
+                  invoices: '0'
+                  portal: '0'
+                data_count: 0
+                input_type: text
+                enum: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -31445,6 +31499,8 @@ x-stoplight:
               _id: metafieldsNameOptional
             - type: traits
               _id: metafieldsNameRequired
+            - _id: metafieldResource
+              type: traits
           divider: false
         - divider: false
           items:
