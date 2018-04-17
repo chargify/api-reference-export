@@ -14068,63 +14068,7 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                transaction:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    subscription_id:
-                      type: integer
-                    type:
-                      type: string
-                    kind:
-                      type: 'null'
-                    transaction_type:
-                      type: string
-                    success:
-                      type: boolean
-                    amount_in_cents:
-                      type: integer
-                    memo:
-                      type: string
-                    created_at:
-                      type: string
-                    starting_balance_in_cents:
-                      type: integer
-                    ending_balance_in_cents:
-                      type: integer
-                    gateway_used:
-                      type: string
-                    gateway_transaction_id:
-                      type: string
-                    gateway_order_id:
-                      type: 'null'
-                    payment_id:
-                      type: 'null'
-                    product_id:
-                      type: integer
-                    tax_id:
-                      type: 'null'
-                    component_id:
-                      type: 'null'
-                    statement_id:
-                      type: integer
-                    customer_id:
-                      type: integer
-                    item_name:
-                      type:
-                        - 'null'
-                        - string
-                    card_number:
-                      type: string
-                    card_expiration:
-                      type: string
-                    card_type:
-                      type: string
-                    refunded_amount_in_cents:
-                      type: integer
+              $ref: '#/definitions/transactions/transaction-response'
           examples:
             application/json:
               - transaction:
@@ -14218,63 +14162,7 @@ paths:
         '200':
           description: OK
           schema:
-            type: object
-            properties:
-              transaction:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  subscription_id:
-                    type: integer
-                  type:
-                    type: string
-                  kind:
-                    type: 'null'
-                  transaction_type:
-                    type: string
-                  success:
-                    type: boolean
-                  amount_in_cents:
-                    type: integer
-                  memo:
-                    type: string
-                  created_at:
-                    type: string
-                  starting_balance_in_cents:
-                    type: integer
-                  ending_balance_in_cents:
-                    type: integer
-                  gateway_used:
-                    type: string
-                  gateway_transaction_id:
-                    type: string
-                  gateway_order_id:
-                    type: 'null'
-                  payment_id:
-                    type: 'null'
-                  product_id:
-                    type: integer
-                  tax_id:
-                    type: 'null'
-                  component_id:
-                    type: 'null'
-                  statement_id:
-                    type: integer
-                  customer_id:
-                    type: integer
-                  item_name:
-                    type:
-                      - 'null'
-                      - string
-                  card_number:
-                    type: string
-                  card_expiration:
-                    type: string
-                  card_type:
-                    type: string
-                  refunded_amount_in_cents:
-                    type: integer
+            $ref: '#/definitions/transactions/transaction-response'
           examples:
             application/json:
               transaction:
@@ -14352,81 +14240,7 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                transaction:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    subscription_id:
-                      type: integer
-                    type:
-                      type: string
-                    kind:
-                      type:
-                        - 'null'
-                        - string
-                    transaction_type:
-                      type: string
-                    success:
-                      type: boolean
-                    amount_in_cents:
-                      type: integer
-                    memo:
-                      type: string
-                    created_at:
-                      type: string
-                    starting_balance_in_cents:
-                      type: integer
-                    ending_balance_in_cents:
-                      type: integer
-                    gateway_used:
-                      type:
-                        - 'null'
-                        - string
-                    gateway_transaction_id:
-                      type:
-                        - 'null'
-                        - string
-                    gateway_order_id:
-                      type: 'null'
-                    payment_id:
-                      type:
-                        - integer
-                        - 'null'
-                    product_id:
-                      type: integer
-                    tax_id:
-                      type: 'null'
-                    component_id:
-                      type: 'null'
-                    statement_id:
-                      type: integer
-                    customer_id:
-                      type: integer
-                    item_name:
-                      type:
-                        - 'null'
-                        - string
-                    card_number:
-                      type: string
-                    card_expiration:
-                      type: string
-                    card_type:
-                      type: string
-                    refunded_amount_in_cents:
-                      type: integer
-                    original_amount_in_cents:
-                      type: 'null'
-                    discount_amount_in_cents:
-                      type: 'null'
-                    taxable_amount_in_cents:
-                      type: 'null'
-                    taxations:
-                      type: array
-                      items:
-                        type: object
+              $ref: '#/definitions/transactions/transaction-response'
           examples:
             application/json:
               - transaction:
@@ -14477,8 +14291,8 @@ paths:
                   statement_id: 80669157
                   customer_id: 14743839
                   item_name: $10 Basic Plan
-                  original_amount_in_cents: null
-                  discount_amount_in_cents: null
+                  original_amount_in_cents: 1000
+                  discount_amount_in_cents: 0
                   taxable_amount_in_cents: null
                   taxations: []
               - transaction:
@@ -14529,8 +14343,8 @@ paths:
                   statement_id: 80612887
                   customer_id: 14743839
                   item_name: $10 Basic Plan
-                  original_amount_in_cents: null
-                  discount_amount_in_cents: null
+                  original_amount_in_cents: 1000
+                  discount_amount_in_cents: 0
                   taxable_amount_in_cents: null
                   taxations: []
         '404':
@@ -15592,120 +15406,6 @@ definitions:
       id: coupons/create-coupon-output
       name: Create Coupon Output
       public: true
-  transactions/list-transactions-subscription-response:
-    title: Read Transactions for a Subscription Response
-    type: array
-    items:
-      $ref: '#/definitions/transactions/list-transaction-by-id-response'
-    example:
-      - transaction:
-          id: 162640678
-          subscription_id: 15268262
-          type: Payment
-          kind: null
-          transaction_type: payment
-          success: true
-          amount_in_cents: 1000
-          memo: 'Amelia Example - $10 Basic Plan: Renewal payment'
-          created_at: '2016-11-17T14:03:14-05:00'
-          starting_balance_in_cents: 1000
-          ending_balance_in_cents: 0
-          gateway_used: bogus
-          gateway_transaction_id: '53433'
-          gateway_order_id: null
-          payment_id: null
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80669157
-          customer_id: 14743839
-          item_name: null
-          card_number: XXXX-XXXX-XXXX-1
-          card_expiration: 10/2020
-          card_type: bogus
-          refunded_amount_in_cents: 0
-      - transaction:
-          id: 162640663
-          subscription_id: 15268262
-          type: Charge
-          kind: baseline
-          transaction_type: charge
-          success: true
-          amount_in_cents: 1000
-          memo: $10 Basic Plan (11/17/2016 - 11/18/2016)
-          created_at: '2016-11-17T14:03:13-05:00'
-          starting_balance_in_cents: 0
-          ending_balance_in_cents: 1000
-          gateway_used: null
-          gateway_transaction_id: null
-          gateway_order_id: null
-          payment_id: 162640678
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80669157
-          customer_id: 14743839
-          item_name: $10 Basic Plan
-          original_amount_in_cents: 1000
-          discount_amount_in_cents: 0
-          taxable_amount_in_cents: null
-          taxations: []
-      - transaction:
-          id: 162520504
-          subscription_id: 15268262
-          type: Payment
-          kind: null
-          transaction_type: payment
-          success: true
-          amount_in_cents: 1000
-          memo: 'Amelia Example - $10 Basic Plan: Signup payment'
-          created_at: '2016-11-16T13:47:44-05:00'
-          starting_balance_in_cents: 1000
-          ending_balance_in_cents: 0
-          gateway_used: bogus
-          gateway_transaction_id: '53433'
-          gateway_order_id: null
-          payment_id: null
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80612887
-          customer_id: 14743839
-          item_name: null
-          card_number: XXXX-XXXX-XXXX-1
-          card_expiration: 10/2020
-          card_type: bogus
-          refunded_amount_in_cents: 0
-      - transaction:
-          id: 162520501
-          subscription_id: 15268262
-          type: Charge
-          kind: baseline
-          transaction_type: charge
-          success: true
-          amount_in_cents: 1000
-          memo: $10 Basic Plan (11/16/2016 - 11/17/2016)
-          created_at: '2016-11-16T13:47:43-05:00'
-          starting_balance_in_cents: 0
-          ending_balance_in_cents: 1000
-          gateway_used: null
-          gateway_transaction_id: null
-          gateway_order_id: null
-          payment_id: 162520504
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80612887
-          customer_id: 14743839
-          item_name: $10 Basic Plan
-          original_amount_in_cents: 1000
-          discount_amount_in_cents: 0
-          taxable_amount_in_cents: null
-          taxations: []
-    x-stoplight:
-      id: transactions/list-transactions-subscription-response
-      name: Read Transactions for a Subscription Response
-      public: true
   allocation/create-request-post:
     title: Allocation Create Request POST
     type: object
@@ -16065,68 +15765,6 @@ definitions:
     x-stoplight:
       id: allocation/read_allocations_subscription
       name: Allocation Response GET
-      public: true
-  /transations/list-transaction-site-response:
-    title: Read Transactions for a Site Response
-    type: array
-    items:
-      $ref: '#/definitions/transactions/list-transaction-by-id-response'
-    example:
-      - transaction:
-          id: 162640678
-          subscription_id: 15268262
-          type: Payment
-          kind: null
-          transaction_type: payment
-          success: true
-          amount_in_cents: 1000
-          memo: 'Pookie Test - $10 Basic Plan: Renewal payment'
-          created_at: '2016-11-17T14:03:14-05:00'
-          starting_balance_in_cents: 1000
-          ending_balance_in_cents: 0
-          gateway_used: bogus
-          gateway_transaction_id: '53433'
-          gateway_order_id: null
-          payment_id: null
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80669157
-          customer_id: 14743839
-          item_name: null
-          card_number: XXXX-XXXX-XXXX-1
-          card_expiration: 10/2020
-          card_type: bogus
-          refunded_amount_in_cents: 0
-      - transaction:
-          id: 162640676
-          subscription_id: 15268319
-          type: Payment
-          kind: null
-          transaction_type: payment
-          success: true
-          amount_in_cents: 2000
-          memo: 'Pookie Test - $10 Basic Plan: Renewal payment'
-          created_at: '2016-11-17T14:03:14-05:00'
-          starting_balance_in_cents: 2000
-          ending_balance_in_cents: 0
-          gateway_used: bogus
-          gateway_transaction_id: '53433'
-          gateway_order_id: null
-          payment_id: null
-          product_id: 3792003
-          tax_id: null
-          component_id: null
-          statement_id: 80669162
-          customer_id: 14743895
-          item_name: null
-          card_number: XXXX-XXXX-XXXX-1
-          card_expiration: 10/2020
-          card_type: bogus
-          refunded_amount_in_cents: 0
-    x-stoplight:
-      id: /transations/list-transaction-site-response
-      name: Read Transactions for a Site Response
       public: true
   count-transactions:
     title: Read the Count of Transactions for a Site Output
@@ -24154,8 +23792,8 @@ definitions:
       id: subscriptions/subscription-preview-response
       name: Subscription Preview Response
       public: true
-  transactions/list-transaction-by-id-response:
-    title: Read Transaction by ID Response
+  transactions/transaction-response:
+    title: Transaction Response
     type: object
     properties:
       transaction:
@@ -24258,6 +23896,45 @@ definitions:
               - integer
               - 'null'
             description: 'Only present for Charge or Credit types.  Returns `null` if the charge or credit was not taxable.  If the charge or credit was taxable, returns the taxable amount, which is the amount after any discounts i.e. `original_amount_in_cents - discount_amount_in_cents`'
+          taxations:
+            type: array
+            description: 'Only present on Charge and Credit types.  An array of detailed taxation data for the charge, one element per tax that gets applied.'
+            items:
+              type: object
+              properties:
+                tax_id:
+                  type: integer
+                  description: The ID of the tax represented in the taxation.
+                tax_charge_id:
+                  type: integer
+                  description: The ID of another charge that represents the amount charged in this taxation.
+                tax_name:
+                  type: string
+                  description: The name of the tax applied.
+                rate:
+                  type: string
+                  description: 'The tax rate, when applied, as a string representing a decimal number.  e.g. "0.05" would represent a 5% tax.'
+                tax_amount_in_cents:
+                  type: integer
+                  description: The amount of tax from the tax identified by `tax_id` on this charge.
+                tax_rules:
+                  type: array
+                  description: A single Chargify tax can have many tax rules.  This array enumerates all of the rules (scoped to the single tax) that applied to this charge.
+                  items:
+                    type: object
+                    properties:
+                      tax_rule_id:
+                        type: integer
+                      country_code:
+                        type: string
+                      subdivision_code:
+                        type: string
+                      rate:
+                        type: string
+                      tax_amount_in_cents:
+                        type: integer
+                      description:
+                        type: string
     example:
       transaction:
         id: 162640678
@@ -24286,8 +23963,8 @@ definitions:
         card_type: bogus
         refunded_amount_in_cents: 0
     x-stoplight:
-      id: transactions/list-transaction-by-id-response
-      name: Read Transaction by ID Response
+      id: transactions/transaction-response
+      name: Transaction Response
       public: true
   coupons/create-coupon-input:
     title: Create Coupon Input
@@ -32068,16 +31745,12 @@ x-stoplight:
               type: docTextSections
             - _id: GET_transactions-format
               type: endpoints
-            - _id: /transations/list-transaction-site-response
-              type: schemas
             - _id: GET_transaction_id-format
               type: endpoints
-            - _id: transactions/list-transaction-by-id-response
+            - _id: transactions/transaction-response
               type: schemas
             - _id: GET_subscriptions-subscription_id-transactions-format
               type: endpoints
-            - _id: transactions/list-transactions-subscription-response
-              type: schemas
             - _id: GET_transactions_count-format
               type: endpoints
             - _id: count-transactions
