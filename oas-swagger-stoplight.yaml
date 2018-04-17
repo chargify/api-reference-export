@@ -16201,6 +16201,16 @@ definitions:
               type: string
             refunded_amount_in_cents:
               type: integer
+            parent_id:
+              type:
+                - integer
+                - 'null'
+              description: '(Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment from which this one derived.'
+            role:
+              type:
+                - string
+                - 'null'
+              description: '(Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
     example:
       - transaction:
           id: 162640678
@@ -24298,7 +24308,9 @@ definitions:
           type:
             type: string
           kind:
-            type: 'null'
+            type:
+              - 'null'
+              - string
           transaction_type:
             type: string
           success:
@@ -24318,23 +24330,41 @@ definitions:
           gateway_transaction_id:
             type: string
           gateway_order_id:
-            type: 'null'
+            type:
+              - 'null'
+              - string
           payment_id:
-            type: 'null'
+            type:
+              - 'null'
+              - integer
           product_id:
             type: integer
           tax_id:
-            type: 'null'
+            type:
+              - 'null'
+              - integer
           component_id:
-            type: 'null'
+            type:
+              - 'null'
+              - integer
           statement_id:
             type: integer
           customer_id:
             type: integer
           item_name:
             type:
+              - 'null'
+              - string
+          parent_id:
+            type:
+              - integer
+              - 'null'
+            description: '(Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment (by ID) from which this one derived.'
+          role:
+            type:
               - string
               - 'null'
+            description: '(Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
           card_number:
             type: string
           card_expiration:
@@ -32559,6 +32589,8 @@ x-stoplight:
         | component_id              | ID of the component, only available in the `charge`                                                                                                                                                                                                                                           |
         | customer_id               | The ID of the customer                                                                                                                                                                                                                                                                        |
         | item_name                 | The name of the product or component                                                                                                                                                                                                                                                          |
+        | parent_id                 | (Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment from which this one derived. |
+        | role                 | (Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied.  Valid values are currently reserved for invoicing and consolidated invoicing: `invoice_payment`, `consolidated_invoice_payment`, `invoice_segment_payment`, `payment_split` |
         | **Gateway**               | **Value in gateway_order_id**                                                                                                                                                                                                                                                                 |
         | BPoint                    | “ReceiptNumber” from the transaction response                                                                                                                                                                                                                                                 |
         | All other gateways        | Undefined at this time                                                                                                                                                                                                                                                                        |
