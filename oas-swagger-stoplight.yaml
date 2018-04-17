@@ -15596,81 +15596,7 @@ definitions:
     title: Read Transactions for a Subscription Response
     type: array
     items:
-      type: object
-      properties:
-        transaction:
-          type: object
-          properties:
-            id:
-              type: integer
-            subscription_id:
-              type: integer
-            type:
-              type: string
-            kind:
-              type:
-                - 'null'
-                - string
-            transaction_type:
-              type: string
-            success:
-              type: boolean
-            amount_in_cents:
-              type: integer
-            memo:
-              type: string
-            created_at:
-              type: string
-            starting_balance_in_cents:
-              type: integer
-            ending_balance_in_cents:
-              type: integer
-            gateway_used:
-              type:
-                - 'null'
-                - string
-            gateway_transaction_id:
-              type:
-                - 'null'
-                - string
-            gateway_order_id:
-              type: 'null'
-            payment_id:
-              type:
-                - integer
-                - 'null'
-            product_id:
-              type: integer
-            tax_id:
-              type: 'null'
-            component_id:
-              type: 'null'
-            statement_id:
-              type: integer
-            customer_id:
-              type: integer
-            item_name:
-              type:
-                - 'null'
-                - string
-            card_number:
-              type: string
-            card_expiration:
-              type: string
-            card_type:
-              type: string
-            refunded_amount_in_cents:
-              type: integer
-            original_amount_in_cents:
-              type: 'null'
-            discount_amount_in_cents:
-              type: 'null'
-            taxable_amount_in_cents:
-              type: 'null'
-            taxations:
-              type: array
-              items:
-                type: object
+      $ref: '#/definitions/transactions/list-transaction-by-id-response'
     example:
       - transaction:
           id: 162640678
@@ -15720,8 +15646,8 @@ definitions:
           statement_id: 80669157
           customer_id: 14743839
           item_name: $10 Basic Plan
-          original_amount_in_cents: null
-          discount_amount_in_cents: null
+          original_amount_in_cents: 1000
+          discount_amount_in_cents: 0
           taxable_amount_in_cents: null
           taxations: []
       - transaction:
@@ -15772,8 +15698,8 @@ definitions:
           statement_id: 80612887
           customer_id: 14743839
           item_name: $10 Basic Plan
-          original_amount_in_cents: null
-          discount_amount_in_cents: null
+          original_amount_in_cents: 1000
+          discount_amount_in_cents: 0
           taxable_amount_in_cents: null
           taxations: []
     x-stoplight:
@@ -16144,73 +16070,7 @@ definitions:
     title: Read Transactions for a Site Response
     type: array
     items:
-      type: object
-      properties:
-        transaction:
-          type: object
-          properties:
-            id:
-              type: integer
-            subscription_id:
-              type: integer
-            type:
-              type: string
-            kind:
-              type: 'null'
-            transaction_type:
-              type: string
-            success:
-              type: boolean
-            amount_in_cents:
-              type: integer
-            memo:
-              type: string
-            created_at:
-              type: string
-            starting_balance_in_cents:
-              type: integer
-            ending_balance_in_cents:
-              type: integer
-            gateway_used:
-              type: string
-            gateway_transaction_id:
-              type: string
-            gateway_order_id:
-              type: 'null'
-            payment_id:
-              type: 'null'
-            product_id:
-              type: integer
-            tax_id:
-              type: 'null'
-            component_id:
-              type: 'null'
-            statement_id:
-              type: integer
-            customer_id:
-              type: integer
-            item_name:
-              type:
-                - 'null'
-                - string
-            card_number:
-              type: string
-            card_expiration:
-              type: string
-            card_type:
-              type: string
-            refunded_amount_in_cents:
-              type: integer
-            parent_id:
-              type:
-                - integer
-                - 'null'
-              description: '(Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment from which this one derived.'
-            role:
-              type:
-                - string
-                - 'null'
-              description: '(Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
+      $ref: '#/definitions/transactions/list-transaction-by-id-response'
     example:
       - transaction:
           id: 162640678
@@ -24326,9 +24186,13 @@ definitions:
           ending_balance_in_cents:
             type: integer
           gateway_used:
-            type: string
+            type:
+              - string
+              - 'null'
           gateway_transaction_id:
-            type: string
+            type:
+              - string
+              - 'null'
           gateway_order_id:
             type:
               - 'null'
@@ -24359,20 +24223,41 @@ definitions:
             type:
               - integer
               - 'null'
-            description: '(Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment (by ID) from which this one derived.'
+            description: '(Experimental) Only present for Payment types. Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment (by ID) from which this one derived.'
           role:
             type:
               - string
               - 'null'
-            description: '(Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
+            description: '(Experimental) Only present for Payment types. Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
           card_number:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: Only present for Payment types.  The masked card  number used for the payment.
           card_expiration:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: 'Only present for Payment types.  The expiration date of the card used for the payment, in "MM/YYYY" format.'
           card_type:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: 'Only present for Payment types.  The brand of the card used in the payment transaciton, i.e. `visa`,`master`, `discover`, `american_express`, `diners_club`, `jcb`, `switch`, `solo`, `dankort`, `maestro`, `forbrugsforeningen`, or `laser`.'
           refunded_amount_in_cents:
             type: integer
+            description: Only present for Payment types.  The amount of this payment that has been refunded.
+          original_amount_in_cents:
+            type: integer
+            description: Only present for Charge or Credit types.  Returns the amount of the charge before discounts. (Which is a mirror of `amount_in_cents` but with a more descriptive name.)
+          discount_amount_in_cents:
+            type: integer
+            description: 'Only present for Charge or Credit types.  Returns the amount of the discount applied to this charge, or 0 if no discount was applied.'
+          taxable_amount_in_cents:
+            type:
+              - integer
+              - 'null'
+            description: 'Only present for Charge or Credit types.  Returns `null` if the charge or credit was not taxable.  If the charge or credit was taxable, returns the taxable amount, which is the amount after any discounts i.e. `original_amount_in_cents - discount_amount_in_cents`'
     example:
       transaction:
         id: 162640678
