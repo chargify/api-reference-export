@@ -2629,7 +2629,7 @@ paths:
       description: |-
         ## Read Metadata by Subscription
 
-        This method will provide you information on usage of metadata across your subscribers. The `resource_id` is the **Subscription ID**.
+        This method will provide you information on usage of metadata across your subscribers. 
 
         ## Metadata Data
 
@@ -2669,15 +2669,13 @@ paths:
   /customers/metadata.json:
     get:
       operationId: GET_customers-metadata-json
-      summary: Read Metadata Data for a Site
+      summary: Read Metadata for Customers
       tags:
         - 'Custom Fields: Metadata'
       description: |-
         ## Read Metadata for a Site 
 
         This endpoint will list the number of pages of metadata information that are contained within a site.
-
-        This method will provide you information on usage of metadata across your customers. The `resource_id` is the **Subscription ID**.
 
         ## Metadata Data
 
@@ -2742,7 +2740,7 @@ paths:
         type: string
     get:
       operationId: GET_customers-customer_id-metadata-json
-      summary: Read Metadata Data for a Customer
+      summary: Read Metadata for a Customer
       tags:
         - 'Custom Fields: Metadata'
       description: |-
