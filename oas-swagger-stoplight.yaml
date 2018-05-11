@@ -13559,6 +13559,95 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /subscriptions/preview.json:
+    post:
+      operationId: POST_subscriptions-preview-json
+      summary: Create Subscription Preview - Component Price Points
+      tags:
+        - 'Subscriptions: Preview'
+      description: |-
+        ## Create Subscription Preview with Price Points
+
+        This example **does not** use contact information to create a subscription preview. It's optional, bear in mind!
+
+        If you do not use a `price_point_id` then the default price point will be used to calculate the preview amounts.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/subscription-preview-price-point-id-request'
+            example:
+              subscription:
+                product_handle: monthly-product
+                components:
+                  - component_id: 462149
+                    price_point_id: 200543
+                    allocated_quantity: 10
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/subscription-preview-price-points-response'
+          examples:
+            application/json:
+              subscription_preview:
+                current_billing_manifest:
+                  line_items:
+                    - transaction_type: charge
+                      kind: baseline
+                      amount_in_cents: 5000
+                      memo: Monthly product  (02/05/2018 - 03/05/2018)
+                      discount_amount_in_cents: 0
+                      taxable_amount_in_cents: 0
+                    - transaction_type: charge
+                      kind: component
+                      amount_in_cents: 20000
+                      memo: 'HUNDO: 10 HUNDOs'
+                      discount_amount_in_cents: 0
+                      taxable_amount_in_cents: 0
+                      component_id: 462149
+                  total_in_cents: 25000
+                  total_discount_in_cents: 0
+                  total_tax_in_cents: 0
+                  subtotal_in_cents: 25000
+                  start_date: '2018-02-05T19:36:55Z'
+                  end_date: '2018-03-05T19:36:55Z'
+                  period_type: recurring
+                  existing_balance_in_cents: 0
+                next_billing_manifest:
+                  line_items:
+                    - transaction_type: charge
+                      kind: baseline
+                      amount_in_cents: 5000
+                      memo: Monthly product  (03/05/2018 - 04/05/2018)
+                      discount_amount_in_cents: 0
+                      taxable_amount_in_cents: 0
+                    - transaction_type: charge
+                      kind: component
+                      amount_in_cents: 20000
+                      memo: 'HUNDO: 10 HUNDOs'
+                      discount_amount_in_cents: 0
+                      taxable_amount_in_cents: 0
+                      component_id: 462149
+                  total_in_cents: 25000
+                  total_discount_in_cents: 0
+                  total_tax_in_cents: 0
+                  subtotal_in_cents: 25000
+                  start_date: '2018-03-05T19:36:55Z'
+                  end_date: '2018-04-05T19:36:55Z'
+                  period_type: recurring
+                  existing_balance_in_cents: 0
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-previewjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/migrations.json':
     parameters:
       - name: subscription_id
@@ -13567,19 +13656,15 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-migrations-json
-      summary: Create Migration
+      summary: Create Migration with Trial
       tags:
         - 'Subscriptions: Product Changes / Migrations / Upgrades / Downgrades'
       description: |-
-        ## Create Migration
+        ## Create Migration with Trial
 
-        In order to create a migration, you must pass the `product_id` or `product_handle` in the object when you send a POST request.
+        In order to create a migration with a trial, you must pass the product_id or product_handle in the object when you send a POST request. Additionally, you must pass `"include_trial": 1` as part of the request object.
 
         The response will be the updated subscription.
-
-        ## Valid Subscriptions
-
-        Subscriptions can only be in the `active` or `trial` mode in order to be migrated.
       parameters:
         - name: body
           in: body
@@ -13591,28 +13676,31 @@ paths:
                 properties:
                   product_id:
                     type: integer
+                  include_trial:
+                    type: integer
             example:
               migration:
-                product_id: 3801242
+                product_id: 3861800
+                include_trial: 1
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-output'
+            $ref: '#/definitions/migrations/create-migration-input-trial-output'
           examples:
             application/json:
               subscription:
                 id: 15054201
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
+                state: trialing
+                trial_started_at: '2016-11-03T13:43:36-04:00'
+                trial_ended_at: '2016-11-10T12:43:36-05:00'
                 activated_at: '2016-11-02T10:20:57-04:00'
                 created_at: '2016-11-02T10:20:55-04:00'
-                updated_at: '2016-11-03T13:31:49-04:00'
+                updated_at: '2016-11-03T13:43:36-04:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T12:31:49-05:00'
-                next_assessment_at: '2016-12-03T12:31:49-05:00'
+                balance_in_cents: -13989
+                current_period_ends_at: '2016-11-10T12:43:36-05:00'
+                next_assessment_at: '2016-11-10T12:43:36-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -13620,15 +13708,15 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2016-11-03T13:31:48-04:00'
+                current_period_started_at: '2016-11-03T13:43:35-04:00'
                 previous_state: active
                 signup_payment_id: 160680121
                 signup_revenue: '0.00'
                 delayed_cancel_at: null
                 coupon_code: null
                 total_revenue_in_cents: 14000
-                product_price_in_cents: 10000
-                product_version_number: 4
+                product_price_in_cents: 1000
+                product_version_number: 6
                 payment_type: credit_card
                 referral_code: ghnhvy
                 coupon_use_count: null
@@ -13655,30 +13743,30 @@ paths:
                   portal_customer_created_at: '2016-11-02T10:20:58-04:00'
                   cc_emails: null
                 product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
+                  id: 3861800
+                  name: Trial Product
+                  handle: trial-product
+                  description: Trial period with payment expected at end of trial.
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
+                  created_at: '2016-07-08T09:53:55-04:00'
+                  updated_at: '2016-09-05T13:00:36-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: 0
+                  trial_interval: 7
+                  trial_interval_unit: day
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
                   initial_charge_after_trial: false
-                  version_number: 4
+                  version_number: 6
                   update_return_params: ''
                   product_family:
                     id: 527890
@@ -13687,10 +13775,10 @@ paths:
                     handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 283460
-                      return_url: null
+                    - id: 294791
+                      return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+                      url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
                 credit_card:
                   id: 10088716
                   first_name: F
@@ -13708,21 +13796,8 @@ paths:
                   billing_zip: '59101'
                   billing_country: US
                   customer_vault_token: null
-                  billing_address_2: Apt. 1
+                  billing_address_2: Apt. 10
                   payment_type: credit_card
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - Invalid Product
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -13858,95 +13933,6 @@ paths:
         mock:
           statusCode: 200
           enabled: false
-  /subscriptions/preview.json:
-    post:
-      operationId: POST_subscriptions-preview-json
-      summary: Create Subscription Preview - Component Price Points
-      tags:
-        - 'Subscriptions: Preview'
-      description: |-
-        ## Create Subscription Preview with Price Points
-
-        This example **does not** use contact information to create a subscription preview. It's optional, bear in mind!
-
-        If you do not use a `price_point_id` then the default price point will be used to calculate the preview amounts.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/subscription-preview-price-point-id-request'
-            example:
-              subscription:
-                product_handle: monthly-product
-                components:
-                  - component_id: 462149
-                    price_point_id: 200543
-                    allocated_quantity: 10
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/subscription-preview-price-points-response'
-          examples:
-            application/json:
-              subscription_preview:
-                current_billing_manifest:
-                  line_items:
-                    - transaction_type: charge
-                      kind: baseline
-                      amount_in_cents: 5000
-                      memo: Monthly product  (02/05/2018 - 03/05/2018)
-                      discount_amount_in_cents: 0
-                      taxable_amount_in_cents: 0
-                    - transaction_type: charge
-                      kind: component
-                      amount_in_cents: 20000
-                      memo: 'HUNDO: 10 HUNDOs'
-                      discount_amount_in_cents: 0
-                      taxable_amount_in_cents: 0
-                      component_id: 462149
-                  total_in_cents: 25000
-                  total_discount_in_cents: 0
-                  total_tax_in_cents: 0
-                  subtotal_in_cents: 25000
-                  start_date: '2018-02-05T19:36:55Z'
-                  end_date: '2018-03-05T19:36:55Z'
-                  period_type: recurring
-                  existing_balance_in_cents: 0
-                next_billing_manifest:
-                  line_items:
-                    - transaction_type: charge
-                      kind: baseline
-                      amount_in_cents: 5000
-                      memo: Monthly product  (03/05/2018 - 04/05/2018)
-                      discount_amount_in_cents: 0
-                      taxable_amount_in_cents: 0
-                    - transaction_type: charge
-                      kind: component
-                      amount_in_cents: 20000
-                      memo: 'HUNDO: 10 HUNDOs'
-                      discount_amount_in_cents: 0
-                      taxable_amount_in_cents: 0
-                      component_id: 462149
-                  total_in_cents: 25000
-                  total_discount_in_cents: 0
-                  total_tax_in_cents: 0
-                  subtotal_in_cents: 25000
-                  start_date: '2018-03-05T19:36:55Z'
-                  end_date: '2018-04-05T19:36:55Z'
-                  period_type: recurring
-                  existing_balance_in_cents: 0
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-previewjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   /transactions.json:
     get:
       operationId: GET_transactions-format
@@ -31959,6 +31945,21 @@ x-stoplight:
             - _id: subscriptions/subscription-import-response
               type: schemas
           name: 'Subscriptions: Import'
+        - name: 'Subscriptions: Preview'
+          items:
+            - _id: subscriptions-preview-intro
+              type: docTextSections
+            - _id: POST_subscriptions-preview-format
+              type: endpoints
+            - _id: subscriptions/subscription-preview-response
+              type: schemas
+            - _id: POST_subscriptions-previewjson
+              type: endpoints
+            - _id: subscription-preview-price-point-id-request
+              type: schemas
+            - _id: subscription-preview-price-points-response
+              type: schemas
+          divider: false
         - name: 'Subscriptions: Product Changes / Migrations / Upgrades / Downgrades'
           items:
             - _id: migrations-intro
@@ -32001,21 +32002,6 @@ x-stoplight:
             - _id: PUT_subscriptions-subscription_id-override-format
               type: endpoints
             - _id: subscriptions/subscription-override-request
-              type: schemas
-          divider: false
-        - name: 'Subscriptions: Preview'
-          items:
-            - _id: subscriptions-preview-intro
-              type: docTextSections
-            - _id: POST_subscriptions-preview-format
-              type: endpoints
-            - _id: subscriptions/subscription-preview-response
-              type: schemas
-            - _id: POST_subscriptions-previewjson
-              type: endpoints
-            - _id: subscription-preview-price-point-id-request
-              type: schemas
-            - _id: subscription-preview-price-points-response
               type: schemas
           divider: false
         - name: Transactions
