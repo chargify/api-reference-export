@@ -30573,8 +30573,6 @@ definitions:
             type: string
           product_id:
             type: integer
-          expires_at:
-            type: string
           payment_collection_method:
             type: string
     example:
@@ -30582,7 +30580,6 @@ definitions:
         next_billing_at: '2010-08-06T15:34:00Z'
         product_handle: basic
         product_id: 123456789
-        expires_at: '2018-12-31'
         payment_collection_method: invoice
     x-stoplight:
       id: update-subscription-request
