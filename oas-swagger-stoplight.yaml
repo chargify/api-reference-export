@@ -31645,6 +31645,15 @@ x-stoplight:
               _id: invoices/credits/create-invoice-credit-output
           name: 'Invoices: Credits'
           divider: false
+        - divider: false
+          items: []
+          name: Invoices (NEW)
+          description: |-
+            This section describes the API for the new, "Relationship Invoicing" style of invoices introduced in January 2018.
+
+            If you are an existing customer from prior to January 2018 or have not otherwise explicitly opted into this new style of invoices, you are probably looking for the old "Invoices" section that describes Invoice-Billing legacy-style invoices.
+
+            These new invoices provide a single representation of all of your Chargify billing, whether you collect automatically or via remittance.
         - name: Notes
           items:
             - _id: introduction-to-notes
