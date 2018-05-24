@@ -1584,6 +1584,8 @@ paths:
 
         Creates multiple Allocations, setting the current allocated quantity for each the component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
 
+        This endpoint only responds to JSON. It is not available for XML.
+
         ## Input Fields
 
         | Input Fields | Description |
