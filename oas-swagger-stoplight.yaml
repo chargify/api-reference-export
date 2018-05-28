@@ -31191,38 +31191,80 @@ definitions:
         description: ID of the customer to which the invoice belongs.
       subscription_id:
         type: integer
+        description: ID of the subscription that generated the invoice.
       number:
         type: string
+        description: |-
+          A unique, identifying string that appears on the invoice and in places the invoice is referenced.
+
+          While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
       sequence_number:
         type: integer
+        description: A monotonically increasing number assigned to invoices as they are created.  This number is unique within a site and can be used to sort and order invoices.
       issue_date:
         type: string
+        description: Date the invoice was issued to the customer.  This is the date that the invoice was made available for payment.
       due_date:
         type: string
+        description: Date the invoice is due.
       paid_date:
         type: string
+        description: |-
+          Date the invoice became fully paid.
+
+          If partial payments are applied to the invoice, this date will not be present until payment has been made in full.
       status:
         type: string
+        description: |
+          Current status of the invoice.  One of:
+
+          * "draft"
+          * "pending"
+          * "open"
+          * "paid"
+          * "voided"
+          * "canceled"
+
+          See [Invoice Statuses](https://help.chargify.com/invoices/index.html#invoice-statuses) for more.
       collection_method:
         type: string
+        description: 'The collection method of the invoice, which is either "automatic" (tried and retried on an existing payment method by Chargify) or "remittance" (payment must be remitted by the customer or keyed in by the merchant).'
       payment_instructions:
         type: string
+        description: 'A message that is printed on the invoice when it is marked for remittance collection. It is intended to describe to the customer how they may make payment, and is configured by the merchant.'
       currency:
         type: string
+        description: The ISO 4217 currency code (3 character string) representing the currency of invoice transaction.
       consolidation_level:
         type: string
+        description: |-
+          Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
+
+          * "none": A normal invoice with no consolidation.
+          * "child": An invoice segment which has been combined into a consolidated invoice.
+          * "parent": A consolidated invoice, whose contents are composed of invoice segments.
+
+          "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
+
+          See also the [invoice consolidation documentation](https://help.chargify.com/invoices/consolidation.html).
       parent_invoice_uid:
         type: 'null'
+        description: 'For invoices with `consolidation_level` of `child`, this specifies the UID of the parent (consolidated) invoice.'
       parent_invoice_number:
         type: 'null'
+        description: 'For invoices with `consolidation_level` of `child`, this specifies the number of the parent (consolidated) invoice.'
       group_primary_subscription_id:
         type: 'null'
+        description: 'For invoices with `consolidation_level` of `parent`, this specifies the ID of the subscription which was the primary subscription of the subscription group that generated the invoice.'
       product_name:
         type: string
+        description: The name of the product subscribed when the invoice was generated.
       product_family_name:
         type: string
+        description: The name of the product family subscribed when the invoice was generated.
       seller:
         type: object
+        description: Information about the seller (merchant) listed on the masthead of the invoice.
         properties:
           name:
             type: string
@@ -31245,6 +31287,7 @@ definitions:
             type: string
       customer:
         type: object
+        description: Information about the customer who is responsible for the invoice.
         properties:
           chargify_id:
             type: integer
@@ -31258,8 +31301,10 @@ definitions:
             type: string
       memo:
         type: string
+        description: The memo printed on invoices of any collection type.  This message is in control of the merchant.
       billing_address:
         type: object
+        description: The invoice billing address.
         properties:
           street:
             type: string
@@ -31275,6 +31320,7 @@ definitions:
             type: string
       shipping_address:
         type: object
+        description: The invoice shipping address.
         properties:
           street:
             type: string
@@ -31290,6 +31336,10 @@ definitions:
             type: string
       subtotal_amount:
         type: string
+        description: |-
+          Subtotal of the invoice, which is the sum of all line items before discounts or taxes.
+
+          See also the description of invoice amounts.
       discount_amount:
         type: string
       tax_amount:
