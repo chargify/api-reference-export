@@ -31336,22 +31336,28 @@ definitions:
             type: string
       subtotal_amount:
         type: string
-        description: |-
-          Subtotal of the invoice, which is the sum of all line items before discounts or taxes.
-
-          See also the description of invoice amounts.
+        description: 'Subtotal of the invoice, which is the sum of all line items before discounts or taxes.'
       discount_amount:
         type: string
+        description: Total discount applied to the invoice.
       tax_amount:
         type: string
+        description: Total tax on the invoice.
       total_amount:
         type: string
+        description: 'The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.'
       credit_amount:
         type: string
+        description: |-
+          The amount of credit (from credit notes) applied to this invoice.
+
+          Credits offset the amount due from the customer.
       paid_amount:
         type: string
+        description: The amount paid on the invoice by the customer.
       due_amount:
         type: string
+        description: 'Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.'
       line_items:
         type: array
         items:
