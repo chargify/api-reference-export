@@ -31360,17 +31360,28 @@ definitions:
         description: 'Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.'
       line_items:
         type: array
+        description: Line items on the invoice.
         items:
           type: object
           properties:
             uid:
               type: string
+              description: Unique identifier for the line item.  Useful when cross referencing the line against individual discounts in the `discounts` or `taxes` lists.
             title:
               type: string
+              description: A short descriptor for the charge or item represented by this line.
             description:
               type: string
+              description: |-
+                Detailed description for the charge or item represented by this line.  May include proration details in plain text.
+
+                Note: this string may contain line breaks that are hints for the best display format on the invoice.
             quantity:
               type: string
+              description: |-
+                The quantity or count of units billed by the line item.
+
+                This is a decimal number represented as a string.
             unit_price:
               type: string
             subtotal_amount:
