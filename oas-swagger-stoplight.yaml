@@ -4519,101 +4519,225 @@ paths:
             $ref: '#/definitions/subscription/read-subscription'
           examples:
             application/json:
-              subscription:
-                id: 18220670
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
-                activated_at: '2017-06-27T13:45:15-05:00'
-                created_at: '2017-06-27T13:45:13-05:00'
-                updated_at: '2017-06-30T09:26:50-05:00'
-                expires_at: null
-                balance_in_cents: 10000
-                current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                next_assessment_at: '2017-06-30T12:00:00-05:00'
-                canceled_at: null
-                cancellation_message: null
-                next_product_id: null
-                cancel_at_end_of_period: false
-                payment_collection_method: automatic
-                snap_day: end
-                cancellation_method: null
-                current_period_started_at: '2017-06-27T13:45:13-05:00'
-                previous_state: active
-                signup_payment_id: 191819284
-                signup_revenue: '0.00'
-                delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
-                product_version_number: 1
-                payment_type: null
-                referral_code: d3pw7f
-                coupon_use_count: null
-                coupon_uses_allowed: null
-                reason_code: null
-                automatically_resume_at: null
-                current_billing_amount_in_cents: 10000
-                customer:
-                  id: 17780587
-                  first_name: Catie
-                  last_name: Test
-                  organization: 'Acme, Inc.'
-                  email: catie@example.com
-                  created_at: '2017-06-27T13:01:05-05:00'
-                  updated_at: '2017-06-30T09:23:10-05:00'
-                  reference: 123ABC
-                  address: 123 Anywhere Street
-                  address_2: 'Apartment #10'
-                  city: Los Angeles
-                  state: CA
-                  zip: '90210'
-                  country: US
-                  phone: 555-555-5555
-                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
-                  portal_invite_last_accepted_at: null
-                  verified: true
-                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                  cc_emails: support@example.com
-                  tax_exempt: true
-                product:
-                  id: 4470347
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2017-03-23T10:54:12-05:00'
-                  updated_at: '2017-04-20T15:18:46-05:00'
-                  price_in_cents: 0
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  tax_code: ''
-                  initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: ''
-                  product_family:
-                    id: 997233
-                    name: Acme Products
+              - subscription:
+                  id: 15236915
+                  state: active
+                  balance_in_cents: 0
+                  total_revenue_in_cents: 14000
+                  product_price_in_cents: 1000
+                  product_version_number: 7
+                  current_period_ends_at: '2016-11-15T14:48:10-05:00'
+                  next_assessment_at: '2016-11-15T14:48:10-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-14T14:48:12-05:00'
+                  expires_at: null
+                  created_at: '2016-11-14T14:48:10-05:00'
+                  updated_at: '2016-11-14T15:24:41-05:00'
+                  cancellation_message: null
+                  cancellation_method: null
+                  cancel_at_end_of_period: null
+                  canceled_at: null
+                  current_period_started_at: '2016-11-14T14:48:10-05:00'
+                  previous_state: active
+                  signup_payment_id: 162269766
+                  signup_revenue: '260.00'
+                  delayed_cancel_at: null
+                  coupon_code: 5SNN6HFK3GBH
+                  payment_collection_method: automatic
+                  snap_day: null
+                  reason_code: null
+                  customer:
+                    first_name: Curtis
+                    last_name: Test
+                    email: curtis@example.com
+                    cc_emails: jeff@example.com
+                    organization: ''
+                    reference: null
+                    id: 14714298
+                    created_at: '2016-11-14T14:48:10-05:00'
+                    updated_at: '2016-11-14T14:48:13-05:00'
+                    address: 123 Anywhere Street
+                    address_2: ''
+                    city: Boulder
+                    state: CO
+                    zip: '80302'
+                    country: US
+                    phone: ''
+                    verified: false
+                    portal_customer_created_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_accepted_at: null
+                  product:
+                    id: 3792003
+                    name: $10 Basic Plan
+                    handle: basic
+                    description: lorem ipsum
+                    accounting_code: basic
+                    price_in_cents: 1000
+                    interval: 1
+                    interval_unit: day
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: false
+                    require_credit_card: false
+                    created_at: '2016-03-24T13:38:39-04:00'
+                    updated_at: '2016-11-03T13:03:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 281054
+                        url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                      - id: 281240
+                        url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                      - id: 282694
+                        url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                    taxable: false
+                    version_number: 7
+                  credit_card:
+                    id: 10191713
+                    payment_type: credit_card
+                    first_name: Curtis
+                    last_name: Test
+                    masked_card_number: XXXX-XXXX-XXXX-1
+                    card_type: bogus
+                    expiration_month: 1
+                    expiration_year: 2026
+                    billing_address: 123 Anywhere Street
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: null
+                    billing_country: ''
+                    billing_zip: '80302'
+                    current_vault: bogus
+                    vault_token: '1'
+                    customer_vault_token: null
+                    customer_id: 14714298
+                  payment_type: credit_card
+                  referral_code: w7kjc9
+                  next_product_id: null
+                  coupon_use_count: 1
+                  coupon_uses_allowed: 1
+              - subscription:
+                  id: 15189649
+                  state: canceled
+                  balance_in_cents: 15000
+                  total_revenue_in_cents: 10000
+                  product_price_in_cents: 10000
+                  product_version_number: 1
+                  current_period_ends_at: '2017-11-10T13:14:00-05:00'
+                  next_assessment_at: '2017-11-10T13:14:00-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-10T13:14:02-05:00'
+                  expires_at: null
+                  created_at: '2016-11-10T13:14:00-05:00'
+                  updated_at: '2016-11-14T11:14:01-05:00'
+                  cancellation_message: ''
+                  cancellation_method: merchant_ui
+                  cancel_at_end_of_period: false
+                  canceled_at: '2016-11-14T11:14:01-05:00'
+                  current_period_started_at: '2016-11-10T13:14:00-05:00'
+                  previous_state: canceled
+                  signup_payment_id: 161794022
+                  signup_revenue: '100.00'
+                  delayed_cancel_at: null
+                  coupon_code: null
+                  payment_collection_method: invoice
+                  snap_day: null
+                  customer:
+                    first_name: Frankie
+                    last_name: Bravo
+                    email: testfrankie11@test.com
+                    cc_emails: ''
+                    organization: ''
+                    reference: null
+                    id: 14543712
+                    created_at: '2016-11-02T10:16:17-04:00'
+                    updated_at: '2016-11-14T09:54:39-05:00'
+                    address: ''
+                    address_2: ''
+                    city: ''
+                    state: ''
+                    zip: ''
+                    country: ''
+                    phone: '5555551212'
+                    verified: true
+                    portal_customer_created_at: '2016-11-02T10:16:19-04:00'
+                    portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
+                    portal_invite_last_accepted_at: null
+                  product:
+                    id: 4038269
+                    name: Annual Product
+                    handle: annual-product
                     description: ''
-                    handle: acme-products
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 316810
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+                    accounting_code: ''
+                    price_in_cents: 10000
+                    interval: 12
+                    interval_unit: month
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: true
+                    require_credit_card: true
+                    created_at: '2016-09-28T09:54:05-04:00'
+                    updated_at: '2016-09-28T09:54:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 297032
+                        url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
+                    taxable: false
+                    version_number: 1
+                  credit_card:
+                    id: 10188522
+                    payment_type: credit_card
+                    first_name: Fran
+                    last_name: Becker
+                    masked_card_number: null
+                    card_type: null
+                    expiration_month: null
+                    expiration_year: null
+                    billing_address: 123 Montana Way
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: CO
+                    billing_country: US
+                    billing_zip: '90210'
+                    current_vault: bogus
+                    vault_token: '123456789'
+                    customer_vault_token: null
+                    customer_id: 14543712
+                  payment_type: bank_account
+                  referral_code: hspss6
+                  next_product_id: null
+                  coupon_use_count: null
+                  coupon_uses_allowed: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -22767,357 +22891,478 @@ definitions:
       public: true
   subscription/read-subscription:
     title: Read Subscription by Customer ID
-    type: object
-    properties:
-      subscription:
-        type: object
-        properties:
-          id:
-            type: integer
-          state:
-            type: string
-          trial_started_at:
-            type: 'null'
-          trial_ended_at:
-            type: 'null'
-          activated_at:
-            type: string
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          expires_at:
-            type: 'null'
-          balance_in_cents:
-            type: integer
-          current_period_ends_at:
-            type: string
-          next_assessment_at:
-            type: string
-          canceled_at:
-            type:
-              - 'null'
-              - string
-          cancellation_message:
-            type:
-              - 'null'
-              - string
-          next_product_id:
-            type:
-              - 'null'
-              - integer
-          cancel_at_end_of_period:
-            type: boolean
-          payment_collection_method:
-            type: string
-          snap_day:
-            type:
-              - string
-              - 'null'
-          cancellation_method:
-            type:
-              - 'null'
-              - string
-          current_period_started_at:
-            type: string
-          previous_state:
-            type: string
-          signup_payment_id:
-            type: integer
-          signup_revenue:
-            type: string
-          delayed_cancel_at:
-            type:
-              - 'null'
-              - string
-          coupon_code:
-            type:
-              - 'null'
-              - string
-          total_revenue_in_cents:
-            type: integer
-          product_price_in_cents:
-            type: integer
-          product_version_number:
-            type: integer
-          payment_type:
-            type:
-              - 'null'
-              - string
-          referral_code:
-            type:
-              - string
-              - 'null'
-          coupon_use_count:
-            type: 'null'
-          coupon_uses_allowed:
-            type: 'null'
-          reason_code:
-            type:
-              - 'null'
-              - string
-          automatically_resume_at:
-            type: 'null'
-          current_billing_amount_in_cents:
-            type: integer
-          customer:
-            type: object
-            properties:
-              id:
-                type: integer
-              first_name:
-                type: string
-              last_name:
-                type: string
-              organization:
-                type:
-                  - string
-                  - 'null'
-              email:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              reference:
-                type:
-                  - string
-                  - 'null'
-              address:
-                type:
-                  - string
-                  - 'null'
-              address_2:
-                type:
-                  - string
-                  - 'null'
-              city:
-                type:
-                  - string
-                  - 'null'
-              state:
-                type:
-                  - string
-                  - 'null'
-              zip:
-                type:
-                  - string
-                  - 'null'
-              country:
-                type:
-                  - string
-                  - 'null'
-              phone:
-                type:
-                  - string
-                  - 'null'
-              portal_invite_last_sent_at:
-                type:
-                  - string
-                  - 'null'
-              portal_invite_last_accepted_at:
-                type:
-                  - 'null'
-                  - string
-              verified:
-                type:
-                  - boolean
-                  - 'null'
-              portal_customer_created_at:
-                type:
-                  - string
-                  - 'null'
-              cc_emails:
-                type:
-                  - string
-                  - 'null'
-              tax_exempt:
-                type: boolean
-          product:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              handle:
-                type: string
-              description:
-                type: string
-              accounting_code:
-                type: string
-              request_credit_card:
-                type: boolean
-              expiration_interval:
-                type: 'null'
-              expiration_interval_unit:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              price_in_cents:
-                type: integer
-              interval:
-                type: integer
-              interval_unit:
-                type: string
-              initial_charge_in_cents:
-                type: 'null'
-              trial_price_in_cents:
-                type: 'null'
-              trial_interval:
-                type: 'null'
-              trial_interval_unit:
-                type: string
-              archived_at:
-                type: 'null'
-              require_credit_card:
-                type: boolean
-              return_params:
-                type: string
-              taxable:
-                type: boolean
-              update_return_url:
-                type: string
-              tax_code:
-                type: string
-              initial_charge_after_trial:
-                type: boolean
-              version_number:
-                type: integer
-              update_return_params:
-                type: string
-              product_family:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  handle:
-                    type: string
-                  accounting_code:
-                    type: 'null'
-              public_signup_pages:
-                type:
-                  - array
-                  - 'null'
-                items:
+    type: array
+    items:
+      type: object
+      properties:
+        subscription:
+          type: object
+          properties:
+            id:
+              type: integer
+            state:
+              type: string
+            balance_in_cents:
+              type: integer
+            total_revenue_in_cents:
+              type: integer
+            product_price_in_cents:
+              type: integer
+            product_version_number:
+              type: integer
+            current_period_ends_at:
+              type: string
+            next_assessment_at:
+              type: string
+            trial_started_at:
+              type: 'null'
+            trial_ended_at:
+              type: 'null'
+            activated_at:
+              type: string
+            expires_at:
+              type: 'null'
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            cancellation_message:
+              type:
+                - 'null'
+                - string
+            cancellation_method:
+              type:
+                - 'null'
+                - string
+            cancel_at_end_of_period:
+              type:
+                - boolean
+                - 'null'
+            canceled_at:
+              type:
+                - 'null'
+                - string
+            current_period_started_at:
+              type: string
+            previous_state:
+              type: string
+            signup_payment_id:
+              type: integer
+            signup_revenue:
+              type: string
+            delayed_cancel_at:
+              type: 'null'
+            coupon_code:
+              type:
+                - 'null'
+                - string
+            payment_collection_method:
+              type: string
+            snap_day:
+              type: 'null'
+            reason_code:
+              type: 'null'
+            customer:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+                cc_emails:
+                  type: string
+                organization:
+                  type: string
+                reference:
+                  type: 'null'
+                id:
+                  type: integer
+                created_at:
+                  type: string
+                updated_at:
+                  type: string
+                address:
+                  type: string
+                address_2:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                zip:
+                  type: string
+                country:
+                  type: string
+                phone:
+                  type: string
+                verified:
+                  type: boolean
+                portal_customer_created_at:
+                  type: string
+                portal_invite_last_sent_at:
+                  type: string
+                portal_invite_last_accepted_at:
+                  type: 'null'
+            product:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                handle:
+                  type: string
+                description:
+                  type: string
+                accounting_code:
+                  type: string
+                price_in_cents:
+                  type: integer
+                interval:
+                  type: integer
+                interval_unit:
+                  type: string
+                initial_charge_in_cents:
+                  type: 'null'
+                expiration_interval:
+                  type: 'null'
+                expiration_interval_unit:
+                  type: string
+                trial_price_in_cents:
+                  type: 'null'
+                trial_interval:
+                  type: 'null'
+                trial_interval_unit:
+                  type: string
+                initial_charge_after_trial:
+                  type: boolean
+                return_params:
+                  type: string
+                request_credit_card:
+                  type: boolean
+                require_credit_card:
+                  type: boolean
+                created_at:
+                  type: string
+                updated_at:
+                  type: string
+                archived_at:
+                  type: 'null'
+                update_return_url:
+                  type: string
+                update_return_params:
+                  type: string
+                product_family:
                   type: object
                   properties:
                     id:
                       type: integer
-                    return_url:
-                      type:
-                        - string
-                        - 'null'
-                    return_params:
-                      type:
-                        - string
-                        - 'null'
-                    url:
-                      type:
-                        - string
-                        - 'null'
+                    name:
+                      type: string
+                    handle:
+                      type: string
+                    accounting_code:
+                      type: 'null'
+                    description:
+                      type: string
+                public_signup_pages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      url:
+                        type: string
+                taxable:
+                  type: boolean
+                version_number:
+                  type: integer
+            credit_card:
+              type: object
+              properties:
+                id:
+                  type: integer
+                payment_type:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                masked_card_number:
+                  type:
+                    - 'null'
+                    - string
+                card_type:
+                  type:
+                    - 'null'
+                    - string
+                expiration_month:
+                  type:
+                    - integer
+                    - 'null'
+                expiration_year:
+                  type:
+                    - integer
+                    - 'null'
+                billing_address:
+                  type: string
+                billing_address_2:
+                  type: string
+                billing_city:
+                  type: string
+                billing_state:
+                  type:
+                    - 'null'
+                    - string
+                billing_country:
+                  type: string
+                billing_zip:
+                  type: string
+                current_vault:
+                  type: string
+                vault_token:
+                  type: string
+                customer_vault_token:
+                  type: 'null'
+                customer_id:
+                  type: integer
+            payment_type:
+              type: string
+            referral_code:
+              type: string
+            next_product_id:
+              type: 'null'
+            coupon_use_count:
+              type:
+                - integer
+                - 'null'
+            coupon_uses_allowed:
+              type:
+                - integer
+                - 'null'
     example:
-      subscription:
-        id: 18220670
-        state: active
-        trial_started_at: null
-        trial_ended_at: null
-        activated_at: '2017-06-27T13:45:15-05:00'
-        created_at: '2017-06-27T13:45:13-05:00'
-        updated_at: '2017-06-30T09:26:50-05:00'
-        expires_at: null
-        balance_in_cents: 10000
-        current_period_ends_at: '2017-06-30T12:00:00-05:00'
-        next_assessment_at: '2017-06-30T12:00:00-05:00'
-        canceled_at: null
-        cancellation_message: null
-        next_product_id: null
-        cancel_at_end_of_period: false
-        payment_collection_method: automatic
-        snap_day: end
-        cancellation_method: null
-        current_period_started_at: '2017-06-27T13:45:13-05:00'
-        previous_state: active
-        signup_payment_id: 191819284
-        signup_revenue: '0.00'
-        delayed_cancel_at: null
-        coupon_code: null
-        total_revenue_in_cents: 0
-        product_price_in_cents: 0
-        product_version_number: 1
-        payment_type: null
-        referral_code: d3pw7f
-        coupon_use_count: null
-        coupon_uses_allowed: null
-        reason_code: null
-        automatically_resume_at: null
-        current_billing_amount_in_cents: 10000
-        customer:
-          id: 17780587
-          first_name: Catie
-          last_name: Test
-          organization: 'Acme, Inc.'
-          email: catie@example.com
-          created_at: '2017-06-27T13:01:05-05:00'
-          updated_at: '2017-06-30T09:23:10-05:00'
-          reference: 123ABC
-          address: 123 Anywhere Street
-          address_2: 'Apartment #10'
-          city: Los Angeles
-          state: CA
-          zip: '90210'
-          country: US
-          phone: 555-555-5555
-          portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
-          portal_invite_last_accepted_at: null
-          verified: true
-          portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-          cc_emails: support@example.com
-          tax_exempt: true
-        product:
-          id: 4470347
-          name: Zero Dollar Product
-          handle: zero-dollar-product
-          description: ''
-          accounting_code: ''
-          request_credit_card: true
-          expiration_interval: null
-          expiration_interval_unit: never
-          created_at: '2017-03-23T10:54:12-05:00'
-          updated_at: '2017-04-20T15:18:46-05:00'
-          price_in_cents: 0
-          interval: 1
-          interval_unit: month
-          initial_charge_in_cents: null
-          trial_price_in_cents: null
-          trial_interval: null
-          trial_interval_unit: month
-          archived_at: null
-          require_credit_card: false
-          return_params: ''
-          taxable: false
-          update_return_url: ''
-          tax_code: ''
-          initial_charge_after_trial: false
-          version_number: 1
-          update_return_params: ''
-          product_family:
-            id: 997233
-            name: Acme Products
+      - subscription:
+          id: 15236915
+          state: active
+          balance_in_cents: 0
+          total_revenue_in_cents: 14000
+          product_price_in_cents: 1000
+          product_version_number: 7
+          current_period_ends_at: '2016-11-15T14:48:10-05:00'
+          next_assessment_at: '2016-11-15T14:48:10-05:00'
+          trial_started_at: null
+          trial_ended_at: null
+          activated_at: '2016-11-14T14:48:12-05:00'
+          expires_at: null
+          created_at: '2016-11-14T14:48:10-05:00'
+          updated_at: '2016-11-14T15:24:41-05:00'
+          cancellation_message: null
+          cancellation_method: null
+          cancel_at_end_of_period: null
+          canceled_at: null
+          current_period_started_at: '2016-11-14T14:48:10-05:00'
+          previous_state: active
+          signup_payment_id: 162269766
+          signup_revenue: '260.00'
+          delayed_cancel_at: null
+          coupon_code: 5SNN6HFK3GBH
+          payment_collection_method: automatic
+          snap_day: null
+          reason_code: null
+          customer:
+            first_name: Curtis
+            last_name: Test
+            email: curtis@example.com
+            cc_emails: jeff@example.com
+            organization: ''
+            reference: null
+            id: 14714298
+            created_at: '2016-11-14T14:48:10-05:00'
+            updated_at: '2016-11-14T14:48:13-05:00'
+            address: 123 Anywhere Street
+            address_2: ''
+            city: Boulder
+            state: CO
+            zip: '80302'
+            country: US
+            phone: ''
+            verified: false
+            portal_customer_created_at: '2016-11-14T14:48:13-05:00'
+            portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
+            portal_invite_last_accepted_at: null
+          product:
+            id: 3792003
+            name: $10 Basic Plan
+            handle: basic
+            description: lorem ipsum
+            accounting_code: basic
+            price_in_cents: 1000
+            interval: 1
+            interval_unit: day
+            initial_charge_in_cents: null
+            expiration_interval: null
+            expiration_interval_unit: never
+            trial_price_in_cents: null
+            trial_interval: null
+            trial_interval_unit: month
+            initial_charge_after_trial: false
+            return_params: ''
+            request_credit_card: false
+            require_credit_card: false
+            created_at: '2016-03-24T13:38:39-04:00'
+            updated_at: '2016-11-03T13:03:05-04:00'
+            archived_at: null
+            update_return_url: ''
+            update_return_params: ''
+            product_family:
+              id: 527890
+              name: Acme Projects
+              handle: billing-plans
+              accounting_code: null
+              description: ''
+            public_signup_pages:
+              - id: 281054
+                url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+              - id: 281240
+                url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+              - id: 282694
+                url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+            taxable: false
+            version_number: 7
+          credit_card:
+            id: 10191713
+            payment_type: credit_card
+            first_name: Curtis
+            last_name: Test
+            masked_card_number: XXXX-XXXX-XXXX-1
+            card_type: bogus
+            expiration_month: 1
+            expiration_year: 2026
+            billing_address: 123 Anywhere Street
+            billing_address_2: ''
+            billing_city: Boulder
+            billing_state: null
+            billing_country: ''
+            billing_zip: '80302'
+            current_vault: bogus
+            vault_token: '1'
+            customer_vault_token: null
+            customer_id: 14714298
+          payment_type: credit_card
+          referral_code: w7kjc9
+          next_product_id: null
+          coupon_use_count: 1
+          coupon_uses_allowed: 1
+      - subscription:
+          id: 15189649
+          state: canceled
+          balance_in_cents: 15000
+          total_revenue_in_cents: 10000
+          product_price_in_cents: 10000
+          product_version_number: 1
+          current_period_ends_at: '2017-11-10T13:14:00-05:00'
+          next_assessment_at: '2017-11-10T13:14:00-05:00'
+          trial_started_at: null
+          trial_ended_at: null
+          activated_at: '2016-11-10T13:14:02-05:00'
+          expires_at: null
+          created_at: '2016-11-10T13:14:00-05:00'
+          updated_at: '2016-11-14T11:14:01-05:00'
+          cancellation_message: ''
+          cancellation_method: merchant_ui
+          cancel_at_end_of_period: false
+          canceled_at: '2016-11-14T11:14:01-05:00'
+          current_period_started_at: '2016-11-10T13:14:00-05:00'
+          previous_state: canceled
+          signup_payment_id: 161794022
+          signup_revenue: '100.00'
+          delayed_cancel_at: null
+          coupon_code: null
+          payment_collection_method: invoice
+          snap_day: null
+          customer:
+            first_name: Frankie
+            last_name: Bravo
+            email: testfrankie11@test.com
+            cc_emails: ''
+            organization: ''
+            reference: null
+            id: 14543712
+            created_at: '2016-11-02T10:16:17-04:00'
+            updated_at: '2016-11-14T09:54:39-05:00'
+            address: ''
+            address_2: ''
+            city: ''
+            state: ''
+            zip: ''
+            country: ''
+            phone: '5555551212'
+            verified: true
+            portal_customer_created_at: '2016-11-02T10:16:19-04:00'
+            portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
+            portal_invite_last_accepted_at: null
+          product:
+            id: 4038269
+            name: Annual Product
+            handle: annual-product
             description: ''
-            handle: acme-products
-            accounting_code: null
-          public_signup_pages:
-            - id: 316810
-              return_url: ''
-              return_params: ''
-              url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+            accounting_code: ''
+            price_in_cents: 10000
+            interval: 12
+            interval_unit: month
+            initial_charge_in_cents: null
+            expiration_interval: null
+            expiration_interval_unit: never
+            trial_price_in_cents: null
+            trial_interval: null
+            trial_interval_unit: month
+            initial_charge_after_trial: false
+            return_params: ''
+            request_credit_card: true
+            require_credit_card: true
+            created_at: '2016-09-28T09:54:05-04:00'
+            updated_at: '2016-09-28T09:54:05-04:00'
+            archived_at: null
+            update_return_url: ''
+            update_return_params: ''
+            product_family:
+              id: 527890
+              name: Acme Projects
+              handle: billing-plans
+              accounting_code: null
+              description: ''
+            public_signup_pages:
+              - id: 297032
+                url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
+            taxable: false
+            version_number: 1
+          credit_card:
+            id: 10188522
+            payment_type: credit_card
+            first_name: Fran
+            last_name: Becker
+            masked_card_number: null
+            card_type: null
+            expiration_month: null
+            expiration_year: null
+            billing_address: 123 Montana Way
+            billing_address_2: ''
+            billing_city: Boulder
+            billing_state: CO
+            billing_country: US
+            billing_zip: '90210'
+            current_vault: bogus
+            vault_token: '123456789'
+            customer_vault_token: null
+            customer_id: 14543712
+          payment_type: bank_account
+          referral_code: hspss6
+          next_product_id: null
+          coupon_use_count: null
+          coupon_uses_allowed: null
     x-stoplight:
       id: subscription/read-subscription
       name: Read Subscription by Customer ID
