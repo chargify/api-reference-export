@@ -6656,9 +6656,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family.id}/products.json':
+  '/product_families/{product_family_id}/products.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
     post:
-      operationId: POST_product_families-product_family-id-products-json
+      operationId: POST_product_families-product_family_id-products-json
       summary: Create a Product
       tags:
         - Products
@@ -6781,6 +6786,117 @@ paths:
         mock:
           enabled: false
           dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_products-format
+      summary: Read Products for a Product Family
+      tags:
+        - Product
+        - Note
+        - incomplete
+        - Products
+      description: |-
+        ## Read Products
+
+        This method allows to retrieve a list of Products belonging to a Product Family. `product_family_id` is the required parameter. The response will contain a "products" array with "product" elements.
+
+        ## 404 Response
+
+        If the product family does not exist or fails to retrieve a list of products, a plain text message will be returned.
+
+        ```
+        A valid product_family_id is required
+        ```
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/products/list-products-output'
+          examples:
+            application/json:
+              - product:
+                  id: 3801242
+                  name: Free product
+                  handle: zero-dollar-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2016-04-21T16:08:39-04:00'
+                  updated_at: '2016-08-03T11:27:53-04:00'
+                  price_in_cents: 10000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: 0
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: false
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  initial_charge_after_trial: false
+                  version_number: 4
+                  update_return_params: ''
+                  product_family:
+                    id: 527890
+                    name: Acme Projects
+                    description: ''
+                    handle: billing-plans
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 283460
+                      return_url: null
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+              - product:
+                  id: 3858146
+                  name: Calendar Billing Product
+                  handle: calendar-billing-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2016-07-05T13:07:38-04:00'
+                  updated_at: '2016-07-05T13:07:38-04:00'
+                  price_in_cents: 10000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: true
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  initial_charge_after_trial: false
+                  version_number: 1
+                  update_return_params: ''
+                  product_family:
+                    id: 527890
+                    name: Acme Projects
+                    description: ''
+                    handle: billing-plans
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 289193
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_products-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
           statusCode: 200
   '/products/{product_id}.json':
     parameters:
@@ -7009,123 +7125,6 @@ paths:
         mock:
           enabled: false
           dynamic: false
-          statusCode: 200
-  '/product_families/{product_family_id}/products.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_products-format
-      summary: Read Products for a Product Family
-      tags:
-        - Product
-        - Note
-        - incomplete
-        - Products
-      description: |-
-        ## Read Products
-
-        This method allows to retrieve a list of Products belonging to a Product Family. `product_family_id` is the required parameter. The response will contain a "products" array with "product" elements.
-
-        ## 404 Response
-
-        If the product family does not exist or fails to retrieve a list of products, a plain text message will be returned.
-
-        ```
-        A valid product_family_id is required
-        ```
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/products/list-products-output'
-          examples:
-            application/json:
-              - product:
-                  id: 3801242
-                  name: Free product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-04-21T16:08:39-04:00'
-                  updated_at: '2016-08-03T11:27:53-04:00'
-                  price_in_cents: 10000
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: 0
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 4
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 283460
-                      return_url: null
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
-              - product:
-                  id: 3858146
-                  name: Calendar Billing Product
-                  handle: calendar-billing-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-07-05T13:07:38-04:00'
-                  updated_at: '2016-07-05T13:07:38-04:00'
-                  price_in_cents: 10000
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: true
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 289193
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_products-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
           statusCode: 200
   '/products/handle/{api_handle}.json':
     parameters:
