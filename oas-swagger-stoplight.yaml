@@ -1576,9 +1576,7 @@ paths:
       description: |-
         ## Create Multiple Allocations
 
-        The endpoint creates multiple allocations, setting the current allocated quantity for each the Component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
-
-        Creates multiple Allocations, setting the current allocated quantity for each the component and recording a memo. If a proration scheme is provided, the charges that are created will be rolled up into a single payment.
+        Creates multiple allocations, setting the current allocated quantity for each of the components and recording a memo. The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade.  If a proration scheme is provided, it will be used. If not, the site's default component proration scheme will be used.
 
         This endpoint only responds to JSON. It is not available for XML.
 
