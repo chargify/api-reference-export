@@ -32081,6 +32081,9 @@ x-stoplight:
   version:
     groups:
       docs:
+        - divider: false
+          items: []
+          name: Offers
         - items:
             - _id: introduction
               type: docTextSections
