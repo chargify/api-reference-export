@@ -6091,43 +6091,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /:
-    put:
-      operationId: PUT_root
-      summary: Clone Offer
-      tags:
-        - Offers
-      responses:
-        default:
-          description: ''
-          schema: {}
-      x-stoplight:
-        id: PUT_
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    post:
-      operationId: POST_root
-      summary: Archive Offer
-      tags:
-        - Offers
-      responses:
-        default:
-          description: ''
-          schema: {}
-      x-stoplight:
-        id: POST_
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/offers/{offer_id}.json':
     parameters:
       - name: offer_id
@@ -6208,8 +6171,62 @@ paths:
                     editable: false
                 offer_discounts:
                   - coupon_code: DEF456
+        '401':
+          description: ''
       x-stoplight:
         id: GET_offers-offeridjson
+        beforeScript: null
+        afterScript: null
+        public: false
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/offers/{offer_id}/archive':
+    parameters:
+      - name: offer_id
+        in: path
+        required: true
+        type: string
+    put:
+      operationId: PUT_offers-offer_id-archive
+      summary: Archive Offer
+      tags:
+        - Offers
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: ''
+      x-stoplight:
+        id: PUT_offers-offerid-archive
+        beforeScript: null
+        afterScript: null
+        public: false
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/offers/{offer_id}/unarchive':
+    parameters:
+      - name: offer_id
+        in: path
+        required: true
+        type: string
+    put:
+      operationId: PUT_offers-offer_id-unarchive
+      summary: Unarchive Offer
+      tags:
+        - Offers
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+        '401':
+          description: ''
+      x-stoplight:
+        id: PUT_offers-offerid-unarchive
         beforeScript: null
         afterScript: null
         public: false
@@ -33012,14 +33029,14 @@ x-stoplight:
               type: schemas
             - _id: create-offer-output
               type: schemas
-            - _id: PUT_
-              type: endpoints
-            - _id: POST_
-              type: endpoints
             - _id: GET_offers-offeridjson
               type: endpoints
             - _id: show-offer-output
               type: schemas
+            - _id: PUT_offers-offerid-archive
+              type: endpoints
+            - _id: PUT_offers-offerid-unarchive
+              type: endpoints
           name: Offers
         - name: Payments
           items:
