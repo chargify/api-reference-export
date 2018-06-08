@@ -35984,7 +35984,16 @@ x-stoplight:
     offers-introduction:
       id: offers-introduction
       name: Offers Introduction
-      content: ''
+      content: |-
+        ## Offers Intro
+
+        Offers allow you to package complicated combinations of products, components and coupons into a convenient package which can then be subscribed to just like products.
+
+        Once an offer is defined it can be used as an alternative to the product when creating subscriptions.
+
+        ## Offers Documentation
+
+        Full documentation on how to use offers in the Chargify UI can be located [here](https://help.chargify.com/offers/offers-introduction.html).
       public: true
   mock:
     enabled: false
