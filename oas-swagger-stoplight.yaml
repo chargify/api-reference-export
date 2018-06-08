@@ -6057,12 +6057,81 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/create-offer-input'
+            type: object
+            properties:
+              offers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    site_id:
+                      type: integer
+                    product_family_id:
+                      type: integer
+                    product_id:
+                      type: integer
+                    product_revisable_number:
+                      type: integer
+                    name:
+                      type: string
+                    handle:
+                      type: string
+                    description:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    archived_at:
+                      type: 'null'
+                    offer_items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          component_id:
+                            type: integer
+                          price_point_id:
+                            type: integer
+                          starting_quantity:
+                            type: string
+                          editable:
+                            type: boolean
+                    offer_discounts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          coupon_code:
+                            type: string
+          examples:
+            application/json:
+              offers:
+                - id: 1
+                  site_id: 2
+                  product_family_id: 4
+                  product_id: 32
+                  product_revisable_number: 0
+                  name: Offer One
+                  handle: handle-1
+                  description: An eloquent description.
+                  created_at: '2018-06-04T16:19:33-04:00'
+                  updated_at: '2018-06-04T16:19:33-04:00'
+                  archived_at: null
+                  offer_items:
+                    - component_id: 22
+                      price_point_id: 102
+                      starting_quantity: '0.0'
+                      editable: false
+                  offer_discounts:
+                    - coupon_code: DEF456
       x-stoplight:
         id: GET_offersjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -6082,11 +6151,28 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/create-offer-output'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  components:
+                    type: array
+                    items:
+                      type: string
+          examples:
+            application/json:
+              errors:
+                components:
+                  - 'starting_quantity for an On/Off component can only be ''1'' or ''0'': 24'
       x-stoplight:
         id: POST_offersjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -6202,7 +6288,7 @@ paths:
         id: PUT_offers-offerid-archive
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -6229,7 +6315,7 @@ paths:
         id: PUT_offers-offerid-unarchive
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -32392,6 +32478,74 @@ definitions:
   list-offer-output:
     title: List Offer Output
     type: object
+    properties:
+      offers:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            site_id:
+              type: integer
+            product_family_id:
+              type: integer
+            product_id:
+              type: integer
+            product_revisable_number:
+              type: integer
+            name:
+              type: string
+            handle:
+              type: string
+            description:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            archived_at:
+              type: 'null'
+            offer_items:
+              type: array
+              items:
+                type: object
+                properties:
+                  component_id:
+                    type: integer
+                  price_point_id:
+                    type: integer
+                  starting_quantity:
+                    type: string
+                  editable:
+                    type: boolean
+            offer_discounts:
+              type: array
+              items:
+                type: object
+                properties:
+                  coupon_code:
+                    type: string
+    example:
+      offers:
+        - id: 1
+          site_id: 2
+          product_family_id: 4
+          product_id: 32
+          product_revisable_number: 0
+          name: Offer One
+          handle: handle-1
+          description: An eloquent description.
+          created_at: '2018-06-04T16:19:33-04:00'
+          updated_at: '2018-06-04T16:19:33-04:00'
+          archived_at: null
+          offer_items:
+            - component_id: 22
+              price_point_id: 102
+              starting_quantity: '0.0'
+              editable: false
+          offer_discounts:
+            - coupon_code: DEF456
     x-stoplight:
       id: list-offer-output
       name: List Offer Output
@@ -32399,6 +32553,72 @@ definitions:
   create-offer-output:
     title: Create Offer Output
     type: object
+    properties:
+      offer:
+        type: object
+        properties:
+          id:
+            type: integer
+          site_id:
+            type: integer
+          product_family_id:
+            type: integer
+          product_id:
+            type: integer
+          product_revisable_number:
+            type: integer
+          name:
+            type: string
+          handle:
+            type: string
+          description:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          archived_at:
+            type: 'null'
+          offer_items:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                price_point_id:
+                  type: integer
+                starting_quantity:
+                  type: string
+                editable:
+                  type: boolean
+          offer_discounts:
+            type: array
+            items:
+              type: object
+              properties:
+                coupon_code:
+                  type: string
+    example:
+      offer:
+        id: 3
+        site_id: 2
+        product_family_id: 4
+        product_id: 31
+        product_revisable_number: 0
+        name: Solo
+        handle: han_shot_first
+        description: A Star Wars Story
+        created_at: '2018-06-08T14:51:52-04:00'
+        updated_at: '2018-06-08T14:51:52-04:00'
+        archived_at: null
+        offer_items:
+          - component_id: 24
+            price_point_id: 104
+            starting_quantity: '1.0'
+            editable: false
+        offer_discounts:
+          - coupon_code: DEF456
     x-stoplight:
       id: create-offer-output
       name: Create Offer Output
@@ -32406,6 +32626,42 @@ definitions:
   create-offer-input:
     title: Create Offer Input
     type: object
+    properties:
+      offer:
+        type: object
+        properties:
+          name:
+            type: string
+          handle:
+            type: string
+          description:
+            type: string
+          product_id:
+            type: integer
+          components:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                starting_quantity:
+                  type: integer
+          coupons:
+            type: array
+            items:
+              type: string
+    example:
+      offer:
+        name: Solo
+        handle: han_shot_first
+        description: A Star Wars Story
+        product_id: 31
+        components:
+          - component_id: 24
+            starting_quantity: 1
+        coupons:
+          - DEF456
     x-stoplight:
       id: create-offer-input
       name: Create Offer Input
