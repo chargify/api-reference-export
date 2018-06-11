@@ -904,7 +904,7 @@ paths:
       - name: component_id
         in: path
         description: |
-          either an id or a handle, prefixed by 'handle:'
+          either an integer id or a handle, prefixed by 'handle:'
         required: true
         type: string
         pattern: '^handle:[a-z0-9]\-_'
@@ -917,30 +917,12 @@ paths:
       description: |-
         ## Read a Specific Component for a Product Family
 
-        This request will return information regarding a component from a specific product family.
+        This request will return information regarding a component from a specific product family.  You can now pass either an integer as the `component_id` or the component handle as a string prefixed by `handle:`
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/component/list-specific-component-product-family-get'
-          examples:
-            application/json:
-              component:
-                id: 399853
-                name: Annual Support Services
-                pricing_scheme: null
-                unit_name: on/off
-                unit_price: '100.0'
-                product_family_id: 997233
-                price_per_unit_in_cents: null
-                kind: on_off_component
-                archived: false
-                taxable: true
-                description: Prepay for support services
-                default_price_point_id: 121003
-                price_point_count: 4
-                price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
-                tax_code: D0000000
+            $ref: '#/definitions/read-specific-component-output'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -32673,6 +32655,67 @@ definitions:
       id: show-offer-output
       name: Show Offer Output
       public: true
+  read-specific-component-output:
+    title: Read Specific Component Output
+    type: object
+    properties:
+      component:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          handle:
+            type: string
+          pricing_scheme:
+            type: 'null'
+          unit_name:
+            type: string
+          unit_price:
+            type: string
+          product_family_id:
+            type: integer
+          price_per_unit_in_cents:
+            type: 'null'
+          kind:
+            type: string
+          archived:
+            type: boolean
+          taxable:
+            type: boolean
+          description:
+            type: 'null'
+          default_price_point_id:
+            type: integer
+          price_point_count:
+            type: integer
+          price_points_url:
+            type: string
+          tax_code:
+            type: 'null'
+    example:
+      component:
+        id: 24
+        name: 24/7 Support
+        handle: my-handle
+        pricing_scheme: null
+        unit_name: on/off
+        unit_price: '1.0'
+        product_family_id: 4
+        price_per_unit_in_cents: null
+        kind: on_off_component
+        archived: false
+        taxable: false
+        description: null
+        default_price_point_id: 104
+        price_point_count: 1
+        price_points_url: 'http://acme.chargify.test/components/24/price_points'
+        tax_code: null
+    x-stoplight:
+      id: read-specific-component-output
+      name: Read Specific Component Output
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -32777,6 +32820,8 @@ x-stoplight:
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
               type: endpoints
+            - _id: read-specific-component-output
+              type: schemas
         - divider: false
           items:
             - _id: component-line-items
