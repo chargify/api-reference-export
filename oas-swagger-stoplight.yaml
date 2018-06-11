@@ -798,8 +798,10 @@ paths:
         type: integer
       - name: component_id
         in: path
+        description: 'A component identifier.  Either a Chargify ID or the handle you have attached to the component, prefixed with "handle:"'
         required: true
         type: integer
+        pattern: '\Ahandle:[a-z0-9][a-z0-9\-_:]*\z/'
     get:
       operationId: GET_product_families-product_family_id-components-component_id-json
       summary: Read Specific Component for a Product Family
@@ -910,7 +912,7 @@ paths:
         pattern: '^handle:[a-z0-9]\-_'
     get:
       operationId: 'GET_product_families-product_family_id-components-handle:component_id-json'
-      summary: 'TEST: Read Specific Component for a Product Family'
+      summary: Read Specific Component for a Product Family via Handle or Id
       tags:
         - Component
         - Components
@@ -918,6 +920,20 @@ paths:
         ## Read a Specific Component for a Product Family
 
         This request will return information regarding a component from a specific product family.  You can now pass either an integer as the `component_id` or the component handle as a string prefixed by `handle:`
+
+        ### Simplified example using component_id as handle:<string>
+
+        ```
+        curl mysub.chargify.com/product_families/999/component/handle:foo
+        ```
+
+        ### Simplified example using component_id as integer
+
+        ```
+        curl mysub.chargify.com/product_families/999/component/999
+        ```
+
+        both examples assume component with id 999 has handle 'foo'
       responses:
         '200':
           description: ''
@@ -929,7 +945,7 @@ paths:
         id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
