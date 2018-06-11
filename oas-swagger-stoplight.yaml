@@ -895,18 +895,21 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family_id}/components/handle:{handle}.json':
+  '/product_families/{product_family_id}/components/handle:{component_id}.json':
     parameters:
       - name: product_family_id
         in: path
         required: true
         type: integer
-      - name: handle
+      - name: component_id
         in: path
+        description: |
+          either an id or a handle, prefixed by 'handle:'
         required: true
         type: string
+        pattern: '^handle:[a-z0-9]\-_'
     get:
-      operationId: 'GET_product_families-product_family_id-components-handle:handle-json'
+      operationId: 'GET_product_families-product_family_id-components-handle:component_id-json'
       summary: 'TEST: Read Specific Component for a Product Family'
       tags:
         - Component
@@ -941,7 +944,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_productfamilies-productfamilyid-components-handlehandlejson
+        id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
         beforeScript: null
         afterScript: null
         public: false
@@ -32772,7 +32775,7 @@ x-stoplight:
               type: schemas
             - _id: GET_components-lookupjson
               type: endpoints
-            - _id: GET_productfamilies-productfamilyid-components-handlehandlejson
+            - _id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
               type: endpoints
         - divider: false
           items:
