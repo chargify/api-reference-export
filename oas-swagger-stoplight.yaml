@@ -908,8 +908,8 @@ paths:
         description: |
           either an integer id or a handle, prefixed by 'handle:'
         required: true
-        type: string
-        pattern: '^handle:[a-z0-9]\-_'
+        type: integer
+        pattern: '                                                 '
     get:
       operationId: 'GET_product_families-product_family_id-components-handle:component_id-json'
       summary: Read Specific Component for a Product Family via Handle or Id
