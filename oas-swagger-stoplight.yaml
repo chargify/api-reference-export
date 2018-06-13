@@ -986,6 +986,8 @@ paths:
         puts component.allocated_quantity
         # => 23
         ```
+
+        ## Handle lookup support
       responses:
         '200':
           description: ''
