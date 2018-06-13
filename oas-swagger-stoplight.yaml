@@ -988,6 +988,16 @@ paths:
         ```
 
         ## Handle lookup support
+
+         You can now pass either an integer as the component_id or the component handle as a string prefixed by handle:
+         
+        ```
+        # Example 1
+        curl mysub.chargify.com/subscriptions/999/components/1.json
+
+        # Example 2
+        curl mysub.chargify.com/subscriptions/999/components/handle:myhandle
+        ```
       responses:
         '200':
           description: ''
@@ -20234,6 +20244,10 @@ definitions:
             type: string
           price_point_id:
             type: integer
+          component_handle:
+            type:
+              - string
+              - 'null'
     example:
       component:
         component_id: 399850
