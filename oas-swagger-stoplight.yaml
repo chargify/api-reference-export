@@ -1053,6 +1053,7 @@ paths:
         type: string
       - name: component_id
         in: path
+        description: 'either an integer or a string prefixed by "handle:"'
         required: true
         type: string
     post:
@@ -1796,7 +1797,10 @@ paths:
                   type: object
                   properties:
                     component_id:
-                      type: integer
+                      type:
+                        - integer
+                        - string
+                      description: 'either an integer or a string prefixed with ''handle:'''
                     quantity:
                       type: integer
                     memo:
@@ -17018,9 +17022,12 @@ definitions:
           type: object
           properties:
             component_id:
-              type: integer
+              type:
+                - integer
+                - string
               minimum: 1
               maximum: 99999999999
+              description: 'is either an integer or a string prefixed with "handle:"'
             quantity:
               type: integer
               minimum: -99999999999
@@ -19984,7 +19991,10 @@ definitions:
               type: object
               properties:
                 component_id:
-                  type: integer
+                  type:
+                    - integer
+                    - string
+                  description: 'integer or string prefixed with "handle:"'
                 price_point_id:
                   type: integer
                 allocated_quantity:
@@ -26889,7 +26899,10 @@ definitions:
               type: object
               properties:
                 component_id:
-                  type: integer
+                  type:
+                    - integer
+                    - string
+                  default: 'integer or string prefixed with "handle:"'
                 unit_balance:
                   type: integer
                 price_point_id:
