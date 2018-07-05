@@ -12628,6 +12628,10 @@ paths:
                   customer_vault_token: '67890'
                   billing_address_2: null
                   payment_type: credit_card
+        '422':
+          description: ''
+          schema:
+            type: object
       security:
         - <<api_key>>: []
       x-stoplight:
