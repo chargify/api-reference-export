@@ -12632,6 +12632,15 @@ paths:
           description: ''
           schema:
             type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - The subscription is already canceled
       security:
         - <<api_key>>: []
       x-stoplight:
