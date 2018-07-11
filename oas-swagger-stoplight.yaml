@@ -35391,6 +35391,7 @@ x-stoplight:
         | product_id         | The Product ID of the product for which you are creating a subscription. The product ID is not currently published, so we recommend using the API Handle instead. |
         | customer_id        | The ID of an existing customer within Chargify. Required, unless a `customer_reference` or a set of `customer_attributes` is given.                               |
         | customer_reference | The reference value (provided by your app) of an existing customer within Chargify. Required, unless a `customer_id` or a set of `customer_attributes` is given.  |
+        | group              | Group attributes including the target subscription with which to group the new subscription and optional billing attributes.                                      |
 
 
         ### Customer Attributes
@@ -35465,6 +35466,26 @@ x-stoplight:
         | calendar_billing                      | (Optional, see [Calendar Billing](#https://help.chargify.com/subscriptions/billing-dates.html#calendar-billing) for more details). Cannot be used when also specifying `next_billing_at`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
         | snap_day                              | A value between `1` and `28`, or `end`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
         | calendar_billing_first_charge         | (Optional) One of “prorated” (the default – the prorated product price will be charged immediately), “immediate” (the full product price will be charged immediately), or “delayed” (the full product price will be charged with the first scheduled renewal).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+
+        ------------------
+
+        ### Group Attributes
+
+        | target  | Attributes of the target subscription with which to group the newly created subscription.  Required. |
+        |---------|------------------------------------------------------------------------------------------------------|
+        | billing | Optional attributes related to billing date and accrual.                                             |
+
+        #### Group Target Attributes
+        | type | The type of object indicated by the `id` attribute.  Currently, only `"subscription"` is accepted. Required. |
+        |------|--------------------------------------------------------------------------------------------------------------|
+        | id   | The id of the object to group the new subscription with.                                                     |
+
+        #### Group Billing Attributes
+        | accrue     | (Optional, default false) A flag indicating whether or not to accrue charges on the new subscription.                                                                                                             |
+        |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | align_date | (Optional, default false) A flag indicating whether or not to align the billing date of the new subscription with the billing date of the target subscription. Required to be `true` if `prorate` is also `true`. |
+        | prorate    | (Optional, default false) A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of `true` is ignored unless `align_date` is also `true`.                    |
+
         ---------
 
         | metafields         | (Optional) A set of key/value pairs representing custom fields and their values. Metafields will be created “on-the-fly” in your site for a given key, if they have not been created yet.                          |
