@@ -5894,53 +5894,11 @@ paths:
       tags:
         - Invoices (NEW)
       description: |-
-        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts an `amount`, `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded.
+        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts a `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded or `segment_uids: 'all'` to indicate that the entire invoice should be refunded.
 
-        **Each segment that is passed in must be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
+        **Each segment that is passed in will be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
 
         The `amount` is a dollar amount, not in cents, that must be equal to the total applied amount for each segment being passed in.
-
-        For example, a consolidated invoice with two segments:
-        ```
-        # Segment 1
-        {
-          uid: 'inv_123',
-          ...
-          payments: [{
-            transaction_id: 101,
-            applied_amount: "100.0"
-          }]
-        }
-
-        # Segment 2
-        {
-          uid: 'inv_456',
-          ...
-          payments: [{
-            transaction_id: 101,
-            applied_amount: "50.0"
-          }]
-        }
-
-        # Segment 3
-        {
-          uid: 'inv_789',
-          ...
-          payments: [{
-            transaction_id: 101,
-            applied_amount: "125.0"
-          }]
-        }
-
-        POST /invoices/:consolidated_uid/refunds.json
-        {
-          "refunds": {
-            "segment_uids": ["inv_456", "inv_789"],
-            "amount": "175.0", # must be 175.0 since both segments must be refunded in full
-            "payment_id": 101
-          }
-        }
-        ```
       consumes:
         - application/xml
       produces:
