@@ -5912,26 +5912,32 @@ paths:
               refund:
                 type: object
                 required:
-                  - amount
                   - memo
                   - payment_id
+                  - segment_uids
                 properties:
-                  amount:
-                    type: string
-                    description: A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
                   memo:
                     type: string
-                    description: A description that will be attached to the refund
+                    description: A description for the refund
                   payment_id:
                     type: integer
                     description: The ID of the payment to be refunded
+                  segment_uids:
+                    type:
+                      - array
+                      - string
+                    description: An array of segment uids to refund or the string 'all' to indicate that all segments should be refunded
+                    items:
+                      type: string
             required:
               - refund
             example:
               refund:
-                amount: '10.00'
                 memo: Refund for basic plan renewal
                 payment_id: 101
+                segment_uids:
+                  - inv_123
+                  - inv_789
       responses:
         '200':
           description: ''
