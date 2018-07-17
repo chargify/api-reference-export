@@ -98,63 +98,47 @@ paths:
         type: integer
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Updating the Quantity
+      summary: Create Allocation for On/Off Component
       tags:
         - 'Components: On/Off Toggling'
       description: |-
-        ## Updating the Quantity
+        ## Create Allocation for On/Off Component
 
         For full documentation on configuring allocations for subscriptions, please view the [Allocations](#docTextSection:Fupxh2M7fACmdwsDm) endpoint documentation.
 
-        After a subscription has been created, you may set or update the quantity at any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
+        After a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
 
         The method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
 
         **Notice**: Allocations can only be updated for Quantity and On/Off Components.
 
-        ## Price Point ID usage
-
-        If you are using price points, for Quantity components, Chargify gives you the option to specify a price point in your request.
-
-        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
-
-        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
-
         ## Input Fields
 
-        | **Input Fields**           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+        | **Input Fields** | **Description** |
         |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | quantity                   | The allocated quantity to which to set the line-items allocated quantity. By default, this is an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use `1 `for on and `0` for off.                                                                                                                                                                                                                          |
-        | memo                       | (optional) A memo to record along with the allocation                                                                                                                                                                                                                                                                                                                                                                                                                        |
-        | proration_upgrade_scheme   | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. **Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**                                                                                                                                                                                               |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                           |
-        | payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
+        | quantity |For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.   |
+        | memo | (optional) A memo to record along with the allocation |
+        | proration_upgrade_scheme | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
+        | payment_collection_method | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
 
         ## Output Fields
 
-        | Output Fields              | Description                                                                                                                                                                                                                                                                      |
-        |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                                                                                                                             |
-        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                                                                                                                               |
-        | quantity                   | The allocated quantity set in to effect by the allocation                                                                                                                                                                                                                        |
-        | previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                                                                                                                                     |
-        | memo                       | The memo passed when the allocation was created                                                                                                                                                                                                                                  |
-        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.**Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**  |
-        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                               |
-        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                                                                                             |
-        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file.                                                                                                  |
+        | Output Fields              | Description                                                                                                                                                             |
+        |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                    |
+        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                      |
+        | quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                                               |
+        | previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.                                                                                            |
+        | memo                       | The memo passed when the allocation was created                                                                                                                         |
+        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                       |
+        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                      |
+        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                               |
+        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
 
-        ## Response Status Codes
+        ## On/Off Component Example
 
-        | 201 Created              | Allocation created successfully                                                         |
-        |--------------------------|-----------------------------------------------------------------------------------------|
-        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
-        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
-        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
-
-        ## Quantity-based component example
-
-        The following example will set a quantity of 5 for a quantity-based component.
+        The following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.
 
         ```
         {
@@ -168,48 +152,31 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/quantity/update-the-quantity-allocation-request'
+            $ref: '#/definitions/components/onoff/toggling-on-off-request'
             example:
               allocation:
-                component_id: 375250
-                price_point_id: 75
-                quantity: 29
-                memo: Text messages usage May 2020
-                proration_downgrade_scheme: no-prorate
-                proration_collection_method: automatic
-                proration_upgrade_scheme: no-prorate
+                component_id: 399850
+                quantity: 0
+                price_point_id: 130350
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/quantity/update-the-quantity-allocation'
+            $ref: '#/definitions/components/onoff/toggling-on-off-response'
           examples:
             application/json:
               - allocation:
-                  component_id: 399850
+                  component_id: 399853
                   subscription_id: 18342261
-                  quantity: 29
-                  previous_quantity: 0
-                  memo: Text messages usage May 2020
-                  timestamp: '2017-07-12T20:01:36Z'
+                  quantity: 0
+                  previous_quantity: 1
+                  memo: null
+                  timestamp: '2017-07-10T21:00:38Z'
                   proration_upgrade_scheme: no-prorate
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 130350
-                  previous_price_point_id: 130350
+                  price_point_id: 121003
+                  previous_price_point_id: 121003
                   payment: null
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -223,60 +190,60 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Read History for Subscription's On/Off Components
+      summary: Read Allocations for a Subscription's Quantity-based Components
       tags:
         - Allocations
       description: |-
-        ## Read History for Subscription's On/Off Components
+        ## Read Allocations for Quantity-based Component Usage for a Subscription
 
-        Disply the history of the subscription's on/off component. When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
+        Use this endpoint to read the previously allocated components for a subscription.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/read-history-for-subscriptions-on-off-component'
+            $ref: '#/definitions/read-allocations-for-a-subscriptions-quantity-based-components'
           examples:
             application/json:
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:37:12Z'
+                  quantity: '100.0'
+                  previous_quantity: '50.0'
+                  memo: Third record
+                  timestamp: '2018-01-03T15:15:41Z'
                   proration_upgrade_scheme: prorate-delay-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 0
-                  previous_quantity: 1
-                  memo: Canceled hosting
-                  timestamp: '2018-01-03T15:36:33Z'
-                  proration_upgrade_scheme: no-prorate
-                  proration_downgrade_scheme: prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
-              - allocation:
-                  component_id: 426655
-                  subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:36:10Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
+                  quantity: '50.0'
+                  previous_quantity: '10.0'
+                  memo: Second record
+                  timestamp: '2018-01-03T15:15:13Z'
+                  proration_upgrade_scheme: full-price-attempt-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
+              - allocation:
+                  component_id: 426645
+                  subscription_id: 20310847
+                  quantity: '10.0'
+                  previous_quantity: '0.0'
+                  memo: First record
+                  timestamp: '2018-01-03T15:14:46Z'
+                  proration_upgrade_scheme: full-price-delay-capture
+                  proration_downgrade_scheme: no-prorate
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
       security:
         - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -964,29 +931,56 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading the Current Status of On/Off Component
+      summary: Reading Current Quantity
       tags:
         - 'Components: On/Off Toggling'
       description: |-
         ## Reading Current Quantity
 
         You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
+
+        ## Querying data via Chargify gem
+
+        You can also query the current quantity via the [official Chargify Gem.]( http://github.com/chargify/chargify_api_ares)
+
+        ```# First way
+        component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
+        puts component.allocated_quantity
+        # => 23
+
+        # Second way
+        component = Chargify::Subscription.find(7).component(1)
+        puts component.allocated_quantity
+        # => 23
+        ```
+
+        ## Handle lookup support
+
+         You can now pass either an integer as the component_id or the component handle as a string prefixed by handle:
+         
+        ```
+        # Example 1
+        curl mysub.chargify.com/subscriptions/999/components/1.json
+
+        # Example 2
+        curl mysub.chargify.com/subscriptions/999/components/handle:myhandle
+        ```
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
+            $ref: '#/definitions/components/quantity/reading-current-quantity-response'
           examples:
             application/json:
               component:
-                component_id: 399853
+                component_id: 399850
                 subscription_id: 18342261
-                enabled: false
-                allocated_quantity: 0
-                name: Annual Support Services
-                kind: on_off_component
-                unit_name: on/off
-                price_point_id: 121003
+                allocated_quantity: 29
+                name: Bronze Subscriptions 123
+                kind: quantity_based_component
+                unit_name: Bronze Subscriptions
+                pricing_scheme: per_unit
+                price_point_id: 121000
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1154,53 +1148,40 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Read Usage for a Subscription's Metered Component via Handle or Id
+      summary: Read Usage by Component for a Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Read Usage for Metered Component Usage for a Subscription via Handle or Id.
+        ## Read Usage by Component
 
-        Use this endpoint to read the previously recorded components for a subscription.  You can now specify either the component id (integer) or the component handle prefixed by "handle:" to specify the unique identifier for the component you are working with.
+        This request will return a list of the usages associated with a subscription for a particular metered component.
+
+        This endpoint is not compatible with quantity-based components.
+
+        ## Since Date and Until Date Usage 
+
+        Note: The `since_date` and `until_date` attributes each default to midnight on the date specified. For example, in order to list usages for January 20th, you would need to append the following to the URL. 
+
+        ```?since_date=2016-01-20&until_date=2016-01-21```
+      parameters:
+        - $ref: '#/parameters/trait:componentParameters:since_id'
+        - $ref: '#/parameters/trait:componentParameters:max_id'
+        - $ref: '#/parameters/trait:componentParameters:since_date'
+        - $ref: '#/parameters/trait:componentParameters:until_date'
+        - $ref: '#/parameters/trait:componentParameters:page'
+        - $ref: '#/parameters/trait:componentParameters:per_page'
       responses:
         '200':
           description: ''
           schema:
-            type: array
-            items:
-              type: object
-              properties:
-                usage:
-                  type: object
-                  properties:
-                    created_at:
-                      type: string
-                    id:
-                      type: integer
-                    memo:
-                      type: string
-                    quantity:
-                      type: integer
-                    price_point_id:
-                      type: integer
-                    component_handle:
-                      type:
-                        - 'null'
-                        - string
-                    subscription_id:
-                      type: integer
-                    component_id:
-                      type: integer
+            $ref: '#/definitions/components/metered/read-usage-output-subscription'
           examples:
             application/json:
               - usage:
-                  created_at: '1999-01-01'
-                  id: 1
-                  memo: 'null'
-                  quantity: 1
-                  price_point_id: 1
-                  component_handle: null
-                  subscription_id: 1
-                  component_id: 1
+                  id: 109806402
+                  memo: ''
+                  created_at: '2016-11-29T15:22:18-05:00'
+                  quantity: 100
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1215,40 +1196,33 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with On/Off Component
+      summary: Create Usage When Creating a New Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Create Subscription with On/Off Component
+        ## Create Usage When Creating a New Subscription
 
-        You may toggle an on/off component to **ON** when you create the subscription by including some extra data in your POST request. Please see the example below.
-
-        ## Price Points
-
-        You can also optionally include a `price_point_id` along with the component_id to set a specific price point to use, otherwise the component's default price point will be used.
+        This example will show you how to create usage while creating a new subscription. Please be aware that this example POSTs to the `subscriptions.json` endpoint. This example does not post to the a
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              subscription:
-                $ref: '#/definitions/components/onoff/create-subscription-with-onoff-component'
+            $ref: '#/definitions/components/metered/create-usage-when-creating-a-new-subscription Input'
             example:
               subscription:
-                product_handle: one-hundred-dollar-product
+                product_handle: basic
                 customer_attributes:
                   first_name: Joe
                   last_name: Blow
-                  email: joe@example.com
+                  email: joe1049am@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
                 components:
-                  - component_id: 399853
-                    enabled: true
-                    price_point_id: 123456
+                  - component_id: 195268
+                    unit_balance: 20
+                    price_point_id: 12345
       responses:
         '201':
           description: ''
@@ -1257,76 +1231,73 @@ paths:
           examples:
             application/json:
               subscription:
-                id: 18220670
+                id: 15569578
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-06-27T13:45:15-05:00'
-                created_at: '2017-06-27T13:45:13-05:00'
-                updated_at: '2017-06-30T09:26:50-05:00'
+                activated_at: '2016-12-09T11:49:23-05:00'
+                created_at: '2016-12-09T11:49:20-05:00'
+                updated_at: '2016-12-09T11:49:23-05:00'
                 expires_at: null
-                balance_in_cents: 10000
-                current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                next_assessment_at: '2017-06-30T12:00:00-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2016-12-10T11:49:20-05:00'
+                next_assessment_at: '2016-12-10T11:49:20-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
                 payment_collection_method: automatic
-                snap_day: end
+                snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-06-27T13:45:13-05:00'
+                current_period_started_at: '2016-12-09T11:49:20-05:00'
                 previous_state: active
-                signup_payment_id: 191819284
-                signup_revenue: '0.00'
+                signup_payment_id: 165589525
+                signup_revenue: '30010.00'
                 delayed_cancel_at: null
                 coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
-                product_version_number: 1
-                payment_type: null
-                referral_code: d3pw7f
+                total_revenue_in_cents: 3001000
+                product_price_in_cents: 1000
+                product_version_number: 7
+                payment_type: credit_card
+                referral_code: zf6s86
                 coupon_use_count: null
                 coupon_uses_allowed: null
-                reason_code: null
-                automatically_resume_at: null
-                current_billing_amount_in_cents: 10000
                 customer:
-                  id: 17780587
-                  first_name: Catie
-                  last_name: Test
-                  organization: 'Acme, Inc.'
-                  email: catie@example.com
-                  created_at: '2017-06-27T13:01:05-05:00'
-                  updated_at: '2017-06-30T09:23:10-05:00'
-                  reference: 123ABC
-                  address: 123 Anywhere Street
-                  address_2: 'Apartment #10'
-                  city: Los Angeles
-                  state: CA
-                  zip: '90210'
-                  country: US
-                  phone: 555-555-5555
-                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
+                  id: 15029690
+                  first_name: Joe
+                  last_name: Blow
+                  organization: null
+                  email: joe@example.com
+                  created_at: '2016-12-09T11:49:20-05:00'
+                  updated_at: '2016-12-09T11:49:25-05:00'
+                  reference: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
                   portal_invite_last_accepted_at: null
-                  verified: true
-                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                  cc_emails: support@example.com
-                  tax_exempt: true
+                  verified: false
+                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
+                  cc_emails: null
+                  tax_exempt: false
                 product:
-                  id: 4470347
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
+                  id: 3792003
+                  name: $10 Basic Plan
+                  handle: basic
+                  description: lorem ipsum
+                  accounting_code: basic
+                  request_credit_card: false
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-03-23T10:54:12-05:00'
-                  updated_at: '2017-04-20T15:18:46-05:00'
-                  price_in_cents: 0
+                  created_at: '2016-03-24T13:38:39-04:00'
+                  updated_at: '2016-11-03T13:03:05-04:00'
+                  price_in_cents: 1000
                   interval: 1
-                  interval_unit: month
+                  interval_unit: day
                   initial_charge_in_cents: null
                   trial_price_in_cents: null
                   trial_interval: null
@@ -1336,23 +1307,47 @@ paths:
                   return_params: ''
                   taxable: false
                   update_return_url: ''
-                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
+                  version_number: 7
                   update_return_params: ''
                   product_family:
-                    id: 997233
-                    name: Acme Products
+                    id: 527890
+                    name: Acme Projects
                     description: ''
-                    handle: acme-products
+                    handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 316810
+                    - id: 281054
+                      return_url: 'http://www.example.com?successfulsignup'
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                    - id: 281240
                       return_url: ''
                       return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
-      security:
-        - <<api_key>>: []
+                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                    - id: 282694
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                credit_card:
+                  id: 10405758
+                  first_name: Joe
+                  last_name: Blow
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 10
+                  expiration_year: 2020
+                  customer_id: 15029690
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: null
+                  billing_country: null
+                  customer_vault_token: null
+                  billing_address_2: null
+                  payment_type: credit_card
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -4220,24 +4215,16 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Search for Customer
+      summary: Read Customers for a Site
       tags:
         - Customers
       description: |-
-        ## Search for Customer
+        ## Read Customers for a Site
 
-        Use the search feature to retrieve a single or group of customers. 
-
-        Common use cases are:
-
-        + Search by email
-        + Search by Chargify ID
-        + Search by Reference (Your App)
-        + Search by Organization
-
-        If multiple customers meet the criteria for the search string, please expect an array.
+        This request will list all customers associated with your Site.
       parameters:
-        - $ref: '#/parameters/trait:searchString:q'
+        - $ref: '#/parameters/trait:pagination50:page'
+        - $ref: '#/parameters/trait:direction:direction'
       responses:
         '200':
           description: ''
@@ -4247,95 +4234,116 @@ paths:
               type: object
               properties:
                 customer:
-                  $ref: '#/definitions/customer/customer-output'
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    cc_emails:
+                      type: string
+                    organization:
+                      type: string
+                    reference:
+                      type: 'null'
+                    id:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    address:
+                      type: string
+                    address_2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                    phone:
+                      type: string
+                    verified:
+                      type: 'null'
+                    portal_customer_created_at:
+                      type: string
+                    portal_invite_last_sent_at:
+                      type: string
+                    portal_invite_last_accepted_at:
+                      type: 'null'
+                    tax_exempt:
+                      type: boolean
           examples:
             application/json:
               - customer:
-                  first_name: Amelia
-                  last_name: Example
-                  email: amelia@example.com
-                  cc_emails: 'john@example.com, joe@example.com'
-                  organization: Acme
-                  reference: JQPUBLIC
-                  id: 14399371
-                  created_at: '2016-10-24T16:20:12-04:00'
-                  updated_at: '2016-10-26T13:25:33-04:00'
-                  address: 123 Anywhere Street
+                  first_name: Kayla
+                  last_name: Test
+                  email: kayla@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14126091
+                  created_at: '2016-10-04T15:22:27-04:00'
+                  updated_at: '2016-10-04T15:22:30-04:00'
+                  address: ''
                   address_2: ''
-                  city: Anywhere
-                  state: MA
-                  zip: '02120'
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
+                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: 'Nick '
+                  last_name: Test
+                  email: nick@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14254093
+                  created_at: '2016-10-13T16:52:51-04:00'
+                  updated_at: '2016-10-13T16:52:54-04:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+              - customer:
+                  first_name: Don
+                  last_name: Test
+                  email: don@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: ''
+                  reference: null
+                  id: 14332342
+                  created_at: '2016-10-19T10:49:13-04:00'
+                  updated_at: '2016-10-19T10:49:19-04:00'
+                  address: 1737 15th St
+                  address_2: ''
+                  city: Boulder
+                  state: CO
+                  zip: '80302'
                   country: US
-                  phone: 555-555-1212
-                  verified: false
-                  portal_customer_created_at: null
-                  portal_invite_last_sent_at: null
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Matt
-                  last_name: Example
-                  email: matt@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: '1234'
-                  id: 14585723
-                  created_at: '2016-11-04T17:08:31-04:00'
-                  updated_at: '2016-12-02T18:03:36-05:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: John
-                  last_name: Doe
-                  email: john.doe@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme Widgets
-                  reference: '123'
-                  id: 14731081
-                  created_at: '2016-11-15T15:33:44-05:00'
-                  updated_at: '2016-11-15T15:33:45-05:00'
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  verified: false
-                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-              - customer:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: ABC123
-                  id: 14943291
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T18:03:17-05:00'
-                  address: ''
-                  address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
+                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
       security:
@@ -4822,6 +4830,66 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /events.json:
+    get:
+      operationId: list-events
+      summary: Read Events for a Site
+      tags:
+        - Event
+        - incomplete
+        - Events
+      description: |-
+        ## List Events for a Site
+
+        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:page'
+        - $ref: '#/parameters/trait:eventsFilters:per_page'
+        - $ref: '#/parameters/trait:eventsFilters:since_id'
+        - $ref: '#/parameters/trait:eventsFilters:max_id'
+        - $ref: '#/parameters/trait:eventsFilters:direction'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/events/list-site-event-output'
+          examples:
+            application/json:
+              - event:
+                  id: 343087780
+                  key: subscription_state_change
+                  message: State changed on Test subscription to Monthly Product from active to past_due
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:22-04:00'
+                  event_specific_data:
+                    previous_subscription_state: active
+                    new_subscription_state: past_due
+              - event:
+                  id: 343087742
+                  key: billing_date_change
+                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:19-04:00'
+                  event_specific_data: null
+              - event:
+                  id: 343085267
+                  key: statement_closed
+                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
+                  subscription_id: 14950975
+                  created_at: '2016-10-27T16:40:40-04:00'
+                  event_specific_data: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: list-events
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/events.json':
     parameters:
       - name: subscription_id
@@ -4882,66 +4950,6 @@ paths:
                   message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
                   subscription_id: 14900541
                   created_at: '2016-11-01T12:41:25-04:00'
-                  event_specific_data: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: list-events
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /events.json:
-    get:
-      operationId: list-events
-      summary: Read Events for a Site
-      tags:
-        - Event
-        - incomplete
-        - Events
-      description: |-
-        ## List Events for a Site
-
-        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:page'
-        - $ref: '#/parameters/trait:eventsFilters:per_page'
-        - $ref: '#/parameters/trait:eventsFilters:since_id'
-        - $ref: '#/parameters/trait:eventsFilters:max_id'
-        - $ref: '#/parameters/trait:eventsFilters:direction'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/events/list-site-event-output'
-          examples:
-            application/json:
-              - event:
-                  id: 343087780
-                  key: subscription_state_change
-                  message: State changed on Test subscription to Monthly Product from active to past_due
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:22-04:00'
-                  event_specific_data:
-                    previous_subscription_state: active
-                    new_subscription_state: past_due
-              - event:
-                  id: 343087742
-                  key: billing_date_change
-                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:19-04:00'
-                  event_specific_data: null
-              - event:
-                  id: 343085267
-                  key: statement_closed
-                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
-                  subscription_id: 14950975
-                  created_at: '2016-10-27T16:40:40-04:00'
                   event_specific_data: null
       security:
         - <<api_key>>: []
@@ -5875,6 +5883,109 @@ paths:
         beforeScript: null
         afterScript: null
         public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/invoices/:uid/refunds.json':
+    post:
+      operationId: 'POST_invoices-:uid-refunds-json'
+      summary: Refund Consolidated Invoice
+      tags:
+        - Invoices (NEW)
+      description: |-
+        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts an `amount`, `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded.
+
+        **Each segment that is passed in must be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
+
+        The `amount` is a dollar amount, not in cents, that must be equal to the total applied amount for each segment being passed in.
+
+        For example, a consolidated invoice with two segments:
+        ```
+        # Segment 1
+        {
+          uid: 'inv_123',
+          ...
+          payments: [{
+            transaction_id: 101,
+            applied_amount: "100.0"
+          }]
+        }
+
+        # Segment 2
+        {
+          uid: 'inv_456',
+          ...
+          payments: [{
+            transaction_id: 101,
+            applied_amount: "50.0"
+          }]
+        }
+
+        # Segment 3
+        {
+          uid: 'inv_789',
+          ...
+          payments: [{
+            transaction_id: 101,
+            applied_amount: "125.0"
+          }]
+        }
+
+        POST /invoices/:consolidated_uid/refunds.json
+        {
+          "refunds": {
+            "segment_uids": ["inv_456", "inv_789"],
+            "amount": "175.0", # must be 175.0 since both segments must be refunded in full
+            "payment_id": 101
+          }
+        }
+        ```
+      consumes:
+        - application/xml
+      produces:
+        - application/xml
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              refund:
+                type: object
+                required:
+                  - amount
+                  - memo
+                  - payment_id
+                properties:
+                  amount:
+                    type: string
+                    description: A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
+                  memo:
+                    type: string
+                    description: A description that will be attached to the refund
+                  payment_id:
+                    type: integer
+                    description: The ID of the payment to be refunded
+            required:
+              - refund
+            example:
+              refund:
+                amount: '10.00'
+                memo: Refund for basic plan renewal
+                payment_id: 101
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/invoice-new'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_invoices-uid-refundsjson
+        beforeScript: null
+        afterScript: null
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -12301,27 +12412,24 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_subscriptions-subscription_id-format
-      summary: 'Update Subscription: Product Change'
+      summary: 'Update Subscription: Payment Method Change'
       tags:
         - Subscription
         - incomplete
         - Subscriptions
       description: |-
-        ## Update Subscription: Product Change
+        ## Update Subscription: Payment Method Change
 
-        This method merely changes the product, and the new payment amount is calculated and charged at the normal start of the next period. If you desire prorated upgrades and downgrades instead, please see the docs on upgrades/downgrades and the [migrations API](#docTextSection:HRFQ33cF69MpBa5dE).
+        Change the card that your Subscriber uses for their subscription. You can also use this method to simply change the expiration date of the card **if your gateway allows**.
 
-        To perform a product change, simply set the `product_handle` attribute with the `handle` of a different product from the same site as the subscription. Note that no proration or period reset is initiated when you change the product using this method.
+        Note that partial card updates for **Authorize.Net** are not allowed via this endpoint. See [Payment Profiles Update](#endpoint:XaKv2mYcuT6g9EErH) instead
+
+        You also use this method to change the subscription to a different product by setting a new value for product_handle. A product change can be done in two different ways, **product change** or **delayed product change**.
       parameters:
         - name: body
           in: body
           schema:
-            anyOf:
-              - $ref: '#/definitions/subscriptions/update-subscription-product-change-request'
-              - $ref: '#/definitions/update-subscription-product-change-request-id'
-            example:
-              subscription:
-                product_handle: gold
+            $ref: '#/definitions/subscriptions/update-subscription-payment-method-request'
       responses:
         '200':
           description: OK
@@ -12426,17 +12534,6 @@ paths:
                       url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
         '422':
           description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - Product with API Handle 'gold' does not exist for this site.
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -31906,97 +32003,44 @@ definitions:
     properties:
       uid:
         type: string
-        description: Unique identifier for the invoice. It is generated automatically by Chargify and has the prefix "inv_" followed by alphanumeric characters.
       site_id:
         type: integer
-        description: ID of the site to which the invoice belongs.
       customer_id:
         type: integer
-        description: ID of the customer to which the invoice belongs.
       subscription_id:
         type: integer
-        description: ID of the subscription that generated the invoice.
       number:
         type: string
-        description: |-
-          A unique, identifying string that appears on the invoice and in places the invoice is referenced.
-
-          While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
       sequence_number:
         type: integer
-        description: A monotonically increasing number assigned to invoices as they are created.  This number is unique within a site and can be used to sort and order invoices.
       issue_date:
         type: string
-        description: |-
-          Date the invoice was issued to the customer.  This is the date that the invoice was made available for payment.
-
-          The format is `"YYYY-MM-DD"`.
       due_date:
         type: string
-        description: |-
-          Date the invoice is due.
-
-          The format is `"YYYY-MM-DD"`.
       paid_date:
         type: string
-        description: |-
-          Date the invoice became fully paid.
-
-          If partial payments are applied to the invoice, this date will not be present until payment has been made in full.
-
-          The format is `"YYYY-MM-DD"`.
       status:
         type: string
-        description: |
-          Current status of the invoice.  One of:
-
-          * "draft"
-          * "pending"
-          * "open"
-          * "paid"
-          * "voided"
-          * "canceled"
-
-          See [Invoice Statuses](https://help.chargify.com/invoices/index.html#invoice-statuses) for more.
       collection_method:
         type: string
-        description: 'The collection method of the invoice, which is either "automatic" (tried and retried on an existing payment method by Chargify) or "remittance" (payment must be remitted by the customer or keyed in by the merchant).'
       payment_instructions:
         type: string
-        description: 'A message that is printed on the invoice when it is marked for remittance collection. It is intended to describe to the customer how they may make payment, and is configured by the merchant.'
       currency:
         type: string
-        description: The ISO 4217 currency code (3 character string) representing the currency of invoice transaction.
       consolidation_level:
         type: string
-        description: |-
-          Consolidation level of the invoice, which is applicable to invoice consolidation.  It will hold one of the following values:
-
-          * "none": A normal invoice with no consolidation.
-          * "child": An invoice segment which has been combined into a consolidated invoice.
-          * "parent": A consolidated invoice, whose contents are composed of invoice segments.
-
-          "Parent" invoices do not have lines of their own, but they have subtotals and totals which aggregate the member invoice segments.
-
-          See also the [invoice consolidation documentation](https://help.chargify.com/invoices/consolidation.html).
       parent_invoice_uid:
         type: 'null'
-        description: 'For invoices with `consolidation_level` of `child`, this specifies the UID of the parent (consolidated) invoice.'
       parent_invoice_number:
         type: 'null'
-        description: 'For invoices with `consolidation_level` of `child`, this specifies the number of the parent (consolidated) invoice.'
       group_primary_subscription_id:
         type: 'null'
-        description: 'For invoices with `consolidation_level` of `parent`, this specifies the ID of the subscription which was the primary subscription of the subscription group that generated the invoice.'
       product_name:
         type: string
-        description: The name of the product subscribed when the invoice was generated.
       product_family_name:
         type: string
-        description: The name of the product family subscribed when the invoice was generated.
       seller:
         type: object
-        description: Information about the seller (merchant) listed on the masthead of the invoice.
         properties:
           name:
             type: string
@@ -32019,7 +32063,6 @@ definitions:
             type: string
       customer:
         type: object
-        description: Information about the customer who is responsible for the invoice.
         properties:
           chargify_id:
             type: integer
@@ -32033,10 +32076,8 @@ definitions:
             type: string
       memo:
         type: string
-        description: The memo printed on invoices of any collection type.  This message is in control of the merchant.
       billing_address:
         type: object
-        description: The invoice billing address.
         properties:
           street:
             type: string
@@ -32052,7 +32093,6 @@ definitions:
             type: string
       shipping_address:
         type: object
-        description: The invoice shipping address.
         properties:
           street:
             type: string
@@ -32068,117 +32108,61 @@ definitions:
             type: string
       subtotal_amount:
         type: string
-        description: 'Subtotal of the invoice, which is the sum of all line items before discounts or taxes.'
       discount_amount:
         type: string
-        description: Total discount applied to the invoice.
       tax_amount:
         type: string
-        description: Total tax on the invoice.
       total_amount:
         type: string
-        description: 'The invoice total, which is `subtotal_amount - discount_amount + tax_amount`.'
       credit_amount:
         type: string
-        description: |-
-          The amount of credit (from credit notes) applied to this invoice.
-
-          Credits offset the amount due from the customer.
+      refund_amount:
+        type: string
       paid_amount:
         type: string
-        description: The amount paid on the invoice by the customer.
       due_amount:
         type: string
-        description: 'Amount due on the invoice, which is `total_amount - credit_amount - paid_amount`.'
       line_items:
         type: array
-        description: Line items on the invoice.
         items:
           type: object
           properties:
             uid:
               type: string
-              description: Unique identifier for the line item.  Useful when cross referencing the line against individual discounts in the `discounts` or `taxes` lists.
             title:
               type: string
-              description: A short descriptor for the charge or item represented by this line.
             description:
               type: string
-              description: |-
-                Detailed description for the charge or item represented by this line.  May include proration details in plain text.
-
-                Note: this string may contain line breaks that are hints for the best display format on the invoice.
             quantity:
               type: string
-              description: |-
-                The quantity or count of units billed by the line item.
-
-                This is a decimal number represented as a string. (See "About Decimal Numbers".)
             unit_price:
               type: string
-              description: |-
-                The price per unit for the line item.
-
-                When tiered pricing was used (i.e. not every unit was actually priced at the same price) this will be the blended average cost per unit and the `tiered_unit_price` field will be set to `true`.
             subtotal_amount:
               type: string
-              description: 'The line subtotal, generally calculated as `quantity * unit_price`. This is the canonical amount of record for the line - when rounding differences are in play, `subtotal_amount` takes precedence over the value derived from `quantity * unit_price` (which may not have the proper precision to exactly equal this amount).'
             discount_amount:
               type: string
-              description: |-
-                The approximate discount applied to just this line.
-
-                The value is approximated in cases where rounding errors make it difficult to apportion exactly a total discount among many lines. Several lines may have been summed prior to applying the discount to arrive at `discount_amount` for the invoice - backing that out to the discount on a single line may introduce rounding or precision errors.
             tax_amount:
               type: string
-              description: |-
-                The approximate tax applied to just this line.
-
-                The value is approximated in cases where rounding errors make it difficult to apportion exactly a total tax among many lines. Several lines may have been summed prior to applying the tax rate to arrive at `tax_amount` for the invoice - backing that out to the tax on a single line may introduce rounding or precision errors.
             total_amount:
               type: string
-              description: |-
-                The non-canonical total amount for the line.
-
-                `subtotal_amount` is the canonical amount for a line. The invoice `total_amount` is derived from the sum of the line `subtotal_amount`s and discounts or taxes applied thereafter.  Therefore, due to rounding or precision errors, the sum of line `total_amount`s may not equal the invoice `total_amount`.
             tiered_unit_price:
               type: boolean
-              description: 'When `true`, indicates that the actual pricing scheme for the line was tiered, so the `unit_price` shown is the blended average for all units.'
             period_range_start:
               type: string
-              description: |-
-                Start date for the period covered by this line. The format is `"YYYY-MM-DD"`.
-
-                * For periodic charges paid in advance, this date will match the billing date, and the end date will be in the future.
-                * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the previous billing, and the end date will be the current billing date.
-                * For non-periodic charges, this date and the end date will match.
             period_range_end:
               type: string
-              description: |-
-                End date for the period covered by this line. The format is `"YYYY-MM-DD"`.
-
-                * For periodic charges paid in advance, this date will match the next (future) billing date.
-                * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the current billing date.
-                * For non-periodic charges, this date and the start date will match.
             product_id:
               type: integer
-              description: |-
-                The ID of the product subscribed when the charge was made.
-
-                This may be set even for component charges, so true product-only (non-component) charges will also have a nil `component_id`.
             product_version:
               type: integer
-              description: The version of the product subscribed when the charge was made.
             component_id:
               type:
                 - integer
                 - 'null'
-              description: The ID of the component being billed. Will be `nil` for non-component charges.
             price_point_id:
               type:
                 - integer
                 - 'null'
-              description: The price point ID of the component being billed. Will be `nil` for non-component charges.
       discounts:
         type: array
         items:
@@ -32256,6 +32240,21 @@ definitions:
               type: string
             transaction_time:
               type: string
+            memo:
+              type: string
+            original_amount:
+              type: string
+            applied_amount:
+              type: string
+      refunds:
+        type: array
+        items:
+          type: object
+          properties:
+            transaction_id:
+              type: integer
+            payment_id:
+              type: integer
             memo:
               type: string
             original_amount:
@@ -32362,7 +32361,8 @@ definitions:
       discount_amount: '47.38'
       tax_amount: '28.78'
       total_amount: '455.15'
-      credit_amount: '4.8'
+      credit_amount: '405.15'
+      refund_amount: '400.35'
       paid_amount: '450.35'
       due_amount: '0.0'
       line_items:
@@ -32482,6 +32482,12 @@ definitions:
           memo: Credit balance applied
           original_amount: '4.8'
           applied_amount: '4.8'
+      refunds:
+        - transaction_id: 121
+          payment_id: 113
+          memo: Refund for professional plan renewal
+          original_amount: '400.35'
+          applied_amount: '400.35'
       payments:
         - transaction_time: '2018-05-24T14:23:18Z'
           memo: 'Prepayment applied to invoice #17.'
@@ -33439,6 +33445,10 @@ x-stoplight:
             - _id: invoice-new
               type: schemas
             - _id: GET_invoices-uid
+              type: endpoints
+            - _id: POST_invoices-uid-refundsjson
+              type: endpoints
+            - _id: POST_invoices-uid-refundsjson
               type: endpoints
           name: Invoices (NEW)
           description: |-
