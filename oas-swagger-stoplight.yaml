@@ -5969,7 +5969,7 @@ paths:
         id: POST_invoices-uid-refundsjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
