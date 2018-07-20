@@ -5917,8 +5917,6 @@ paths:
         This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts a `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded or `segment_uids: 'all'` to indicate that the entire invoice should be refunded.
 
         **Each segment that is passed in will be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
-
-        The `amount` is a dollar amount, not in cents, that must be equal to the total applied amount for each segment being passed in.
       consumes:
         - application/xml
       produces:
