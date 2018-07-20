@@ -24066,9 +24066,7 @@ definitions:
           type:
             type: string
           kind:
-            type:
-              - 'null'
-              - string
+            type: string
           transaction_type:
             type: string
           success:
@@ -24084,117 +24082,43 @@ definitions:
           ending_balance_in_cents:
             type: integer
           gateway_used:
-            type:
-              - string
-              - 'null'
+            type: string
           gateway_transaction_id:
-            type:
-              - string
-              - 'null'
+            type: string
           gateway_order_id:
-            type:
-              - 'null'
-              - string
+            type: 'null'
           payment_id:
-            type:
-              - 'null'
-              - integer
+            type: 'null'
           product_id:
             type: integer
           tax_id:
-            type:
-              - 'null'
-              - integer
+            type: 'null'
           component_id:
-            type:
-              - 'null'
-              - integer
+            type: 'null'
           statement_id:
             type: integer
           customer_id:
             type: integer
           item_name:
-            type:
-              - 'null'
-              - string
+            type: 'null'
           parent_id:
-            type:
-              - integer
-              - 'null'
-            description: '(Experimental) Only present for Payment types. Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment (by ID) from which this one derived.'
+            type: 'null'
           role:
-            type:
-              - string
-              - 'null'
-            description: '(Experimental) Only present for Payment types. Payments may be marked with a role to define the context in which they were applied. Valid values are currently reserved for invoicing and consolidated invoicing: invoice_payment, consolidated_invoice_payment, invoice_segment_payment, payment_split'
+            type: 'null'
           card_number:
-            type:
-              - string
-              - 'null'
-            description: Only present for Payment types.  The masked card  number used for the payment.
+            type: string
           card_expiration:
-            type:
-              - string
-              - 'null'
-            description: 'Only present for Payment types.  The expiration date of the card used for the payment, in "MM/YYYY" format.'
+            type: string
           card_type:
-            type:
-              - string
-              - 'null'
-            description: 'Only present for Payment types.  The brand of the card used in the payment transaciton, i.e. `visa`,`master`, `discover`, `american_express`, `diners_club`, `jcb`, `switch`, `solo`, `dankort`, `maestro`, `forbrugsforeningen`, or `laser`.'
+            type: string
           refunded_amount_in_cents:
             type: integer
-            description: Only present for Payment types.  The amount of this payment that has been refunded.
-          original_amount_in_cents:
-            type: integer
-            description: Only present for Charge or Credit types.  Returns the amount of the charge before discounts. (Which is a mirror of `amount_in_cents` but with a more descriptive name.)
-          discount_amount_in_cents:
-            type: integer
-            description: 'Only present for Charge or Credit types.  Returns the amount of the discount applied to this charge, or 0 if no discount was applied.'
-          taxable_amount_in_cents:
-            type:
-              - integer
-              - 'null'
-            description: 'Only present for Charge or Credit types.  Returns `null` if the charge or credit was not taxable.  If the charge or credit was taxable, returns the taxable amount, which is the amount after any discounts i.e. `original_amount_in_cents - discount_amount_in_cents`'
-          taxations:
-            type: array
-            description: 'Only present on Charge and Credit types.  An array of detailed taxation data for the charge, one element per tax that gets applied.'
-            items:
-              type: object
-              properties:
-                tax_id:
-                  type: integer
-                  description: The ID of the tax represented in the taxation.
-                tax_charge_id:
-                  type: integer
-                  description: The ID of another charge that represents the amount charged in this taxation.
-                tax_name:
-                  type: string
-                  description: The name of the tax applied.
-                rate:
-                  type: string
-                  description: 'The tax rate, when applied, as a string representing a decimal number.  e.g. "0.05" would represent a 5% tax.'
-                tax_amount_in_cents:
-                  type: integer
-                  description: The amount of tax from the tax identified by `tax_id` on this charge.
-                tax_rules:
-                  type: array
-                  description: A single Chargify tax can have many tax rules.  This array enumerates all of the rules (scoped to the single tax) that applied to this charge.
-                  items:
-                    type: object
-                    properties:
-                      tax_rule_id:
-                        type: integer
-                      country_code:
-                        type: string
-                      subdivision_code:
-                        type: string
-                      rate:
-                        type: string
-                      tax_amount_in_cents:
-                        type: integer
-                      description:
-                        type: string
+          period_range_start:
+            type: string
+            description: Start date of the period (only on charges and credits)
+          period_range_end:
+            type: string
+            description: End date of the period (only on charges and credits)
     example:
       transaction:
         id: 237759849
@@ -24224,6 +24148,8 @@ definitions:
         card_expiration: 01/2028
         card_type: bogus
         refunded_amount_in_cents: 0
+        period_range_start: '2018-04-24'
+        period_range_end: '2018-05-24'
     x-stoplight:
       id: transactions/transaction-response
       name: Transaction Response
