@@ -4874,13 +4874,13 @@ paths:
           in: query
           description: Any of the events listed under the introduction. `?filter=payment_success'
           type: string
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
         - $ref: '#/parameters/trait:eventsFilters:page'
         - $ref: '#/parameters/trait:eventsFilters:per_page'
         - $ref: '#/parameters/trait:eventsFilters:since_id'
         - $ref: '#/parameters/trait:eventsFilters:max_id'
         - $ref: '#/parameters/trait:eventsFilters:direction'
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: OK
@@ -4932,7 +4932,7 @@ paths:
       description: |-
         ## List Events for a Site
 
-        This method will retrieve a list of events for a site. Use query string filters to narrow down results.
+        This method will retrieve a list of events for a site. Use query string filters to narrow down results. You may use the `key` filter as part of your query string to narrow down results.
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
@@ -4941,6 +4941,7 @@ paths:
         - $ref: '#/parameters/trait:eventsFilters:since_id'
         - $ref: '#/parameters/trait:eventsFilters:max_id'
         - $ref: '#/parameters/trait:eventsFilters:direction'
+        - $ref: '#/parameters/trait:filter:filter'
       responses:
         '200':
           description: OK
@@ -5003,6 +5004,7 @@ paths:
         - $ref: '#/parameters/trait:eventsFilters:since_id'
         - $ref: '#/parameters/trait:eventsFilters:max_id'
         - $ref: '#/parameters/trait:eventsFilters:direction'
+        - $ref: '#/parameters/trait:filter:filter'
       responses:
         '200':
           description: OK
@@ -15483,6 +15485,42 @@ parameters:
     type: integer
     enum:
       - 1509408720
+  'trait:filter:filter':
+    name: filter
+    in: query
+    type: string
+    enum:
+      - payment_success
+      - payment_failure
+      - signup_success
+      - signup_failure
+      - billing_date_change
+      - renewal_success
+      - renewal_failure
+      - subscription_state_change
+      - subscription_product_change
+      - expiring_card
+      - customer_update
+      - subscription_deletion
+      - component_allocation_change
+      - metered_usage
+      - upgrade_downgrade_success
+      - upgrade_downgrade_failure
+      - trial_end_notice
+      - upcoming_renewal_notice
+      - statement_closed
+      - statement_settled
+      - subscription_bank_account_update
+      - subscription_paypal_account_update
+      - refund_success
+      - refund_failure
+      - expiration_date_change
+      - account_transaction_changed
+      - renewal_success_recreated
+      - renewal_failure_recreated
+      - payment_success_recreated
+      - payment_failure_recreated
+      - dunning_step_reached
 definitions:
   webhooks/list-webhook-output:
     title: List Webhook Output
@@ -33297,6 +33335,8 @@ x-stoplight:
             - type: traits
               _id: eventsFilters
             - _id: sinceId
+              type: traits
+            - _id: filter
               type: traits
           divider: false
         - name: Invoices
