@@ -3666,15 +3666,13 @@ paths:
         https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=1
         ```
       parameters:
-        - name: coupon_code
+        - name: code
           in: query
           description: The Coupon Code.
-          required: false
           type: string
         - name: product_family_id
           in: query
           description: ''
-          required: false
           type: number
       responses:
         '200':
