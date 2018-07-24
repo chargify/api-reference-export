@@ -24149,10 +24149,10 @@ definitions:
             type: integer
           period_range_start:
             type: string
-            description: Start date of the period (only on charges and credits)
+            description: Start date of the period
           period_range_end:
             type: string
-            description: End date of the period (only on charges and credits)
+            description: End date of the period
     example:
       transaction:
         id: 237759849
@@ -34219,8 +34219,8 @@ x-stoplight:
         | component_id              | ID of the component, only available in the `charge`                                                                                                                                                                                                                                           |
         | customer_id               | The ID of the customer                                                                                                                                                                                                                                                                        |
         | item_name                 | The name of the product or component                                                                                                                                                                                                                                                        |
-        | period_range_start        | (only for Charges and Credits) The start date of the transaction period                                                                                                                                                                                                                                                                                                     |
-        | period_range_end          | (only for Charges and Credits) The end date of the transaction period                                                                                                                                                                                                                                                                                                         |
+        | period_range_start        | The start date of the transaction period                                                                                                                                                                                                                                                                                                     |
+        | period_range_end          | The end date of the transaction period                                                                                                                                                                                                                                                                                                         |
         | parent_id                 | (Experimental, only for Payments) Some payments modify earlier payments, such as when a payment from one subscription is "split" and applied to other subscriptions in Invoice Consolidation. In those cases, this field identifies the original Payment from which this one derived. |
         | role                 | (Experimental, only for Payments) Payments may be marked with a role to define the context in which they were applied.  Valid values are currently reserved for invoicing and consolidated invoicing: `invoice_payment`, `consolidated_invoice_payment`, `invoice_segment_payment`, `payment_split` |
         | **Gateway**               | **Value in gateway_order_id**                                                                                                                                                                                                                                                                 |
