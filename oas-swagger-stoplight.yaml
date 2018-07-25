@@ -35767,9 +35767,9 @@ x-stoplight:
         + Changing the type or length of any of the ID attributes
           + For example, most IDs are currently integers, but you should not assume that this will always be the case.
 
-        Chargify does not provide notifications for additions that are clearly defined as backwards compatible.
-
         In addition, you should not depend on the order of attributes within the API response as this may change.
+
+        Chargify does not provide notifications for additions that are clearly defined as backwards compatible.
 
         ## Examples
 
