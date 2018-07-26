@@ -4196,14 +4196,14 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/customer/create-a-customer-output'
+            $ref: '#/definitions/customer/customer-output'
           examples:
             application/json:
               customer:
                 first_name: Martha
                 last_name: Washington
                 email: martha@example.com
-                cc_emails: null
+                cc_emails: 'john@example.com, sue@example.com'
                 organization: null
                 reference: null
                 id: 14967442
@@ -4221,6 +4221,7 @@ paths:
                 portal_invite_last_sent_at: null
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
+                vat_number: 012345678
         '422':
           description: ''
           schema:
@@ -4298,6 +4299,7 @@ paths:
                   portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
               - customer:
                   first_name: Matt
                   last_name: Example
@@ -4320,6 +4322,7 @@ paths:
                   portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
               - customer:
                   first_name: John
                   last_name: Doe
@@ -4342,6 +4345,7 @@ paths:
                   portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
               - customer:
                   first_name: Joe
                   last_name: Blow
@@ -4364,6 +4368,7 @@ paths:
                   portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4404,27 +4409,28 @@ paths:
           examples:
             application/json:
               customer:
-                first_name: non
-                last_name: Ut consequat in
-                email: pariatur
-                cc_emails: ipsum sit sunt
-                organization: anim aute enim dolore in
+                first_name: Martha
+                last_name: Washington
+                email: martha@example.com
+                cc_emails: 'john@example.com, sue@example.com'
+                organization: null
                 reference: null
-                id: 95274396
-                created_at: dolor cupidatat anim culpa
-                updated_at: sit elit in Lorem officia
-                address: magna irure
-                address_2: dolore deserunt
-                city: elit nostrud ad
-                state: sint eu Excepteur amet
-                zip: aliquip Excepteur occaecat pariatur eiusmod
-                country: pariatur dolore
-                phone: eu eiusmod laboris aliqua ullamco
-                verified: null
-                portal_customer_created_at: ali
-                portal_invite_last_sent_at: labore exercitation reprehenderit Exc
+                id: 14967442
+                created_at: '2016-12-05T10:33:07-05:00'
+                updated_at: '2016-12-05T10:33:07-05:00'
+                address: null
+                address_2: null
+                city: null
+                state: null
+                zip: null
+                country: null
+                phone: null
+                verified: false
+                portal_customer_created_at: null
+                portal_invite_last_sent_at: null
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
+                vat_number: 012345678
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4469,7 +4475,7 @@ paths:
                 first_name: Martha
                 last_name: Washington
                 email: martha.washington@example.com
-                cc_emails: null
+                cc_emails: george.washington@example.com
                 organization: null
                 reference: null
                 id: 14967442
@@ -4487,6 +4493,7 @@ paths:
                 portal_invite_last_sent_at: null
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
+                vat_number: 012345678
         '404':
           description: ''
         '422':
@@ -4563,27 +4570,28 @@ paths:
           examples:
             application/json:
               customer:
-                first_name: Don
-                last_name: Test
-                email: don@example.com
+                first_name: Martha
+                last_name: Washington
+                email: martha@example.com
                 cc_emails: 'john@example.com, sue@example.com'
-                organization: ''
+                organization: null
                 reference: null
-                id: 14332342
-                created_at: '2016-10-19T10:49:13-04:00'
-                updated_at: '2016-10-19T10:49:19-04:00'
-                address: 123 15th Street
-                address_2: ''
-                city: Boulder
-                state: CO
-                zip: '80302'
-                country: US
-                phone: ''
-                verified: null
-                portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+                id: 14967442
+                created_at: '2016-12-05T10:33:07-05:00'
+                updated_at: '2016-12-05T10:33:07-05:00'
+                address: null
+                address_2: null
+                city: null
+                state: null
+                zip: null
+                country: null
+                phone: null
+                verified: false
+                portal_customer_created_at: null
+                portal_invite_last_sent_at: null
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
+                vat_number: 012345678
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -15822,6 +15830,10 @@ definitions:
           tax_exempt:
             type: boolean
             description: Is the customer entry tax exempt
+          vat_number:
+            type: string
+            default: nil
+            description: The customer VAT number
     example:
       customer:
         first_name: Martha
@@ -15845,6 +15857,7 @@ definitions:
         portal_invite_last_sent_at: null
         portal_invite_last_accepted_at: null
         tax_exempt: false
+        vat_number: 012345678
     x-stoplight:
       id: customer/customer-output
       name: Customer Output
@@ -26535,6 +26548,9 @@ definitions:
                   type: 'null'
                 tax_exempt:
                   type: boolean
+                vat_number:
+                  type: string
+                  description: The VAT number for the customer.
             product:
               type: object
               properties:
@@ -26817,6 +26833,7 @@ definitions:
             portal_invite_last_sent_at: '2016-10-27T12:06:32-04:00'
             portal_invite_last_accepted_at: null
             tax_exempt: false
+            vat_number: 012345678
           product:
             id: 4298068
             name: Platinum Plan
