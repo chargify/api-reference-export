@@ -35203,6 +35203,7 @@ x-stoplight:
         | include_trial                | Boolean, default `0`. If `1` is sent the customer will migrate to the new product with a trial if one is available. If `0` is sent, the trial period will be ignored.                                                                           |
         | include_initial_charge       | Boolean, default 0. If 1 is sent initial charges will be assessed. If 0 is sent initial charges will be ignored.                                                                                                                                |
         | include_coupons              | Boolean, default `1`. If `1` (or nothing) is sent, any coupons associated with the subscription will be applied to the migration. If `0` is sent, coupons will not be applied.                                                                  |
+        | preserve_period              | Boolean, default `0`. If `0` (or nothing) is sent, the subscription's billing period will be reset to today and the full price of the new product will be charged. If `1` is sent, the billing period will not change and a prorated charge will be issued for the new product.                                                                  
 
         ## Failed Migrations
 
