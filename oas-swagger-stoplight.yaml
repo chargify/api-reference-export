@@ -19041,7 +19041,7 @@ definitions:
             type: string
           last_name:
             type: string
-          masked_card_number:
+          last_four:
             type: string
           card_type:
             type: string
@@ -19077,7 +19077,7 @@ definitions:
       payment_profile:
         first_name: Jessica
         last_name: Test
-        masked_card_number: XXXX-XXXX-XXXX-1111
+        last_four: '1111'
         card_type: visa
         expiration_month: 10
         expiration_year: 2018
@@ -35462,7 +35462,7 @@ x-stoplight:
         | ref                | A valid referral code. (optional, [see Referrals](https://help.chargify.com/referrals/introduction.html) for more details). If supplied, must be valid, or else subscription creation will fail.                   |
         | components         | (Optional) An array of component ids and quantities to be added to the subscription. See examples below and [Product Components](https://help.chargify.com/products/product-components.html) for more information. |
         | component_id       |                                                                                                                                                                                                                    |
-        | allocated_quantity | or usage_balance or enabled                                                                                                                                                                                        |
+        | allocated_quantity | or `unit_balance` or enabled                                                                                                                                                                                        |
       public: true
     external-refunds-intro:
       id: external-refunds-intro
