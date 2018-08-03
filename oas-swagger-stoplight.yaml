@@ -6403,6 +6403,10 @@ paths:
       summary: List Offers
       tags:
         - Offers
+      description: |-
+        ## List Offers
+
+        This endpoint will list offers for a site.
       responses:
         '200':
           description: ''
@@ -6459,24 +6463,83 @@ paths:
           examples:
             application/json:
               offers:
-                - id: 1
-                  site_id: 2
-                  product_family_id: 4
-                  product_id: 32
+                - id: 239
+                  site_id: 48110
+                  product_family_id: 1025627
+                  product_id: 4636355
                   product_revisable_number: 0
-                  name: Offer One
-                  handle: handle-1
-                  description: An eloquent description.
-                  created_at: '2018-06-04T16:19:33-04:00'
-                  updated_at: '2018-06-04T16:19:33-04:00'
+                  name: Third Offer
+                  handle: third
+                  description: ''
+                  created_at: '2018-08-03T09:56:11-05:00'
+                  updated_at: '2018-08-03T09:56:11-05:00'
                   archived_at: null
                   offer_items:
-                    - component_id: 22
-                      price_point_id: 102
+                    - component_id: 426665
+                      price_point_id: 149438
+                      starting_quantity: '0.0'
+                      editable: false
+                    - component_id: 426670
+                      price_point_id: 149444
+                      starting_quantity: '0.0'
+                      editable: false
+                    - component_id: 462138
+                      price_point_id: 195184
+                      starting_quantity: '0.0'
+                      editable: false
+                  offer_discounts: []
+                  offer_signup_pages: []
+                - id: 238
+                  site_id: 48110
+                  product_family_id: 1025629
+                  product_id: 4671521
+                  product_revisable_number: 0
+                  name: Another offer
+                  handle: offer_2
+                  description: ''
+                  created_at: '2018-08-03T09:54:55-05:00'
+                  updated_at: '2018-08-03T09:54:55-05:00'
+                  archived_at: null
+                  offer_items:
+                    - component_id: 465356
+                      price_point_id: 199761
                       starting_quantity: '0.0'
                       editable: false
                   offer_discounts:
-                    - coupon_code: DEF456
+                    - coupon_code: POINTFIVE
+                  offer_signup_pages: []
+                - id: 64
+                  site_id: 48110
+                  product_family_id: 1025627
+                  product_id: 4610619
+                  product_revisable_number: 3
+                  name: My Awesome Offer
+                  handle: offer_123
+                  description: Buy this!
+                  created_at: '2018-07-16T12:30:02-05:00'
+                  updated_at: '2018-07-16T12:30:02-05:00'
+                  archived_at: null
+                  offer_items:
+                    - component_id: 426643
+                      price_point_id: 149416
+                      starting_quantity: '0.0'
+                      editable: false
+                    - component_id: 426645
+                      price_point_id: 149418
+                      starting_quantity: '0.0'
+                      editable: false
+                    - component_id: 426670
+                      price_point_id: 149444
+                      starting_quantity: '0.0'
+                      editable: false
+                  offer_discounts:
+                    - coupon_code: GR8_CUSTOMER
+                  offer_signup_pages:
+                    - id: 356482
+                      enabled: true
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/hjpvhnw63tzy'
       x-stoplight:
         id: GET_offersjson
         beforeScript: null
@@ -6491,6 +6554,10 @@ paths:
       summary: Create Offer
       tags:
         - Offers
+      description: |-
+        ## Create Offer
+
+        Create an offer within your Chargify site by sending a POST request.
       parameters:
         - name: body
           in: body
@@ -6538,6 +6605,10 @@ paths:
       summary: Show Offer
       tags:
         - Offers
+      description: |-
+        ## Show Offer
+
+        This method allows you to list a specific offer's attributes. This is different than list all offers for a site, as it requires an `offer_id`.
       responses:
         '200':
           description: ''
@@ -6629,6 +6700,10 @@ paths:
       summary: Archive Offer
       tags:
         - Offers
+      description: |-
+        ## Archive Offer
+
+        Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
       responses:
         '200':
           description: ''
@@ -6654,6 +6729,10 @@ paths:
       summary: Unarchive Offer
       tags:
         - Offers
+      description: |-
+        ## Unarchive Offer
+
+        Unarchive a previously archived offer. Please provide an `offer_id` in order to un-archive the correct item.
       responses:
         '200':
           description: ''
@@ -32741,9 +32820,7 @@ definitions:
             updated_at:
               type: string
             archived_at:
-              type:
-                - 'null'
-                - string
+              type: 'null'
             offer_items:
               type: array
               items:
@@ -32764,26 +32841,100 @@ definitions:
                 properties:
                   coupon_code:
                     type: string
+            offer_signup_pages:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  enabled:
+                    type: boolean
+                  return_url:
+                    type: string
+                  return_params:
+                    type: string
+                  url:
+                    type: string
     example:
       offers:
-        - id: 1
-          site_id: 2
-          product_family_id: 4
-          product_id: 32
+        - id: 239
+          site_id: 48110
+          product_family_id: 1025627
+          product_id: 4636355
           product_revisable_number: 0
-          name: Offer One
-          handle: handle-1
-          description: An eloquent description.
-          created_at: '2018-06-04T16:19:33-04:00'
-          updated_at: '2018-06-04T16:19:33-04:00'
+          name: Third Offer
+          handle: third
+          description: ''
+          created_at: '2018-08-03T09:56:11-05:00'
+          updated_at: '2018-08-03T09:56:11-05:00'
           archived_at: null
           offer_items:
-            - component_id: 22
-              price_point_id: 102
+            - component_id: 426665
+              price_point_id: 149438
+              starting_quantity: '0.0'
+              editable: false
+            - component_id: 426670
+              price_point_id: 149444
+              starting_quantity: '0.0'
+              editable: false
+            - component_id: 462138
+              price_point_id: 195184
+              starting_quantity: '0.0'
+              editable: false
+          offer_discounts: []
+          offer_signup_pages: []
+        - id: 238
+          site_id: 48110
+          product_family_id: 1025629
+          product_id: 4671521
+          product_revisable_number: 0
+          name: Another offer
+          handle: offer_2
+          description: ''
+          created_at: '2018-08-03T09:54:55-05:00'
+          updated_at: '2018-08-03T09:54:55-05:00'
+          archived_at: null
+          offer_items:
+            - component_id: 465356
+              price_point_id: 199761
               starting_quantity: '0.0'
               editable: false
           offer_discounts:
-            - coupon_code: DEF456
+            - coupon_code: POINTFIVE
+          offer_signup_pages: []
+        - id: 64
+          site_id: 48110
+          product_family_id: 1025627
+          product_id: 4610619
+          product_revisable_number: 3
+          name: My Awesome Offer
+          handle: offer_123
+          description: Buy this!
+          created_at: '2018-07-16T12:30:02-05:00'
+          updated_at: '2018-07-16T12:30:02-05:00'
+          archived_at: null
+          offer_items:
+            - component_id: 426643
+              price_point_id: 149416
+              starting_quantity: '0.0'
+              editable: false
+            - component_id: 426645
+              price_point_id: 149418
+              starting_quantity: '0.0'
+              editable: false
+            - component_id: 426670
+              price_point_id: 149444
+              starting_quantity: '0.0'
+              editable: false
+          offer_discounts:
+            - coupon_code: GR8_CUSTOMER
+          offer_signup_pages:
+            - id: 356482
+              enabled: true
+              return_url: ''
+              return_params: ''
+              url: 'https://general-goods.chargifypay.com/subscribe/hjpvhnw63tzy'
     x-stoplight:
       id: list-offer-output
       name: List Offer Output
