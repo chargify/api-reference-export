@@ -33809,6 +33809,8 @@ x-stoplight:
               type: docTextSections
             - _id: overview
               type: docTextSections
+            - _id: api-access-limitations
+              type: docTextSections
             - _id: /basics/subscription-api-response-exampe
               type: schemas
             - type: docTextSections
@@ -36674,7 +36676,7 @@ x-stoplight:
 
         ## Examples
 
-        The following examples use the curl command-line tool to exectute API requests.
+        The following examples use the curl command-line tool to execute API requests.
 
         ### Subscription Listing
 
@@ -37084,6 +37086,11 @@ x-stoplight:
 
         Full documentation on how to use offers in the Chargify UI can be located [here](https://help.chargify.com/offers/offers-introduction.html).
       public: true
+    api-access-limitations:
+      id: api-access-limitations
+      name: API Access Limitations
+      content: ''
+      public: false
   mock:
     enabled: false
     dynamic: false
