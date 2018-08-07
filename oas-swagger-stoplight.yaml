@@ -37149,7 +37149,7 @@ x-stoplight:
           ]
         }
         ```
-      public: false
+      public: true
   mock:
     enabled: false
     dynamic: false
