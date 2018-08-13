@@ -35060,6 +35060,8 @@ x-stoplight:
           divider: false
         - divider: false
           items:
+            - _id: sales-intro
+              type: docTextSections
             - _id: GET_salesjson
               type: endpoints
             - _id: list-sales-output
@@ -37688,6 +37690,14 @@ x-stoplight:
           ]
         }
         ```
+      public: true
+    sales-intro:
+      id: sales-intro
+      name: Sales Intro
+      content: |-
+        ## Sales
+
+        What it does
       public: true
   mock:
     enabled: false
