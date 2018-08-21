@@ -23196,47 +23196,32 @@ definitions:
         properties:
           product_handle:
             type: string
-          customer_attributes:
-            type: object
-            properties:
-              first_name:
-                type: string
-              last_name:
-                type: string
-              email:
-                type: string
-              address:
-                type: string
-              city:
-                type: string
-              state:
-                type: string
-              zip:
-                type: string
-              country:
-                type: string
-          credit_card_attributes:
-            type: object
-            properties:
-              full_number:
-                type: string
-              expiration_month:
-                type: string
-              expiration_year:
-                type: string
-              billing_address:
-                type: string
-              billing_city:
-                type: string
-              billing_state:
-                type: string
-              billing_zip:
-                type: string
-              billing_country:
-                type: string
+          coupon_code:
+            type: string
+          components:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                allocated_quantity:
+                  type: integer
+                unit_balance:
+                  type: integer
+                quantity:
+                  type: integer
     example:
       subscription:
         product_handle: gold-product
+        coupon_code: 1DOLLAR
+        components:
+          - component_id: 462149
+            allocated_quantity: 14
+          - component_id: 426665
+            unit_balance: 20
+          - component_id: 426670
+            quantity: 1
     x-stoplight:
       id: subscriptions/subscription-preview-request
       name: Subscription Preview Request
@@ -32417,23 +32402,8 @@ definitions:
                       type: integer
                     taxable_amount_in_cents:
                       type: integer
-                    taxations:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          tax_id:
-                            type: 'null'
-                          tax_name:
-                            type: string
-                          rate:
-                            type: string
-                          tax_amount_in_cents:
-                            type: integer
-                          tax_rules:
-                            type: array
-                            items:
-                              type: object
+                    component_id:
+                      type: integer
               total_in_cents:
                 type: integer
               total_discount_in_cents:
@@ -32457,6 +32427,21 @@ definitions:
                 type: array
                 items:
                   type: object
+                  properties:
+                    transaction_type:
+                      type: string
+                    kind:
+                      type: string
+                    amount_in_cents:
+                      type: integer
+                    memo:
+                      type: string
+                    discount_amount_in_cents:
+                      type: integer
+                    taxable_amount_in_cents:
+                      type: integer
+                    component_id:
+                      type: integer
               total_in_cents:
                 type: integer
               total_discount_in_cents:
@@ -32478,57 +32463,74 @@ definitions:
         current_billing_manifest:
           line_items:
             - transaction_type: charge
-              kind: initial
-              amount_in_cents: 4900
-              memo: Initial/Startup fees
-              discount_amount_in_cents: 0
-              taxable_amount_in_cents: 4900
-              taxations:
-                - tax_id: null
-                  tax_name: MA Tax (6.25%)
-                  rate: ''
-                  tax_amount_in_cents: 306
-                  tax_rules: []
-            - transaction_type: charge
-              kind: trial
-              amount_in_cents: 1000
-              memo: Trial Price (05/11/2018 - 05/25/2018)
-              discount_amount_in_cents: 0
-              taxable_amount_in_cents: 1000
-              taxations:
-                - tax_id: null
-                  tax_name: MA Tax (6.25%)
-                  rate: ''
-                  tax_amount_in_cents: 63
-                  tax_rules: []
-            - transaction_type: charge
-              kind: tax
-              amount_in_cents: 306
-              memo: MA Tax (6.25%)
+              kind: baseline
+              amount_in_cents: 5000
+              memo: Gold Product (08/21/2018 - 09/21/2018)
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
             - transaction_type: charge
-              kind: tax
-              amount_in_cents: 63
-              memo: MA Tax (6.25%)
+              kind: component
+              amount_in_cents: 28000
+              memo: 'Component name: 14 Unit names'
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
-          total_in_cents: 6269
-          total_discount_in_cents: 0
-          total_tax_in_cents: 369
-          subtotal_in_cents: 5900
-          start_date: '2018-05-11T20:32:59Z'
-          end_date: '2018-05-25T20:32:59Z'
-          period_type: trial
-          existing_balance_in_cents: 0
-        next_billing_manifest:
-          line_items: []
-          total_in_cents: 0
+              component_id: 462149
+            - transaction_type: charge
+              kind: component
+              amount_in_cents: 2000
+              memo: 'Fractional Metered Components: 20.0 Fractional Metereds'
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+              component_id: 426665
+            - transaction_type: charge
+              kind: component
+              amount_in_cents: 0
+              memo: On/Off Component
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+              component_id: 426670
+            - transaction_type: adjustment
+              kind: coupon
+              amount_in_cents: 0
+              memo: 'Coupon: 1DOLLAR - You only get $1.00 off'
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+          total_in_cents: 35000
           total_discount_in_cents: 0
           total_tax_in_cents: 0
-          subtotal_in_cents: 0
-          start_date: '2018-05-25T20:32:59Z'
-          end_date: '2019-05-25T20:32:59Z'
+          subtotal_in_cents: 35000
+          start_date: '2018-08-21T21:25:21Z'
+          end_date: '2018-09-21T21:25:21Z'
+          period_type: recurring
+          existing_balance_in_cents: 0
+        next_billing_manifest:
+          line_items:
+            - transaction_type: charge
+              kind: baseline
+              amount_in_cents: 5000
+              memo: Gold Product (09/21/2018 - 10/21/2018)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+            - transaction_type: charge
+              kind: component
+              amount_in_cents: 28000
+              memo: 'Component name: 14 Unit names'
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+              component_id: 462149
+            - transaction_type: charge
+              kind: component
+              amount_in_cents: 0
+              memo: On/Off Component
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+              component_id: 426670
+          total_in_cents: 33000
+          total_discount_in_cents: 0
+          total_tax_in_cents: 0
+          subtotal_in_cents: 33000
+          start_date: '2018-09-21T21:25:21Z'
+          end_date: '2018-10-21T21:25:21Z'
           period_type: recurring
           existing_balance_in_cents: 0
     x-stoplight:
