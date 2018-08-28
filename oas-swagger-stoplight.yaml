@@ -32901,8 +32901,7 @@ definitions:
       discount_amount: '47.38'
       tax_amount: '28.78'
       total_amount: '455.15'
-      credit_amount: '405.15'
-      refund_amount: '400.35'
+      credit_amount: '4.8'
       paid_amount: '450.35'
       due_amount: '0.0'
       line_items:
@@ -33022,12 +33021,6 @@ definitions:
           memo: Credit balance applied
           original_amount: '4.8'
           applied_amount: '4.8'
-      refunds:
-        - transaction_id: 121
-          payment_id: 113
-          memo: Refund for professional plan renewal
-          original_amount: '400.35'
-          applied_amount: '400.35'
       payments:
         - transaction_time: '2018-05-24T14:23:18Z'
           memo: 'Prepayment applied to invoice #17.'
