@@ -34397,19 +34397,390 @@ definitions:
       id: get-a-sale-output
       name: Get a Sale Output
       public: true
-  subscription-preview-with-taxes:
-    title: Subscription Preview with Taxes Request
+  subscription-preview-with-custom-taxes:
+    title: Subscription Preview with Custom Taxes Request
     type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          product_handle:
+            type: string
+          customer_attributes:
+            type: object
+            properties:
+              address:
+                type: string
+              address_2:
+                type: 'null'
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              country:
+                type: string
+    example:
+      subscription:
+        product_handle: paid-annual-seats
+        customer_attributes:
+          address: 870 Massachusetts Ave
+          address_2: null
+          city: Boston
+          state: MA
+          zip: 02118
+          country: US
     x-stoplight:
-      id: subscription-preview-with-taxes
-      name: Subscription Preview with Taxes Request
+      id: subscription-preview-with-custom-taxes
+      name: Subscription Preview with Custom Taxes Request
       public: true
-  subscription-preview-with-taxes-response:
+  subscription-preview-with-custom-taxes-response:
     title: Subscription Preview with Taxes Response
     type: object
+    properties:
+      subscription_preview:
+        type: object
+        properties:
+          current_billing_manifest:
+            type: object
+            properties:
+              line_items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transaction_type:
+                      type: string
+                    kind:
+                      type: string
+                    amount_in_cents:
+                      type: integer
+                    memo:
+                      type: string
+                    discount_amount_in_cents:
+                      type: integer
+                    taxable_amount_in_cents:
+                      type: integer
+                    taxations:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          tax_id:
+                            type: integer
+                          tax_name:
+                            type: string
+                          rate:
+                            type: string
+                          tax_amount_in_cents:
+                            type: integer
+                          tax_rules:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                tax_rule_id:
+                                  type: integer
+                                country_code:
+                                  type: string
+                                subdivision_code:
+                                  type: string
+                                rate:
+                                  type: string
+                                tax_amount_in_cents:
+                                  type: integer
+                                description:
+                                  type: 'null'
+              total_in_cents:
+                type: integer
+              total_discount_in_cents:
+                type: integer
+              total_tax_in_cents:
+                type: integer
+              subtotal_in_cents:
+                type: integer
+              start_date:
+                type: string
+              end_date:
+                type: string
+              period_type:
+                type: string
+              existing_balance_in_cents:
+                type: integer
+          next_billing_manifest:
+            type: object
+            properties:
+              line_items:
+                type: array
+                items:
+                  type: object
+              total_in_cents:
+                type: integer
+              total_discount_in_cents:
+                type: integer
+              total_tax_in_cents:
+                type: integer
+              subtotal_in_cents:
+                type: integer
+              start_date:
+                type: string
+              end_date:
+                type: string
+              period_type:
+                type: string
+              existing_balance_in_cents:
+                type: integer
+    example:
+      subscription_preview:
+        current_billing_manifest:
+          line_items:
+            - transaction_type: charge
+              kind: initial
+              amount_in_cents: 4900
+              memo: Initial/Startup fees
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 4900
+              taxations:
+                - tax_id: 7843
+                  tax_name: US TAX
+                  rate: '0.1'
+                  tax_amount_in_cents: 490
+                  tax_rules:
+                    - tax_rule_id: 18819
+                      country_code: US
+                      subdivision_code: MA
+                      rate: '0.1'
+                      tax_amount_in_cents: 490
+                      description: null
+            - transaction_type: charge
+              kind: trial
+              amount_in_cents: 1000
+              memo: Trial Price (08/29/2018 - 09/12/2018)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 1000
+              taxations:
+                - tax_id: 7843
+                  tax_name: US TAX
+                  rate: '0.1'
+                  tax_amount_in_cents: 100
+                  tax_rules:
+                    - tax_rule_id: 18819
+                      country_code: US
+                      subdivision_code: MA
+                      rate: '0.1'
+                      tax_amount_in_cents: 100
+                      description: null
+            - transaction_type: charge
+              kind: tax
+              amount_in_cents: 590
+              memo: US TAX (10.0%)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+          total_in_cents: 6490
+          total_discount_in_cents: 0
+          total_tax_in_cents: 590
+          subtotal_in_cents: 5900
+          start_date: '2018-08-29T14:18:02Z'
+          end_date: '2018-09-12T14:18:02Z'
+          period_type: trial
+          existing_balance_in_cents: 0
+        next_billing_manifest:
+          line_items: []
+          total_in_cents: 0
+          total_discount_in_cents: 0
+          total_tax_in_cents: 0
+          subtotal_in_cents: 0
+          start_date: '2018-09-12T14:18:02Z'
+          end_date: '2019-09-12T14:18:02Z'
+          period_type: recurring
+          existing_balance_in_cents: 0
     x-stoplight:
-      id: subscription-preview-with-taxes-response
+      id: subscription-preview-with-custom-taxes-response
       name: Subscription Preview with Taxes Response
+      public: true
+  subscription-preview-avalara-request:
+    title: Subscription Preview Avalara Request
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          product_handle:
+            type: string
+          customer_attributes:
+            type: object
+            properties:
+              address:
+                type: string
+              address_2:
+                type: 'null'
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              country:
+                type: string
+    example:
+      subscription:
+        product_handle: paid-annual-seats
+        customer_attributes:
+          address: 870 Massachusetts Ave
+          address_2: null
+          city: Boston
+          state: MA
+          zip: 02118
+          country: US
+    x-stoplight:
+      id: subscription-preview-avalara-request
+      name: Subscription Preview Avalara Request
+      public: true
+  subscription-preview-avalara-response:
+    title: Subscription Preview Avalara Response
+    type: object
+    properties:
+      subscription_preview:
+        type: object
+        properties:
+          current_billing_manifest:
+            type: object
+            properties:
+              line_items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transaction_type:
+                      type: string
+                    kind:
+                      type: string
+                    amount_in_cents:
+                      type: integer
+                    memo:
+                      type: string
+                    discount_amount_in_cents:
+                      type: integer
+                    taxable_amount_in_cents:
+                      type: integer
+                    taxations:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          tax_id:
+                            type: 'null'
+                          tax_name:
+                            type: string
+                          rate:
+                            type: string
+                          tax_amount_in_cents:
+                            type: integer
+                          tax_rules:
+                            type: array
+                            items:
+                              type: object
+              total_in_cents:
+                type: integer
+              total_discount_in_cents:
+                type: integer
+              total_tax_in_cents:
+                type: integer
+              subtotal_in_cents:
+                type: integer
+              start_date:
+                type: string
+              end_date:
+                type: string
+              period_type:
+                type: string
+              existing_balance_in_cents:
+                type: integer
+          next_billing_manifest:
+            type: object
+            properties:
+              line_items:
+                type: array
+                items:
+                  type: object
+              total_in_cents:
+                type: integer
+              total_discount_in_cents:
+                type: integer
+              total_tax_in_cents:
+                type: integer
+              subtotal_in_cents:
+                type: integer
+              start_date:
+                type: string
+              end_date:
+                type: string
+              period_type:
+                type: string
+              existing_balance_in_cents:
+                type: integer
+    example:
+      subscription_preview:
+        current_billing_manifest:
+          line_items:
+            - transaction_type: charge
+              kind: initial
+              amount_in_cents: 4900
+              memo: Initial/Startup fees
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 4900
+              taxations:
+                - tax_id: null
+                  tax_name: MA Tax (6.25%)
+                  rate: ''
+                  tax_amount_in_cents: 306
+                  tax_rules: []
+            - transaction_type: charge
+              kind: trial
+              amount_in_cents: 1000
+              memo: Trial Price (08/29/2018 - 09/12/2018)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 1000
+              taxations:
+                - tax_id: null
+                  tax_name: MA Tax (6.25%)
+                  rate: ''
+                  tax_amount_in_cents: 63
+                  tax_rules: []
+            - transaction_type: charge
+              kind: tax
+              amount_in_cents: 306
+              memo: MA Tax (6.25%)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+            - transaction_type: charge
+              kind: tax
+              amount_in_cents: 63
+              memo: MA Tax (6.25%)
+              discount_amount_in_cents: 0
+              taxable_amount_in_cents: 0
+          total_in_cents: 6269
+          total_discount_in_cents: 0
+          total_tax_in_cents: 369
+          subtotal_in_cents: 5900
+          start_date: '2018-08-29T14:20:29Z'
+          end_date: '2018-09-12T14:20:29Z'
+          period_type: trial
+          existing_balance_in_cents: 0
+        next_billing_manifest:
+          line_items: []
+          total_in_cents: 0
+          total_discount_in_cents: 0
+          total_tax_in_cents: 0
+          subtotal_in_cents: 0
+          start_date: '2018-09-12T14:20:29Z'
+          end_date: '2019-09-12T14:20:29Z'
+          period_type: recurring
+          existing_balance_in_cents: 0
+    x-stoplight:
+      id: subscription-preview-avalara-response
+      name: Subscription Preview Avalara Response
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -35384,12 +35755,16 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-preview-format
               type: endpoints
-            - _id: subscription-preview-with-taxes
+            - _id: subscription-preview-with-custom-taxes
               type: schemas
-            - _id: subscription-preview-with-taxes-response
+            - _id: subscription-preview-with-custom-taxes-response
               type: schemas
             - _id: POST_subscriptions-preview-format
               type: endpoints
+            - _id: subscription-preview-avalara-request
+              type: schemas
+            - _id: subscription-preview-avalara-response
+              type: schemas
           divider: false
         - name: 'Subscriptions: Product Changes / Migrations / Upgrades / Downgrades'
           items:
