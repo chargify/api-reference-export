@@ -38084,7 +38084,7 @@ x-stoplight:
         ## Sales
 
         What it does
-      public: true
+      public: false
   mock:
     enabled: false
     dynamic: false
