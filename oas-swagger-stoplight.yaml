@@ -16959,6 +16959,12 @@ parameters:
     default: 100
     minimum: 1
     maximum: 200
+  'trait:includesArchive:include_archived':
+    name: include_archived
+    in: query
+    description: Include archived items
+    type: boolean
+    default: false
 definitions:
   get-a-sale-output:
     title: Get a Sale Output
@@ -37520,6 +37526,8 @@ x-stoplight:
               type: endpoints
             - _id: read-specific-component-output
               type: schemas
+            - _id: includesArchive
+              type: traits
         - divider: false
           items:
             - _id: component-line-items
