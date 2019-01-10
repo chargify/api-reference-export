@@ -7042,6 +7042,8 @@ paths:
       tags:
         - Relationship Invoicing (NEW)
       description: |-
+        <h2> Create Bulk Payment </h2>
+
         Only available for accounts on Relationship Invoicing.
 
         Record an external payment made against a subscription that will pay partially or in full one or more invoices.
@@ -15332,6 +15334,25 @@ paths:
         A payment in the amount of the assessed charge is automatically captured from the credit card on file for the subscription.
 
         ## Limitations of attribute combinations
+
+        When you add a charge to an existing subscription, you may only use the following combinations of attributes:
+
+        + `delay_capture` = true
+
+        OR
+
+        + `delay_capture` = false
+        + `accrue_on_failure` = false
+
+        OR
+
+        + `delay_capture` = false
+        + `accrue_on_failure` = true
+
+        You may not use the following combination of attributes:
+
+        + `delay_capture` = true
+        + `accrue_on_failure` = true
       parameters:
         - name: body
           in: body
@@ -38567,6 +38588,13 @@ definitions:
       id: create-bulk-payment-response
       name: Create Bulk Payment Response
       public: true
+  create-bulk-payment-request:
+    title: Create Bulk Payment Request
+    type: object
+    x-stoplight:
+      id: create-bulk-payment-request
+      name: Create Bulk Payment Request
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -39098,6 +39126,8 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscriptionid-paymentsjson
               type: endpoints
+            - _id: create-bulk-payment-request
+              type: schemas
             - _id: create-bulk-payment-response
               type: schemas
           name: Relationship Invoicing (NEW)
