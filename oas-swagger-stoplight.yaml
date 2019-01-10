@@ -37731,8 +37731,8 @@ definitions:
       id: read-subscriptions-site-output
       name: Read Subscriptions Site Output
       public: true
-  read-all-credit-notes:
-    title: Read All Credit Notes
+  credit-note:
+    title: Credit Note
     type: object
     properties:
       uid:
@@ -38244,8 +38244,8 @@ definitions:
           value: 555-555-9999 x807
       public_url: 'https://www.chargifypay.com/invoice/inv_8jzrw74xq8kxr?token=fb6kpjz5rcr2vttyjs4rcv6y'
     x-stoplight:
-      id: read-all-credit-notes
-      name: Read All Credit Notes
+      id: credit-note
+      name: Credit Note
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -38774,6 +38774,8 @@ x-stoplight:
               type: endpoints
             - _id: GET_creditnotesjson
               type: endpoints
+            - _id: credit-note
+              type: schemas
           name: Relationship Invoicing (NEW)
           description: ''
         - name: Notes
