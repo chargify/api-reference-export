@@ -7105,6 +7105,11 @@ paths:
                         paid_amount:
                           type: string
                           description: The current total paid_amount on the invoice.
+                      required:
+                        - invoice.uid
+                        - status
+                        - due_amount
+                        - paid_amount
               prepayments:
                 type: object
                 description: 'The prepayments node will exist if a prepayment was created as a result of the operation. Otherwise, nil.'
@@ -7118,6 +7123,26 @@ paths:
                   ending_balance_in_cents:
                     type: string
                     description: The ending balance (in_cents) of the prepayment account (which could include other prepayments that existed prior to this payment)
+                required:
+                  - subscription_id
+                  - amount_in_cents
+                  - ending_balance_in_cents
+          examples:
+            application/json:
+              paid_invoices:
+                - {}
+                - {}
+                - {}
+                - '':
+                    invoice.uid: esse
+                    status: in velit labo
+                    due_amount: elit non commodo enim voluptate
+                    paid_amount: proident
+                - {}
+              prepayments:
+                subscription_id: in tempor non adipisicing sed
+                amount_in_cents: id
+                ending_balance_in_cents: id voluptate amet
         '422':
           description: ''
           schema:
@@ -15305,6 +15330,8 @@ paths:
         Creating a charge requires a valid, live subscription. The subscription must be referenced by `subscription_id` (available via the API when subscriptions are read or listed – more).
 
         A payment in the amount of the assessed charge is automatically captured from the credit card on file for the subscription.
+
+        ## Limitations of attribute combinations
       parameters:
         - name: body
           in: body
@@ -15314,38 +15341,64 @@ paths:
               charge:
                 memo: Amount collected
                 amount: '10.00'
+                accrue_on_failure: 'false'
+                delay_capture: 'True'
+                taxable: 'true'
       responses:
-        '200':
+        '201':
           description: ''
           schema:
             $ref: '#/definitions/charges/create-a-charge-response-post'
           examples:
             application/json:
               charge:
-                id: 157750635
-                subscription_id: 14593192
+                id: 281946395
+                subscription_id: 25157645
                 type: Charge
                 kind: one_time
                 transaction_type: charge
                 success: true
-                amount_in_cents: 100
-                memo: This is the description of the one time charge.
-                created_at: '2016-10-11T11:51:45-04:00'
-                starting_balance_in_cents: 15000
-                ending_balance_in_cents: 15100
+                amount_in_cents: 1000
+                memo: Amount collected
+                created_at: '2019-01-10T14:05:55-06:00'
+                starting_balance_in_cents: 10000
+                ending_balance_in_cents: 11000
                 gateway_used: null
                 gateway_transaction_id: null
                 gateway_order_id: null
-                payment_id: 157750636
-                product_id: 3861800
+                payment_id: 281946397
+                product_id: 4535641
                 tax_id: null
                 component_id: null
-                statement_id: 78204384
-                customer_id: 14126091
-                original_amount_in_cents: null
-                discount_amount_in_cents: null
-                taxable_amount_in_cents: null
-                taxations: []
+                statement_id: 133557427
+                customer_id: 24926300
+                item_name: Monthly product COUPON API TEST
+                period_range_start: null
+                period_range_end: null
+                original_amount_in_cents: 1000
+                discount_amount_in_cents: 0
+                taxable_amount_in_cents: 1000
+                price_point_id: null
+                price_point_handle: null
+                taxations:
+                  - tax_id: null
+                    tax_charge_id: 281946396
+                    tax_name: TX Tax
+                    rate: '0.0825'
+                    tax_amount_in_cents: 83
+                    tax_rules:
+                      - tax_rule_id: null
+                        country_code: US
+                        subdivision_code: TX
+                        rate: '0.0625'
+                        tax_amount_in_cents: 63
+                        description: TX STATE TAX - TEXAS
+                      - tax_rule_id: null
+                        country_code: US
+                        subdivision_code: TX
+                        rate: '0.02'
+                        tax_amount_in_cents: 20
+                        description: TX CITY TAX - AUSTIN
         '404':
           description: ''
         '422':
@@ -20024,42 +20077,103 @@ definitions:
             type: integer
           customer_id:
             type: integer
+          item_name:
+            type: string
+          period_range_start:
+            type: 'null'
+          period_range_end:
+            type: 'null'
           original_amount_in_cents:
-            type: 'null'
+            type: integer
           discount_amount_in_cents:
-            type: 'null'
+            type: integer
           taxable_amount_in_cents:
+            type: integer
+          price_point_id:
+            type: 'null'
+          price_point_handle:
             type: 'null'
           taxations:
             type: array
             items:
               type: object
+              properties:
+                tax_id:
+                  type: 'null'
+                tax_charge_id:
+                  type: integer
+                tax_name:
+                  type: string
+                rate:
+                  type: string
+                tax_amount_in_cents:
+                  type: integer
+                tax_rules:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      tax_rule_id:
+                        type: 'null'
+                      country_code:
+                        type: string
+                      subdivision_code:
+                        type: string
+                      rate:
+                        type: string
+                      tax_amount_in_cents:
+                        type: integer
+                      description:
+                        type: string
     example:
       charge:
-        id: 157750635
-        subscription_id: 14593192
+        id: 281946395
+        subscription_id: 25157645
         type: Charge
         kind: one_time
         transaction_type: charge
         success: true
-        amount_in_cents: 100
-        memo: This is the description of the one time charge.
-        created_at: '2016-10-11T11:51:45-04:00'
-        starting_balance_in_cents: 15000
-        ending_balance_in_cents: 15100
+        amount_in_cents: 1000
+        memo: Amount collected
+        created_at: '2019-01-10T14:05:55-06:00'
+        starting_balance_in_cents: 10000
+        ending_balance_in_cents: 11000
         gateway_used: null
         gateway_transaction_id: null
         gateway_order_id: null
-        payment_id: 157750636
-        product_id: 3861800
+        payment_id: 281946397
+        product_id: 4535641
         tax_id: null
         component_id: null
-        statement_id: 78204384
-        customer_id: 14126091
-        original_amount_in_cents: null
-        discount_amount_in_cents: null
-        taxable_amount_in_cents: null
-        taxations: []
+        statement_id: 133557427
+        customer_id: 24926300
+        item_name: Monthly product COUPON API TEST
+        period_range_start: null
+        period_range_end: null
+        original_amount_in_cents: 1000
+        discount_amount_in_cents: 0
+        taxable_amount_in_cents: 1000
+        price_point_id: null
+        price_point_handle: null
+        taxations:
+          - tax_id: null
+            tax_charge_id: 281946396
+            tax_name: TX Tax
+            rate: '0.0825'
+            tax_amount_in_cents: 83
+            tax_rules:
+              - tax_rule_id: null
+                country_code: US
+                subdivision_code: TX
+                rate: '0.0625'
+                tax_amount_in_cents: 63
+                description: TX STATE TAX - TEXAS
+              - tax_rule_id: null
+                country_code: US
+                subdivision_code: TX
+                rate: '0.02'
+                tax_amount_in_cents: 20
+                description: TX CITY TAX - AUSTIN
     x-stoplight:
       id: charges/create-a-charge-response-post
       name: Create a charge / Response POST
@@ -20109,10 +20223,19 @@ definitions:
             type: string
           amount:
             type: string
+          accrue_on_failure:
+            type: string
+          delay_capture:
+            type: string
+          taxable:
+            type: string
     example:
       charge:
-        memo: '10.00'
-        amount: Amount collected
+        memo: Amount collected
+        amount: '10.00'
+        accrue_on_failure: 'false'
+        delay_capture: 'True'
+        taxable: 'true'
     x-stoplight:
       id: charges/create-a-charge-request-post
       name: Create a charge / Request POST
@@ -38384,6 +38507,66 @@ definitions:
       id: credit-note
       name: Credit Note
       public: true
+  create-bulk-payment-response:
+    title: Create Bulk Payment Response
+    type: object
+    properties:
+      paid_invoices:
+        type: array
+        items:
+          type: object
+          properties:
+            invoice_uid:
+              type: string
+              description: The UID of the paid invoice
+            status:
+              type: string
+              description: 'The status of the invoice (eg. open, paid)'
+            due_amount:
+              type: string
+              description: The remaining amount due on the invoice
+            paid_amount:
+              type: string
+              description: The total paid amount on the invoice
+          required:
+            - invoice_uid
+            - status
+            - due_amount
+            - paid_amount
+      prepayment:
+        type: object
+        properties:
+          subscription_id:
+            type: string
+            description: The ID of the subscription
+          amount_in_cents:
+            type: string
+            description: The amount (in cents) of the prepayment that was created
+          ending_balance_in_cents:
+            type: string
+            description: The ending balance (in cents) of the prepayment account (including all previous prepayments)
+        required:
+          - subscription_id
+          - amount_in_cents
+          - ending_balance_in_cents
+    example:
+      paid_invoices:
+        - invoice_uid: sint
+          status: commodo enim
+          due_amount: quis sed veniam
+          paid_amount: 'in non '
+        - invoice_uid: officia in mollit esse qui
+          status: esse nisi dolore
+          due_amount: consequat
+          paid_amount: eu Ut sit minim
+      prepayment:
+        subscription_id: sed sint
+        amount_in_cents: id nulla
+        ending_balance_in_cents: officia cillum proident mollit c
+    x-stoplight:
+      id: create-bulk-payment-response
+      name: Create Bulk Payment Response
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -38915,6 +39098,8 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscriptionid-paymentsjson
               type: endpoints
+            - _id: create-bulk-payment-response
+              type: schemas
           name: Relationship Invoicing (NEW)
           description: ''
         - name: Notes
