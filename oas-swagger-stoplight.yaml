@@ -7042,11 +7042,15 @@ paths:
       tags:
         - Relationship Invoicing (NEW)
       description: |-
+        Only available for accounts on Relationship Invoicing.
+
         Record an external payment made against a subscription that will pay partially or in full one or more invoices.
 
         Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
 
         Excess payment will result in the creation of a prepayment on the Invoice Account.
+
+        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
       parameters:
         - name: body
           in: body
