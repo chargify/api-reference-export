@@ -7057,94 +7057,33 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              amount:
-                type:
-                  - string
-                  - number
-                description: A string of the dollar amount to be paid (eg. "10.50" => $10.50). Must be positive.
-              memo:
-                type: string
-                description: A description to be attached to the payment.
-              method:
-                type: string
-                description: |-
-                  The type of payment method used.
-                  (eg. "Check")
-              details:
-                type: string
-                description: 'Additional information related to the payment method (eg. Check #)'
-            required:
-              - amount
-              - memo
-              - method
-              - details
+            $ref: '#/definitions/allocation/create-request-post'
+            example:
+              payment:
+                amount: '10.0'
+                memo: to pay the bills
+                payment_details: check number 8675309
+                payment_method: check
       responses:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              paid_invoices:
-                type: array
-                description: The paid_invoices node will exist as an empty array if only a prepayment has been created. Otherwise it will be an array of select details from the paid invoices.
-                items:
-                  type: object
-                  properties:
-                    '':
-                      type: object
-                      properties:
-                        invoice.uid:
-                          type: string
-                          description: The UID of the paid invoice
-                        status:
-                          type: string
-                          description: 'The updated status of the invoice (eg "open", "paid").'
-                        due_amount:
-                          type: string
-                          description: The updated due_amount of the invoice.
-                        paid_amount:
-                          type: string
-                          description: The current total paid_amount on the invoice.
-                      required:
-                        - invoice.uid
-                        - status
-                        - due_amount
-                        - paid_amount
-              prepayments:
-                type: object
-                description: 'The prepayments node will exist if a prepayment was created as a result of the operation. Otherwise, nil.'
-                properties:
-                  subscription_id:
-                    type: string
-                    description: The ID of the subscription
-                  amount_in_cents:
-                    type: string
-                    description: The amount (in_cents) of the prepayment that was created as a result of this payment.
-                  ending_balance_in_cents:
-                    type: string
-                    description: The ending balance (in_cents) of the prepayment account (which could include other prepayments that existed prior to this payment)
-                required:
-                  - subscription_id
-                  - amount_in_cents
-                  - ending_balance_in_cents
+            $ref: '#/definitions/create-bulk-payment-response'
           examples:
             application/json:
               paid_invoices:
-                - {}
-                - {}
-                - {}
-                - '':
-                    invoice.uid: esse
-                    status: in velit labo
-                    due_amount: elit non commodo enim voluptate
-                    paid_amount: proident
-                - {}
-              prepayments:
-                subscription_id: in tempor non adipisicing sed
-                amount_in_cents: id
-                ending_balance_in_cents: id voluptate amet
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+              prepayment:
+                subscription_id: '123456'
+                amount_in_cents: '5000'
+                ending_balance_in_cents: '5000'
         '422':
           description: ''
           schema:
@@ -7170,7 +7109,7 @@ paths:
         id: POST_subscriptions-subscriptionid-paymentsjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
