@@ -38539,51 +38539,42 @@ definitions:
           properties:
             invoice_uid:
               type: string
-              description: The UID of the paid invoice
+              description: The uid of the paid invoice
             status:
               type: string
-              description: 'The status of the invoice (eg. open, paid)'
+              description: 'The status of the invoice (open, paid)'
             due_amount:
               type: string
-              description: The remaining amount due on the invoice
+              description: The remaining due amount on the invoice
             paid_amount:
               type: string
-              description: The total paid amount on the invoice
-          required:
-            - invoice_uid
-            - status
-            - due_amount
-            - paid_amount
+              description: The total amount paid on this invoice (including any prior payments)
       prepayment:
         type: object
         properties:
           subscription_id:
             type: string
-            description: The ID of the subscription
+            description: The subscription id for the prepayment account
           amount_in_cents:
             type: string
-            description: The amount (in cents) of the prepayment that was created
+            description: The amount in cents of the prepayment that was created as a result of this payment.
           ending_balance_in_cents:
             type: string
-            description: The ending balance (in cents) of the prepayment account (including all previous prepayments)
-        required:
-          - subscription_id
-          - amount_in_cents
-          - ending_balance_in_cents
+            description: The total balance of the prepayment account for this subscription including any prior prepayments
     example:
       paid_invoices:
-        - invoice_uid: sint
-          status: commodo enim
-          due_amount: quis sed veniam
-          paid_amount: 'in non '
-        - invoice_uid: officia in mollit esse qui
-          status: esse nisi dolore
-          due_amount: consequat
-          paid_amount: eu Ut sit minim
+        - invoice_uid: xyz_012345678
+          status: paid
+          due_amount: '0.0'
+          paid_amount: '50.0'
+        - invoice_uid: xyz_012345678
+          status: paid
+          due_amount: '0.0'
+          paid_amount: '50.0'
       prepayment:
-        subscription_id: sed sint
-        amount_in_cents: id nulla
-        ending_balance_in_cents: officia cillum proident mollit c
+        subscription_id: '123456'
+        amount_in_cents: '5000'
+        ending_balance_in_cents: '5000'
     x-stoplight:
       id: create-bulk-payment-response
       name: Create Bulk Payment Response
@@ -38591,6 +38582,38 @@ definitions:
   create-bulk-payment-request:
     title: Create Bulk Payment Request
     type: object
+    properties:
+      payment:
+        type: object
+        properties:
+          amount:
+            type: string
+            description: The amount of the external payment (eg. "50.00" for $50.00)
+          memo:
+            type: string
+            description: A description to be attached to the payment.
+          payment_details:
+            type: string
+            description: Details about the payment itself (eg. Check Number)
+          payment_method:
+            type: string
+            description: |
+
+              The type of payment method used.
+
+              Allowed Values: credit_card, check, cash, money_order, ach, paypal_account, other
+              default: other
+        required:
+          - amount
+          - memo
+          - payment_details
+          - payment_method
+    example:
+      payment:
+        amount: '10.0'
+        memo: to pay the bills
+        payment_details: check number 8675309
+        payment_method: check
     x-stoplight:
       id: create-bulk-payment-request
       name: Create Bulk Payment Request
