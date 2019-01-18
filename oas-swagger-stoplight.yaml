@@ -6775,245 +6775,228 @@ paths:
         '200':
           description: ''
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/credit-note'
+            type: object
+            properties:
+              credit_notes:
+                type: array
+                items:
+                  $ref: '#/definitions/credit-note'
           examples:
             application/json:
-              invoices:
-                - uid: inv_8htcd29wcq3q6
-                  site_id: 51288
-                  customer_id: 20153415
-                  subscription_id: 23277588
-                  number: '125'
-                  sequence_number: 125
-                  issue_date: '2018-09-20'
-                  due_date: '2018-09-20'
-                  paid_date: '2018-09-20'
-                  status: paid
-                  collection_method: automatic
-                  payment_instructions: 'Make checks payable to Acme, Inc.'
+              credit_notes:
+                - uid: cn_8m9vbd5kkv7kr
+                  site_id: 20
+                  customer_id: 3
+                  subscription_id: 2
+                  number: '77'
+                  sequence_number: 78
+                  issue_date: '2018-12-31'
+                  applied_date: '2018-12-31'
+                  status: applied
                   currency: USD
-                  consolidation_level: parent
-                  parent_invoice_uid: null
-                  parent_invoice_number: null
-                  group_primary_subscription_id: 23277588
-                  product_name: Trial and setup fee
-                  product_family_name: Billing Plans
+                  memo: Refund for overpayment
                   seller:
-                    name: General Goods
+                    name: 'Acme, Inc.'
                     address:
-                      street: 123 General Goods Way
-                      line2: Apt. 10
-                      city: Boston
-                      state: MA
-                      zip: '02120'
+                      street: 122 E Houston St
+                      line2: Suite 105
+                      city: San Antonio
+                      state: TX
+                      zip: '78205'
                       country: US
-                    phone: 555-555-1212
+                    phone: 555-555-1234 x137
                   customer:
-                    chargify_id: 20153415
-                    first_name: Meg
-                    last_name: Example
-                    organization: ''
-                    email: meg@example.com
-                  memo: Please pay within 15 days.
+                    chargify_id: 3
+                    first_name: Marty
+                    last_name: McFly
+                    organization: 'Time Travellers, Inc.'
+                    email: timetraveller1985@example.com
+                    reference: null
                   billing_address:
-                    street: 123 I Love Cats Way
-                    line2: ''
-                    city: Boston
+                    street: 200 Billing Rd.
+                    line2: Suite 100
+                    city: Needham
                     state: MA
-                    zip: '90210'
+                    zip: 02494
                     country: US
                   shipping_address:
-                    street: 123 I Love Cats Way
-                    line2: ''
-                    city: Boston
-                    state: MA
-                    zip: '90210'
+                    street: 100 Shipping St.
+                    line2: Apt 200
+                    city: Pleasantville
+                    state: NC
+                    zip: '12345'
                     country: US
-                  subtotal_amount: '100.0'
-                  discount_amount: '0.0'
-                  tax_amount: '0.0'
-                  total_amount: '100.0'
-                  credit_amount: '0.0'
-                  paid_amount: '100.0'
-                  refund_amount: '0.0'
-                  due_amount: '0.0'
-                - uid: inv_8hr3546xp4h8n
-                  site_id: 51288
-                  customer_id: 21687686
-                  subscription_id: 22007644
-                  number: '124'
-                  sequence_number: 124
-                  issue_date: '2018-09-18'
-                  due_date: '2018-09-18'
-                  paid_date: null
-                  status: open
-                  collection_method: remittance
-                  payment_instructions: 'Make checks payable to Acme, Inc.'
-                  currency: USD
-                  consolidation_level: none
-                  parent_invoice_uid: null
-                  parent_invoice_number: null
-                  group_primary_subscription_id: null
-                  product_name: Trial and setup fee
-                  product_family_name: Billing Plans
-                  seller:
-                    name: General Goods
-                    address:
-                      street: 123 General Goods Way
-                      line2: Apt. 10
-                      city: Boston
-                      state: MA
-                      zip: '02120'
-                      country: US
-                    phone: 555-555-1212
-                  customer:
-                    chargify_id: 21687686
-                    first_name: Charlene
-                    last_name: Tester
-                    organization: ''
-                    email: food@example.com
-                  memo: Please pay within 15 days.
-                  billing_address:
-                    street: ''
-                    line2: ''
-                    city: ''
-                    state: ''
-                    zip: ''
-                    country: ''
-                  shipping_address:
-                    street: ''
-                    line2: ''
-                    city: ''
-                    state: ''
-                    zip: ''
-                    country: ''
-                  subtotal_amount: '100.0'
-                  discount_amount: '0.0'
-                  tax_amount: '0.0'
-                  total_amount: '100.0'
-                  credit_amount: '0.0'
-                  paid_amount: '0.0'
-                  refund_amount: '0.0'
-                  due_amount: '100.0'
-                - uid: inv_8hr3546wdwxkr
-                  site_id: 51288
-                  customer_id: 21687670
-                  subscription_id: 22007627
-                  number: '123'
-                  sequence_number: 123
-                  issue_date: '2018-09-18'
-                  due_date: '2018-09-18'
-                  paid_date: '2018-09-18'
-                  status: paid
-                  collection_method: automatic
-                  payment_instructions: 'Make checks payable to Acme, Inc.'
-                  currency: USD
-                  consolidation_level: none
-                  parent_invoice_uid: null
-                  parent_invoice_number: null
-                  group_primary_subscription_id: null
-                  product_name: Trial End - Free
-                  product_family_name: Billing Plans
-                  seller:
-                    name: General Goods
-                    address:
-                      street: 123 General Goods Way
-                      line2: Apt. 10
-                      city: Boston
-                      state: MA
-                      zip: '02120'
-                      country: US
-                    phone: 555-555-1212
-                  customer:
-                    chargify_id: 21687670
-                    first_name: Hello
-                    last_name: World
-                    organization: '123'
-                    email: example@example.com
-                  memo: Please pay within 15 days.
-                  billing_address:
-                    street: 123 Anywhere Street
-                    line2: ''
-                    city: Boston
-                    state: MA
-                    zip: '02120'
-                    country: US
-                  shipping_address:
-                    street: ''
-                    line2: ''
-                    city: Boston
-                    state: AL
-                    zip: '02120'
-                    country: US
-                  subtotal_amount: '0.0'
-                  discount_amount: '0.0'
-                  tax_amount: '0.0'
-                  total_amount: '0.0'
-                  credit_amount: '0.0'
-                  paid_amount: '0.0'
-                  refund_amount: '0.0'
-                  due_amount: '0.0'
-                - uid: inv_8hjtk8bz56bbp
-                  site_id: 51288
-                  customer_id: 20137757
-                  subscription_id: 20541100
-                  number: '122'
-                  sequence_number: 122
-                  issue_date: '2018-09-10'
-                  due_date: '2018-09-10'
-                  paid_date: '2018-09-10'
-                  status: paid
-                  collection_method: automatic
-                  payment_instructions: 'Make checks payable to Acme, Inc.'
-                  currency: USD
-                  consolidation_level: none
-                  parent_invoice_uid: null
-                  parent_invoice_number: null
-                  group_primary_subscription_id: null
-                  product_name: $0 Product
-                  product_family_name: Billing Plans
-                  seller:
-                    name: General Goods
-                    address:
-                      street: 123 General Goods Way
-                      line2: Apt. 10
-                      city: Boston
-                      state: MA
-                      zip: '02120'
-                      country: US
-                    phone: 555-555-1212
-                  customer:
-                    chargify_id: 20137757
-                    first_name: Sasha
-                    last_name: Example
-                    organization: ''
-                    email: example@example.com
-                  memo: Please pay within 15 days.
-                  billing_address:
-                    street: 123 I Love Cats Way
-                    line2: ''
-                    city: Catville
-                    state: MA
-                    zip: '90210'
-                    country: US
-                  shipping_address:
-                    street: 123 I Love Cats Way
-                    line2: ''
-                    city: Catville
-                    state: AL
-                    zip: '90210'
-                    country: US
-                  subtotal_amount: '0.0'
-                  discount_amount: '0.0'
-                  tax_amount: '0.0'
-                  total_amount: '0.0'
-                  credit_amount: '0.0'
-                  paid_amount: '0.0'
-                  refund_amount: '0.0'
-                  due_amount: '0.0'
-              public_url: 'https://www.chargifypay.com/invoice/inv_8jzrw74xq8kxr?token=fb6kpjz5rcr2vttyjs4rcv6y'
+                  subtotal_amount: '208.69341779'
+                  discount_amount: '20.87125167'
+                  tax_amount: '12.67783387'
+                  total_amount: '200.5'
+                  applied_amount: '200.5'
+                  remaining_amount: '0.0'
+                  line_items:
+                    - uid: cnli_8k5jvdzct4h9x
+                      title: 'IP Addresses: 5 to 10 addresses'
+                      description: 38.2% credit
+                      quantity: '0.9855'
+                      unit_price: '2.0'
+                      subtotal_amount: '1.971004'
+                      discount_amount: '0.19862831'
+                      tax_amount: '0.11963536'
+                      total_amount: '1.89201105'
+                      tiered_unit_price: false
+                      period_range_start: '2018-11-30'
+                      period_range_end: '2018-11-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: 81
+                      price_point_id: 165
+                    - uid: cnli_8kjttvjcjx8b4
+                      title: Professional Plan
+                      description: 38.2% credit
+                      quantity: '0.382'
+                      unit_price: '299.0'
+                      subtotal_amount: '114.21127834'
+                      discount_amount: '11.42112783'
+                      tax_amount: '6.93833516'
+                      total_amount: '109.72848567'
+                      tiered_unit_price: false
+                      period_range_start: '2018-12-30'
+                      period_range_end: '2018-12-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: null
+                      price_point_id: null
+                    - uid: cnli_8kjttvjknzhx7
+                      title: Small Instance (Hourly)
+                      description: 38.2% credit
+                      quantity: '74.8676'
+                      unit_price: '0.12244898'
+                      subtotal_amount: '9.16746047'
+                      discount_amount: '0.91674605'
+                      tax_amount: '0.55692322'
+                      total_amount: '8.80763764'
+                      tiered_unit_price: true
+                      period_range_start: '2018-11-30'
+                      period_range_end: '2018-11-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: 78
+                      price_point_id: null
+                    - uid: cnli_8kjttvjnmh25w
+                      title: Large Instance (Hourly)
+                      description: 38.2% credit
+                      quantity: '183.3492'
+                      unit_price: '0.39583333'
+                      subtotal_amount: '72.57572871'
+                      discount_amount: '7.25757287'
+                      tax_amount: '4.40897552'
+                      total_amount: '69.72713136'
+                      tiered_unit_price: true
+                      period_range_start: '2018-11-30'
+                      period_range_end: '2018-11-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: 79
+                      price_point_id: null
+                    - uid: cnli_8kjttvjqn86kc
+                      title: Email Messages
+                      description: 38.2% credit
+                      quantity: '10076.9489'
+                      unit_price: '0.00031045'
+                      subtotal_amount: '3.12839588'
+                      discount_amount: '0.31322157'
+                      tax_amount: '0.19002427'
+                      total_amount: '3.00519858'
+                      tiered_unit_price: true
+                      period_range_start: '2018-11-30'
+                      period_range_end: '2018-11-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: 80
+                      price_point_id: null
+                    - uid: cnli_8kjttvjtxxbdd
+                      title: IP Addresses
+                      description: 38.2% credit
+                      quantity: '3.8198'
+                      unit_price: '2.0'
+                      subtotal_amount: '7.63955039'
+                      discount_amount: '0.76395504'
+                      tax_amount: '0.46410269'
+                      total_amount: '7.33969804'
+                      tiered_unit_price: false
+                      period_range_start: '2018-12-30'
+                      period_range_end: '2018-12-30'
+                      product_id: 85
+                      product_version: 1
+                      component_id: 81
+                      price_point_id: 165
+                  discounts:
+                    - uid: cndli_8k5jvdzct4h9y
+                      title: Multi-service discount (10%)
+                      code: MULTI3
+                      source_type: Coupon
+                      source_id: 40
+                      discount_type: percentage
+                      percentage: '10.0'
+                      eligible_amount: '208.69341779'
+                      discount_amount: '20.87125167'
+                      line_item_breakouts:
+                        - uid: cnli_8k5jvdzct4h9x
+                          eligible_amount: '1.971004'
+                          discount_amount: '0.19862831'
+                        - uid: cnli_8kjttvjcjx8b4
+                          eligible_amount: '114.21127834'
+                          discount_amount: '11.42112783'
+                        - uid: cnli_8kjttvjknzhx7
+                          eligible_amount: '9.16746047'
+                          discount_amount: '0.91674605'
+                        - uid: cnli_8kjttvjnmh25w
+                          eligible_amount: '72.57572871'
+                          discount_amount: '7.25757287'
+                        - uid: cnli_8kjttvjqn86kc
+                          eligible_amount: '3.12839588'
+                          discount_amount: '0.31322157'
+                        - uid: cnli_8kjttvjtxxbdd
+                          eligible_amount: '7.63955039'
+                          discount_amount: '0.76395504'
+                  taxes:
+                    - uid: cntli_8k5jvdzct4h9z
+                      title: NC Sales Tax
+                      source_type: Tax
+                      source_id: 1
+                      percentage: '6.75'
+                      taxable_amount: '187.82216613'
+                      tax_amount: '12.67783387'
+                      line_item_breakouts:
+                        - uid: cnli_8k5jvdzct4h9x
+                          taxable_amount: '1.77237569'
+                          tax_amount: '0.11963536'
+                        - uid: cnli_8kjttvjcjx8b4
+                          taxable_amount: '102.7901505'
+                          tax_amount: '6.93833516'
+                        - uid: cnli_8kjttvjknzhx7
+                          taxable_amount: '8.25071442'
+                          tax_amount: '0.55692322'
+                        - uid: cnli_8kjttvjnmh25w
+                          taxable_amount: '65.31815584'
+                          tax_amount: '4.40897552'
+                        - uid: cnli_8kjttvjqn86kc
+                          taxable_amount: '2.81517432'
+                          tax_amount: '0.19002427'
+                        - uid: cnli_8kjttvjtxxbdd
+                          taxable_amount: '6.87559535'
+                          tax_amount: '0.46410269'
+                  applications:
+                    - uid: cdt_8m9vbdbdwd28n
+                      transaction_time: '2018-12-31T21:19:28Z'
+                      invoice_uid: inv_8k5jvdzct4hb2
+                      memo: Refund for overpayment
+                      applied_amount: '200.5'
+                  refunds:
+                    - transaction_id: 329
+                      payment_id: 39
+                      memo: Refund for overpayment
+                      original_amount: '524.9'
+                      applied_amount: '200.5'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -37952,53 +37935,28 @@ definitions:
     properties:
       uid:
         type: string
-        description: Unique identifier for the credit note. It is generated automatically by Chargify and has the prefix "cn_" followed by alphanumeric characters.
       site_id:
         type: integer
-        description: ID of the site to which the credit note belongs.
       customer_id:
         type: integer
-        description: ID of the customer to which the credit note belongs.
       subscription_id:
         type: integer
-        description: ID of the subscription that generated the credit note.
       number:
         type: string
-        description: |-
-          A unique, identifying string that appears on the credit and in places the credit note is referenced.
-
-          While the UID is long and not appropriate to show to customers, the number is usually shorter and consumable by the customer and the merchant alike.
       sequence_number:
         type: integer
-        description: A monotonically increasing number assigned to credit notes as they are created.  This number is unique within a site and can be used to sort and order credit notes.
       issue_date:
         type: string
-        description: |-
-          Date the credit was issued to the customer.  This is the date that the credit was made available for application to an invoice.
-
-          The format is `"YYYY-MM-DD"`.
       applied_date:
         type: string
-        description: |-
-          Date the credit became fully applied (consumed).
-
-          The format is `"YYYY-MM-DD"`.
       status:
         type: string
-        description: |-
-          Current status of the invoice.  One of:
-
-          * "open"
-          * "applied"
       currency:
         type: string
-        description: The ISO 4217 currency code (3 character string) representing the currency of credit transaction.
       memo:
         type: string
-        description: The memo printed on the credit.
       seller:
         type: object
-        description: Information about the seller (merchant) listed on the masthead of the credit note.
         properties:
           name:
             type: string
@@ -38006,24 +37964,21 @@ definitions:
             type: object
             properties:
               street:
-                type: 'null'
+                type: string
               line2:
-                type: 'null'
+                type: string
               city:
-                type: 'null'
+                type: string
               state:
-                type: 'null'
+                type: string
               zip:
-                type: 'null'
+                type: string
               country:
-                type: 'null'
+                type: string
           phone:
-            type: string
-          '':
             type: string
       customer:
         type: object
-        description: Information about the customer who is owner or recipient the subscription receiving the credit.
         properties:
           chargify_id:
             type: integer
@@ -38032,12 +37987,13 @@ definitions:
           last_name:
             type: string
           organization:
-            type: 'null'
+            type: string
           email:
             type: string
+          reference:
+            type: 'null'
       billing_address:
         type: object
-        description: The customer's billing address.
         properties:
           street:
             type: string
@@ -38053,7 +38009,6 @@ definitions:
             type: string
       shipping_address:
         type: object
-        description: The customer's shipping address.
         properties:
           street:
             type: string
@@ -38069,111 +38024,57 @@ definitions:
             type: string
       subtotal_amount:
         type: string
-        description: 'Subtotal of the credit, which is the sum of all line items before discounts or taxes. This is the subtotal being credited to the customer, but is represented as a positive amount.'
       discount_amount:
         type: string
-        description: Total discount being returned as a credit. This amount offsets earlier discounts given on an invoice and is a positive amount.
       tax_amount:
         type: string
-        description: Total tax being returned by the credit. The amount offsets earlier taxes given on an invoice and is a positive amount.
       total_amount:
         type: string
-        description: 'The credit total, which is `subtotal_amount - discount_amount + tax_amount`.'''
       applied_amount:
         type: string
-        description: 'The amount of the credit that has been applied to invoices, i.e. the amount of the credit that has been consumed.'
       remaining_amount:
         type: string
-        description: 'Amount of credit remaining to apply, which is `total_amount - applied_amount`.'
       line_items:
         type: array
-        description: Line items on the credit note.
         items:
           type: object
           properties:
             uid:
               type: string
-              description: Unique identifier for the line item.  Useful when cross-referencing the line against individual discounts in the `discounts` or `taxes` lists.
             title:
               type: string
-              description: A short descriptor for the charge or item represented by this line.
             description:
               type: string
-              description: |-
-                Detailed description for the charge or item represented by this line.  May include proration details in plain text.
-
-                Note: this string may contain line breaks that are hints for the best display format on the invoice.
             quantity:
               type: string
-              description: |-
-                The quantity or count of units billed by the line item.
-
-                This is a decimal number represented as a string. (See "About Decimal Numbers".)
             unit_price:
               type: string
-              description: |-
-                The price per unit for the line item.
-
-                When tiered pricing was used (i.e. not every unit was actually priced at the same price) this will be the blended average cost per unit and the `tiered_unit_price` field will be set to `true`.
             subtotal_amount:
               type: string
-              description: 'The line subtotal, generally calculated as `quantity * unit_price`. This is the canonical amount of record for the line - when rounding differences are in play, `subtotal_amount` takes precedence over the value derived from `quantity * unit_price` (which may not have the proper precision to exactly equal this amount).'
             discount_amount:
               type: string
-              description: |-
-                The approximate discount applied to just this line.
-
-                The value is approximated in cases where rounding errors make it difficult to apportion exactly a total discount among many lines. Several lines may have been summed prior to applying the discount to arrive at `discount_amount` for the invoice - backing that out to the discount on a single line may introduce rounding or precision errors.
             tax_amount:
               type: string
-              description: |-
-                The approximate tax applied to just this line.
-
-                The value is approximated in cases where rounding errors make it difficult to apportion exactly a total tax among many lines. Several lines may have been summed prior to applying the tax rate to arrive at `tax_amount` for the invoice - backing that out to the tax on a single line may introduce rounding or precision errors.
             total_amount:
               type: string
-              description: |-
-                The non-canonical total amount for the line.
-
-                `subtotal_amount` is the canonical amount for a line. The invoice `total_amount` is derived from the sum of the line `subtotal_amount`s and discounts or taxes applied thereafter.  Therefore, due to rounding or precision errors, the sum of line `total_amount`s may not equal the invoice `total_amount`.
             tiered_unit_price:
               type: boolean
-              description: 'When `true`, indicates that the actual pricing scheme for the line was tiered, so the `unit_price` shown is the blended average for all units.'
             period_range_start:
               type: string
-              description: |-
-                Start date for the period covered by this line. The format is `"YYYY-MM-DD"`.
-
-                * For periodic charges paid in advance, this date will match the billing date, and the end date will be in the future.
-                * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the previous billing, and the end date will be the current billing date.
-                * For non-periodic charges, this date and the end date will match.
             period_range_end:
               type: string
-              description: |-
-                End date for the period covered by this line. The format is `"YYYY-MM-DD"`.
-
-                * For periodic charges paid in advance, this date will match the next (future) billing date.
-                * For periodic charges paid in arrears (e.g. metered charges), this date will be the date of the current billing date.
-                * For non-periodic charges, this date and the start date will match.
             product_id:
               type: integer
-              description: |-
-                The ID of the product subscribed when the charge was made.
-
-                This may be set even for component charges, so true product-only (non-component) charges will also have a nil `component_id`.
             product_version:
               type: integer
-              description: The version of the product subscribed when the charge was made.
             component_id:
               type:
                 - integer
                 - 'null'
-              description: The ID of the component being billed. Will be `nil` for non-component charges.
             price_point_id:
               type:
                 - integer
                 - 'null'
-              description: The price point ID of the component being billed. Will be `nil` for non-component charges.
       discounts:
         type: array
         items:
@@ -38238,6 +38139,21 @@ definitions:
                     type: string
                   tax_amount:
                     type: string
+      applications:
+        type: array
+        items:
+          type: object
+          properties:
+            uid:
+              type: string
+            transaction_time:
+              type: string
+            invoice_uid:
+              type: string
+            memo:
+              type: string
+            applied_amount:
+              type: string
       refunds:
         type: array
         items:
@@ -38254,42 +38170,34 @@ definitions:
             applied_amount:
               type: string
     example:
-      uid: inv_8cvtwz27ptgp3
+      uid: cn_8m9vbd5kkv7kr
       site_id: 20
       customer_id: 3
       subscription_id: 2
-      number: '17'
-      sequence_number: 17
-      issue_date: '2018-05-24'
-      due_date: '2018-05-24'
-      paid_date: '2018-05-24'
-      status: paid
-      collection_method: automatic
-      payment_instructions: 'Please make checks payable to \"Acme, Inc.\"'
+      number: '77'
+      sequence_number: 78
+      issue_date: '2018-12-31'
+      applied_date: '2018-12-31'
+      status: applied
       currency: USD
-      consolidation_level: none
-      parent_invoice_uid: null
-      parent_invoice_number: null
-      group_primary_subscription_id: null
-      product_name: Professional Plan
-      product_family_name: Cloud Compute Servers
+      memo: Refund for overpayment
       seller:
         name: 'Acme, Inc.'
         address:
-          street: null
-          line2: null
-          city: null
-          state: null
-          zip: null
-          country: null
+          street: 122 E Houston St
+          line2: Suite 105
+          city: San Antonio
+          state: TX
+          zip: '78205'
+          country: US
         phone: 555-555-1234 x137
       customer:
         chargify_id: 3
         first_name: Marty
         last_name: McFly
-        organization: null
+        organization: 'Time Travellers, Inc.'
         email: timetraveller1985@example.com
-      memo: 'Thanks for your business! If you have any questions, please contact your account manager.'
+        reference: null
       billing_address:
         street: 200 Billing Rd.
         line2: Suite 100
@@ -38304,160 +38212,177 @@ definitions:
         state: NC
         zip: '12345'
         country: US
-      subtotal_amount: '473.75'
-      discount_amount: '47.38'
-      tax_amount: '28.78'
-      total_amount: '455.15'
-      credit_amount: '4.8'
-      paid_amount: '450.35'
-      due_amount: '0.0'
+      subtotal_amount: '208.69341779'
+      discount_amount: '20.87125167'
+      tax_amount: '12.67783387'
+      total_amount: '200.5'
+      applied_amount: '200.5'
+      remaining_amount: '0.0'
       line_items:
-        - uid: li_8cvtwyyncxtdv
-          title: Professional Plan
-          description: 05/24/2018 - 06/24/2018
-          quantity: '1.0'
-          unit_price: '99.0'
-          subtotal_amount: '99.0'
-          discount_amount: '9.9'
-          tax_amount: '6.01425'
-          total_amount: '95.11425'
+        - uid: cnli_8k5jvdzct4h9x
+          title: 'IP Addresses: 5 to 10 addresses'
+          description: 38.2% credit
+          quantity: '0.9855'
+          unit_price: '2.0'
+          subtotal_amount: '1.971004'
+          discount_amount: '0.19862831'
+          tax_amount: '0.11963536'
+          total_amount: '1.89201105'
           tiered_unit_price: false
-          period_range_start: '2018-05-24'
-          period_range_end: '2018-06-24'
-          product_id: 84
+          period_range_start: '2018-11-30'
+          period_range_end: '2018-11-30'
+          product_id: 85
+          product_version: 1
+          component_id: 81
+          price_point_id: 165
+        - uid: cnli_8kjttvjcjx8b4
+          title: Professional Plan
+          description: 38.2% credit
+          quantity: '0.382'
+          unit_price: '299.0'
+          subtotal_amount: '114.21127834'
+          discount_amount: '11.42112783'
+          tax_amount: '6.93833516'
+          total_amount: '109.72848567'
+          tiered_unit_price: false
+          period_range_start: '2018-12-30'
+          period_range_end: '2018-12-30'
+          product_id: 85
           product_version: 1
           component_id: null
           price_point_id: null
-        - uid: li_8cvtwyyxc6x4q
+        - uid: cnli_8kjttvjknzhx7
           title: Small Instance (Hourly)
-          description: ''
-          quantity: '201.0'
-          unit_price: '0.25'
-          subtotal_amount: '50.25'
-          discount_amount: '5.03'
-          tax_amount: '3.05235'
-          total_amount: '48.27235'
-          tiered_unit_price: false
-          period_range_start: '2018-04-24'
-          period_range_end: '2018-05-24'
-          product_id: 84
-          product_version: 1
-          component_id: 76
-          price_point_id: null
-        - uid: li_8cvtwyyybg5r3
-          title: Large Instance (Hourly)
-          description: ''
-          quantity: '629.0'
-          unit_price: '0.5'
-          subtotal_amount: '314.5'
-          discount_amount: '31.45'
-          tax_amount: '19.105875'
-          total_amount: '302.155875'
-          tiered_unit_price: false
-          period_range_start: '2018-04-24'
-          period_range_end: '2018-05-24'
-          product_id: 84
-          product_version: 1
-          component_id: 77
-          price_point_id: null
-        - uid: li_8cvtwyyzcz3j8
-          title: IP Addresses
-          description: ''
-          quantity: '5.0'
-          unit_price: '2.0'
-          subtotal_amount: '10.0'
-          discount_amount: '1.0'
-          tax_amount: '0.6075'
-          total_amount: '9.6075'
-          tiered_unit_price: false
-          period_range_start: '2018-05-24'
-          period_range_end: '2018-06-24'
-          product_id: 84
+          description: 38.2% credit
+          quantity: '74.8676'
+          unit_price: '0.12244898'
+          subtotal_amount: '9.16746047'
+          discount_amount: '0.91674605'
+          tax_amount: '0.55692322'
+          total_amount: '8.80763764'
+          tiered_unit_price: true
+          period_range_start: '2018-11-30'
+          period_range_end: '2018-11-30'
+          product_id: 85
           product_version: 1
           component_id: 78
-          price_point_id: 87
+          price_point_id: null
+        - uid: cnli_8kjttvjnmh25w
+          title: Large Instance (Hourly)
+          description: 38.2% credit
+          quantity: '183.3492'
+          unit_price: '0.39583333'
+          subtotal_amount: '72.57572871'
+          discount_amount: '7.25757287'
+          tax_amount: '4.40897552'
+          total_amount: '69.72713136'
+          tiered_unit_price: true
+          period_range_start: '2018-11-30'
+          period_range_end: '2018-11-30'
+          product_id: 85
+          product_version: 1
+          component_id: 79
+          price_point_id: null
+        - uid: cnli_8kjttvjqn86kc
+          title: Email Messages
+          description: 38.2% credit
+          quantity: '10076.9489'
+          unit_price: '0.00031045'
+          subtotal_amount: '3.12839588'
+          discount_amount: '0.31322157'
+          tax_amount: '0.19002427'
+          total_amount: '3.00519858'
+          tiered_unit_price: true
+          period_range_start: '2018-11-30'
+          period_range_end: '2018-11-30'
+          product_id: 85
+          product_version: 1
+          component_id: 80
+          price_point_id: null
+        - uid: cnli_8kjttvjtxxbdd
+          title: IP Addresses
+          description: 38.2% credit
+          quantity: '3.8198'
+          unit_price: '2.0'
+          subtotal_amount: '7.63955039'
+          discount_amount: '0.76395504'
+          tax_amount: '0.46410269'
+          total_amount: '7.33969804'
+          tiered_unit_price: false
+          period_range_start: '2018-12-30'
+          period_range_end: '2018-12-30'
+          product_id: 85
+          product_version: 1
+          component_id: 81
+          price_point_id: 165
       discounts:
-        - uid: dli_8cvtwyzctqwz5
+        - uid: cndli_8k5jvdzct4h9y
           title: Multi-service discount (10%)
           code: MULTI3
           source_type: Coupon
           source_id: 40
           discount_type: percentage
           percentage: '10.0'
-          eligible_amount: '473.75'
-          discount_amount: '47.38'
+          eligible_amount: '208.69341779'
+          discount_amount: '20.87125167'
           line_item_breakouts:
-            - uid: li_8cvtwyyncxtdv
-              eligible_amount: '99.0'
-              discount_amount: '9.9'
-            - uid: li_8cvtwyyxc6x4q
-              eligible_amount: '50.25'
-              discount_amount: '5.03'
-            - uid: li_8cvtwyyybg5r3
-              eligible_amount: '314.5'
-              discount_amount: '31.45'
-            - uid: li_8cvtwyyzcz3j8
-              eligible_amount: '10.0'
-              discount_amount: '1.0'
+            - uid: cnli_8k5jvdzct4h9x
+              eligible_amount: '1.971004'
+              discount_amount: '0.19862831'
+            - uid: cnli_8kjttvjcjx8b4
+              eligible_amount: '114.21127834'
+              discount_amount: '11.42112783'
+            - uid: cnli_8kjttvjknzhx7
+              eligible_amount: '9.16746047'
+              discount_amount: '0.91674605'
+            - uid: cnli_8kjttvjnmh25w
+              eligible_amount: '72.57572871'
+              discount_amount: '7.25757287'
+            - uid: cnli_8kjttvjqn86kc
+              eligible_amount: '3.12839588'
+              discount_amount: '0.31322157'
+            - uid: cnli_8kjttvjtxxbdd
+              eligible_amount: '7.63955039'
+              discount_amount: '0.76395504'
       taxes:
-        - uid: tli_8cvtwyztnz268
+        - uid: cntli_8k5jvdzct4h9z
           title: NC Sales Tax
           source_type: Tax
           source_id: 1
           percentage: '6.75'
-          taxable_amount: '426.37'
-          tax_amount: '28.78'
+          taxable_amount: '187.82216613'
+          tax_amount: '12.67783387'
           line_item_breakouts:
-            - uid: li_8cvtwyyncxtdv
-              taxable_amount: '89.1'
-              tax_amount: '6.01425'
-            - uid: li_8cvtwyyxc6x4q
-              taxable_amount: '45.22'
-              tax_amount: '3.05235'
-            - uid: li_8cvtwyyybg5r3
-              taxable_amount: '283.05'
-              tax_amount: '19.105875'
-            - uid: li_8cvtwyyzcz3j8
-              taxable_amount: '9.0'
-              tax_amount: '0.6075'
-      credits:
-        - uid: cdt_8cvtwz7h2yg7g
-          credit_note_number: '16'
-          credit_note_uid: cn_8ch6kd5y4dd9d
-          transaction_time: '2018-05-24T14:23:18Z'
-          memo: Credit balance applied
-          original_amount: '4.8'
-          applied_amount: '4.8'
-      payments:
-        - transaction_time: '2018-05-24T14:23:18Z'
-          memo: 'Prepayment applied to invoice #17.'
-          original_amount: '50.0'
-          applied_amount: '50.0'
-          payment_method:
-            details: 'Check #45678'
-            kind: Check
-            memo: Check received via mail
-            type: external
-          transaction_id: 71
-          prepayment: true
-        - transaction_time: '2018-05-24T14:23:20Z'
-          memo: 'Marty McFly - Professional Plan: Renewal payment'
-          original_amount: '400.35'
-          applied_amount: '400.35'
-          payment_method:
-            card_brand: visa
-            card_expiration: 12/2022
-            last_four: '1111'
-            masked_card_number: XXXX-XXXX-XXXX-1111
-            type: credit_card
-          transaction_id: 113
-          prepayment: false
-      custom_fields:
-        - name: Account Manager
-          value: Gerald Strickland
-        - name: Account Manager Phone
-          value: 555-555-9999 x807
-      public_url: 'https://www.chargifypay.com/invoice/inv_8jzrw74xq8kxr?token=fb6kpjz5rcr2vttyjs4rcv6y'
+            - uid: cnli_8k5jvdzct4h9x
+              taxable_amount: '1.77237569'
+              tax_amount: '0.11963536'
+            - uid: cnli_8kjttvjcjx8b4
+              taxable_amount: '102.7901505'
+              tax_amount: '6.93833516'
+            - uid: cnli_8kjttvjknzhx7
+              taxable_amount: '8.25071442'
+              tax_amount: '0.55692322'
+            - uid: cnli_8kjttvjnmh25w
+              taxable_amount: '65.31815584'
+              tax_amount: '4.40897552'
+            - uid: cnli_8kjttvjqn86kc
+              taxable_amount: '2.81517432'
+              tax_amount: '0.19002427'
+            - uid: cnli_8kjttvjtxxbdd
+              taxable_amount: '6.87559535'
+              tax_amount: '0.46410269'
+      applications:
+        - uid: cdt_8m9vbdbdwd28n
+          transaction_time: '2018-12-31T21:19:28Z'
+          invoice_uid: inv_8k5jvdzct4hb2
+          memo: Refund for overpayment
+          applied_amount: '200.5'
+      refunds:
+        - transaction_id: 329
+          payment_id: 39
+          memo: Refund for overpayment
+          original_amount: '524.9'
+          applied_amount: '200.5'
     x-stoplight:
       id: credit-note
       name: Credit Note
