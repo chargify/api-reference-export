@@ -6771,18 +6771,13 @@ paths:
           description: Include payments data - defaults to false for the index.
           type: boolean
           default: false
-        - name: custom_fields
-          in: query
-          description: Include custom fields data - defaults to false for the index.
-          type: boolean
-          default: false
       responses:
         '200':
           description: ''
           schema:
             type: array
             items:
-              $ref: '#/definitions/read-all-invoices'
+              $ref: '#/definitions/credit-note'
           examples:
             application/json:
               invoices:
