@@ -6605,7 +6605,7 @@ paths:
       description: |-
         Credit Notes are like inverse invoices. They reduce the amount a customer owes.
 
-        By default, the credit notes returned by this endpoint will exclude the arrays of `line_items`, `discounts`, `taxes`, `applications`, or `refunds`. To include these arrayws, pass the specific field as a key in the query with a value set to `true`.
+        By default, the credit notes returned by this endpoint will exclude the arrays of `line_items`, `discounts`, `taxes`, `applications`, or `refunds`. To include these arrays, pass the specific field as a key in the query with a value set to `true`.
       consumes:
         - application/xml
       produces:
