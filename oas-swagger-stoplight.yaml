@@ -35,7 +35,7 @@ paths:
       description: |-
         ## Create an Adjustment via API
 
-        Creating an adjustment requires a valid, live subscription. The subscription must be referenced by `id`. For more information on creating a subscription, please see our [Subscriptions Introduction.](#docTextSection:aDNGencbmFC7h2NEW)
+        Creating an adjustment requires a valid, live subscription. The subscription must be referenced by `id`. For more information on creating a subscription, please see our [subscriptions introduction.](#docTextSection:aDNGencbmFC7h2NEW)
 
         In order to create an adjustment, pass an amount and an optional memo. The amount can be specified by either the `amount` parameter or the `amount_in_cents` parameter. The amount can be specified as a positive or a negative number. 
 
