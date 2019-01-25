@@ -40999,13 +40999,16 @@ x-stoplight:
 
         | Type / Transaction Type | Kind                     | Description                                                                                                                                                                                         |
         |-------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | adjustment              | coupon                  | An adjustment that reflects the discount provided by a coupon. Is almost always a negative amount.                                                                                                  |
+        | adjustment              | coupon                   | An adjustment that reflects the discount provided by a coupon. Is almost always a negative amount.                                                                                                  |
         | adjustment              | prorated                 | An adjustment applied during a migration proration that offsets overpayments resulting from the shortened period on the old product. Followed by the assessment of new charges for the new product. |
+        | adjustment              | reactivation             | An adjustment as a result of a reactivation of a canceled subscription. A balance is cleared before the subscription reactivates.                                                                   |
         | adjustment              | quantity_based_component | Deprecated. Like a quantity_based_component credit in function but no longer used (since credits can be taxable but adjustments cannot).                                                            |
         | adjustment              | on_off_component         | Deprecated. Like an on_off_component credit in function but no longer used (since credits can be taxable but adjustments cannot).                                                                   |
         | adjustment              | tax                      | Deprecated. Like a tax credit in function but no longer used.                                                                                                                                       |
         | adjustment              | referral                 | An adjustment that acts like a coupon but is the discount applied to the referring subscriber in a Refer-A-Friend scenario.                                                                         |
         | adjustment              |                          | A generic adjustment that is not otherwise classified by any of the above values for `kind`. This is the kind of ad-hoc adjustment that can be created via the API.                                 |
+        | adjustment              | voided_invoice           | (Relationship Invoicing only) An adjustment as a result of a voided invoice.                                                                                                                        |
+        | adjustment              | cancelation              | (Relationship Invoicing only) An adjustment as a result of a canceled subscription.                                                                                                                 |
 
         ### Kinds for the ```payment``` transaction type
 
