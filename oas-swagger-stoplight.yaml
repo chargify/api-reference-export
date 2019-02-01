@@ -43256,7 +43256,7 @@ x-stoplight:
       id: product-price-point-intro
       name: Product Price Point Intro
       content: ''
-      public: true
+      public: false
   mock:
     enabled: false
     dynamic: false
