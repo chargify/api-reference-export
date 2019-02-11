@@ -7411,7 +7411,7 @@ paths:
       description: |-
         ## Create a Note
 
-        Use the following method to create a note for a Subscription.
+        Use the following method to create a note for a subscription.
       parameters:
         - name: body
           in: body
@@ -19307,7 +19307,7 @@ definitions:
             type: boolean
     example:
       note:
-        body: New test note.
+        body: New test note
         sticky: true
     x-stoplight:
       id: notes/create-note-input
@@ -42218,7 +42218,7 @@ x-stoplight:
       content: |-
         ## Subscriptions Intro
 
-        Full documentation on how Subscriptions operate within Chargify can be located under the following topics:
+        Full documentation on how subscriptions operate within Chargify can be located under the following topics:
 
         + [Subscriptions Reference](https://help.chargify.com/subscriptions/subscription-intro.html)
         + [Subscriptions Actions](https://help.chargify.com/subscriptions/subscription-actions.html)
