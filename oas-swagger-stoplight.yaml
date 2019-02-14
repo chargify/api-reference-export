@@ -6725,6 +6725,7 @@ paths:
     parameters:
       - name: uid
         in: path
+        description: 'The unique identifier for the invoice, this does not refer to the public facing invoice number'
         required: true
         type: string
     post:
@@ -6732,7 +6733,9 @@ paths:
       summary: Create Payment
       tags:
         - Relationship Invoicing (NEW)
-      description: Record an external payment made against a single invoice.
+      description: |-
+        ## Create Payment
+        This API call should be used when you want to record an external payment against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the [bulk payment](#endpoint:EMs2kYgYbkxKtnpij) endpoint.
       consumes:
         - application/xml
       parameters:
