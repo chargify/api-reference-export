@@ -17714,15 +17714,21 @@ paths:
 
         Posting to the replay endpoint does not immediate resend the webhooks. They are added to the background job queue and should be resent momentarily.
 
-        ## Required Parameters:
-
-        `id`: An array of webhook ids to replay in the query string.
+        You'll submit an array of webhook IDs to replay in the request.
       parameters:
-        - name: id
-          in: query
-          description: The ID of the webhook you wish to replay.
-          required: true
-          type: integer
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              ids:
+                type: array
+                items:
+                  type: integer
+            example:
+              ids:
+                - 123456789
+                - 123456788
       responses:
         '200':
           description: OK
