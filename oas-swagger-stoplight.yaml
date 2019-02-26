@@ -4151,7 +4151,9 @@ paths:
           examples:
             application/json:
               errors:
-                - 'unknown attribute: emailzzz'
+                - 'First name: cannot be blank.'
+                - 'Last name: cannot be blank.'
+                - 'Email address: cannot be blank.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -16391,6 +16393,7 @@ paths:
                 include_trial: false
                 include_initial_charge: false
                 include_coupons: true
+                preserve_period: true
       responses:
         '200':
           description: ''
@@ -16558,13 +16561,14 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/migrations/preview-migration-input'
+            $ref: '#/definitions/migrations/create-migration-input'
             example:
               migration:
                 product_id: 3801242
                 include_trial: false
                 include_initial_charge: false
                 include_coupons: true
+                preserve_period: true
       responses:
         '200':
           description: ''
@@ -21915,36 +21919,6 @@ definitions:
       id: payments/create-payment-input
       name: Create Payment Input
       public: true
-  migrations/preview-migration-input:
-    title: Preview Migration Input
-    type: object
-    properties:
-      migration:
-        type: object
-        properties:
-          product_id:
-            type: integer
-          include_trial:
-            type: boolean
-            default: 0
-          include_initial_charge:
-            type: boolean
-            default: 0
-          include_coupons:
-            type: boolean
-            default: 1
-        required:
-          - product_id
-    example:
-      migration:
-        product_id: 3801242
-        include_trial: false
-        include_initial_charge: false
-        include_coupons: true
-    x-stoplight:
-      id: migrations/preview-migration-input
-      name: Preview Migration Input
-      public: true
   notes/read-show-specific-note-output:
     title: Read Specific Note Output
     type: object
@@ -22095,13 +22069,15 @@ definitions:
             type: boolean
           include_coupons:
             type: boolean
-            default: 1
+          preserve_period:
+            type: boolean
     example:
       migration:
         product_id: 3801242
         include_trial: false
         include_initial_charge: false
         include_coupons: true
+        preserve_period: true
     x-stoplight:
       id: migrations/create-migration-input
       name: Create Migration Input
@@ -40578,8 +40554,6 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscriptionid-migrations-previewjson
               type: endpoints
-            - _id: migrations/preview-migration-input
-              type: schemas
             - _id: migrations/preview-migration-output
               type: schemas
             - _id: PUT_subscriptions-subscription_id-format
@@ -41931,7 +41905,7 @@ x-stoplight:
 
         Full documentation on how to record Migrations in the Chargify UI can be located [here](http://help.chargify.com/subscriptions/upgrades-downgrades.html).
 
-        ## Migration vs. product change
+        ## Migration vs. Product Change
 
         If you want a migration with proration, then you want to continue with the methods listed below. However, if you just want to change the product the customer is subscribed to (with no proration) then you’ll just want to update the [subscription product.](#endpoint:4D8tKPkKC3So5X6qs)
 
@@ -41945,6 +41919,8 @@ x-stoplight:
         | include_initial_charge       | Boolean, default 0. If 1 is sent initial charges will be assessed. If 0 is sent initial charges will be ignored.                                                                                                                                |
         | include_coupons              | Boolean, default `1`. If `1` (or nothing) is sent, any coupons associated with the subscription will be applied to the migration. If `0` is sent, coupons will not be applied.                                                                  |
         | preserve_period              | Boolean, default `0`. If `0` (or nothing) is sent, the subscription's billing period will be reset to today and the full price of the new product will be charged. If `1` is sent, the billing period will not change and a prorated charge will be issued for the new product.                                                                  
+
+        ## Alternate Request 
 
         ## Failed Migrations
 
