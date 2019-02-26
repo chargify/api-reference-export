@@ -41920,7 +41920,44 @@ x-stoplight:
         | include_coupons              | Boolean, default `1`. If `1` (or nothing) is sent, any coupons associated with the subscription will be applied to the migration. If `0` is sent, coupons will not be applied.                                                                  |
         | preserve_period              | Boolean, default `0`. If `0` (or nothing) is sent, the subscription's billing period will be reset to today and the full price of the new product will be charged. If `1` is sent, the billing period will not change and a prorated charge will be issued for the new product.                                                                  
 
-        ## Alternate Request 
+        ## Alternate Request Body Options
+
+        When using the migration endpoint, there are two alternative options you can use for your requests.
+
+        ### Use Handle 
+
+        You may elect to use `product_handle` instead of `product_id`:
+
+        ```
+        {
+            "migration": {
+                "product_handle": 3801242,
+                "include_trial": false,
+                "include_initial_charge": false,
+                "include_coupons": true,
+                "preserve_period": true
+            }
+        }
+        ```
+
+        ### Nested Preserve Period
+
+        There's an alternative method to send the `preserve_period` key/value pair. Please note both published ways will work with the API:
+
+
+        ```
+        {
+         "migration": {
+          "product_handle": "diversity_production_500k",
+          "include_trial": false,
+          "include_initial_charge": false,
+          "include_coupons": true,
+          "proration": {
+              "preserve_period": true
+          }
+         }
+        }
+        ```
 
         ## Failed Migrations
 
