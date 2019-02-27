@@ -2562,7 +2562,12 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /coupons.json:
+  '/product_families/{product_family_id}/coupons.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
     post:
       operationId: POST_coupons-format
       summary: Create  Coupon
@@ -2638,26 +2643,27 @@ paths:
           statusCode: 200
           enabled: false
     get:
-      operationId: GET_coupons-format
-      summary: Read Coupons for the Default Product Family for a Site
+      operationId: GET_product_families-product_family_id-coupons-json
+      summary: Read Coupons for a Product Family for a Site
       tags:
-        - Coupon
-        - incomplete
         - 'Coupons: Editing'
       description: |-
-        ## Read Coupons for the Default Product Family
+        ## Read Coupons for a Specific Product Family
 
-        You can retrieve a list of coupons that belong to the default product family for a site via this method.
-
-        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
+        List coupons for a specific Product Family in a Site.
+      produces:
+        - application/xml
       parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
+        - name: product_family_id
+          in: query
+          type: integer
       responses:
         '200':
-          description: OK
+          description: ''
           schema:
-            $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+            type: array
+            items:
+              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
           examples:
             application/json:
               - coupon:
@@ -2729,12 +2735,13 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_coupons-format
+        id: GET_productfamilies-productfamilyid-couponsjson
         beforeScript: null
         afterScript: null
         public: true
         mock:
           enabled: false
+          dynamic: false
           statusCode: 200
   '/product_families/{product_family_id}/coupons/{coupon_id}.json':
     parameters:
@@ -2789,6 +2796,131 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_coupons-coupon_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+    put:
+      operationId: PUT_coupons-coupon_id-format
+      summary: Update a Coupon
+      tags:
+        - Coupon
+        - 'Coupons: Editing'
+      description: |-
+        ## Update a Coupon
+
+        You can update a Coupon via the API with a PUT request to the resource endpoint.
+
+        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
+        `{ "<product/component_id>": boolean_value }`
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-input-percentage'
+            example:
+              coupon:
+                name: 15% off
+                code: 15OFF
+                description: 15% off for life
+                percentage: '15'
+                allow_negative_balance: 'false'
+                recurring: 'false'
+                end_date: '2012-08-29T12:00:00-04:00'
+                product_family_id: '2'
+                stackable: 'true'
+                compounding_strategy: compound
+              restricted_products:
+                '1': true
+              restricted_components:
+                '1': true
+                '2': false
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+          examples:
+            application/json:
+              coupon:
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: null
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_coupons-coupon_id-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
+    delete:
+      operationId: DELETE_coupons-coupon_id-format
+      summary: Archive a Coupon
+      tags:
+        - Coupon
+        - 'Coupons: Editing'
+      description: |-
+        ## Archive a Coupon
+
+        You can archive a Coupon via the API with the archive method.
+        Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
+        The `archived_at` date and time will be assigned.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+          examples:
+            application/json:
+              coupon:
+                id: 67
+                name: Foo Bar
+                code: YEPPER99934
+                description: my cool coupon
+                amount_in_cents: 10000
+                product_family_id: 4
+                created_at: '2017-11-08T10:01:15-05:00'
+                updated_at: '2017-11-08T10:01:15-05:00'
+                start_date: '2017-11-08T10:01:15-05:00'
+                end_date: null
+                percentage: null
+                recurring: false
+                duration_period_count: null
+                duration_interval: null
+                duration_interval_unit: null
+                allow_negative_balance: false
+                archived_at: '2016-12-02T13:09:33-05:00'
+                conversion_limit: null
+                stackable: true
+                compounding_strategy: compound
+                coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_coupons-coupon_id-format
         beforeScript: null
         afterScript: null
         public: true
@@ -3005,34 +3137,28 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  '/product_families/{product_family_id}/coupons.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: string
+  /coupons.json:
     get:
-      operationId: GET_product_families-product_family_id-coupons-json
-      summary: Read Coupons for a Product Family for a Site
+      operationId: GET_coupons-format
+      summary: Read Coupons for the Default Product Family for a Site
       tags:
+        - Coupon
+        - incomplete
         - 'Coupons: Editing'
       description: |-
-        ## Read Coupons for a Specific Product Family
+        ## Read Coupons for the Default Product Family
 
-        List coupons for a specific Product Family in a Site.
-      produces:
-        - application/xml
+        You can retrieve a list of coupons that belong to the default product family for a site via this method.
+
+        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
       parameters:
-        - name: product_family_id
-          in: query
-          type: integer
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
-          description: ''
+          description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+            $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
           examples:
             application/json:
               - coupon:
@@ -3104,140 +3230,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_productfamilies-productfamilyid-couponsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/coupons/{coupon_id}.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        description: The Coupon ID.
-        required: true
-        type: number
-    put:
-      operationId: PUT_coupons-coupon_id-format
-      summary: Update a Coupon
-      tags:
-        - Coupon
-        - 'Coupons: Editing'
-      description: |-
-        ## Update a Coupon
-
-        You can update a Coupon via the API with a PUT request to the resource endpoint.
-
-        You can restrict a coupon to only apply to specific products / components by optionally passing in hashes of `restricted_products` and/or `restricted_components` in the format:
-        `{ "<product/component_id>": boolean_value }`
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/coupons/create-coupon-input-percentage'
-            example:
-              coupon:
-                name: 15% off
-                code: 15OFF
-                description: 15% off for life
-                percentage: '15'
-                allow_negative_balance: 'false'
-                recurring: 'false'
-                end_date: '2012-08-29T12:00:00-04:00'
-                product_family_id: '2'
-                stackable: 'true'
-                compounding_strategy: compound
-              restricted_products:
-                '1': true
-              restricted_components:
-                '1': true
-                '2': false
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
-          examples:
-            application/json:
-              coupon:
-                id: 67
-                name: Foo Bar
-                code: YEPPER99934
-                description: my cool coupon
-                amount_in_cents: 10000
-                product_family_id: 4
-                created_at: '2017-11-08T10:01:15-05:00'
-                updated_at: '2017-11-08T10:01:15-05:00'
-                start_date: '2017-11-08T10:01:15-05:00'
-                end_date: null
-                percentage: null
-                recurring: false
-                duration_period_count: null
-                duration_interval: null
-                duration_interval_unit: null
-                allow_negative_balance: false
-                archived_at: null
-                conversion_limit: null
-                stackable: true
-                compounding_strategy: compound
-                coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_coupons-coupon_id-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-    delete:
-      operationId: DELETE_coupons-coupon_id-format
-      summary: Archive a Coupon
-      tags:
-        - Coupon
-        - 'Coupons: Editing'
-      description: |-
-        ## Archive a Coupon
-
-        You can archive a Coupon via the API with the archive method.
-        Archiving makes that Coupon unavailable for future use, but allows it to remain attached and functional on existing Subscriptions that are using it.
-        The `archived_at` date and time will be assigned.
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
-          examples:
-            application/json:
-              coupon:
-                id: 67
-                name: Foo Bar
-                code: YEPPER99934
-                description: my cool coupon
-                amount_in_cents: 10000
-                product_family_id: 4
-                created_at: '2017-11-08T10:01:15-05:00'
-                updated_at: '2017-11-08T10:01:15-05:00'
-                start_date: '2017-11-08T10:01:15-05:00'
-                end_date: null
-                percentage: null
-                recurring: false
-                duration_period_count: null
-                duration_interval: null
-                duration_interval_unit: null
-                allow_negative_balance: false
-                archived_at: '2016-12-02T13:09:33-05:00'
-                conversion_limit: null
-                stackable: true
-                compounding_strategy: compound
-                coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: DELETE_coupons-coupon_id-format
+        id: GET_coupons-format
         beforeScript: null
         afterScript: null
         public: true
