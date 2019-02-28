@@ -15851,7 +15851,7 @@ paths:
 
         Resume a paused (on-hold) subscription.  If the normal next renewal date has not passed, the subscription will return to active and will renew on that date.  Otherwise, it will behave like a reactivation, setting the billing date to 'now' and charging the subscriber.
       parameters:
-        - $ref: '#/parameters/trait:calendarBillingTrailt:calendar_billing[''resumption_charge'']'
+        - $ref: '#/parameters/trait:calendarBillingTrait:calendar_billing[''resumption_charge'']'
       responses:
         '200':
           description: ''
@@ -18163,7 +18163,7 @@ parameters:
     description: Include archived items
     type: boolean
     default: false
-  'trait:calendarBillingTrailt:calendar_billing[''resumption_charge'']':
+  'trait:calendarBillingTrait:calendar_billing[''resumption_charge'']':
     name: 'calendar_billing[''resumption_charge'']'
     in: query
     description: |-
@@ -40494,7 +40494,7 @@ x-stoplight:
               type: schemas
             - _id: update-on-hold-subscriptions-output
               type: schemas
-            - _id: calendarBillingTrailt
+            - _id: calendarBillingTrait
               type: traits
           name: 'Subscriptions: Hold / Resume'
         - divider: false
