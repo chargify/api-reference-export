@@ -1808,14 +1808,25 @@ paths:
                   type: object
                   properties:
                     component_id:
-                      type:
-                        - integer
-                        - string
-                      description: 'either an integer or a string prefixed with ''handle:'''
+                      type: integer
+                    price_point_id:
+                      type: integer
                     quantity:
                       type: integer
                     memo:
                       type: string
+            example:
+              proration_upgrade_scheme: prorate-attempt-capture
+              proration_downgrade_scheme: prorate
+              allocations:
+                - component_id: 554108
+                  price_point_id: 325826
+                  quantity: 10
+                  memo: NOW
+                - component_id: 565236
+                  price_point_id: 341315
+                  quantity: 10
+                  memo: NOW
       responses:
         '201':
           description: ''
