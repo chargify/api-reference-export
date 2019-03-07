@@ -16429,7 +16429,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/preview-migration-output'
+            $ref: '#/definitions/migrations/create-migration-input'
           examples:
             application/json:
               subscription:
