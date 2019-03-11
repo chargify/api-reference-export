@@ -40311,17 +40311,6 @@ x-stoplight:
             - _id: PUT_offers-offerid-unarchivejson
               type: endpoints
           name: Offers
-        - name: Payments
-          items:
-            - _id: intro-to-payments
-              type: docTextSections
-            - _id: POST_subscriptions-subscriptionid-paymentsjson
-              type: endpoints
-            - _id: payments/create-payment-input
-              type: schemas
-            - _id: payments/create-payment-output
-              type: schemas
-          divider: false
         - name: Payment Profiles
           items:
             - type: docTextSections
@@ -40700,6 +40689,17 @@ x-stoplight:
             - _id: subscriptions/subscription-import-response
               type: schemas
           name: 'Subscriptions: Import'
+        - name: Subscriptions - Payments
+          items:
+            - _id: intro-to-payments
+              type: docTextSections
+            - _id: POST_subscriptions-subscriptionid-paymentsjson
+              type: endpoints
+            - _id: payments/create-payment-input
+              type: schemas
+            - _id: payments/create-payment-output
+              type: schemas
+          divider: false
         - name: 'Subscriptions: Preview'
           items:
             - _id: subscriptions-preview-intro
