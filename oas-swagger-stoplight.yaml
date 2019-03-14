@@ -1061,7 +1061,7 @@ paths:
       description: |-
         ## Create Usage for Subscription
 
-        This request will record metered usage for a subscription.
+        This endpoint allows you to record an instance of metered usage for a subscription. The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](https://reference.chargify.com/v1/component-line-items/component-line-items) for the subscription.
 
         ## Price Point ID usage
 
@@ -1071,31 +1071,33 @@ paths:
 
         If an invalid `price_point_id` is submitted, the endpoint will return an error. 
 
-        ## Recording zero usage
+        ## Deducting Usage
 
-        In the event that you would like to record an amount of `0` for a subscriber's component, you must substract the amount from the current usage.
+        In the event that you need to reverse a previous usage report or otherwise deduct from the current usage balance, you may provide a negative quantity.
 
         Example:
 
-        Currently recorded:
+        Previously recorded:
 
         ```{
           "usage": {
             "quantity": 5000,
-            "memo": "My memo"
+            "memo": "Recording 5000 units"
           }
         }
         ```
 
-        To record a zero amount, POST the following payload:
+        At this point, `unit_balance` would be `5000`. To reduce the balance to `0`, POST the following payload:
 
         ```{
           "usage": {
             "quantity": -5000,
-            "memo": "My memo"
+            "memo": "Deducting 5000 units"
           }
         }
         ```
+
+        The `unit_balance` has a floor of `0`; negative unit balances are never allowed. For example, if the usage balance is 100 and you deduct 200 units, the unit balance would then be `0`, not `-100`.
       parameters:
         - name: body
           in: body
@@ -41688,12 +41690,12 @@ x-stoplight:
 
         The Chargify API allows you to record metered component usage by posting JSON or XML that includes:
 
-        + `quantity`: The amount of units used
+        + `quantity`: The amount of usage being reported
         + `memo`: An optional description of the usage
 
-        When you record metered usage, you are simply create a new request to add "usage" to the subscription for that particular component.
+        Metered usage is cumulative over the billing period. You may choose to report usage as often as you wish, and Chargify sums and accumulates the quantity of each usage into a running balance (see `unit_balance` on [Component Line Items](https://reference.chargify.com/v1/component-line-items/component-line-items). Charges for metered usage balance are assessed on the `next_billing_date` of the subscription. In other words, metered usage is tallied and charged at the end of the subscriber's current recurring period.
 
-        Metered usage is cumulative and charges for components are assessed on the `next_billing_date` of the subscription. Another way of stating this is: metered usage is tallied and charged at the end of the subscriber's current recurring period.
+        You may choose to report metered usage to Chargify as often as you wish. You may report usage as it happens. You may also report usage periodically, such as each night or once per billing period. If usage events occur in your system very frequently (on the order of thousands of times an hour), it is best to accumulate usage into batches on your side, and then report those batches less frequently, such as daily. This will ensure you remain below any API throttling limits.
 
         ## Recording Multiple Usage Limitations
 
