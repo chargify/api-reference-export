@@ -39078,6 +39078,18 @@ definitions:
               type: string
             applied_amount:
               type: string
+      origin_invoices:
+        type: array
+        description: 'An array of origin invoices for the credit note. Learn more about [Origin Invoice from our docs](https://help.chargify.com/invoices/credit-notes.html#origin-invoices)'
+        items:
+          type: object
+          properties:
+            uid:
+              type: string
+              description: The UID of the invoice serving as an origin invoice.
+            number:
+              type: string
+              description: The number of the invoice serving as an origin invoice.
     example:
       uid: cn_8m9vbd5kkv7kr
       site_id: 20
