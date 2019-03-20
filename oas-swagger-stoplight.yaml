@@ -26917,6 +26917,7 @@ definitions:
         canceled_at: '2000-12-31'
         cancellation_message: Original cancellation in 2000
         expires_at: '2001-07-15'
+        current_period_starts_at: '2018-01-01'
     x-stoplight:
       id: subscriptions/subscription-override-request
       name: Subscription Override Request
@@ -42604,6 +42605,7 @@ x-stoplight:
         | canceled_at          | Can be used to record an external cancellation date. Chargify sets this field automatically when a subscription is canceled, whether by request or via dunning.           |
         | cancellation_message | Can be used to record a reason for the original cancellation.                                                                                                             |
         | expires_at           | Can be used to record an external expiration date. Chargify sets this field automatically when a subscription expires (ceases billing) after a prescribed amount of time. |
+        | current_period_starts_at | Can only be used when a subscription is unbilled and the value passed must be before the current date and time. Allows you to set when the period started so mid period component allocations have the correct proration.
         No other fields are currently available. Attempting to set any other fields will cause a `400 Bad Request` response. You only need to send the fields you would like to change.
 
         Note that changing these fields will not affect any other attributes. For example, adding an expiration date will not affect the next assessment date on the subscription.
@@ -42642,6 +42644,7 @@ x-stoplight:
 
         | next_billing_at | Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscriptions import documentation](https://help.chargify.com/subscriptions/subscriptions-import.html). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. |
         |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | previous_billing_at | Providing a previous_billing_at that is in the past will set the `current_period_starts_at` when the subscription is created. It will also set `activated_at` if not explictly passed during the subscription import. Can only be used if `next_billing_at` is also passed. Using this option will allow you to set the period start for the subscription so mid period component allocations have the correct prorated amount.
 
         ## Payment Profile Attributes
 
