@@ -17046,6 +17046,23 @@ paths:
         Status: 204 No Content
         ```
 
+        ### Invalid Current Period Starts At - 422 Unprocessable Entity
+
+        When passing `current_period_starts_at` some validations are made: 
+
+        1) The subscription needs to be unbilled (no statements or invoices).
+        2) The value passed must be a valid date/time.
+        3) The value passed must be before the current date/time.
+
+        If you don't meet the above requirements, you will receive a 422 response and can run into the following errors:
+
+        ```
+        "error":"Current period starts at: can only be updated if subscription has no statements or invoices"
+        "error":"Current period starts at: must be a valid date/time"
+        "error":"Current period starts at: must be before current date and time"
+        ```
+
+
         ### Unpermitted Parameters – 400 Bad Request
 
         If unpermitted parameters are sent, a `400` HTTP response is sent along with a string giving the reason for the problem, e.g.
@@ -26393,6 +26410,7 @@ definitions:
       subscription:
         product_handle: basic
         next_billing_at: '2010-08-29T12:00:00-04:00'
+        previous_billing_at: '2010-07-29T12:00:00-04:00'
         customer_attributes:
           first_name: John
           last_name: Doe
@@ -42625,7 +42643,7 @@ x-stoplight:
 
         Subscriptions can be “imported” via the API to handle the following scenarios:
 
-        + You already have existing subscriptions with specific renewal dates that you would like to import to Chargify
+        + You already have existing subscriptions with specific start and renewal dates that you would like to import to Chargify
         + You already have credit cards stored in your provider’s vault and you would like to create subscriptions using those tokens
 
         Before importing, you should have already set up your products to match your offerings. Then, you can create Subscriptions via the API just like you normally would, but using a few special attributes.
@@ -42644,7 +42662,7 @@ x-stoplight:
 
         | next_billing_at | Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule. See the notes on “Date/Time Format” in our [subscriptions import documentation](https://help.chargify.com/subscriptions/subscriptions-import.html). If you provide a next_billing_at timestamp that is in the future, no trial or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all. The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at. If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time of subscription creation. If the card cannot be successfully charged, the subscription will not be created. |
         |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | previous_billing_at | Providing a previous_billing_at that is in the past will set the `current_period_starts_at` when the subscription is created. It will also set `activated_at` if not explictly passed during the subscription import. Can only be used if `next_billing_at` is also passed. Using this option will allow you to set the period start for the subscription so mid period component allocations have the correct prorated amount.
+        | previous_billing_at | Providing a previous_billing_at that is in the past will set the `current_period_starts_at` when the subscription is created. It will also set `activated_at` if not explicitly passed during the subscription import. Can only be used if `next_billing_at` is also passed. Using this option will allow you to set the period start for the subscription so mid period component allocations have the correct prorated amount.
 
         ## Payment Profile Attributes
 
