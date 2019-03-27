@@ -6079,6 +6079,9 @@ paths:
                   payment_id:
                     type: integer
                     description: The ID of the payment to be refunded
+                  external:
+                    type: boolean
+                    description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
             required:
               - refund
             example:
