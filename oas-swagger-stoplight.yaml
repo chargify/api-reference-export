@@ -26252,6 +26252,8 @@ definitions:
         properties:
           product_handle:
             type: string
+          product_price_point_handle:
+            type: string
           coupon_code:
             type: string
           components:
@@ -26270,6 +26272,7 @@ definitions:
     example:
       subscription:
         product_handle: gold-product
+        product_price_point_handle: default
         coupon_code: 1DOLLAR
         components:
           - component_id: 462149
@@ -26441,6 +26444,8 @@ definitions:
         properties:
           product_handle:
             type: string
+          product_price_point_handle:
+            type: string
           customer_attributes:
             type: object
             properties:
@@ -26462,6 +26467,7 @@ definitions:
     example:
       subscription:
         product_handle: basic
+        product_price_point_handle: default
         customer_attributes:
           first_name: Alysa
           last_name: Test
