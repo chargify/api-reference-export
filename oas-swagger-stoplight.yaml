@@ -7860,6 +7860,9 @@ paths:
         ## Create Offer
 
         Create an offer within your Chargify site by sending a POST request.
+
+        ### Using a Product Price Point
+        You can optionally pass in a `product_price_point_id` that corresponds with the `product_id` and the offer will use that price point. If a `product_price_point_id` is not passed in, the product's default price point will be used.
       parameters:
         - name: body
           in: body
@@ -7949,71 +7952,7 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              offer:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  site_id:
-                    type: integer
-                  product_family_id:
-                    type: integer
-                  product_id:
-                    type: integer
-                  product_revisable_number:
-                    type: integer
-                  name:
-                    type: string
-                  handle:
-                    type: string
-                  description:
-                    type: string
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  offer_items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        component_id:
-                          type: integer
-                        price_point_id:
-                          type: integer
-                        starting_quantity:
-                          type: string
-                        editable:
-                          type: boolean
-                  offer_discounts:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        coupon_code:
-                          type: string
-          examples:
-            application/json:
-              offer:
-                id: 1
-                site_id: 2
-                product_family_id: 4
-                product_id: 32
-                product_revisable_number: 0
-                name: Offer One
-                handle: handle-1
-                description: An eloquent description.
-                created_at: '2018-06-04T16:19:33-04:00'
-                updated_at: '2018-06-04T16:19:33-04:00'
-                offer_items:
-                  - component_id: 22
-                    price_point_id: 102
-                    starting_quantity: '0.0'
-                    editable: false
-                offer_discounts:
-                  - coupon_code: DEF456
+            $ref: '#/definitions/show-offer-output'
         '401':
           description: ''
       security:
@@ -9045,9 +8984,12 @@ paths:
 
         Use this method to change aspects of an existing product. 
 
-        ## Input Attributes Update Notes
+        ### Input Attributes Update Notes
 
         + `update_return_params` The parameters we will append to your `update_return_url`. See Return URLs and Parameters
+
+        ### Product Price Point
+        Updating a product using this endpoint will create a new price point and set it as the default price point for this product. If you want to update a price point directly you can do that using this endpoint: [Update a Product Price Point](https://reference.chargify.com/v1/products-price-points/update-a-product-price-point)
       parameters:
         - name: body
           in: body
@@ -9571,7 +9513,7 @@ paths:
         id: POST_products-productid-pricepointsjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -9653,7 +9595,7 @@ paths:
         id: GET_products-productid-pricepointsjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -9760,7 +9702,7 @@ paths:
         id: PUT_products-productid-pricepoints-pricepointidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -9840,7 +9782,7 @@ paths:
         id: GET_products-productid-pricepoints-pricepointidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -9920,7 +9862,7 @@ paths:
         id: DELETE_products-productid-pricepoints-pricepointidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -10010,7 +9952,7 @@ paths:
         id: PATCH_products-productid-pricepoints-pricepointid-unarchivejson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -10100,7 +10042,7 @@ paths:
         id: PATCH_products-productid-pricepoints-pricepointid-defaultjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -10258,7 +10200,7 @@ paths:
         id: POST_products-productid-pricepoints-bulkjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -35771,6 +35713,8 @@ definitions:
             type: integer
           product_id:
             type: integer
+          product_price_point_id:
+            type: integer
           product_revisable_number:
             type: integer
           name:
@@ -35784,9 +35728,7 @@ definitions:
           updated_at:
             type: string
           archived_at:
-            type:
-              - 'null'
-              - string
+            type: 'null'
           offer_items:
             type: array
             items:
@@ -35813,6 +35755,7 @@ definitions:
         site_id: 2
         product_family_id: 4
         product_id: 31
+        product_price_point_id: 103
         product_revisable_number: 0
         name: Solo
         handle: han_shot_first
@@ -35846,6 +35789,8 @@ definitions:
             type: string
           product_id:
             type: integer
+          product_price_point_id:
+            type: integer
           components:
             type: array
             items:
@@ -35865,6 +35810,7 @@ definitions:
         handle: han_shot_first
         description: A Star Wars Story
         product_id: 31
+        product_price_point_id: 102
         components:
           - component_id: 24
             starting_quantity: 1
@@ -35889,6 +35835,8 @@ definitions:
             type: integer
           product_id:
             type: integer
+          product_price_point_id:
+            type: integer
           product_revisable_number:
             type: integer
           name:
@@ -35902,9 +35850,7 @@ definitions:
           updated_at:
             type: string
           archived_at:
-            type:
-              - string
-              - 'null'
+            type: string
           offer_items:
             type: array
             items:
@@ -35946,6 +35892,7 @@ definitions:
         site_id: 2
         product_family_id: 4
         product_id: 32
+        product_price_point_id: 132
         product_revisable_number: 0
         name: Offer One
         handle: handle-1
@@ -43936,7 +43883,7 @@ x-stoplight:
         ## Product Price Points Documentation
 
         + [Product Price Points Documentation](http://help.chargify.com/products/product-price-points.html)
-      public: false
+      public: true
     subscription-request-examples:
       id: subscription-request-examples
       name: Subscription Request Examples
