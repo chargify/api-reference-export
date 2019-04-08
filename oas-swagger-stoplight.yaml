@@ -6264,6 +6264,8 @@ paths:
                   external:
                     type: boolean
                     description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
+                  apply_credit:
+                    type: boolean
             required:
               - refund
             example:
