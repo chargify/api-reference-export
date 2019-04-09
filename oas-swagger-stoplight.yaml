@@ -26409,6 +26409,15 @@ definitions:
                 type: string
               expiration_year:
                 type: string
+          bank_account_attributes:
+            type: object
+            properties:
+              bank_routing_number:
+                type: string
+              bank_account_number:
+                type: string
+              bank_name:
+                type: string
     example:
       subscription:
         product_handle: basic
