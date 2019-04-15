@@ -6396,8 +6396,6 @@ paths:
       description: |-
         ## Read Invoice Events
 
-        __This endpoint is currently in BETA and subject to change.__
-
         This endpoint returns a list of invoice events. Each event contains event "data" (such as an applied payment) as well as a snapshot of the `invoice` at the time of event completion.
 
         Exposed event types are:
