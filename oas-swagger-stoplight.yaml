@@ -26455,6 +26455,8 @@ definitions:
               type:
                 - integer
                 - 'null'
+            payer_id:
+              type: integer
     example:
       - subscription:
           id: 15236915
@@ -26571,6 +26573,7 @@ definitions:
           next_product_id: null
           coupon_use_count: 1
           coupon_uses_allowed: 1
+          payer_id: 123
       - subscription:
           id: 15189649
           state: canceled
@@ -26678,6 +26681,7 @@ definitions:
           next_product_id: null
           coupon_use_count: null
           coupon_uses_allowed: null
+          payer_id: 14543712
     x-stoplight:
       id: subscription/read-subscription
       name: Read Subscription MAIN
@@ -41763,6 +41767,7 @@ x-stoplight:
         | portal_invite_last_accepted_at | The timestamp of when the Billing Portal invite was last accepted                                                                             |
         | tax_exempt                     | (Optional) The tax exempt status for the customer.  Acceptable values are true or 1 for true and false or 0 for false.                        |
         | vat_number                     | (Optional) The VAT number, if applicable                                                                                                      |
+        | parent_id                      | (Optional) The parent ID in Chargify if applicable. Parent is another Customer object. |
       public: true
     adjustment-intro:
       id: adjustment-intro
