@@ -4411,6 +4411,7 @@ paths:
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
                   vat_number: 012345678
+                  parent_id: 14585723
               - customer:
                   first_name: Matt
                   last_name: Example
@@ -4434,6 +4435,7 @@ paths:
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
                   vat_number: 012345678
+                  parent_id: null
               - customer:
                   first_name: John
                   last_name: Doe
@@ -4457,6 +4459,7 @@ paths:
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
                   vat_number: 012345678
+                  parent_id: 123
               - customer:
                   first_name: Joe
                   last_name: Blow
@@ -4480,6 +4483,7 @@ paths:
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
                   vat_number: 012345678
+                  parent_id: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4542,6 +4546,7 @@ paths:
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
                 vat_number: 012345678
+                parent_id: 123
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4703,6 +4708,7 @@ paths:
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
                 vat_number: 012345678
+                parent_id: 123
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -19227,6 +19233,8 @@ definitions:
             type: string
             default: nil
             description: The customer VAT number
+          parent_id:
+            type: integer
     example:
       customer:
         first_name: Martha
@@ -27607,6 +27615,8 @@ definitions:
               type: 'null'
             tax_exempt:
               type: boolean
+            parent_id:
+              type: integer
     example:
       - customer:
           first_name: Kayla
@@ -28281,6 +28291,8 @@ definitions:
               type: 'null'
             tax_exempt:
               type: boolean
+            parent_id:
+              type: integer
     example:
       - customer:
           first_name: Amelia
@@ -28427,6 +28439,8 @@ definitions:
             type:
               - string
               - 'null'
+          parent_id:
+            type: integer
         required:
           - first_name
           - last_name
@@ -28623,6 +28637,8 @@ definitions:
             type: 'null'
           tax_exempt:
             type: boolean
+          parent_id:
+            type: integer
     example:
       customer:
         first_name: Martha
@@ -29270,6 +29286,10 @@ definitions:
                 vat_number:
                   type: string
                   description: The VAT number for the customer.
+                parent_id:
+                  type:
+                    - integer
+                    - 'null'
             product:
               type: object
               properties:
@@ -38518,6 +38538,10 @@ definitions:
                   type: boolean
                 vat_number:
                   type: string
+                parent_id:
+                  type:
+                    - integer
+                    - 'null'
             product:
               type: object
               properties:
