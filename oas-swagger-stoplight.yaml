@@ -43380,6 +43380,7 @@ x-stoplight:
         | receives_invoice_emails   | (Optional) Default: True - Whether or not this subscription is set to receive emails related to this subscription. |
         | product_price_point_id   | The product price point currently subscribed. |
         | next_product_price_point_id   | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |
+        | payer_id | The ID of the payer. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
 
         ### Credit Card Attributes
 
