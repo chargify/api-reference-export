@@ -19799,15 +19799,17 @@ definitions:
               type: string
               format: date-time
             quantity:
-              type: integer
-              minimum: -99999999999
+              type:
+                - integer
+                - number
+              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
               exclusiveMinimum: false
-              maximum: 99999999999
               exclusiveMaximum: false
             previous_quantity:
-              type: integer
-              minimum: -99999999999
-              maximum: 99999999999
+              type:
+                - integer
+                - number
+              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
             component_id:
               type: integer
               minimum: 1
@@ -19824,6 +19826,8 @@ definitions:
               type: string
               default: no-prorate
               description: 'Defaults to the site setting if one is not provided. '
+            '':
+              type: string
     example:
       - allocation:
           memo: moving to 7
@@ -20316,7 +20320,10 @@ definitions:
             subscription_id:
               type: integer
             quantity:
-              type: integer
+              type:
+                - integer
+                - number
+              description: integer by default or decimal number if fractional quantities are enabled for the component
             previous_quantity:
               type: integer
             memo:
@@ -20441,13 +20448,9 @@ definitions:
               type:
                 - integer
                 - string
-              minimum: 1
-              maximum: 99999999999
               description: 'is either an integer or a string prefixed with "handle:"'
             quantity:
               type: integer
-              minimum: -99999999999
-              maximum: 99999999999
             memo:
               type: string
               maxLength: 255
@@ -22199,7 +22202,10 @@ definitions:
         type: object
         properties:
           quantity:
-            type: integer
+            type:
+              - integer
+              - number
+            description: integer by default or decimal number if fractional quantities are enabled for the component
           price_point_id:
             type: string
           memo:
