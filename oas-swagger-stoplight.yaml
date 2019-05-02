@@ -1604,6 +1604,7 @@ paths:
         - $ref: '#/parameters/trait:subscriptionQueryString:end_date'
         - $ref: '#/parameters/trait:subscriptionQueryString:start_datetime'
         - $ref: '#/parameters/trait:subscriptionQueryString:end_datetime'
+        - $ref: '#/parameters/trait:subscriptionQueryString:metadata[Field Name]'
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
@@ -18381,6 +18382,11 @@ parameters:
     description: 'The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns subscriptions with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `end_date`.'
     type: string
     format: date-time
+  'trait:subscriptionQueryString:metadata[Field Name]':
+    name: 'metadata[Field Name]'
+    in: query
+    description: The value of the metadata field specified in the parameter
+    type: string
   'trait:txnMaxId:max_id':
     name: max_id
     in: query
