@@ -9681,6 +9681,8 @@ paths:
                   archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                   created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                   updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: GET_products-productid-pricepointsjson
         beforeScript: null
@@ -9788,6 +9790,8 @@ paths:
                 archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                 created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                 updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_products-productid-pricepoints-pricepointidjson
         beforeScript: null
@@ -9868,6 +9872,8 @@ paths:
                 archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                 created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                 updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: GET_products-productid-pricepoints-pricepointidjson
         beforeScript: null
@@ -9948,6 +9954,8 @@ paths:
                 archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                 created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                 updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: DELETE_products-productid-pricepoints-pricepointidjson
         beforeScript: null
@@ -10038,6 +10046,8 @@ paths:
                 archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                 created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                 updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: PATCH_products-productid-pricepoints-pricepointid-unarchivejson
         beforeScript: null
@@ -10128,6 +10138,8 @@ paths:
                 archived_at: 'Tue, 30 Oct 2018 18:49:47 EDT -04:00'
                 created_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
                 updated_at: 'Tue, 23 Oct 2018 18:49:47 EDT -04:00'
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: PATCH_products-productid-pricepoints-pricepointid-defaultjson
         beforeScript: null
