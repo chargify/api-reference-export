@@ -27948,6 +27948,8 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
+          parent_id:
+            type: integer
     example:
       subscription:
         id: 15479934
