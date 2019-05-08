@@ -27240,6 +27240,8 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 15254809
@@ -27358,6 +27360,7 @@ definitions:
           customer_vault_token: '67890'
           billing_address_2: null
           payment_type: credit_card
+        payer_id: 14731081
     x-stoplight:
       id: subscriptions/subscription-import-response
       name: Subscription Import Response
@@ -32679,6 +32682,8 @@ definitions:
                 type: string
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 50
@@ -32791,6 +32796,7 @@ definitions:
           customer_vault_token: null
           billing_address_2: ''
           payment_type: credit_card
+        payer_id: 50
     x-stoplight:
       id: coupon/add-coupon-to-subscription-output
       name: Add the Coupon to Subscription Output
@@ -33039,6 +33045,8 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 19730041
@@ -33156,6 +33164,7 @@ definitions:
           customer_vault_token: null
           billing_address_2: null
           payment_type: credit_card
+        payer_id: 19311096
     x-stoplight:
       id: create-subscription-with-multiple-coupon-output
       name: Create Subscription with Multiple Coupon Output
@@ -33586,6 +33595,8 @@ definitions:
                 type: string
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 20359140
@@ -33697,6 +33708,7 @@ definitions:
           customer_vault_token: null
           billing_address_2: ''
           payment_type: credit_card
+        payer_id: 19948683
     x-stoplight:
       id: update-on-hold-subscriptions-output
       name: Update On-Hold Subscriptions Output
@@ -34418,6 +34430,8 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 21607180
@@ -34547,6 +34561,7 @@ definitions:
           customer_vault_token: null
           billing_address_2: null
           payment_type: credit_card
+        payer_id: 21259051
     x-stoplight:
       id: add-multiple-coupons-to-existing-subscription-output
       name: Add Multiple Coupons to Existing Subscription Output
@@ -36096,6 +36111,8 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 22885645
@@ -36214,6 +36231,7 @@ definitions:
           customer_vault_token: null
           billing_address_2: null
           payment_type: credit_card
+        payer_id: 22575681
     x-stoplight:
       id: create-subscription-with-offer-response
       name: Create Subscription with Offer Response
@@ -39869,6 +39887,8 @@ definitions:
                 type: string
               disabled:
                 type: boolean
+          payer_id:
+            type: integer
     example:
       subscription:
         id: 25374928
@@ -39988,6 +40008,7 @@ definitions:
           billing_address_2: null
           payment_type: credit_card
           disabled: false
+        payer_id: 25158862
     x-stoplight:
       id: subscription-offer-handle-response
       name: Subscription Offer Handle Response
