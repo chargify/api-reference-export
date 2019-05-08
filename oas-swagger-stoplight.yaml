@@ -20113,6 +20113,8 @@ definitions:
               type: string
             automatically_resume_at:
               type: string
+            payer_id:
+              type: integer
     example:
       - subscription:
           activated_at: '2010-08-22T07:13:19-04:00'
@@ -20190,6 +20192,7 @@ definitions:
           balance_in_cents: 0
           current_period_started_at: '2010-08-22T07:13:18-04:00'
           state: canceled
+          payer_id: 143068
     x-stoplight:
       id: /basics/subscription-api-response-exampe
       name: Subscription API Response Example
@@ -27948,7 +27951,7 @@ definitions:
                 type: 'null'
               payment_type:
                 type: string
-          parent_id:
+          payer_id:
             type: integer
     example:
       subscription:
@@ -27983,6 +27986,7 @@ definitions:
         referral_code: 7b8p8v
         coupon_use_count: 1
         coupon_uses_allowed: null
+        payer_id: 14943291
         customer:
           id: 14943291
           first_name: Joe
