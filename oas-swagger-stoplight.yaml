@@ -6365,7 +6365,7 @@ paths:
                     description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
                   apply_credit:
                     type: boolean
-                    description: 'If set to true, creates credit and applies it to an invoice. Defaults to `true`.'
+                    description: 'If set to true, creates credit and applies it to an invoice. Defaults to `false`.'
             required:
               - refund
             example:
