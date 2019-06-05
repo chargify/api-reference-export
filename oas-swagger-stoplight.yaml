@@ -11336,20 +11336,17 @@ paths:
         - name: page
           in: query
           description: 'Result records are organized in pages. By default, the first page of results is displayed. The `page` parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a `page` parameter. Retrieve the next page by adding `?page=2` to the query string. If there are no results to return, then an empty result set will be returned.'
-          required: false
           type: number
         - name: sort
           in: query
           description: 'Possible values: `created_at`, `opened_at`, or `closed_at`. This allows you to choose what you would like to sort on. (Defaults to `created_at`).'
-          required: false
           type: string
         - name: direction
           in: query
           description: |+
 
-            This parameter specifies the sorting order. With `asc` and `desc` values, you can choose whether the items are to be sorted in ascending or descending order. Default value is `asc`.
+            This parameter specifies the sorting order and only works if a `sort` value is also passed. With `asc` and `desc` values, you can choose whether the items are to be sorted in ascending or descending order. Default value is `asc`.
 
-          required: false
           type: string
           enum:
             - 'Default:`asc`'
@@ -11357,7 +11354,6 @@ paths:
         - name: per_page
           in: query
           description: 'This parameter indicates how many records to fetch in each request. Preset to 10,000.'
-          required: false
           type: number
         - $ref: '#/parameters/trait:settledSinceUnix:settled_since'
       responses:
