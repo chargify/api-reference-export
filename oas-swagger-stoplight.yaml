@@ -6576,6 +6576,10 @@ paths:
 
         Note - invoice events that occurred prior to 09/05/2018 __will not__ contain an `invoice` snapshot.
       parameters:
+        - name: invoice_uid
+          in: query
+          description: Providing an `invoice_uid` allows for scoping of the invoice events to a single invoice or credit note. Has the format `inv_8r74ycqk7mnbn`.
+          type: string
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:since_date'
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:since_id'
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:page'
