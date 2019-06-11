@@ -3526,7 +3526,7 @@ paths:
 
         ## Customer Metadata Disclaimer
 
-        If you create metadata for the customer, it will not be visible in the subscription in the application. Customer metadata can only be updated via API.
+        If you create metadata for the customer, it will be visible on the customer record in the application. However, customer metadata can only be updated or added via the API.
       parameters:
         - name: body
           in: body
