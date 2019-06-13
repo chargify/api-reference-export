@@ -3783,11 +3783,7 @@ paths:
 
         ### Subscription or Customer Resource
 
-        Please pay special attention to the resource  you use when creating metadata. 
-
-        ## Customer Metadata Disclaimer
-
-        If you create metadata for the customer, it will be visible on the customer record in the application. However, customer metadata can only be updated or added via the API.
+        Please pay special attention to the resource  you use when creating metadata.
       parameters:
         - name: body
           in: body
