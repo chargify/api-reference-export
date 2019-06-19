@@ -16083,7 +16083,7 @@ paths:
           schema:
             type: object
             properties:
-              errors:
+              error:
                 type: array
                 items:
                   type: string
@@ -18148,14 +18148,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/service_credits':
+  '/subscriptions/{subscription_id}/service_credits.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-service_credits
+      operationId: POST_subscriptions-subscription_id-service_credits-json
       summary: Issue Service Credit
       tags:
         - 'Subscriptions: Service Credits'
@@ -18169,10 +18169,19 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscription-issue-credit-request'
+            type: object
+            properties:
+              service_credit:
+                type: object
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
             example:
               service_credit:
                 amount: '1'
+                memo: Courtesy credit
       responses:
         '201':
           description: ''
@@ -18181,7 +18190,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-servicecredits
+        id: POST_subscriptions-subscriptionid-servicecreditsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -41410,7 +41419,7 @@ x-stoplight:
           divider: false
         - divider: false
           items:
-            - _id: POST_subscriptions-subscriptionid-servicecredits
+            - _id: POST_subscriptions-subscriptionid-servicecreditsjson
               type: endpoints
             - _id: subscription-issue-credit-request
               type: schemas
