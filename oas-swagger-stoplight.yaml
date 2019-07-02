@@ -28045,14 +28045,14 @@ definitions:
       restricted_products:
         type: object
         properties:
-          '4618821':
+          '1':
             type: boolean
       restricted_components:
         type: object
         properties:
-          '501719':
+          '1':
             type: boolean
-          '618863':
+          '2':
             type: boolean
     required:
       - coupon
@@ -38355,14 +38355,14 @@ definitions:
       restricted_products:
         type: object
         properties:
-          '4618821':
+          '1':
             type: boolean
       restricted_components:
         type: object
         properties:
-          '501719':
+          '1':
             type: boolean
-          '618863':
+          '2':
             type: boolean
     required:
       - coupon
