@@ -15532,6 +15532,10 @@ paths:
                       type:
                         - integer
                         - 'null'
+                    next_product_handle:
+                      type:
+                        - string
+                        - 'null'
           examples:
             application/json:
               - subscription:
@@ -27377,6 +27381,9 @@ definitions:
     type: array
     items:
       type: object
+      properties:
+        '':
+          type: string
     example:
       - {}
       - {}
@@ -43650,6 +43657,7 @@ x-stoplight:
         | canceled_at               | The timestamp of the most recent cancellation                                                                                                                                                                                                                                                                                                                                                                                                                      |
         | cancellation_message      | Seller-provided reason for, or note about, the cancellation.                                                                                                                                                                                                                                                                                                                                                                                                       |
         | next_product_id           | If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal.                                                                                                                                                                                                                                                                                                                                      |
+        | next_product_handle           | If a delayed product change is scheduled, the handle of the product that the subscription will be changed to at the next renewal.                                                                                                                                                                                                                                                                                                                                      |
         | cancel_at_end_of_period   | Whether or not the subscription will (or has) canceled at the end of the period.                                                                                                                                                                                                                                                                                                                                                                                   |
         | payment_collection_method | The type of payment collection to be used in the subscription. May be automatic, or invoice.                                                                                                                                                                                                                                                                                                                                                                       |
         | snap_day                  | The day of the month that the subscription will charge according to calendar billing rules, if used.                                                                                                                                                                                                                                                                                                                                                               |
