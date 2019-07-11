@@ -7721,7 +7721,26 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/allocation/create-request-post'
+            type: object
+            properties:
+              payment:
+                type: object
+                required:
+                  - amount
+                  - memo
+                  - payment_details
+                  - payment_method
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
+                  payment_details:
+                    type: string
+                  payment_method:
+                    type: string
+            required:
+              - payment
             example:
               payment:
                 amount: '10.0'
@@ -39879,6 +39898,11 @@ definitions:
     properties:
       payment:
         type: object
+        required:
+          - amount
+          - memo
+          - payment_details
+          - payment_method
         properties:
           amount:
             type: string
@@ -39897,11 +39921,8 @@ definitions:
 
               Allowed Values: credit_card, check, cash, money_order, ach, paypal_account, other
               default: other
-        required:
-          - amount
-          - memo
-          - payment_details
-          - payment_method
+    required:
+      - payment
     example:
       payment:
         amount: '10.0'
