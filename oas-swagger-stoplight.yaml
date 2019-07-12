@@ -9264,6 +9264,10 @@ paths:
         ```
         A valid product_family_id is required
         ```
+      parameters:
+        - name: include_archived
+          in: query
+          type: boolean
       responses:
         '200':
           description: OK
