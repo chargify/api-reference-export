@@ -35797,6 +35797,11 @@ definitions:
               type: string
             applied_amount:
               type: string
+            gateway_transaction_id:
+              type:
+                - string
+                - 'null'
+              description: The transaction ID for the refund as returned from the payment gateway
       payments:
         type: array
         items:
@@ -35833,6 +35838,11 @@ definitions:
               type: integer
             prepayment:
               type: boolean
+            gateway_transaction_id:
+              type:
+                - string
+                - 'null'
+              description: The transaction ID for the payment as returned from the payment gateway
       custom_fields:
         type: array
         items:
@@ -38079,6 +38089,11 @@ definitions:
               type: string
             applied_amount:
               type: string
+            gateway_transaction_id:
+              type:
+                - string
+                - 'null'
+              description: The transaction ID for the refund as returned from the payment gateway
       payments:
         type: array
         items:
@@ -38115,6 +38130,11 @@ definitions:
               type: integer
             prepayment:
               type: boolean
+            gateway_transaction_id:
+              type:
+                - string
+                - 'null'
+              description: The transaction ID for the payment as returned from the payment gateway
       custom_fields:
         type: array
         items:
