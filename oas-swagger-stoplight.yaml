@@ -29819,6 +29819,9 @@ definitions:
               - 'null'
           parent_id:
             type: integer
+          vat_number:
+            type: string
+            description: 'The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.'
         required:
           - first_name
           - last_name
@@ -42163,7 +42166,7 @@ x-stoplight:
         | portal_invite_last_sent_at     | The timestamp of when the Billing Portal invite was last sent at                                                                              |
         | portal_invite_last_accepted_at | The timestamp of when the Billing Portal invite was last accepted                                                                             |
         | tax_exempt                     | (Optional) The tax exempt status for the customer.  Acceptable values are true or 1 for true and false or 0 for false.                        |
-        | vat_number                     | (Optional) The VAT number, if applicable                                                                                                      |
+        | vat_number                     | (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out. |
         | parent_id                      | (Optional) The parent ID in Chargify if applicable. Parent is another Customer object. |
       public: true
     adjustment-intro:
