@@ -29594,54 +29594,30 @@ definitions:
           email:
             type: string
           cc_emails:
-            type:
-              - string
-              - 'null'
-          organization:
-            type:
-              - string
-              - 'null'
-          reference:
-            type:
-              - string
-              - 'null'
-          address:
-            type:
-              - string
-              - 'null'
-          address2:
-            type:
-              - string
-              - 'null'
-          city:
-            type:
-              - string
-              - 'null'
-          state:
-            type:
-              - string
-              - 'null'
-          zip:
-            type:
-              - string
-              - 'null'
-          country:
-            type:
-              - string
-              - 'null'
-          phone:
-            type:
-              - string
-              - 'null'
-          parent_id:
-            type: integer
-          vat_number:
             type: string
-            description: 'The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.'
-        required:
-          - first_name
-          - last_name
-          - email
+          organization:
+            type: string
+          reference:
+            type: string
+          address:
+            type: string
+          address2:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zip:
+            type: string
+          country:
+            type: string
+          phone:
+            type: string
+          metafields:
+            type: object
+            properties:
+              metafield_name:
+                type: string
     example:
       customer:
         first_name: Martha
@@ -29657,6 +29633,8 @@ definitions:
         zip: '02120'
         country: US
         phone: 555-555-1212
+        metafields:
+          metafield_name: blue
     x-stoplight:
       id: customer/create-a-customer-input
       name: Create a Customer Input
@@ -42036,6 +42014,7 @@ x-stoplight:
         | tax_exempt                     | (Optional) The tax exempt status for the customer.  Acceptable values are true or 1 for true and false or 0 for false.                        |
         | vat_number                     | (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out. |
         | parent_id                      | (Optional) The parent ID in Chargify if applicable. Parent is another Customer object. |
+        | metafields | (Optional) pairs of metafield names and values |
       public: true
     adjustment-intro:
       id: adjustment-intro
