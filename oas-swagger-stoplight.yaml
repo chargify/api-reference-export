@@ -539,7 +539,7 @@ paths:
         afterScript: null
         public: true
         mock:
-          enabled: false
+          enabled: true
           dynamic: false
           statusCode: 200
   /components/lookup.json:
@@ -1046,7 +1046,7 @@ paths:
         afterScript: null
         public: true
         mock:
-          enabled: false
+          enabled: true
           statusCode: 200
   '/subscriptions/{subscription_id}/components/{component_id}/usages.json':
     parameters:
