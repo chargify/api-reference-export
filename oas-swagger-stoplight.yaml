@@ -209,53 +209,53 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Read History for Subscription's On/Off Components
+      summary: Read Allocations for a Subscription's Quantity-based Components
       tags:
         - Allocations
       description: |-
-        ## Read History for Subscription's On/Off Components
+        ## Read Allocations for Quantity-based Component Usage for a Subscription
 
-        Disply the history of the subscription's on/off component. When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
+        Use this endpoint to read the previously allocated components for a subscription.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/read-history-for-subscriptions-on-off-component'
+            $ref: '#/definitions/read-allocations-for-a-subscriptions-quantity-based-components'
           examples:
             application/json:
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:37:12Z'
+                  quantity: '100.0'
+                  previous_quantity: '50.0'
+                  memo: Third record
+                  timestamp: '2018-01-03T15:15:41Z'
                   proration_upgrade_scheme: prorate-delay-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
               - allocation:
-                  component_id: 426655
+                  component_id: 426645
                   subscription_id: 20310847
-                  quantity: 0
-                  previous_quantity: 1
-                  memo: Canceled hosting
-                  timestamp: '2018-01-03T15:36:33Z'
-                  proration_upgrade_scheme: no-prorate
-                  proration_downgrade_scheme: prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
-              - allocation:
-                  component_id: 426655
-                  subscription_id: 20310847
-                  quantity: 1
-                  previous_quantity: 0
-                  memo: Purchased hosting
-                  timestamp: '2018-01-03T15:36:10Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
+                  quantity: '50.0'
+                  previous_quantity: '10.0'
+                  memo: Second record
+                  timestamp: '2018-01-03T15:15:13Z'
+                  proration_upgrade_scheme: full-price-attempt-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149428
-                  previous_price_point_id: 149428
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
+              - allocation:
+                  component_id: 426645
+                  subscription_id: 20310847
+                  quantity: '10.0'
+                  previous_quantity: '0.0'
+                  memo: First record
+                  timestamp: '2018-01-03T15:14:46Z'
+                  proration_upgrade_scheme: full-price-delay-capture
+                  proration_downgrade_scheme: no-prorate
+                  price_point_id: 149418
+                  previous_price_point_id: 149418
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -11571,36 +11571,37 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Customers)'
+      summary: 'Clear all Site data:  (All)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Customers)
+        ## Clear all Site data:  (All)
 
-        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+
+        This call is asynchronous and there may be a delay before the site data is fully deleted. If you are clearing site data for an automated test, you will need to build in a delay and/or check that there are no products, etc., in the site before proceeding.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=all
         ```
 
         Required Parameter: cleanup_scope
 
-        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
       parameters:
-        - name: cleanup_scope
+        - name: all
           in: query
           required: true
           type: string
           enum:
-            - customers
+            - all
       responses:
         default:
           description: ''
@@ -18657,38 +18658,6 @@ parameters:
     description: YYYY-MM-DD
     type: string
     format: date
-  'trait:invoiceStatusQuery:status':
-    name: status
-    in: query
-    type: string
-    enum:
-      - paid
-      - unpaid
-      - partial
-      - archived
-  'trait:eventsBasicFilters:page':
-    name: page
-    in: query
-    type: integer
-  'trait:eventsBasicFilters:per_page':
-    name: per_page
-    in: query
-    type: integer
-  'trait:eventsBasicFilters:since_id':
-    name: since_id
-    in: query
-    type: integer
-  'trait:eventsBasicFilters:max_id':
-    name: max_id
-    in: query
-    type: integer
-  'trait:eventsBasicFilters:direction':
-    name: direction
-    in: query
-    type: string
-    default: desc
-    enum:
-      - 'asc, desc'
   'trait:pagination30:page':
     name: page
     in: query
@@ -18740,6 +18709,38 @@ parameters:
     in: query
     description: The page number and number of results used for pagination. By default results are paginated 20 per page.
     type: string
+  'trait:invoiceStatusQuery:status':
+    name: status
+    in: query
+    type: string
+    enum:
+      - paid
+      - unpaid
+      - partial
+      - archived
+  'trait:eventsBasicFilters:page':
+    name: page
+    in: query
+    type: integer
+  'trait:eventsBasicFilters:per_page':
+    name: per_page
+    in: query
+    type: integer
+  'trait:eventsBasicFilters:since_id':
+    name: since_id
+    in: query
+    type: integer
+  'trait:eventsBasicFilters:max_id':
+    name: max_id
+    in: query
+    type: integer
+  'trait:eventsBasicFilters:direction':
+    name: direction
+    in: query
+    type: string
+    default: desc
+    enum:
+      - 'asc, desc'
   'trait:metafieldsNameRequired:name':
     name: name
     in: query
@@ -18755,6 +18756,17 @@ parameters:
     in: query
     description: 'An array of transaction types, see above. Example: http://example.chargify.com?kinds[]=charge&kinds[]=payment&kinds[]=credit'
     type: string
+  'trait:txnDirection:direction':
+    name: direction
+    in: query
+    description: can be either asc for ascending or desc for descending order. (defaults to desc) The sort order is based on the created_at timestamp then id for transactions within the same second.
+    type: string
+    default: desc
+  'trait:txnOrderBy:order_by':
+    name: order_by
+    in: query
+    description: 'Either `id` or `created_at`. Using an ID filter (`since_id`/`max_id`) will force id order, while using a Date filter (`since_date`/`until_date`) will force created_at order. Otherwise, your requested value will be used.'
+    type: string
   'trait:txnSinceDate:since_date':
     name: since_date
     in: query
@@ -18767,17 +18779,6 @@ parameters:
     description: '(format YYYY-MM-DD) Returns transactions with a created_at timestamp up to and including 11:59:59PM in your site’s time zone on the date specified'
     type: string
     format: date
-  'trait:txnDirection:direction':
-    name: direction
-    in: query
-    description: can be either asc for ascending or desc for descending order. (defaults to desc) The sort order is based on the created_at timestamp then id for transactions within the same second.
-    type: string
-    default: desc
-  'trait:txnOrderBy:order_by':
-    name: order_by
-    in: query
-    description: 'Either `id` or `created_at`. Using an ID filter (`since_id`/`max_id`) will force id order, while using a Date filter (`since_date`/`until_date`) will force created_at order. Otherwise, your requested value will be used.'
-    type: string
   'trait:subscriptionQueryString:page':
     name: page
     in: query
@@ -18879,15 +18880,19 @@ parameters:
     description: May be asc or desc to sort customers by time of creation
     type: string
     default: asc
-  'trait:searchString:q':
-    name: q
+  'trait:sinceId:since_id':
+    name: since_id
     in: query
-    description: 'Search by email, ID, reference, organization.'
     type: string
   'trait:subscriptionIdQuery:subscription_id':
     name: subscription_id
     in: query
     type: integer
+  'trait:searchString:q':
+    name: q
+    in: query
+    description: 'Search by email, ID, reference, organization.'
+    type: string
   'trait:metadataValue:value':
     name: value
     in: query
@@ -18908,10 +18913,6 @@ parameters:
       - canceled
       - unpaid
       - expired
-  'trait:sinceId:since_id':
-    name: since_id
-    in: query
-    type: string
   'trait:sort:sort':
     name: sort
     in: query
@@ -20109,80 +20110,6 @@ definitions:
       id: adjustments/response
       name: POST Adjustment Response
       public: true
-  allocation/read_allocations_subscription:
-    title: Allocation Response GET
-    type: array
-    items:
-      type: object
-      properties:
-        allocation:
-          type: object
-          properties:
-            memo:
-              type:
-                - 'null'
-                - string
-              maxLength: 255
-            timestamp:
-              type: string
-              format: date-time
-            quantity:
-              type:
-                - integer
-                - number
-              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
-              exclusiveMinimum: false
-              exclusiveMaximum: false
-            previous_quantity:
-              type:
-                - integer
-                - number
-              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
-            component_id:
-              type: integer
-              minimum: 1
-              maximum: 99999999999
-            subscription_id:
-              type: integer
-              minimum: 1
-              maximum: 99999999999
-            proration_upgrade_scheme:
-              type: string
-              default: no-prorate
-              description: 'Defaults to the site setting if one is not provided. '
-            proration_downgrade_scheme:
-              type: string
-              default: no-prorate
-              description: 'Defaults to the site setting if one is not provided. '
-            accrue_charge:
-              type: boolean
-            upgrade_charge:
-              type: string
-            downgrade_credit:
-              type: string
-    example:
-      - allocation:
-          memo: moving to 7
-          timestamp: '2012-11-20T22:00:37Z'
-          quantity: 7
-          previous_quantity: 3
-          component_id: 11960
-          subscription_id: 2585595
-          proration_upgrade_scheme: no-prorate
-          proration_downgrade_scheme: no-prorate
-      - allocation:
-          memo: null
-          timestamp: '2012-11-20T21:48:09Z'
-          quantity: 3
-          previous_quantity: 0
-          component_id: 11960
-          subscription_id: 2585595
-          proration_upgrade_scheme: no-prorate
-          proration_downgrade_scheme: no-prorate
-    x-stoplight:
-      id: allocation/read_allocations_subscription
-      name: Allocation Response GET
-      public: true
   products/list-products-output:
     title: Read by Products Output
     type: array
@@ -20351,6 +20278,92 @@ definitions:
       id: products/list-products-output
       name: Read by Products Output
       public: true
+  allocation/read_allocations_subscription:
+    title: Allocation Response GET
+    type: array
+    items:
+      type: object
+      properties:
+        allocation:
+          type: object
+          properties:
+            memo:
+              type:
+                - 'null'
+                - string
+              maxLength: 255
+            timestamp:
+              type: string
+              format: date-time
+            quantity:
+              type:
+                - integer
+                - number
+              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
+              exclusiveMinimum: false
+              exclusiveMaximum: false
+            previous_quantity:
+              type:
+                - integer
+                - number
+              description: 'integer by default, or decimal number if fractional quantities are enabled for the component'
+            component_id:
+              type: integer
+              minimum: 1
+              maximum: 99999999999
+            subscription_id:
+              type: integer
+              minimum: 1
+              maximum: 99999999999
+            proration_upgrade_scheme:
+              type: string
+              default: no-prorate
+              description: 'Defaults to the site setting if one is not provided. '
+            proration_downgrade_scheme:
+              type: string
+              default: no-prorate
+              description: 'Defaults to the site setting if one is not provided. '
+            accrue_charge:
+              type: boolean
+            upgrade_charge:
+              type: string
+            downgrade_credit:
+              type: string
+    example:
+      - allocation:
+          memo: moving to 7
+          timestamp: '2012-11-20T22:00:37Z'
+          quantity: 7
+          previous_quantity: 3
+          component_id: 11960
+          subscription_id: 2585595
+          proration_upgrade_scheme: no-prorate
+          proration_downgrade_scheme: no-prorate
+      - allocation:
+          memo: null
+          timestamp: '2012-11-20T21:48:09Z'
+          quantity: 3
+          previous_quantity: 0
+          component_id: 11960
+          subscription_id: 2585595
+          proration_upgrade_scheme: no-prorate
+          proration_downgrade_scheme: no-prorate
+    x-stoplight:
+      id: allocation/read_allocations_subscription
+      name: Allocation Response GET
+      public: true
+  count-transactions:
+    title: Read the Count of Transactions for a Site Output
+    type: object
+    properties:
+      count:
+        type: integer
+    example:
+      count: 290
+    x-stoplight:
+      id: count-transactions
+      name: Read the Count of Transactions for a Site Output
+      public: true
   renewal-preview-output:
     title: Renewal Preview Output
     type: object
@@ -20417,18 +20430,6 @@ definitions:
     x-stoplight:
       id: renewal-preview-output
       name: Renewal Preview Output
-      public: true
-  count-transactions:
-    title: Read the Count of Transactions for a Site Output
-    type: object
-    properties:
-      count:
-        type: integer
-    example:
-      count: 290
-    x-stoplight:
-      id: count-transactions
-      name: Read the Count of Transactions for a Site Output
       public: true
   /basics/subscription-api-response-exampe:
     title: Subscription API Response Example
@@ -20942,6 +20943,57 @@ definitions:
       id: billing-portal/response
       name: Billing Portal Response GET
       public: true
+  allocation/multiple-request-post:
+    title: Allocation Multiple Request POST
+    type: object
+    properties:
+      proration_upgrade_scheme:
+        type: string
+        default: no-prorate
+        description: deprecated
+      proration_downgrade_scheme:
+        type: string
+        description: deprecated
+        default: no-prorate
+      allocations:
+        type: array
+        items:
+          type: object
+          properties:
+            component_id:
+              type:
+                - integer
+                - string
+              description: 'is either an integer or a string prefixed with "handle:"'
+            quantity:
+              type: integer
+            memo:
+              type: string
+              maxLength: 255
+            upgrade_charge:
+              type: string
+            downgrade_credit:
+              type: string
+      accrue_charge:
+        type: boolean
+      upgrade_charge:
+        type: string
+      downgrade_credit:
+        type: string
+    example:
+      proration_upgrade_scheme: prorate-attempt-capture
+      proration_downgrade_scheme: no-prorate
+      allocations:
+        - component_id: 123
+          quantity: 10
+          memo: foo
+        - component_id: 456
+          quantity: 5
+          memo: bar
+    x-stoplight:
+      id: allocation/multiple-request-post
+      name: Allocation Multiple Request POST
+      public: true
   billing-portal/response-enable:
     title: Billing Portal Enable Response POST
     type: object
@@ -21027,57 +21079,6 @@ definitions:
     x-stoplight:
       id: billing-portal/response-enable
       name: Billing Portal Enable Response POST
-      public: true
-  allocation/multiple-request-post:
-    title: Allocation Multiple Request POST
-    type: object
-    properties:
-      proration_upgrade_scheme:
-        type: string
-        default: no-prorate
-        description: deprecated
-      proration_downgrade_scheme:
-        type: string
-        description: deprecated
-        default: no-prorate
-      allocations:
-        type: array
-        items:
-          type: object
-          properties:
-            component_id:
-              type:
-                - integer
-                - string
-              description: 'is either an integer or a string prefixed with "handle:"'
-            quantity:
-              type: integer
-            memo:
-              type: string
-              maxLength: 255
-            upgrade_charge:
-              type: string
-            downgrade_credit:
-              type: string
-      accrue_charge:
-        type: boolean
-      upgrade_charge:
-        type: string
-      downgrade_credit:
-        type: string
-    example:
-      proration_upgrade_scheme: prorate-attempt-capture
-      proration_downgrade_scheme: no-prorate
-      allocations:
-        - component_id: 123
-          quantity: 10
-          memo: foo
-        - component_id: 456
-          quantity: 5
-          memo: bar
-    x-stoplight:
-      id: allocation/multiple-request-post
-      name: Allocation Multiple Request POST
       public: true
   billing-portal/request-enable:
     title: Billing Portal Enable Request POST
@@ -21677,24 +21678,110 @@ definitions:
       id: charges/create-a-charge-request-post
       name: Create a charge / Request POST
       public: true
-  invoices/credits/create-invoice-credit-input:
-    title: Create Invoice Credit Input
+  metadata/update-metadata-input:
+    title: Update Metadata Input
     type: object
     properties:
-      adjustment:
+      metadata:
         type: object
         properties:
-          amount:
-            type: integer
-          memo:
+          current_name:
+            type: string
+          name:
+            type: string
+          value:
             type: string
     example:
-      adjustment:
-        amount: 10
-        memo: Credit for recycling old computers
+      metadata:
+        current_name: Color
+        name: Shirt Color
+        value: Blue
     x-stoplight:
-      id: invoices/credits/create-invoice-credit-input
-      name: Create Invoice Credit Input
+      id: metadata/update-metadata-input
+      name: Update Metadata Input
+      public: true
+  metafields/list-metafields-output:
+    title: List Metafields Output
+    type: object
+    properties:
+      total_count:
+        type: integer
+      current_page:
+        type: integer
+      total_pages:
+        type: integer
+      per_page:
+        type: integer
+      metafields:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            scope:
+              type: object
+              properties:
+                hosted:
+                  type: array
+                  items:
+                    type: object
+                csv:
+                  type: string
+                statements:
+                  type: string
+                invoices:
+                  type: string
+                portal:
+                  type: string
+            data_count:
+              type: integer
+            input_type:
+              type: string
+            enum:
+              type: 'null'
+    example:
+      total_count: 1
+      current_page: 1
+      total_pages: 1
+      per_page: 20
+      metafields:
+        - name: Pants
+          scope:
+            hosted: []
+            csv: '0'
+            statements: '0'
+            invoices: '0'
+            portal: '0'
+          data_count: 1
+          input_type: text
+          enum: null
+    x-stoplight:
+      id: metafields/list-metafields-output
+      name: List Metafields Output
+      public: true
+  metadata/create-output:
+    title: Create Metadata Output
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        resource_id:
+          type: integer
+        value:
+          type: string
+    example:
+      - name: Color
+        resource_id: 100000
+        value: Blue
+      - name: Something
+        resource_id: 100000
+        value: Useful
+    x-stoplight:
+      id: metadata/create-output
+      name: Create Metadata Output
       public: true
   invoices/charges/create-invoice-charge-input:
     title: Create Invoice Charge Input
@@ -21714,6 +21801,25 @@ definitions:
     x-stoplight:
       id: invoices/charges/create-invoice-charge-input
       name: Create Invoice Charge Input
+      public: true
+  invoices/credits/create-invoice-credit-input:
+    title: Create Invoice Credit Input
+    type: object
+    properties:
+      adjustment:
+        type: object
+        properties:
+          amount:
+            type: integer
+          memo:
+            type: string
+    example:
+      adjustment:
+        amount: 10
+        memo: Credit for recycling old computers
+    x-stoplight:
+      id: invoices/credits/create-invoice-credit-input
+      name: Create Invoice Credit Input
       public: true
   invoices/read-the-invoice-by-id:
     title: Read the Invoice by ID
@@ -22200,18 +22306,6 @@ definitions:
       id: invoices/list-all-invoices-query-response
       name: List All Invoices (Multiple Query)
       public: true
-  event/counts:
-    title: Count Events for a Site
-    type: object
-    properties:
-      count:
-        type: integer
-    example:
-      count: 144
-    x-stoplight:
-      id: event/counts
-      name: Count Events for a Site
-      public: true
   invoices/charges/create-invoice-charge-output:
     title: Create Invoice Charge Output
     type: object
@@ -22372,111 +22466,6 @@ definitions:
       id: invoices/credits/create-invoice-credit-output
       name: Create Invoice Credit Output
       public: true
-  metadata/create-output:
-    title: Create Metadata Output
-    type: array
-    items:
-      type: object
-      properties:
-        name:
-          type: string
-        resource_id:
-          type: integer
-        value:
-          type: string
-    example:
-      - name: Color
-        resource_id: 100000
-        value: Blue
-      - name: Something
-        resource_id: 100000
-        value: Useful
-    x-stoplight:
-      id: metadata/create-output
-      name: Create Metadata Output
-      public: true
-  metadata/update-metadata-input:
-    title: Update Metadata Input
-    type: object
-    properties:
-      metadata:
-        type: object
-        properties:
-          current_name:
-            type: string
-          name:
-            type: string
-          value:
-            type: string
-    example:
-      metadata:
-        current_name: Color
-        name: Shirt Color
-        value: Blue
-    x-stoplight:
-      id: metadata/update-metadata-input
-      name: Update Metadata Input
-      public: true
-  metafields/list-metafields-output:
-    title: List Metafields Output
-    type: object
-    properties:
-      total_count:
-        type: integer
-      current_page:
-        type: integer
-      total_pages:
-        type: integer
-      per_page:
-        type: integer
-      metafields:
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-            scope:
-              type: object
-              properties:
-                hosted:
-                  type: array
-                  items:
-                    type: object
-                csv:
-                  type: string
-                statements:
-                  type: string
-                invoices:
-                  type: string
-                portal:
-                  type: string
-            data_count:
-              type: integer
-            input_type:
-              type: string
-            enum:
-              type: 'null'
-    example:
-      total_count: 1
-      current_page: 1
-      total_pages: 1
-      per_page: 20
-      metafields:
-        - name: Pants
-          scope:
-            hosted: []
-            csv: '0'
-            statements: '0'
-            invoices: '0'
-            portal: '0'
-          data_count: 1
-          input_type: text
-          enum: null
-    x-stoplight:
-      id: metafields/list-metafields-output
-      name: List Metafields Output
-      public: true
   metadata/create-metadata-input:
     title: Create Metadata Input
     type: object
@@ -22499,6 +22488,58 @@ definitions:
     x-stoplight:
       id: metadata/create-metadata-input
       name: Create Metadata Input
+      public: true
+  event/counts:
+    title: Count Events for a Site
+    type: object
+    properties:
+      count:
+        type: integer
+    example:
+      count: 144
+    x-stoplight:
+      id: event/counts
+      name: Count Events for a Site
+      public: true
+  metafields/create-metafields-input:
+    title: Create Metafields Input
+    type: object
+    properties:
+      metafields:
+        type: object
+        properties:
+          name:
+            type: string
+          scope:
+            type: object
+            properties:
+              hosted:
+                type: array
+                items:
+                  type: string
+              csv:
+                type: string
+              invoices:
+                type: string
+              statements:
+                type: string
+              portal:
+                type: string
+    example:
+      metafields:
+        name: Color
+        scope:
+          hosted:
+            - '1'
+            - '2'
+            - '3'
+          csv: '0'
+          invoices: '1'
+          statements: '1'
+          portal: '0'
+    x-stoplight:
+      id: metafields/create-metafields-input
+      name: Create Metafields Input
       public: true
   metafields/create-metafields-output:
     title: Create Metafields Output
@@ -22741,46 +22782,6 @@ definitions:
     x-stoplight:
       id: components/metered/create-usage-output
       name: Create Usage Output
-      public: true
-  metafields/create-metafields-input:
-    title: Create Metafields Input
-    type: object
-    properties:
-      metafields:
-        type: object
-        properties:
-          name:
-            type: string
-          scope:
-            type: object
-            properties:
-              hosted:
-                type: array
-                items:
-                  type: string
-              csv:
-                type: string
-              invoices:
-                type: string
-              statements:
-                type: string
-              portal:
-                type: string
-    example:
-      metafields:
-        name: Color
-        scope:
-          hosted:
-            - '1'
-            - '2'
-            - '3'
-          csv: '0'
-          invoices: '1'
-          statements: '1'
-          portal: '0'
-    x-stoplight:
-      id: metafields/create-metafields-input
-      name: Create Metafields Input
       public: true
   notes/update-note-output:
     title: Update Note Output
@@ -23129,6 +23130,147 @@ definitions:
       id: migrations/preview-migration-output
       name: Preview Migration Output
       public: true
+  payment-profile/read-payment-output-bank-account:
+    title: Read Payment Output - Bank Account
+    type: object
+    properties:
+      payment_profile:
+        type: object
+        properties:
+          id:
+            type: integer
+          first_name:
+            type: string
+          last_name:
+            type: string
+          customer_id:
+            type: integer
+          current_vault:
+            type: string
+          vault_token:
+            type: string
+          billing_address:
+            type: string
+          billing_city:
+            type: string
+          billing_state:
+            type: string
+          billing_zip:
+            type: string
+          billing_country:
+            type: string
+          customer_vault_token:
+            type: 'null'
+          billing_address_2:
+            type: string
+          bank_name:
+            type: string
+          masked_bank_routing_number:
+            type: string
+          masked_bank_account_number:
+            type: string
+          bank_account_type:
+            type: string
+          bank_account_holder_type:
+            type: string
+          payment_type:
+            type: string
+          verified:
+            type: boolean
+            default: false
+            description: denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account
+    example:
+      payment_profile:
+        id: 10089892
+        first_name: Chester
+        last_name: Tester
+        customer_id: 14543792
+        current_vault: bogus
+        vault_token: '0011223344'
+        billing_address: 456 Juniper Court
+        billing_city: Boulder
+        billing_state: CO
+        billing_zip: '80302'
+        billing_country: US
+        customer_vault_token: null
+        billing_address_2: ''
+        bank_name: Bank of Kansas City
+        masked_bank_routing_number: XXXX6789
+        masked_bank_account_number: XXXX3344
+        bank_account_type: checking
+        bank_account_holder_type: personal
+        payment_type: bank_account
+    x-stoplight:
+      id: payment-profile/read-payment-output-bank-account
+      name: Read Payment Output - Bank Account
+      public: true
+  payment-profile/create-payment-profile-output:
+    title: Create Payment Profile Output
+    type: object
+    properties:
+      payment_profile:
+        type: object
+        properties:
+          id:
+            type: integer
+          first_name:
+            type: string
+          last_name:
+            type: string
+          masked_card_number:
+            type: 'null'
+          card_type:
+            type: string
+          expiration_month:
+            type: integer
+          expiration_year:
+            type: integer
+          customer_id:
+            type: integer
+          current_vault:
+            type: string
+          vault_token:
+            type: string
+          billing_address:
+            type: string
+          billing_city:
+            type: string
+          billing_state:
+            type: string
+          billing_zip:
+            type: string
+          billing_country:
+            type: string
+          customer_vault_token:
+            type: 'null'
+          billing_address_2:
+            type: 'null'
+          payment_type:
+            type: string
+    example:
+      payment_profile:
+        id: 13731211
+        first_name: Jessica
+        last_name: Test
+        masked_card_number: null
+        card_type: visa
+        expiration_month: 10
+        expiration_year: 2018
+        customer_id: 19195410
+        current_vault: bogus
+        vault_token: '1'
+        billing_address: 123 Main St.
+        billing_city: Boston
+        billing_state: MA
+        billing_zip: '02120'
+        billing_country: US
+        customer_vault_token: null
+        billing_address_2: null
+        payment_type: credit_card
+    x-stoplight:
+      id: payment-profile/create-payment-profile-output
+      name: Create Payment Profile Output
+      public: true
   migrations/create-migration-input-trial-output:
     title: Create Migration Output
     type: object
@@ -23473,147 +23615,6 @@ definitions:
       id: migrations/create-migration-input-trial-output
       name: Create Migration Output
       public: true
-  payment-profile/read-payment-output-bank-account:
-    title: Read Payment Output - Bank Account
-    type: object
-    properties:
-      payment_profile:
-        type: object
-        properties:
-          id:
-            type: integer
-          first_name:
-            type: string
-          last_name:
-            type: string
-          customer_id:
-            type: integer
-          current_vault:
-            type: string
-          vault_token:
-            type: string
-          billing_address:
-            type: string
-          billing_city:
-            type: string
-          billing_state:
-            type: string
-          billing_zip:
-            type: string
-          billing_country:
-            type: string
-          customer_vault_token:
-            type: 'null'
-          billing_address_2:
-            type: string
-          bank_name:
-            type: string
-          masked_bank_routing_number:
-            type: string
-          masked_bank_account_number:
-            type: string
-          bank_account_type:
-            type: string
-          bank_account_holder_type:
-            type: string
-          payment_type:
-            type: string
-          verified:
-            type: boolean
-            default: false
-            description: denotes whether a bank account has been verified by providing the amounts of two small deposits made into the account
-    example:
-      payment_profile:
-        id: 10089892
-        first_name: Chester
-        last_name: Tester
-        customer_id: 14543792
-        current_vault: bogus
-        vault_token: '0011223344'
-        billing_address: 456 Juniper Court
-        billing_city: Boulder
-        billing_state: CO
-        billing_zip: '80302'
-        billing_country: US
-        customer_vault_token: null
-        billing_address_2: ''
-        bank_name: Bank of Kansas City
-        masked_bank_routing_number: XXXX6789
-        masked_bank_account_number: XXXX3344
-        bank_account_type: checking
-        bank_account_holder_type: personal
-        payment_type: bank_account
-    x-stoplight:
-      id: payment-profile/read-payment-output-bank-account
-      name: Read Payment Output - Bank Account
-      public: true
-  payment-profile/create-payment-profile-output:
-    title: Create Payment Profile Output
-    type: object
-    properties:
-      payment_profile:
-        type: object
-        properties:
-          id:
-            type: integer
-          first_name:
-            type: string
-          last_name:
-            type: string
-          masked_card_number:
-            type: 'null'
-          card_type:
-            type: string
-          expiration_month:
-            type: integer
-          expiration_year:
-            type: integer
-          customer_id:
-            type: integer
-          current_vault:
-            type: string
-          vault_token:
-            type: string
-          billing_address:
-            type: string
-          billing_city:
-            type: string
-          billing_state:
-            type: string
-          billing_zip:
-            type: string
-          billing_country:
-            type: string
-          customer_vault_token:
-            type: 'null'
-          billing_address_2:
-            type: 'null'
-          payment_type:
-            type: string
-    example:
-      payment_profile:
-        id: 13731211
-        first_name: Jessica
-        last_name: Test
-        masked_card_number: null
-        card_type: visa
-        expiration_month: 10
-        expiration_year: 2018
-        customer_id: 19195410
-        current_vault: bogus
-        vault_token: '1'
-        billing_address: 123 Main St.
-        billing_city: Boston
-        billing_state: MA
-        billing_zip: '02120'
-        billing_country: US
-        customer_vault_token: null
-        billing_address_2: null
-        payment_type: credit_card
-    x-stoplight:
-      id: payment-profile/create-payment-profile-output
-      name: Create Payment Profile Output
-      public: true
   notes/delete-output:
     title: Delete Output
     type: object
@@ -23695,6 +23696,131 @@ definitions:
       id: payment-profiles/read-payment-output-cc
       name: Read Payment Output - Credit Card
       public: true
+  products/update-product-output:
+    title: Update Product Output
+    type: object
+    properties:
+      product:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          handle:
+            type: string
+          description:
+            type: string
+          accounting_code:
+            type: string
+          request_credit_card:
+            type: boolean
+          expiration_interval:
+            type: 'null'
+          expiration_interval_unit:
+            type: 'null'
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          price_in_cents:
+            type: integer
+          interval:
+            type: integer
+          interval_unit:
+            type: string
+          initial_charge_in_cents:
+            type: 'null'
+          trial_price_in_cents:
+            type: 'null'
+          trial_interval:
+            type: 'null'
+          trial_interval_unit:
+            type: 'null'
+          archived_at:
+            type: 'null'
+          require_credit_card:
+            type: boolean
+          return_params:
+            type: 'null'
+          taxable:
+            type: boolean
+          update_return_url:
+            type: 'null'
+          initial_charge_after_trial:
+            type: boolean
+          version_number:
+            type: integer
+          update_return_params:
+            type: 'null'
+          product_family:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              description:
+                type: string
+              handle:
+                type: string
+              accounting_code:
+                type: 'null'
+          public_signup_pages:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                return_url:
+                  type: 'null'
+                return_params:
+                  type: 'null'
+                url:
+                  type: string
+    example:
+      product:
+        id: 4365034
+        name: Platinum Plan
+        handle: platinum
+        description: This is our platinum plan.
+        accounting_code: '123'
+        request_credit_card: true
+        expiration_interval: null
+        expiration_interval_unit: null
+        created_at: '2016-11-04T16:34:29-04:00'
+        updated_at: '2016-11-04T16:37:11-04:00'
+        price_in_cents: 1000
+        interval: 1
+        interval_unit: month
+        initial_charge_in_cents: null
+        trial_price_in_cents: null
+        trial_interval: null
+        trial_interval_unit: null
+        archived_at: null
+        require_credit_card: true
+        return_params: null
+        taxable: false
+        update_return_url: null
+        initial_charge_after_trial: false
+        version_number: 1
+        update_return_params: null
+        product_family:
+          id: 527890
+          name: Acme Projects
+          description: ''
+          handle: billing-plans
+          accounting_code: null
+        public_signup_pages:
+          - id: 301079
+            return_url: null
+            return_params: null
+            url: 'https://general-goods.chargify.com/subscribe/wgyd96tb5pj9/platinum'
+    x-stoplight:
+      id: products/update-product-output
+      name: Update Product Output
+      public: true
   product-families/create-product-family-input:
     title: Create Product Family Input
     type: object
@@ -23715,6 +23841,55 @@ definitions:
     x-stoplight:
       id: product-families/create-product-family-input
       name: Create Product Family Input
+      public: true
+  products/create-a-product-input:
+    title: Create a Product Input
+    type: object
+    properties:
+      product:
+        type: object
+        properties:
+          name:
+            type: string
+          handle:
+            type: string
+          description:
+            type: string
+          accounting_code:
+            type: string
+          request_credit_card:
+            type: boolean
+          price_in_cents:
+            type: integer
+          interval:
+            type: integer
+          interval_unit:
+            type: string
+          auto_create_signup_page:
+            type: boolean
+          tax_code:
+            type: string
+        required:
+          - name
+          - description
+          - price_in_cents
+          - interval
+          - interval_unit
+    example:
+      product:
+        name: ipsum
+        handle: sed qui eu
+        description: exercitation
+        accounting_code: dolor enim proident qui
+        request_credit_card: false
+        price_in_cents: -53555719
+        interval: -72364360
+        interval_unit: eu
+        auto_create_signup_page: true
+        tax_code: D0000000
+    x-stoplight:
+      id: products/create-a-product-input
+      name: Create a Product Input
       public: true
   products/read-the-product-via-chargify-id:
     title: Read the Product by Product ID
@@ -23840,55 +24015,6 @@ definitions:
     x-stoplight:
       id: products/read-the-product-via-chargify-id
       name: Read the Product by Product ID
-      public: true
-  products/create-a-product-input:
-    title: Create a Product Input
-    type: object
-    properties:
-      product:
-        type: object
-        properties:
-          name:
-            type: string
-          handle:
-            type: string
-          description:
-            type: string
-          accounting_code:
-            type: string
-          request_credit_card:
-            type: boolean
-          price_in_cents:
-            type: integer
-          interval:
-            type: integer
-          interval_unit:
-            type: string
-          auto_create_signup_page:
-            type: boolean
-          tax_code:
-            type: string
-        required:
-          - name
-          - description
-          - price_in_cents
-          - interval
-          - interval_unit
-    example:
-      product:
-        name: ipsum
-        handle: sed qui eu
-        description: exercitation
-        accounting_code: dolor enim proident qui
-        request_credit_card: false
-        price_in_cents: -53555719
-        interval: -72364360
-        interval_unit: eu
-        auto_create_signup_page: true
-        tax_code: D0000000
-    x-stoplight:
-      id: products/create-a-product-input
-      name: Create a Product Input
       public: true
   products/update-product-input:
     title: Update Product Input
@@ -24177,172 +24303,31 @@ definitions:
       id: products/create-a-product-output
       name: Create a Product Output
       public: true
-  products/update-product-output:
-    title: Update Product Output
+  subscriptions/update-subscription-payment-method-request:
+    title: 'Update Subscription: Payment Method Request'
     type: object
     properties:
-      product:
+      subscription:
         type: object
         properties:
-          id:
-            type: integer
-          name:
-            type: string
-          handle:
-            type: string
-          description:
-            type: string
-          accounting_code:
-            type: string
-          request_credit_card:
-            type: boolean
-          expiration_interval:
-            type: 'null'
-          expiration_interval_unit:
-            type: 'null'
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          price_in_cents:
-            type: integer
-          interval:
-            type: integer
-          interval_unit:
-            type: string
-          initial_charge_in_cents:
-            type: 'null'
-          trial_price_in_cents:
-            type: 'null'
-          trial_interval:
-            type: 'null'
-          trial_interval_unit:
-            type: 'null'
-          archived_at:
-            type: 'null'
-          require_credit_card:
-            type: boolean
-          return_params:
-            type: 'null'
-          taxable:
-            type: boolean
-          update_return_url:
-            type: 'null'
-          initial_charge_after_trial:
-            type: boolean
-          version_number:
-            type: integer
-          update_return_params:
-            type: 'null'
-          product_family:
+          credit_card_attributes:
             type: object
             properties:
-              id:
-                type: integer
-              name:
+              full_number:
                 type: string
-              description:
+              expiration_month:
                 type: string
-              handle:
+              expiration_year:
                 type: string
-              accounting_code:
-                type: 'null'
-          public_signup_pages:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: integer
-                return_url:
-                  type: 'null'
-                return_params:
-                  type: 'null'
-                url:
-                  type: string
     example:
-      product:
-        id: 4365034
-        name: Platinum Plan
-        handle: platinum
-        description: This is our platinum plan.
-        accounting_code: '123'
-        request_credit_card: true
-        expiration_interval: null
-        expiration_interval_unit: null
-        created_at: '2016-11-04T16:34:29-04:00'
-        updated_at: '2016-11-04T16:37:11-04:00'
-        price_in_cents: 1000
-        interval: 1
-        interval_unit: month
-        initial_charge_in_cents: null
-        trial_price_in_cents: null
-        trial_interval: null
-        trial_interval_unit: null
-        archived_at: null
-        require_credit_card: true
-        return_params: null
-        taxable: false
-        update_return_url: null
-        initial_charge_after_trial: false
-        version_number: 1
-        update_return_params: null
-        product_family:
-          id: 527890
-          name: Acme Projects
-          description: ''
-          handle: billing-plans
-          accounting_code: null
-        public_signup_pages:
-          - id: 301079
-            return_url: null
-            return_params: null
-            url: 'https://general-goods.chargify.com/subscribe/wgyd96tb5pj9/platinum'
+      subscription:
+        credit_card_attributes:
+          full_number: '4111111111111111'
+          expiration_month: '10'
+          expiration_year: '2030'
     x-stoplight:
-      id: products/update-product-output
-      name: Update Product Output
-      public: true
-  statements/list-statement-ids-for-a-subscription-response:
-    title: Read Statement IDs for a Subscription Response
-    type: object
-    properties:
-      statement_ids:
-        type: array
-        items:
-          type: integer
-    example:
-      statement_ids:
-        - 79221109
-        - 79221381
-        - 79221642
-        - 79221742
-        - 79334531
-        - 79702531
-        - 79733833
-    x-stoplight:
-      id: statements/list-statement-ids-for-a-subscription-response
-      name: Read Statement IDs for a Subscription Response
-      public: true
-  statements/list-statement-ids-for-a-site-response:
-    title: Read Statement IDs for a Site Response
-    type: object
-    properties:
-      statement_ids:
-        type: array
-        items:
-          type: integer
-    example:
-      statement_ids:
-        - 67201893
-        - 67266652
-        - 67301249
-        - 67301813
-        - 80499378
-        - 80499379
-        - 80500632
-    x-stoplight:
-      id: statements/list-statement-ids-for-a-site-response
-      name: Read Statement IDs for a Site Response
+      id: subscriptions/update-subscription-payment-method-request
+      name: 'Update Subscription: Payment Method Request'
       public: true
   components/quantity/reading-current-quantity-response:
     title: Reading Current Quantity Response
@@ -24481,138 +24466,6 @@ definitions:
     x-stoplight:
       id: refunds/external/create-an-external-refund-response
       name: Create an External Refund Response
-      public: true
-  referral/validate-response:
-    title: Validate Referral Response
-    type: object
-    properties:
-      referral_code:
-        type: object
-        properties:
-          id:
-            type: integer
-          site_id:
-            type: integer
-          subscription_id:
-            type: integer
-          code:
-            type: string
-    example:
-      referral_code:
-        id: 919199
-        site_id: 31615
-        subscription_id: 15076690
-        code: gj4rht
-    x-stoplight:
-      id: referral/validate-response
-      name: Validate Referral Response
-      public: true
-  refunds/create-a-refund-request:
-    title: Create a Refund Request
-    type: object
-    properties:
-      refund:
-        type: object
-        properties:
-          payment_id:
-            type: string
-          amount:
-            type: string
-          memo:
-            type: string
-    example:
-      refund:
-        payment_id: '162269766'
-        amount: '100.00'
-        memo: Your memo here.
-    x-stoplight:
-      id: refunds/create-a-refund-request
-      name: Create a Refund Request
-      public: true
-  refunds/create-a-refund-response:
-    title: Create a Refund Response
-    type: object
-    properties:
-      refund:
-        type: object
-        properties:
-          id:
-            type: integer
-          subscription_id:
-            type: integer
-          type:
-            type: string
-          kind:
-            type: 'null'
-          transaction_type:
-            type: string
-          success:
-            type: boolean
-          amount_in_cents:
-            type: integer
-          memo:
-            type: string
-          created_at:
-            type: string
-          starting_balance_in_cents:
-            type: integer
-          ending_balance_in_cents:
-            type: integer
-          gateway_used:
-            type: string
-          gateway_transaction_id:
-            type: 'null'
-          gateway_order_id:
-            type: 'null'
-          payment_id:
-            type: integer
-          product_id:
-            type: integer
-          tax_id:
-            type: 'null'
-          component_id:
-            type: 'null'
-          statement_id:
-            type: integer
-          customer_id:
-            type: integer
-    example:
-      refund:
-        id: 162272485
-        subscription_id: 15236915
-        type: Refund
-        kind: null
-        transaction_type: refund
-        success: true
-        amount_in_cents: 10000
-        memo: Your memo here.
-        created_at: '2016-11-14T15:14:14-05:00'
-        starting_balance_in_cents: 0
-        ending_balance_in_cents: 0
-        gateway_used: bogus
-        gateway_transaction_id: null
-        gateway_order_id: null
-        payment_id: 162269766
-        product_id: 3792003
-        tax_id: null
-        component_id: null
-        statement_id: 80500632
-        customer_id: 14714298
-    x-stoplight:
-      id: refunds/create-a-refund-response
-      name: Create a Refund Response
-      public: true
-  statements/count-statements-response:
-    title: Count Statements Response
-    type: object
-    properties:
-      count:
-        type: integer
-    example:
-      count: 129
-    x-stoplight:
-      id: statements/count-statements-response
-      name: Count Statements Response
       public: true
   statements/list-statements-for-a-subscription-response:
     title: Read Statements for a Subscription
@@ -26603,34 +26456,24 @@ definitions:
       id: statements/read-show-by-chargify-id
       name: Read by Statement ID
       public: true
-  subscriptions/update-subscription-payment-method-request:
-    title: 'Update Subscription: Payment Method Request'
+  subscriptions/update-subscription-billing-day-change-request:
+    title: 'Update Subscription: Billing Day Change Request'
     type: object
     properties:
       subscription:
         type: object
         properties:
-          credit_card_attributes:
-            type: object
-            properties:
-              full_number:
-                type: string
-              expiration_month:
-                type: string
-              expiration_year:
-                type: string
+          snap_day:
+            type: string
     example:
       subscription:
-        credit_card_attributes:
-          full_number: '4111111111111111'
-          expiration_month: '10'
-          expiration_year: '2030'
+        snap_day: end
     x-stoplight:
-      id: subscriptions/update-subscription-payment-method-request
-      name: 'Update Subscription: Payment Method Request'
+      id: subscriptions/update-subscription-billing-day-change-request
+      name: 'Update Subscription: Billing Day Change Request'
       public: true
-  subscriptions/subscription-import-request:
-    title: Subscription Import Request
+  subscriptions/subscription-preview-request:
+    title: Subscription Preview Request
     type: object
     properties:
       subscription:
@@ -26638,80 +26481,147 @@ definitions:
         properties:
           product_handle:
             type: string
-          next_billing_at:
+          product_price_point_handle:
             type: string
-          customer_attributes:
-            type: object
-            properties:
-              first_name:
-                type: string
-              last_name:
-                type: string
-              email:
-                type: string
-              reference:
-                type: string
-              organization:
-                type: string
-          payment_profile_attributes:
-            type: object
-            properties:
-              vault_token:
-                type: string
-              customer_vault_token:
-                type: string
-              current_vault:
-                type: string
-              expiration_year:
-                type: string
-              expiration_month:
-                type: string
-              card_type:
-                type: string
-              last_four:
-                type: string
+          coupon_code:
+            type: string
+          components:
+            type: array
+            items:
+              type: object
+              properties:
+                component_id:
+                  type: integer
+                allocated_quantity:
+                  type: integer
+                unit_balance:
+                  type: integer
+                quantity:
+                  type: integer
     example:
       subscription:
-        product_handle: basic
-        next_billing_at: '2010-08-29T12:00:00-04:00'
-        previous_billing_at: '2010-07-29T12:00:00-04:00'
-        customer_attributes:
-          first_name: John
-          last_name: Doe
-          email: john.doe@example.com
-          reference: '123'
-          organization: Acme Widgets
-        payment_profile_attributes:
-          vault_token: '12345'
-          customer_vault_token: '67890'
-          current_vault: authorizenet
-          expiration_year: '2020'
-          expiration_month: '12'
-          card_type: visa
-          last_four: '1111'
+        product_handle: gold-product
+        product_price_point_handle: default
+        coupon_code: 1DOLLAR
+        components:
+          - component_id: 462149
+            allocated_quantity: 14
+          - component_id: 426665
+            unit_balance: 20
+          - component_id: 426670
+            quantity: 1
     x-stoplight:
-      id: subscriptions/subscription-import-request
-      name: Subscription Import Request
+      id: subscriptions/subscription-preview-request
+      name: Subscription Preview Request
       public: true
-  subscriptions/cancel-subscription-request:
-    title: Cancel Subscription Request
+  statements/list-statement-ids-for-a-subscription-response:
+    title: Read Statement IDs for a Subscription Response
     type: object
     properties:
-      subscription:
+      statement_ids:
+        type: array
+        items:
+          type: integer
+    example:
+      statement_ids:
+        - 79221109
+        - 79221381
+        - 79221642
+        - 79221742
+        - 79334531
+        - 79702531
+        - 79733833
+    x-stoplight:
+      id: statements/list-statement-ids-for-a-subscription-response
+      name: Read Statement IDs for a Subscription Response
+      public: true
+  statements/list-statement-ids-for-a-site-response:
+    title: Read Statement IDs for a Site Response
+    type: object
+    properties:
+      statement_ids:
+        type: array
+        items:
+          type: integer
+    example:
+      statement_ids:
+        - 67201893
+        - 67266652
+        - 67301249
+        - 67301813
+        - 80499378
+        - 80499379
+        - 80500632
+    x-stoplight:
+      id: statements/list-statement-ids-for-a-site-response
+      name: Read Statement IDs for a Site Response
+      public: true
+  subscriptions/change-default-payment-profile-response:
+    title: Create Default Payment Profile Response
+    type: object
+    properties:
+      payment_profile:
         type: object
         properties:
-          cancellation_message:
+          id:
+            type: integer
+          first_name:
             type: string
-          cancellation_method:
+          last_name:
             type: string
-          reason_code:
+          masked_card_number:
+            type: string
+          card_type:
+            type: string
+          expiration_month:
+            type: integer
+          expiration_year:
+            type: integer
+          customer_id:
+            type: integer
+          current_vault:
+            type: string
+          vault_token:
+            type: string
+          billing_address:
+            type: string
+          billing_city:
+            type: string
+          billing_state:
+            type: string
+          billing_zip:
+            type: string
+          billing_country:
+            type: string
+          customer_vault_token:
+            type: 'null'
+          billing_address_2:
+            type: string
+          payment_type:
             type: string
     example:
-      subscription:
-        cancellation_message: Canceling the subscription via the API
+      payment_profile:
+        id: 10211899
+        first_name: Amelia
+        last_name: Example
+        masked_card_number: XXXX-XXXX-XXXX-1
+        card_type: bogus
+        expiration_month: 2
+        expiration_year: 2018
+        customer_id: 14399371
+        current_vault: bogus
+        vault_token: '1'
+        billing_address: ''
+        billing_city: ''
+        billing_state: ''
+        billing_zip: ''
+        billing_country: ''
+        customer_vault_token: null
+        billing_address_2: ''
+        payment_type: credit_card
     x-stoplight:
-      id: subscriptions/cancel-subscription-request
-      name: Cancel Subscription Request
+      id: subscriptions/change-default-payment-profile-response
+      name: Create Default Payment Profile Response
       public: true
   subscriptions/update-subscription-product-change-request:
     title: 'Update Subscription: Product Change Request - handle'
@@ -26728,6 +26638,31 @@ definitions:
     x-stoplight:
       id: subscriptions/update-subscription-product-change-request
       name: 'Update Subscription: Product Change Request - handle'
+      public: true
+  referral/validate-response:
+    title: Validate Referral Response
+    type: object
+    properties:
+      referral_code:
+        type: object
+        properties:
+          id:
+            type: integer
+          site_id:
+            type: integer
+          subscription_id:
+            type: integer
+          code:
+            type: string
+    example:
+      referral_code:
+        id: 919199
+        site_id: 31615
+        subscription_id: 15076690
+        code: gj4rht
+    x-stoplight:
+      id: referral/validate-response
+      name: Validate Referral Response
       public: true
   subscriptions/create-subscription-request:
     title: Create Subscription Request
@@ -27236,21 +27171,302 @@ definitions:
       id: subscription/read-subscription
       name: Read Subscription MAIN
       public: true
-  subscriptions/update-subscription-billing-day-change-request:
-    title: 'Update Subscription: Billing Day Change Request'
+  refunds/create-a-refund-request:
+    title: Create a Refund Request
+    type: object
+    properties:
+      refund:
+        type: object
+        properties:
+          payment_id:
+            type: string
+          amount:
+            type: string
+          memo:
+            type: string
+    example:
+      refund:
+        payment_id: '162269766'
+        amount: '100.00'
+        memo: Your memo here.
+    x-stoplight:
+      id: refunds/create-a-refund-request
+      name: Create a Refund Request
+      public: true
+  refunds/create-a-refund-response:
+    title: Create a Refund Response
+    type: object
+    properties:
+      refund:
+        type: object
+        properties:
+          id:
+            type: integer
+          subscription_id:
+            type: integer
+          type:
+            type: string
+          kind:
+            type: 'null'
+          transaction_type:
+            type: string
+          success:
+            type: boolean
+          amount_in_cents:
+            type: integer
+          memo:
+            type: string
+          created_at:
+            type: string
+          starting_balance_in_cents:
+            type: integer
+          ending_balance_in_cents:
+            type: integer
+          gateway_used:
+            type: string
+          gateway_transaction_id:
+            type: 'null'
+          gateway_order_id:
+            type: 'null'
+          payment_id:
+            type: integer
+          product_id:
+            type: integer
+          tax_id:
+            type: 'null'
+          component_id:
+            type: 'null'
+          statement_id:
+            type: integer
+          customer_id:
+            type: integer
+    example:
+      refund:
+        id: 162272485
+        subscription_id: 15236915
+        type: Refund
+        kind: null
+        transaction_type: refund
+        success: true
+        amount_in_cents: 10000
+        memo: Your memo here.
+        created_at: '2016-11-14T15:14:14-05:00'
+        starting_balance_in_cents: 0
+        ending_balance_in_cents: 0
+        gateway_used: bogus
+        gateway_transaction_id: null
+        gateway_order_id: null
+        payment_id: 162269766
+        product_id: 3792003
+        tax_id: null
+        component_id: null
+        statement_id: 80500632
+        customer_id: 14714298
+    x-stoplight:
+      id: refunds/create-a-refund-response
+      name: Create a Refund Response
+      public: true
+  transactions/transaction-response:
+    title: Transaction Response
+    type: object
+    properties:
+      transaction:
+        type: object
+        properties:
+          id:
+            type: integer
+          subscription_id:
+            type: integer
+          type:
+            type: string
+          kind:
+            type: string
+          transaction_type:
+            type: string
+          success:
+            type: boolean
+          amount_in_cents:
+            type: integer
+          memo:
+            type: string
+          created_at:
+            type: string
+          starting_balance_in_cents:
+            type: integer
+          ending_balance_in_cents:
+            type: integer
+          gateway_used:
+            type: string
+          gateway_transaction_id:
+            type: string
+          gateway_order_id:
+            type: 'null'
+          payment_id:
+            type: 'null'
+          product_id:
+            type: integer
+          tax_id:
+            type: 'null'
+          component_id:
+            type: 'null'
+          statement_id:
+            type: integer
+          customer_id:
+            type: integer
+          item_name:
+            type: 'null'
+          parent_id:
+            type: 'null'
+          role:
+            type: 'null'
+          card_number:
+            type: string
+          card_expiration:
+            type: string
+          card_type:
+            type: string
+          refunded_amount_in_cents:
+            type: integer
+          period_range_start:
+            type: string
+          period_range_end:
+            type: string
+          price_point_id:
+            type: integer
+          price_point_handle:
+            type: string
+    example:
+      transaction:
+        id: 237759849
+        subscription_id: 21607180
+        type: Payment
+        kind: one_time
+        transaction_type: payment
+        success: true
+        amount_in_cents: 10000
+        memo: 'Payment for: 123'
+        created_at: '2018-04-24T16:48:19-05:00'
+        starting_balance_in_cents: 10000
+        ending_balance_in_cents: 0
+        gateway_used: bogus
+        gateway_transaction_id: '53433'
+        gateway_order_id: null
+        payment_id: null
+        product_id: 4610619
+        tax_id: null
+        component_id: null
+        statement_id: 113513284
+        customer_id: 21259051
+        item_name: null
+        parent_id: null
+        role: null
+        card_number: XXXX-XXXX-XXXX-1
+        card_expiration: 01/2028
+        card_type: bogus
+        refunded_amount_in_cents: 0
+        period_range_start: '2018-04-24'
+        period_range_end: '2018-05-24'
+        price_point_id: 41975
+        price_point_handle: default-price
+    x-stoplight:
+      id: transactions/transaction-response
+      name: Transaction Response
+      public: true
+  subscriptions/subscription-import-request:
+    title: Subscription Import Request
     type: object
     properties:
       subscription:
         type: object
         properties:
-          snap_day:
+          product_handle:
+            type: string
+          next_billing_at:
+            type: string
+          customer_attributes:
+            type: object
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+              reference:
+                type: string
+              organization:
+                type: string
+          payment_profile_attributes:
+            type: object
+            properties:
+              vault_token:
+                type: string
+              customer_vault_token:
+                type: string
+              current_vault:
+                type: string
+              expiration_year:
+                type: string
+              expiration_month:
+                type: string
+              card_type:
+                type: string
+              last_four:
+                type: string
+    example:
+      subscription:
+        product_handle: basic
+        next_billing_at: '2010-08-29T12:00:00-04:00'
+        previous_billing_at: '2010-07-29T12:00:00-04:00'
+        customer_attributes:
+          first_name: John
+          last_name: Doe
+          email: john.doe@example.com
+          reference: '123'
+          organization: Acme Widgets
+        payment_profile_attributes:
+          vault_token: '12345'
+          customer_vault_token: '67890'
+          current_vault: authorizenet
+          expiration_year: '2020'
+          expiration_month: '12'
+          card_type: visa
+          last_four: '1111'
+    x-stoplight:
+      id: subscriptions/subscription-import-request
+      name: Subscription Import Request
+      public: true
+  subscriptions/cancel-subscription-request:
+    title: Cancel Subscription Request
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          cancellation_message:
+            type: string
+          cancellation_method:
+            type: string
+          reason_code:
             type: string
     example:
       subscription:
-        snap_day: end
+        cancellation_message: Canceling the subscription via the API
     x-stoplight:
-      id: subscriptions/update-subscription-billing-day-change-request
-      name: 'Update Subscription: Billing Day Change Request'
+      id: subscriptions/cancel-subscription-request
+      name: Cancel Subscription Request
+      public: true
+  statements/count-statements-response:
+    title: Count Statements Response
+    type: object
+    properties:
+      count:
+        type: integer
+    example:
+      count: 129
+    x-stoplight:
+      id: statements/count-statements-response
+      name: Count Statements Response
       public: true
   subscriptions/subscription-import-response:
     title: Subscription Import Response
@@ -27607,221 +27823,6 @@ definitions:
       id: subscriptions/subscription-import-response
       name: Subscription Import Response
       public: true
-  subscriptions/change-default-payment-profile-response:
-    title: Create Default Payment Profile Response
-    type: object
-    properties:
-      payment_profile:
-        type: object
-        properties:
-          id:
-            type: integer
-          first_name:
-            type: string
-          last_name:
-            type: string
-          masked_card_number:
-            type: string
-          card_type:
-            type: string
-          expiration_month:
-            type: integer
-          expiration_year:
-            type: integer
-          customer_id:
-            type: integer
-          current_vault:
-            type: string
-          vault_token:
-            type: string
-          billing_address:
-            type: string
-          billing_city:
-            type: string
-          billing_state:
-            type: string
-          billing_zip:
-            type: string
-          billing_country:
-            type: string
-          customer_vault_token:
-            type: 'null'
-          billing_address_2:
-            type: string
-          payment_type:
-            type: string
-    example:
-      payment_profile:
-        id: 10211899
-        first_name: Amelia
-        last_name: Example
-        masked_card_number: XXXX-XXXX-XXXX-1
-        card_type: bogus
-        expiration_month: 2
-        expiration_year: 2018
-        customer_id: 14399371
-        current_vault: bogus
-        vault_token: '1'
-        billing_address: ''
-        billing_city: ''
-        billing_state: ''
-        billing_zip: ''
-        billing_country: ''
-        customer_vault_token: null
-        billing_address_2: ''
-        payment_type: credit_card
-    x-stoplight:
-      id: subscriptions/change-default-payment-profile-response
-      name: Create Default Payment Profile Response
-      public: true
-  transactions/transaction-response:
-    title: Transaction Response
-    type: object
-    properties:
-      transaction:
-        type: object
-        properties:
-          id:
-            type: integer
-          subscription_id:
-            type: integer
-          type:
-            type: string
-          kind:
-            type: string
-          transaction_type:
-            type: string
-          success:
-            type: boolean
-          amount_in_cents:
-            type: integer
-          memo:
-            type: string
-          created_at:
-            type: string
-          starting_balance_in_cents:
-            type: integer
-          ending_balance_in_cents:
-            type: integer
-          gateway_used:
-            type: string
-          gateway_transaction_id:
-            type: string
-          gateway_order_id:
-            type: 'null'
-          payment_id:
-            type: 'null'
-          product_id:
-            type: integer
-          tax_id:
-            type: 'null'
-          component_id:
-            type: 'null'
-          statement_id:
-            type: integer
-          customer_id:
-            type: integer
-          item_name:
-            type: 'null'
-          parent_id:
-            type: 'null'
-          role:
-            type: 'null'
-          card_number:
-            type: string
-          card_expiration:
-            type: string
-          card_type:
-            type: string
-          refunded_amount_in_cents:
-            type: integer
-          period_range_start:
-            type: string
-          period_range_end:
-            type: string
-          price_point_id:
-            type: integer
-          price_point_handle:
-            type: string
-    example:
-      transaction:
-        id: 237759849
-        subscription_id: 21607180
-        type: Payment
-        kind: one_time
-        transaction_type: payment
-        success: true
-        amount_in_cents: 10000
-        memo: 'Payment for: 123'
-        created_at: '2018-04-24T16:48:19-05:00'
-        starting_balance_in_cents: 10000
-        ending_balance_in_cents: 0
-        gateway_used: bogus
-        gateway_transaction_id: '53433'
-        gateway_order_id: null
-        payment_id: null
-        product_id: 4610619
-        tax_id: null
-        component_id: null
-        statement_id: 113513284
-        customer_id: 21259051
-        item_name: null
-        parent_id: null
-        role: null
-        card_number: XXXX-XXXX-XXXX-1
-        card_expiration: 01/2028
-        card_type: bogus
-        refunded_amount_in_cents: 0
-        period_range_start: '2018-04-24'
-        period_range_end: '2018-05-24'
-        price_point_id: 41975
-        price_point_handle: default-price
-    x-stoplight:
-      id: transactions/transaction-response
-      name: Transaction Response
-      public: true
-  subscriptions/subscription-preview-request:
-    title: Subscription Preview Request
-    type: object
-    properties:
-      subscription:
-        type: object
-        properties:
-          product_handle:
-            type: string
-          product_price_point_handle:
-            type: string
-          coupon_code:
-            type: string
-          components:
-            type: array
-            items:
-              type: object
-              properties:
-                component_id:
-                  type: integer
-                allocated_quantity:
-                  type: integer
-                unit_balance:
-                  type: integer
-                quantity:
-                  type: integer
-    example:
-      subscription:
-        product_handle: gold-product
-        product_price_point_handle: default
-        coupon_code: 1DOLLAR
-        components:
-          - component_id: 462149
-            allocated_quantity: 14
-          - component_id: 426665
-            unit_balance: 20
-          - component_id: 426670
-            quantity: 1
-    x-stoplight:
-      id: subscriptions/subscription-preview-request
-      name: Subscription Preview Request
-      public: true
   subscriptions/subscription-override-request:
     title: Subscription Override Request
     type: object
@@ -27926,6 +27927,258 @@ definitions:
     x-stoplight:
       id: coupons/create-coupon-input-percentage
       name: Create Coupon Input Percentage
+      public: true
+  coupons/list-coupons-for-a-site-output:
+    title: List Coupons for a Site Output
+    type: array
+    items:
+      type: object
+      properties:
+        coupon:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the coupon in Chargify.
+            name:
+              type: string
+              description: The na
+            code:
+              type: string
+            description:
+              type: string
+            amount_in_cents:
+              type: 'null'
+            product_family_id:
+              type: integer
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            start_date:
+              type: string
+            end_date:
+              type: 'null'
+            percentage:
+              type:
+                - string
+                - 'null'
+            recurring:
+              type: boolean
+            duration_period_count:
+              type: 'null'
+            duration_interval:
+              type: integer
+            duration_interval_unit:
+              type: string
+            allow_negative_balance:
+              type: boolean
+            archived_at:
+              type: 'null'
+            conversion_limit:
+              type: integer
+            stackable:
+              type: boolean
+            compounding_strategy:
+              type: string
+            coupon_restrictions:
+              type: array
+              items:
+                type: object
+    example:
+      - coupon:
+          id: 999999
+          name: 50% coupon
+          code: 50PERCENT
+          description: 50 PERCENT OFF
+          amount_in_cents: null
+          product_family_id: 527890
+          created_at: '2016-10-21T17:02:08-04:00'
+          updated_at: '2016-10-21T17:06:11-04:00'
+          start_date: '2016-10-21T17:02:08-04:00'
+          end_date: null
+          percentage: 50
+          recurring: true
+          duration_period_count: null
+          duration_interval: 1
+          duration_interval_unit: day
+          allow_negative_balance: true
+          archived_at: null
+          conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
+      - coupon:
+          id: 123456
+          name: 100% coupon
+          code: 100PERCENT
+          description: 100 PERCENT OFF
+          amount_in_cents: null
+          product_family_id: 527890
+          created_at: '2016-10-21T17:02:08-04:00'
+          updated_at: '2016-10-21T17:06:11-04:00'
+          start_date: '2016-10-21T17:02:08-04:00'
+          end_date: null
+          percentage: 50
+          recurring: true
+          duration_period_count: null
+          duration_interval: 1
+          duration_interval_unit: day
+          allow_negative_balance: true
+          archived_at: null
+          conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
+      - coupon:
+          id: 888888
+          name: 25% coupon
+          code: 25PERCENT
+          description: 25 PERCENT OFF
+          amount_in_cents: null
+          product_family_id: 527890
+          created_at: '2016-10-21T17:02:08-04:00'
+          updated_at: '2016-10-21T17:06:11-04:00'
+          start_date: '2016-10-21T17:02:08-04:00'
+          end_date: null
+          percentage: 25
+          recurring: true
+          duration_period_count: null
+          duration_interval: 1
+          duration_interval_unit: day
+          allow_negative_balance: true
+          archived_at: null
+          conversion_limit: 100
+          stackable: false
+          compounding_strategy: compound
+          coupon_restrictions: []
+    x-stoplight:
+      id: coupons/list-coupons-for-a-site-output
+      name: List Coupons for a Site Output
+      public: true
+  customers/list-customers-for-a-site-output:
+    title: Read Customers for a Site Output
+    type: array
+    items:
+      type: object
+      properties:
+        customer:
+          type: object
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            email:
+              type: string
+            cc_emails:
+              type: string
+            organization:
+              type: string
+            reference:
+              type: 'null'
+            id:
+              type: integer
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            address:
+              type: string
+            address_2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            country:
+              type: string
+            phone:
+              type: string
+            verified:
+              type: 'null'
+            portal_customer_created_at:
+              type: string
+            portal_invite_last_sent_at:
+              type: string
+            portal_invite_last_accepted_at:
+              type: 'null'
+            tax_exempt:
+              type: boolean
+            parent_id:
+              type: integer
+    example:
+      - customer:
+          first_name: Kayla
+          last_name: Test
+          email: kayla@example.com
+          cc_emails: 'john@example.com, sue@example.com'
+          organization: ''
+          reference: null
+          id: 14126091
+          created_at: '2016-10-04T15:22:27-04:00'
+          updated_at: '2016-10-04T15:22:30-04:00'
+          address: ''
+          address_2: ''
+          city: ''
+          state: ''
+          zip: ''
+          country: ''
+          phone: ''
+          verified: null
+          portal_customer_created_at: '2016-10-04T15:22:29-04:00'
+          portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+          portal_invite_last_accepted_at: null
+          tax_exempt: false
+      - customer:
+          first_name: 'Nick '
+          last_name: Test
+          email: nick@example.com
+          cc_emails: 'john@example.com, sue@example.com'
+          organization: ''
+          reference: null
+          id: 14254093
+          created_at: '2016-10-13T16:52:51-04:00'
+          updated_at: '2016-10-13T16:52:54-04:00'
+          address: ''
+          address_2: ''
+          city: ''
+          state: ''
+          zip: ''
+          country: ''
+          phone: ''
+          verified: null
+          portal_customer_created_at: '2016-10-13T16:52:54-04:00'
+          portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+          portal_invite_last_accepted_at: null
+          tax_exempt: false
+      - customer:
+          first_name: Don
+          last_name: Test
+          email: don@example.com
+          cc_emails: 'john@example.com, sue@example.com'
+          organization: ''
+          reference: null
+          id: 14332342
+          created_at: '2016-10-19T10:49:13-04:00'
+          updated_at: '2016-10-19T10:49:19-04:00'
+          address: 1737 15th St
+          address_2: ''
+          city: Boulder
+          state: CO
+          zip: '80302'
+          country: US
+          phone: ''
+          verified: null
+          portal_customer_created_at: '2016-10-19T10:49:19-04:00'
+          portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+          portal_invite_last_accepted_at: null
+          tax_exempt: false
+    x-stoplight:
+      id: customers/list-customers-for-a-site-output
+      name: Read Customers for a Site Output
       public: true
   coupon/create-subscription-with-coupon-output:
     title: Create Subscription with Coupon Output
@@ -28285,6 +28538,45 @@ definitions:
       id: coupon/create-subscription-with-coupon-output
       name: Create Subscription with Coupon Output
       public: true
+  coupon/subcodes/create-a-coupon-subcode:
+    title: Create a Coupon Subcode Input
+    type: object
+    example:
+      codes:
+        - 15OFF
+        - 20OFF
+        - 50 OFF
+    x-stoplight:
+      id: coupon/subcodes/create-a-coupon-subcode
+      name: Create a Coupon Subcode Input
+      public: true
+  coupons/subcodes/create-a-coupon-subcode-output:
+    title: Create a Coupon Subcode Output
+    type: object
+    properties:
+      created_codes:
+        type: array
+        items:
+          type: string
+      duplicate_codes:
+        type: array
+        items:
+          type: object
+      invalid_codes:
+        type: array
+        items:
+          type: object
+    example:
+      created_codes:
+        - BALTIMOREFALL
+        - ORLANDOFALL
+        - DETROITFALL
+      duplicate_codes: []
+      invalid_codes: []
+    x-stoplight:
+      id: coupons/subcodes/create-a-coupon-subcode-output
+      name: Create a Coupon Subcode Output
+      public: true
   coupons/coupon-usage-output:
     title: Coupon Usage Output
     type: array
@@ -28344,6 +28636,40 @@ definitions:
       id: coupons/coupon-usage-output
       name: Coupon Usage Output
       public: true
+  coupons/subcodes/retrieve-coupon-subcodes-output:
+    title: Read Coupon Subcodes for a Site
+    type: object
+    properties:
+      codes:
+        type: array
+        items:
+          type: string
+    example:
+      codes:
+        - 3JU6PR
+        - 9RO6MP
+        - 8OG1VV
+        - 5FL7VV
+        - 2SV8XK
+        - 4LW8LH
+        - 3VL4GZ
+        - 9UI9XO
+        - 0LZ0CC
+        - 8XI9JV
+        - 9UV5YE
+        - 3UI4GX
+        - 6SL5ST
+        - 9WC8IJ
+        - 2KA3PZ
+        - 7WR1VR
+        - 3VY7MN
+        - 6KC3KB
+        - 7DF7YT
+        - 9FH1ED
+    x-stoplight:
+      id: coupons/subcodes/retrieve-coupon-subcodes-output
+      name: Read Coupon Subcodes for a Site
+      public: true
   coupon/create-subscription-with-coupon-input:
     title: Create Subscription with Coupon Input
     type: object
@@ -28388,331 +28714,6 @@ definitions:
     x-stoplight:
       id: coupon/create-subscription-with-coupon-input
       name: Create Subscription with Coupon Input
-      public: true
-  coupons/list-coupons-for-a-site-output:
-    title: List Coupons for a Site Output
-    type: array
-    items:
-      type: object
-      properties:
-        coupon:
-          type: object
-          properties:
-            id:
-              type: integer
-              description: The ID of the coupon in Chargify.
-            name:
-              type: string
-              description: The na
-            code:
-              type: string
-            description:
-              type: string
-            amount_in_cents:
-              type: 'null'
-            product_family_id:
-              type: integer
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            start_date:
-              type: string
-            end_date:
-              type: 'null'
-            percentage:
-              type:
-                - string
-                - 'null'
-            recurring:
-              type: boolean
-            duration_period_count:
-              type: 'null'
-            duration_interval:
-              type: integer
-            duration_interval_unit:
-              type: string
-            allow_negative_balance:
-              type: boolean
-            archived_at:
-              type: 'null'
-            conversion_limit:
-              type: integer
-            stackable:
-              type: boolean
-            compounding_strategy:
-              type: string
-            coupon_restrictions:
-              type: array
-              items:
-                type: object
-    example:
-      - coupon:
-          id: 999999
-          name: 50% coupon
-          code: 50PERCENT
-          description: 50 PERCENT OFF
-          amount_in_cents: null
-          product_family_id: 527890
-          created_at: '2016-10-21T17:02:08-04:00'
-          updated_at: '2016-10-21T17:06:11-04:00'
-          start_date: '2016-10-21T17:02:08-04:00'
-          end_date: null
-          percentage: 50
-          recurring: true
-          duration_period_count: null
-          duration_interval: 1
-          duration_interval_unit: day
-          allow_negative_balance: true
-          archived_at: null
-          conversion_limit: 100
-          stackable: false
-          compounding_strategy: compound
-          coupon_restrictions: []
-      - coupon:
-          id: 123456
-          name: 100% coupon
-          code: 100PERCENT
-          description: 100 PERCENT OFF
-          amount_in_cents: null
-          product_family_id: 527890
-          created_at: '2016-10-21T17:02:08-04:00'
-          updated_at: '2016-10-21T17:06:11-04:00'
-          start_date: '2016-10-21T17:02:08-04:00'
-          end_date: null
-          percentage: 50
-          recurring: true
-          duration_period_count: null
-          duration_interval: 1
-          duration_interval_unit: day
-          allow_negative_balance: true
-          archived_at: null
-          conversion_limit: 100
-          stackable: false
-          compounding_strategy: compound
-          coupon_restrictions: []
-      - coupon:
-          id: 888888
-          name: 25% coupon
-          code: 25PERCENT
-          description: 25 PERCENT OFF
-          amount_in_cents: null
-          product_family_id: 527890
-          created_at: '2016-10-21T17:02:08-04:00'
-          updated_at: '2016-10-21T17:06:11-04:00'
-          start_date: '2016-10-21T17:02:08-04:00'
-          end_date: null
-          percentage: 25
-          recurring: true
-          duration_period_count: null
-          duration_interval: 1
-          duration_interval_unit: day
-          allow_negative_balance: true
-          archived_at: null
-          conversion_limit: 100
-          stackable: false
-          compounding_strategy: compound
-          coupon_restrictions: []
-    x-stoplight:
-      id: coupons/list-coupons-for-a-site-output
-      name: List Coupons for a Site Output
-      public: true
-  customers/list-customers-for-a-site-output:
-    title: Read Customers for a Site Output
-    type: array
-    items:
-      type: object
-      properties:
-        customer:
-          type: object
-          properties:
-            first_name:
-              type: string
-            last_name:
-              type: string
-            email:
-              type: string
-            cc_emails:
-              type: string
-            organization:
-              type: string
-            reference:
-              type: 'null'
-            id:
-              type: integer
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            address:
-              type: string
-            address_2:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            country:
-              type: string
-            phone:
-              type: string
-            verified:
-              type: 'null'
-            portal_customer_created_at:
-              type: string
-            portal_invite_last_sent_at:
-              type: string
-            portal_invite_last_accepted_at:
-              type: 'null'
-            tax_exempt:
-              type: boolean
-            parent_id:
-              type: integer
-    example:
-      - customer:
-          first_name: Kayla
-          last_name: Test
-          email: kayla@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14126091
-          created_at: '2016-10-04T15:22:27-04:00'
-          updated_at: '2016-10-04T15:22:30-04:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-          portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: 'Nick '
-          last_name: Test
-          email: nick@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14254093
-          created_at: '2016-10-13T16:52:51-04:00'
-          updated_at: '2016-10-13T16:52:54-04:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-          portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: Don
-          last_name: Test
-          email: don@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14332342
-          created_at: '2016-10-19T10:49:13-04:00'
-          updated_at: '2016-10-19T10:49:19-04:00'
-          address: 1737 15th St
-          address_2: ''
-          city: Boulder
-          state: CO
-          zip: '80302'
-          country: US
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-          portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-    x-stoplight:
-      id: customers/list-customers-for-a-site-output
-      name: Read Customers for a Site Output
-      public: true
-  coupon/subcodes/create-a-coupon-subcode:
-    title: Create a Coupon Subcode Input
-    type: object
-    example:
-      codes:
-        - 15OFF
-        - 20OFF
-        - 50 OFF
-    x-stoplight:
-      id: coupon/subcodes/create-a-coupon-subcode
-      name: Create a Coupon Subcode Input
-      public: true
-  coupons/subcodes/create-a-coupon-subcode-output:
-    title: Create a Coupon Subcode Output
-    type: object
-    properties:
-      created_codes:
-        type: array
-        items:
-          type: string
-      duplicate_codes:
-        type: array
-        items:
-          type: object
-      invalid_codes:
-        type: array
-        items:
-          type: object
-    example:
-      created_codes:
-        - BALTIMOREFALL
-        - ORLANDOFALL
-        - DETROITFALL
-      duplicate_codes: []
-      invalid_codes: []
-    x-stoplight:
-      id: coupons/subcodes/create-a-coupon-subcode-output
-      name: Create a Coupon Subcode Output
-      public: true
-  coupons/subcodes/retrieve-coupon-subcodes-output:
-    title: Read Coupon Subcodes for a Site
-    type: object
-    properties:
-      codes:
-        type: array
-        items:
-          type: string
-    example:
-      codes:
-        - 3JU6PR
-        - 9RO6MP
-        - 8OG1VV
-        - 5FL7VV
-        - 2SV8XK
-        - 4LW8LH
-        - 3VL4GZ
-        - 9UI9XO
-        - 0LZ0CC
-        - 8XI9JV
-        - 9UV5YE
-        - 3UI4GX
-        - 6SL5ST
-        - 9WC8IJ
-        - 2KA3PZ
-        - 7WR1VR
-        - 3VY7MN
-        - 6KC3KB
-        - 7DF7YT
-        - 9FH1ED
-    x-stoplight:
-      id: coupons/subcodes/retrieve-coupon-subcodes-output
-      name: Read Coupon Subcodes for a Site
       public: true
   customers/search-for-customer-output:
     title: Search for Customer Output
@@ -28879,6 +28880,65 @@ definitions:
     x-stoplight:
       id: customers/search-for-customer-output
       name: Search for Customer Output
+      public: true
+  customer/create-a-customer-input:
+    title: Create a Customer Input
+    type: object
+    properties:
+      customer:
+        type: object
+        properties:
+          first_name:
+            type: string
+          last_name:
+            type: string
+          email:
+            type: string
+          cc_emails:
+            type: string
+          organization:
+            type: string
+          reference:
+            type: string
+          address:
+            type: string
+          address2:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zip:
+            type: string
+          country:
+            type: string
+          phone:
+            type: string
+          metafields:
+            type: object
+            properties:
+              metafield_name:
+                type: string
+    example:
+      customer:
+        first_name: Martha
+        last_name: Washington
+        email: martha@example.com
+        cc_emails: george@example.com
+        organization: 'ABC, Inc.'
+        reference: '1234567890'
+        address: 123 Main Street
+        address2: Unit 10
+        city: Anytown
+        state: MA
+        zip: '02120'
+        country: US
+        phone: 555-555-1212
+        metafields:
+          metafield_name: blue
+    x-stoplight:
+      id: customer/create-a-customer-input
+      name: Create a Customer Input
       public: true
   metadata/read-metadata-for-a-site:
     title: Read Metadata Data for Site Output
@@ -29120,6 +29180,478 @@ definitions:
     x-stoplight:
       id: metadata/read-metadata-subscribers-output
       name: Read Metadata for Subscribers Output
+      public: true
+  sales-receipts/get-a-sales-receipt-output:
+    title: Get a Sales Receipt Output
+    type: object
+    properties:
+      id:
+        type: string
+      site_id:
+        type: integer
+      subscription_id:
+        type: integer
+      transaction_time:
+        type: string
+      number:
+        type: integer
+      currency:
+        type: string
+      subtotal_in_cents:
+        type: integer
+      discount_in_cents:
+        type: integer
+      taxable_subtotal_in_cents:
+        type: integer
+      tax_in_cents:
+        type: integer
+      total_in_cents:
+        type: integer
+      liability_debit_in_cents:
+        type: integer
+      customer:
+        type: object
+        properties:
+          id:
+            type: integer
+          first_name:
+            type: string
+          last_name:
+            type: string
+          email:
+            type: string
+          organization:
+            type: string
+          reference:
+            type: string
+      shipping_address:
+        type: object
+        properties:
+          line_1:
+            type: string
+          line_2:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zip:
+            type: string
+          country:
+            type: string
+      billing_address:
+        type: object
+        properties:
+          line_1:
+            type: string
+          line_2:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zip:
+            type: string
+          country:
+            type: string
+      line_items:
+        type: array
+        items:
+          type: object
+          properties:
+            transaction_id:
+              type: integer
+            amount_in_cents:
+              type: integer
+            discount_in_cents:
+              type: integer
+            tax_in_cents:
+              type: integer
+            accounting_code:
+              type:
+                - 'null'
+                - string
+            kind:
+              type: string
+            item_type:
+              type: string
+            item_id:
+              type: integer
+            item_name:
+              type: string
+            product_id:
+              type: integer
+            taxable:
+              type: boolean
+            description:
+              type: string
+      discounts:
+        type: array
+        items:
+          type: object
+          properties:
+            transaction_id:
+              type: integer
+            amount_in_cents:
+              type: integer
+            item_type:
+              type: string
+            item_id:
+              type: integer
+            item_name:
+              type: string
+            description:
+              type: string
+      taxes:
+        type: array
+        items:
+          type: object
+          properties:
+            transaction_id:
+              type: integer
+            amount_in_cents:
+              type: integer
+            item_type:
+              type: string
+            item_id:
+              type: integer
+            item_name:
+              type: string
+            description:
+              type: string
+      payments:
+        type: array
+        items:
+          type: object
+          properties:
+            transaction_id:
+              type: integer
+            liability_account:
+              type: string
+            amount_in_cents:
+              type: integer
+            kind:
+              type: 'null'
+            description:
+              type: string
+            payment_method:
+              type: object
+              properties:
+                masked_card_number:
+                  type: string
+                card_expiration:
+                  type: string
+                card_brand:
+                  type: string
+    example:
+      id: f22b6080-4c28-11e5-93ee-000a27020040
+      site_id: 1
+      subscription_id: 1
+      transaction_time: '2015-08-26T15:30:45-04:00'
+      number: 1
+      currency: USD
+      subtotal_in_cents: 7200
+      discount_in_cents: 720
+      taxable_subtotal_in_cents: 6480
+      tax_in_cents: 549
+      total_in_cents: 7029
+      liability_debit_in_cents: 0
+      customer:
+        id: 1
+        first_name: Mark
+        last_name: Wahlberg
+        email: marky@example.com
+        organization: The Funky Bunch
+        reference: marky
+      shipping_address:
+        line_1: 100 Shipping St.
+        line_2: Apt 200
+        city: Pleasantville
+        state: CA
+        zip: '12345'
+        country: US
+      billing_address:
+        line_1: 1 Infinite Loop
+        line_2: Suite 100
+        city: Cupertino
+        state: CA
+        zip: '95014'
+        country: US
+      line_items:
+        - transaction_id: 1
+          amount_in_cents: 2900
+          discount_in_cents: 290
+          tax_in_cents: 261
+          accounting_code: basic-plan-000
+          kind: baseline
+          item_type: Product
+          item_id: 1
+          item_name: Basic Plan
+          product_id: 1
+          taxable: true
+          description: Basic Plan (08/26/2015 - 09/26/2015)
+        - transaction_id: 2
+          amount_in_cents: 1000
+          discount_in_cents: 100
+          tax_in_cents: 90
+          accounting_code: null
+          kind: quantity_based_component
+          item_type: QuantityBasedComponent
+          item_id: 1
+          item_name: Taxable Widget
+          product_id: 1
+          taxable: true
+          description: 'Taxable Widget: 10 units'
+        - transaction_id: 3
+          amount_in_cents: 500
+          discount_in_cents: 50
+          tax_in_cents: 0
+          accounting_code: null
+          kind: quantity_based_component
+          item_type: QuantityBasedComponent
+          item_id: 2
+          item_name: Non-Taxable Widget
+          product_id: 1
+          taxable: false
+          description: 'Non-Taxable Widget: 5 units'
+        - transaction_id: 4
+          amount_in_cents: 1000
+          discount_in_cents: 100
+          tax_in_cents: 90
+          accounting_code: null
+          kind: metered_component
+          item_type: MeteredComponent
+          item_id: 3
+          item_name: Taxable Minutes
+          product_id: 1
+          taxable: true
+          description: 'Taxable Minutes: 100 units'
+        - transaction_id: 5
+          amount_in_cents: 500
+          discount_in_cents: 50
+          tax_in_cents: 0
+          accounting_code: null
+          kind: metered_component
+          item_type: MeteredComponent
+          item_id: 4
+          item_name: Non-Taxable Minutes
+          product_id: 1
+          taxable: false
+          description: 'Non-Taxable Minutes: 50 units'
+        - transaction_id: 6
+          amount_in_cents: 100
+          discount_in_cents: 10
+          tax_in_cents: 9
+          accounting_code: null
+          kind: on_off_component
+          item_type: OnOffComponent
+          item_id: 6
+          item_name: Taxable Add-On
+          product_id: 1
+          taxable: true
+          description: Taxable Add-On
+        - transaction_id: 7
+          amount_in_cents: 100
+          discount_in_cents: 10
+          tax_in_cents: 0
+          accounting_code: null
+          kind: on_off_component
+          item_type: OnOffComponent
+          item_id: 8
+          item_name: Non-Taxable Add-On
+          product_id: 1
+          taxable: false
+          description: Non-Taxable Add-On
+        - transaction_id: 8
+          amount_in_cents: 1100
+          discount_in_cents: 110
+          tax_in_cents: 99
+          accounting_code: basic-plan-000
+          kind: initial
+          item_type: Product
+          item_id: 1
+          item_name: Basic Plan
+          product_id: 1
+          taxable: true
+          description: Initial/Startup fees
+      discounts:
+        - transaction_id: 9
+          amount_in_cents: -720
+          item_type: Coupon
+          item_id: 1
+          item_name: 10% Off
+          description: 'Coupon: 10PERCENT - Save 10% on new signups'
+      taxes:
+        - transaction_id: 10
+          amount_in_cents: 549
+          item_type: Tax
+          item_id: 1
+          item_name: CA Sales Tax
+          description: CA Sales Tax (10.0%)
+      payments:
+        - transaction_id: 11
+          liability_account: na
+          amount_in_cents: 7029
+          kind: null
+          description: 'Mark Wahlberg - Basic Plan: Signup payment'
+          payment_method:
+            masked_card_number: XXXX-XXXX-XXXX-1
+            card_expiration: 12/2022
+            card_brand: bogus
+    x-stoplight:
+      id: sales-receipts/get-a-sales-receipt-output
+      name: Get a Sales Receipt Output
+      public: true
+  payment-profiles/list-payment-profiles-for-a-site-outuput:
+    title: List Payment Profiles for a Site Output
+    type: array
+    items:
+      type: object
+      properties:
+        payment_profile:
+          type: object
+          properties:
+            id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+            customer_id:
+              type: integer
+            current_vault:
+              type: string
+            vault_token:
+              type: string
+            billing_address:
+              type: string
+            billing_city:
+              type: string
+            billing_state:
+              type: string
+            billing_zip:
+              type: string
+            billing_country:
+              type: string
+            customer_vault_token:
+              type: 'null'
+            billing_address_2:
+              type: string
+            bank_name:
+              type: string
+            masked_bank_routing_number:
+              type: string
+            masked_bank_account_number:
+              type: string
+            bank_account_type:
+              type: string
+            bank_account_holder_type:
+              type: string
+            payment_type:
+              type: string
+    example:
+      - payment_profile:
+          id: 10089892
+          first_name: Chester
+          last_name: Tester
+          customer_id: 14543792
+          current_vault: bogus
+          vault_token: '0011223344'
+          billing_address: 456 Juniper Court
+          billing_city: Boulder
+          billing_state: CO
+          billing_zip: '80302'
+          billing_country: US
+          customer_vault_token: null
+          billing_address_2: ''
+          bank_name: Bank of Kansas City
+          masked_bank_routing_number: XXXX6789
+          masked_bank_account_number: XXXX3344
+          bank_account_type: checking
+          bank_account_holder_type: personal
+          payment_type: bank_account
+      - payment_profile:
+          id: 10188522
+          first_name: Frankie
+          last_name: Tester
+          customer_id: 14543712
+          current_vault: bogus
+          vault_token: '123456789'
+          billing_address: 123 Montana Way
+          billing_city: Los Angeles
+          billing_state: CA
+          billing_zip: '90210'
+          billing_country: US
+          customer_vault_token: null
+          billing_address_2: ''
+          bank_name: Bank of Kansas City
+          masked_bank_routing_number: XXXX6789
+          masked_bank_account_number: XXXX6789
+          bank_account_type: checking
+          bank_account_holder_type: personal
+          payment_type: bank_account
+    x-stoplight:
+      id: payment-profiles/list-payment-profiles-for-a-site-outuput
+      name: List Payment Profiles for a Site Output
+      public: true
+  list-metadata-for-a-subscriber-output:
+    title: Read Metadata for a Subscriber Output
+    type: object
+    properties:
+      total_count:
+        type: integer
+      current_page:
+        type: integer
+      total_pages:
+        type: integer
+      per_page:
+        type: integer
+      metadata:
+        type: array
+        items:
+          type: object
+          properties:
+            value:
+              type: string
+            resource_id:
+              type: integer
+            name:
+              type: string
+    example:
+      total_count: 2
+      current_page: 1
+      total_pages: 1
+      per_page: 20
+      metadata:
+        - value: The quick brown fox
+          resource_id: 15479934
+          name: Comments
+        - value: L
+          resource_id: 15479934
+          name: T-Shirt Size
+    x-stoplight:
+      id: list-metadata-for-a-subscriber-output
+      name: Read Metadata for a Subscriber Output
+      public: true
+  metadata/update-metadata-output:
+    title: Update Metadata Output
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        resource_id:
+          type: integer
+        name:
+          type: string
+    example:
+      - value: Blue
+        resource_id: 15479934
+        name: Shirt Color
+    x-stoplight:
+      id: metadata/update-metadata-output
+      name: Update Metadata Output
       public: true
   customers/list-customers-subscriptions-array-output:
     title: Read Customers Subscriptions Array Output
@@ -29579,537 +30111,6 @@ definitions:
     x-stoplight:
       id: customers/list-customers-subscriptions-array-output
       name: Read Customers Subscriptions Array Output
-      public: true
-  customer/create-a-customer-input:
-    title: Create a Customer Input
-    type: object
-    properties:
-      customer:
-        type: object
-        properties:
-          first_name:
-            type: string
-          last_name:
-            type: string
-          email:
-            type: string
-          cc_emails:
-            type: string
-          organization:
-            type: string
-          reference:
-            type: string
-          address:
-            type: string
-          address2:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          zip:
-            type: string
-          country:
-            type: string
-          phone:
-            type: string
-          metafields:
-            type: object
-            properties:
-              metafield_name:
-                type: string
-    example:
-      customer:
-        first_name: Martha
-        last_name: Washington
-        email: martha@example.com
-        cc_emails: george@example.com
-        organization: 'ABC, Inc.'
-        reference: '1234567890'
-        address: 123 Main Street
-        address2: Unit 10
-        city: Anytown
-        state: MA
-        zip: '02120'
-        country: US
-        phone: 555-555-1212
-        metafields:
-          metafield_name: blue
-    x-stoplight:
-      id: customer/create-a-customer-input
-      name: Create a Customer Input
-      public: true
-  payment-profiles/list-payment-profiles-for-a-site-outuput:
-    title: List Payment Profiles for a Site Output
-    type: array
-    items:
-      type: object
-      properties:
-        payment_profile:
-          type: object
-          properties:
-            id:
-              type: integer
-            first_name:
-              type: string
-            last_name:
-              type: string
-            customer_id:
-              type: integer
-            current_vault:
-              type: string
-            vault_token:
-              type: string
-            billing_address:
-              type: string
-            billing_city:
-              type: string
-            billing_state:
-              type: string
-            billing_zip:
-              type: string
-            billing_country:
-              type: string
-            customer_vault_token:
-              type: 'null'
-            billing_address_2:
-              type: string
-            bank_name:
-              type: string
-            masked_bank_routing_number:
-              type: string
-            masked_bank_account_number:
-              type: string
-            bank_account_type:
-              type: string
-            bank_account_holder_type:
-              type: string
-            payment_type:
-              type: string
-    example:
-      - payment_profile:
-          id: 10089892
-          first_name: Chester
-          last_name: Tester
-          customer_id: 14543792
-          current_vault: bogus
-          vault_token: '0011223344'
-          billing_address: 456 Juniper Court
-          billing_city: Boulder
-          billing_state: CO
-          billing_zip: '80302'
-          billing_country: US
-          customer_vault_token: null
-          billing_address_2: ''
-          bank_name: Bank of Kansas City
-          masked_bank_routing_number: XXXX6789
-          masked_bank_account_number: XXXX3344
-          bank_account_type: checking
-          bank_account_holder_type: personal
-          payment_type: bank_account
-      - payment_profile:
-          id: 10188522
-          first_name: Frankie
-          last_name: Tester
-          customer_id: 14543712
-          current_vault: bogus
-          vault_token: '123456789'
-          billing_address: 123 Montana Way
-          billing_city: Los Angeles
-          billing_state: CA
-          billing_zip: '90210'
-          billing_country: US
-          customer_vault_token: null
-          billing_address_2: ''
-          bank_name: Bank of Kansas City
-          masked_bank_routing_number: XXXX6789
-          masked_bank_account_number: XXXX6789
-          bank_account_type: checking
-          bank_account_holder_type: personal
-          payment_type: bank_account
-    x-stoplight:
-      id: payment-profiles/list-payment-profiles-for-a-site-outuput
-      name: List Payment Profiles for a Site Output
-      public: true
-  sales-receipts/get-a-sales-receipt-output:
-    title: Get a Sales Receipt Output
-    type: object
-    properties:
-      id:
-        type: string
-      site_id:
-        type: integer
-      subscription_id:
-        type: integer
-      transaction_time:
-        type: string
-      number:
-        type: integer
-      currency:
-        type: string
-      subtotal_in_cents:
-        type: integer
-      discount_in_cents:
-        type: integer
-      taxable_subtotal_in_cents:
-        type: integer
-      tax_in_cents:
-        type: integer
-      total_in_cents:
-        type: integer
-      liability_debit_in_cents:
-        type: integer
-      customer:
-        type: object
-        properties:
-          id:
-            type: integer
-          first_name:
-            type: string
-          last_name:
-            type: string
-          email:
-            type: string
-          organization:
-            type: string
-          reference:
-            type: string
-      shipping_address:
-        type: object
-        properties:
-          line_1:
-            type: string
-          line_2:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          zip:
-            type: string
-          country:
-            type: string
-      billing_address:
-        type: object
-        properties:
-          line_1:
-            type: string
-          line_2:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          zip:
-            type: string
-          country:
-            type: string
-      line_items:
-        type: array
-        items:
-          type: object
-          properties:
-            transaction_id:
-              type: integer
-            amount_in_cents:
-              type: integer
-            discount_in_cents:
-              type: integer
-            tax_in_cents:
-              type: integer
-            accounting_code:
-              type:
-                - 'null'
-                - string
-            kind:
-              type: string
-            item_type:
-              type: string
-            item_id:
-              type: integer
-            item_name:
-              type: string
-            product_id:
-              type: integer
-            taxable:
-              type: boolean
-            description:
-              type: string
-      discounts:
-        type: array
-        items:
-          type: object
-          properties:
-            transaction_id:
-              type: integer
-            amount_in_cents:
-              type: integer
-            item_type:
-              type: string
-            item_id:
-              type: integer
-            item_name:
-              type: string
-            description:
-              type: string
-      taxes:
-        type: array
-        items:
-          type: object
-          properties:
-            transaction_id:
-              type: integer
-            amount_in_cents:
-              type: integer
-            item_type:
-              type: string
-            item_id:
-              type: integer
-            item_name:
-              type: string
-            description:
-              type: string
-      payments:
-        type: array
-        items:
-          type: object
-          properties:
-            transaction_id:
-              type: integer
-            liability_account:
-              type: string
-            amount_in_cents:
-              type: integer
-            kind:
-              type: 'null'
-            description:
-              type: string
-            payment_method:
-              type: object
-              properties:
-                masked_card_number:
-                  type: string
-                card_expiration:
-                  type: string
-                card_brand:
-                  type: string
-    example:
-      id: f22b6080-4c28-11e5-93ee-000a27020040
-      site_id: 1
-      subscription_id: 1
-      transaction_time: '2015-08-26T15:30:45-04:00'
-      number: 1
-      currency: USD
-      subtotal_in_cents: 7200
-      discount_in_cents: 720
-      taxable_subtotal_in_cents: 6480
-      tax_in_cents: 549
-      total_in_cents: 7029
-      liability_debit_in_cents: 0
-      customer:
-        id: 1
-        first_name: Mark
-        last_name: Wahlberg
-        email: marky@example.com
-        organization: The Funky Bunch
-        reference: marky
-      shipping_address:
-        line_1: 100 Shipping St.
-        line_2: Apt 200
-        city: Pleasantville
-        state: CA
-        zip: '12345'
-        country: US
-      billing_address:
-        line_1: 1 Infinite Loop
-        line_2: Suite 100
-        city: Cupertino
-        state: CA
-        zip: '95014'
-        country: US
-      line_items:
-        - transaction_id: 1
-          amount_in_cents: 2900
-          discount_in_cents: 290
-          tax_in_cents: 261
-          accounting_code: basic-plan-000
-          kind: baseline
-          item_type: Product
-          item_id: 1
-          item_name: Basic Plan
-          product_id: 1
-          taxable: true
-          description: Basic Plan (08/26/2015 - 09/26/2015)
-        - transaction_id: 2
-          amount_in_cents: 1000
-          discount_in_cents: 100
-          tax_in_cents: 90
-          accounting_code: null
-          kind: quantity_based_component
-          item_type: QuantityBasedComponent
-          item_id: 1
-          item_name: Taxable Widget
-          product_id: 1
-          taxable: true
-          description: 'Taxable Widget: 10 units'
-        - transaction_id: 3
-          amount_in_cents: 500
-          discount_in_cents: 50
-          tax_in_cents: 0
-          accounting_code: null
-          kind: quantity_based_component
-          item_type: QuantityBasedComponent
-          item_id: 2
-          item_name: Non-Taxable Widget
-          product_id: 1
-          taxable: false
-          description: 'Non-Taxable Widget: 5 units'
-        - transaction_id: 4
-          amount_in_cents: 1000
-          discount_in_cents: 100
-          tax_in_cents: 90
-          accounting_code: null
-          kind: metered_component
-          item_type: MeteredComponent
-          item_id: 3
-          item_name: Taxable Minutes
-          product_id: 1
-          taxable: true
-          description: 'Taxable Minutes: 100 units'
-        - transaction_id: 5
-          amount_in_cents: 500
-          discount_in_cents: 50
-          tax_in_cents: 0
-          accounting_code: null
-          kind: metered_component
-          item_type: MeteredComponent
-          item_id: 4
-          item_name: Non-Taxable Minutes
-          product_id: 1
-          taxable: false
-          description: 'Non-Taxable Minutes: 50 units'
-        - transaction_id: 6
-          amount_in_cents: 100
-          discount_in_cents: 10
-          tax_in_cents: 9
-          accounting_code: null
-          kind: on_off_component
-          item_type: OnOffComponent
-          item_id: 6
-          item_name: Taxable Add-On
-          product_id: 1
-          taxable: true
-          description: Taxable Add-On
-        - transaction_id: 7
-          amount_in_cents: 100
-          discount_in_cents: 10
-          tax_in_cents: 0
-          accounting_code: null
-          kind: on_off_component
-          item_type: OnOffComponent
-          item_id: 8
-          item_name: Non-Taxable Add-On
-          product_id: 1
-          taxable: false
-          description: Non-Taxable Add-On
-        - transaction_id: 8
-          amount_in_cents: 1100
-          discount_in_cents: 110
-          tax_in_cents: 99
-          accounting_code: basic-plan-000
-          kind: initial
-          item_type: Product
-          item_id: 1
-          item_name: Basic Plan
-          product_id: 1
-          taxable: true
-          description: Initial/Startup fees
-      discounts:
-        - transaction_id: 9
-          amount_in_cents: -720
-          item_type: Coupon
-          item_id: 1
-          item_name: 10% Off
-          description: 'Coupon: 10PERCENT - Save 10% on new signups'
-      taxes:
-        - transaction_id: 10
-          amount_in_cents: 549
-          item_type: Tax
-          item_id: 1
-          item_name: CA Sales Tax
-          description: CA Sales Tax (10.0%)
-      payments:
-        - transaction_id: 11
-          liability_account: na
-          amount_in_cents: 7029
-          kind: null
-          description: 'Mark Wahlberg - Basic Plan: Signup payment'
-          payment_method:
-            masked_card_number: XXXX-XXXX-XXXX-1
-            card_expiration: 12/2022
-            card_brand: bogus
-    x-stoplight:
-      id: sales-receipts/get-a-sales-receipt-output
-      name: Get a Sales Receipt Output
-      public: true
-  list-metadata-for-a-subscriber-output:
-    title: Read Metadata for a Subscriber Output
-    type: object
-    properties:
-      total_count:
-        type: integer
-      current_page:
-        type: integer
-      total_pages:
-        type: integer
-      per_page:
-        type: integer
-      metadata:
-        type: array
-        items:
-          type: object
-          properties:
-            value:
-              type: string
-            resource_id:
-              type: integer
-            name:
-              type: string
-    example:
-      total_count: 2
-      current_page: 1
-      total_pages: 1
-      per_page: 20
-      metadata:
-        - value: The quick brown fox
-          resource_id: 15479934
-          name: Comments
-        - value: L
-          resource_id: 15479934
-          name: T-Shirt Size
-    x-stoplight:
-      id: list-metadata-for-a-subscriber-output
-      name: Read Metadata for a Subscriber Output
-      public: true
-  metadata/update-metadata-output:
-    title: Update Metadata Output
-    type: array
-    items:
-      type: object
-      properties:
-        value:
-          type: string
-        resource_id:
-          type: integer
-        name:
-          type: string
-    example:
-      - value: Blue
-        resource_id: 15479934
-        name: Shirt Color
-    x-stoplight:
-      id: metadata/update-metadata-output
-      name: Update Metadata Output
       public: true
   components/metered/create-usage-when-creating-a-new-subscription Input:
     title: Create Usage When Creating a New Subscription Input
@@ -41726,56 +41727,6 @@ x-stoplight:
         https://subdomain.chargify.com/dashboard
         ```
       public: true
-    api-code-samples-and-libraries-1:
-      id: api-code-samples-and-libraries-1
-      name: API Code Samples & Libraries
-      content: |-
-        The following sample code has been contributed by our community of developers to help you get started with Chargify faster. The code they’ve given back to everyone represents a lot of time & work that you can benefit from as you implement Chargify with your app!
-
-        If you have usage examples or code libraries in other languages, please let us know.
-
-        Please note that these samples were graciously given to us by our users, so we don’t offer official support for them. Of course, we help where we can, but our internal knowledge is Ruby. Most of the people who made the code are happy to help, and some of them can easily be reached on Twitter.
-
-        ## PHP
-
-        + <https://github.com/chargely/chargify-sample-app>: Sample PHP app based on Zend Framework, from the makers of Chargely
-        + <https://github.com/chargely/chargify-sdk-php>: A PHP API wrapper, from the makers of Chargely
-        + <http://github.com/abraham/chargify>: Sample PHP app by Abraham Williams. <http://abrah.am>:, [@abraham](https://twitter.com/abraham)
-        + <http://github.com/jforrest/Chargify-PHP-Client>: A PHP API wrapper from Jason at RigBooks
-        + <http://github.com/lewsid/chargify_api_php>: A PHP API wrapper by one of our active beta testers.
-        + <https://github.com/ChargeIgniter/ChargeIgniter>: CodeIgniter PHP code by Kyle Anderson
-        + <https://github.com/litwicki/chargify-bundle>: API v1 and v2 integration for Symfony/Laravel apps by Jake Litwicki, [@jakelitwicki](https://twitter.com/jakelitwicki)
-
-        ## Ruby/Rails
-
-        + <http://github.com/chargify/chargify_api_ares>: This is the “official” gem by the Chargify team. It uses ActiveResource, which is built into Rails, and is a good option for easy integration.
-
-        + <http://github.com/pengwynn/chargify>: This is a Chargify gem that uses HTTParty. It was created by @pengwynn, who is one of our active beta testers. It has tests by using a Chargify “mock”.
-
-        + <http://github.com/jsmestad/chargify>: This is a Chargify gem by @jsmestad, another of our active users.
-
-        ## Python / Django
-
-        + <http://github.com/gdoermann/django-chargify>: A Django wrapper for Chargify by [@gdoermann](https://twitter.com/gdoermann)
-        + <http://github.com/getyouridx/pychargify>: A Python API wrapper by one of our active beta testers.
-        + <http://github.com/hindsightlabs/chargify-python>: A simple Python API wrapper.
-
-        ## .Net
-
-        + <http://chargify.codeplex.com>: A .Net API wrapper and complete sample app by one of our active beta testers (Kori Francis, [@djbyter](https://twitter.com/djbyter))
-
-        ## ColdFusion
-
-        + <https://github.com/GenuineParts/Chargify-Coldfusion-Component>: A simple ColdFusion cfc by Jordan Sitkin ([@specifyApp](https://twitter.com/specifyApp)). He says (as of Aug 23, 2010): “At the moment it only includes the basic functionality of the Customers and Subscriptions parts of the API, but can easily be extended to handle the rest.”
-
-        ## Java / Scala
-
-        + <https://github.com/craigwblake/chargify-scala>: A Scala API wrapper by one of our active beta testers.
-
-        ## JavaScript
-
-        + <https://github.com/natevw/node-chargify>: A simple node.js wrapper for the Chargify REST API, by (Nathan Vander Wilt, [@natevw](https://twitter.com/natevw))
-      public: false
     sites-intro:
       id: sites-intro
       name: Sites Intro
@@ -41869,6 +41820,56 @@ x-stoplight:
         | created_at      | Date and time the note was created                                    |
         | updated_at      | Last update timestamp                                                 |
       public: true
+    api-code-samples-and-libraries-1:
+      id: api-code-samples-and-libraries-1
+      name: API Code Samples & Libraries
+      content: |-
+        The following sample code has been contributed by our community of developers to help you get started with Chargify faster. The code they’ve given back to everyone represents a lot of time & work that you can benefit from as you implement Chargify with your app!
+
+        If you have usage examples or code libraries in other languages, please let us know.
+
+        Please note that these samples were graciously given to us by our users, so we don’t offer official support for them. Of course, we help where we can, but our internal knowledge is Ruby. Most of the people who made the code are happy to help, and some of them can easily be reached on Twitter.
+
+        ## PHP
+
+        + <https://github.com/chargely/chargify-sample-app>: Sample PHP app based on Zend Framework, from the makers of Chargely
+        + <https://github.com/chargely/chargify-sdk-php>: A PHP API wrapper, from the makers of Chargely
+        + <http://github.com/abraham/chargify>: Sample PHP app by Abraham Williams. <http://abrah.am>:, [@abraham](https://twitter.com/abraham)
+        + <http://github.com/jforrest/Chargify-PHP-Client>: A PHP API wrapper from Jason at RigBooks
+        + <http://github.com/lewsid/chargify_api_php>: A PHP API wrapper by one of our active beta testers.
+        + <https://github.com/ChargeIgniter/ChargeIgniter>: CodeIgniter PHP code by Kyle Anderson
+        + <https://github.com/litwicki/chargify-bundle>: API v1 and v2 integration for Symfony/Laravel apps by Jake Litwicki, [@jakelitwicki](https://twitter.com/jakelitwicki)
+
+        ## Ruby/Rails
+
+        + <http://github.com/chargify/chargify_api_ares>: This is the “official” gem by the Chargify team. It uses ActiveResource, which is built into Rails, and is a good option for easy integration.
+
+        + <http://github.com/pengwynn/chargify>: This is a Chargify gem that uses HTTParty. It was created by @pengwynn, who is one of our active beta testers. It has tests by using a Chargify “mock”.
+
+        + <http://github.com/jsmestad/chargify>: This is a Chargify gem by @jsmestad, another of our active users.
+
+        ## Python / Django
+
+        + <http://github.com/gdoermann/django-chargify>: A Django wrapper for Chargify by [@gdoermann](https://twitter.com/gdoermann)
+        + <http://github.com/getyouridx/pychargify>: A Python API wrapper by one of our active beta testers.
+        + <http://github.com/hindsightlabs/chargify-python>: A simple Python API wrapper.
+
+        ## .Net
+
+        + <http://chargify.codeplex.com>: A .Net API wrapper and complete sample app by one of our active beta testers (Kori Francis, [@djbyter](https://twitter.com/djbyter))
+
+        ## ColdFusion
+
+        + <https://github.com/GenuineParts/Chargify-Coldfusion-Component>: A simple ColdFusion cfc by Jordan Sitkin ([@specifyApp](https://twitter.com/specifyApp)). He says (as of Aug 23, 2010): “At the moment it only includes the basic functionality of the Customers and Subscriptions parts of the API, but can easily be extended to handle the rest.”
+
+        ## Java / Scala
+
+        + <https://github.com/craigwblake/chargify-scala>: A Scala API wrapper by one of our active beta testers.
+
+        ## JavaScript
+
+        + <https://github.com/natevw/node-chargify>: A simple node.js wrapper for the Chargify REST API, by (Nathan Vander Wilt, [@natevw](https://twitter.com/natevw))
+      public: false
     components-intro:
       id: components-intro
       name: Components Intro
