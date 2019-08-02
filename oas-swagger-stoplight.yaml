@@ -531,6 +531,10 @@ paths:
                 price_point_count: 1
                 price_points_url: 'http://acme.chargify.test/components/24/price_points'
                 tax_code: null
+                recurring: true
+                upgrade_charge: null
+                downgrade_credit: null
+                created_at: '2019-08-02T05:54:53-04:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -563,7 +567,53 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/component/list-specific-component-product-family-get'
+            type: object
+            properties:
+              component:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pricing_scheme:
+                    type: 'null'
+                  unit_name:
+                    type: string
+                  unit_price:
+                    type: string
+                  product_family_id:
+                    type: integer
+                  price_per_unit_in_cents:
+                    type: 'null'
+                  kind:
+                    type: string
+                  archived:
+                    type: boolean
+                  taxable:
+                    type: boolean
+                  description:
+                    type: string
+                  default_price_point_id:
+                    type: integer
+                  price_point_count:
+                    type: integer
+                  price_points_url:
+                    type: string
+                  tax_code:
+                    type: string
+                  recurring:
+                    type: boolean
+                  upgrade_charge:
+                    type:
+                      - 'null'
+                      - string
+                  downgrade_credit:
+                    type:
+                      - 'null'
+                      - string
+                  created_at:
+                    type: string
           examples:
             application/json:
               component:
@@ -582,6 +632,10 @@ paths:
                 price_point_count: 4
                 price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
                 tax_code: D0000000
+                recurring: true
+                upgrade_charge: null
+                downgrade_credit: null
+                created_at: '2019-08-02T05:54:53-04:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -918,7 +972,53 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/component/list-specific-component-product-family-get'
+            type: object
+            properties:
+              component:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pricing_scheme:
+                    type: 'null'
+                  unit_name:
+                    type: string
+                  unit_price:
+                    type: string
+                  product_family_id:
+                    type: integer
+                  price_per_unit_in_cents:
+                    type: 'null'
+                  kind:
+                    type: string
+                  archived:
+                    type: boolean
+                  taxable:
+                    type: boolean
+                  description:
+                    type: string
+                  default_price_point_id:
+                    type: integer
+                  price_point_count:
+                    type: integer
+                  price_points_url:
+                    type: string
+                  tax_code:
+                    type: string
+                  recurring:
+                    type: boolean
+                  upgrade_charge:
+                    type:
+                      - 'null'
+                      - string
+                  downgrade_credit:
+                    type:
+                      - 'null'
+                      - string
+                  created_at:
+                    type: string
           examples:
             application/json:
               component:
@@ -937,6 +1037,10 @@ paths:
                 price_point_count: 4
                 price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
                 tax_code: D0000000
+                recurring: true
+                upgrade_charge: null
+                downgrade_credit: null
+                created_at: '2019-08-02T05:54:53-04:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -21431,6 +21535,18 @@ definitions:
             type: string
           tax_code:
             type: string
+          recurring:
+            type: boolean
+          upgrade_charge:
+            type:
+              - 'null'
+              - string
+          downgrade_credit:
+            type:
+              - 'null'
+              - string
+          created_at:
+            type: string
     example:
       component:
         id: 399853
@@ -21448,6 +21564,10 @@ definitions:
         price_point_count: 4
         price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
         tax_code: D0000000
+        recurring: true
+        upgrade_charge: null
+        downgrade_credit: null
+        created_at: '2019-08-02T05:54:53-04:00'
     x-stoplight:
       id: component/list-specific-component-product-family-get
       name: Read Specific Component Product Family GET
@@ -36377,6 +36497,18 @@ definitions:
             type: string
           tax_code:
             type: 'null'
+          recurring:
+            type: boolean
+          upgrade_charge:
+            type:
+              - 'null'
+              - string
+          downgrade_credit:
+            type:
+              - 'null'
+              - string
+          created_at:
+            type: string
     example:
       component:
         id: 24
@@ -36395,6 +36527,10 @@ definitions:
         price_point_count: 1
         price_points_url: 'http://acme.chargify.test/components/24/price_points'
         tax_code: null
+        recurring: true
+        upgrade_charge: null
+        downgrade_credit: null
+        created_at: '2019-08-02T05:54:53-04:00'
     x-stoplight:
       id: read-specific-component-output
       name: Read Specific Component Output
