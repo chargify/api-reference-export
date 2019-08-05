@@ -27218,6 +27218,10 @@ definitions:
               type:
                 - integer
                 - 'null'
+            stored_credential_transaction_id:
+              type:
+                - integer
+                - 'null'
     example:
       - subscription:
           id: 15236915
@@ -27442,6 +27446,7 @@ definitions:
           next_product_id: null
           coupon_use_count: null
           coupon_uses_allowed: null
+          stored_credential_transaction_id: 123466789450288
     x-stoplight:
       id: subscriptions/create-subscription-request
       name: Create Subscription Request
