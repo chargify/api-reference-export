@@ -41580,6 +41580,8 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-request-examples
               type: docTextSections
+            - _id: subscription-threedsecure
+              type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
             - _id: subscriptions/create-subscription-request
@@ -44417,6 +44419,29 @@ x-stoplight:
         | **Gateway**               | **Value in gateway_order_id**                                                                                                                                                                                                                                                                 |
         | BPoint                    | “ReceiptNumber” from the transaction response                                                                                                                                                                                                                                                 |
         | All other gateways        | Undefined at this time                                                                                                                                                                                                                                                                        |
+      public: true
+    subscription-threedsecure:
+      id: subscription-threedsecure
+      name: Subscription 3D Secure
+      content: |-
+        ## 3D Secure
+
+        It may happen that a payment needs 3D Secure Authentication when subscription is created. 
+        Server returns `422 Unprocessable Entity` in this case with the following response:
+
+        ```
+        {
+          "errors": [
+            "Your card was declined. This transaction requires 3D secure authentication."
+          ],
+          "gateway_payment_id": "pi_1F0aGoJ2UDb3Q4av7zU3sHPh",
+          "description": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Example: http://followup-pcrm-sandbox.chargify.test/3d-secure/pi_1F0aGoJ2UDb3Q4av7zU3sHPh?one_time_token_id=242&callback_url=http://localhost:4000 will do a POST request to https://localhost:4000 after payment is authenticated.",
+          "action_link": "http://acme.chargify.com/3d-secure/pi_1F0aGoJ2UDb3Q4av7zU3sHPh?one_time_token_id=242"
+        }
+        ```
+
+        To let the customer go through 3D Secure Authentication he needs to be redirected to the URL specified in `action_link`.
+        Optionally, you can `callback_url` if you’d like to be notified about the result of 3D Secure Authentication.
       public: true
   mock:
     enabled: false
