@@ -101,72 +101,7 @@ paths:
       summary: Create Allocation for On/Off Component
       tags:
         - 'Components: On/Off Toggling'
-      description: |-
-        ## Create Allocation for On/Off Component
-
-        For full documentation on configuring allocations for subscriptions, please view the [Allocations](#docTextSection:Fupxh2M7fACmdwsDm) endpoint documentation.
-
-        After a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.
-
-        The method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
-
-        **Notice**: Allocations can only be updated for Quantity and On/Off Components.
-
-        ## Input Fields
-
-        | **Input Fields**           | **Description** |
-        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | quantity                   | For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.|
-        | memo                       | (optional) A memo to record along with the allocation |
-        | upgrade_charge             | (optional) The type of charge to be created if the change in cost is an upgrade. Defaults to the component and then site setting if one is not provided. |
-        | downgrade_credit           | (optional) The type of credit to be created if the change in cost is a downgrade. Defaults to the component and then site setting if one is not provided. |
-        | accrue_charge              | (optional) If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately. Defaults to the site setting if one is not provided. |
-        | proration_upgrade_scheme   | (deprecated) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |
-        | proration_downgrade_scheme | (deprecated) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |
-        | payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
-
-        ## Output Fields
-
-        | Output Fields              | Description                                                                                                                                                                     |
-        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                            |
-        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                              |
-        | quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                 |
-        | previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.            |
-        | memo                       | The memo passed when the allocation was created                                                                                                                                 |
-        | upgrade_charge             | The type of charge to be created if the change in cost is an upgrade.                                                                                                           |
-        | downgrade_credit           | The type of credit to be created if the change in cost is a downgrade.                                                                                                          |
-        | accrue_charge              | If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately.                             |
-        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                               |
-        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                              |
-        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                            |
-        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |
-
-        ## On/Off Component Example
-
-        The following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.
-
-        **Toggle OFF**
-
-        ```
-        {
-          "allocation": {
-            "quantity": 0,
-            "memo": "Recoding component purchase of Acme Support"
-          }
-        }
-        ```
-
-        **Toggle ON**
-
-        ```
-        {
-          "allocation": {
-            "quantity": 1,
-            "memo": "Recoding component purchase of Acme Support"
-          }
-        }
-        ```
+      description: "## Create Allocation for On/Off Component\n\nAfter a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.\n\nThe method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.\n\n**Notice**: Allocations can only be updated for Quantity and On/Off Components.\n\n## Proration Schemes\n\nChanging the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.\n\nFor background information on prorated components and upgrade/downgrade schemes, see: API: [Setting Component Allocations.](<https://help.chargify.com/subscriptions/setting-component-allocations.html>) See the tables below for valid values.\n\n| upgrade_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|----------------|-------------------------------------------------------------------|\n| `full` \_ \_ \_ \_ |\_A charge is added for the full price of the component. \_\_\_ \_ \_ \_ \_|\n| `prorated` \_ \_ |\_A charge is added for the prorated price of the component change. |\n| `none` \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| downgrade_credit | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|------------------|---------------------------------------------------|\n| `full` \_ \_ \_ \_ \_ |\_A full price credit is added for the amount owed. |\n| `prorated` \_ \_ \_ |\_A prorated credit is added for the amount owed. \_ |\n| `none` \_ \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| accrue_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_   |\n|---------------|------------------------------------------------------------------------------------------------------------|\n| `true` \_ \_ \_ \_| Attempt to charge the customer at next renewal.                                                            |\n| `false` \_ \_ \_ |\_Attempt to charge the customer right away.\_If it fails, the charge will be accrued until the next renewal. |\n\n### Order of Resolution for upgrade_charge and downgrade_credit\n\n1. Per allocation in API call (within a single allocation of the `allocations` array)\n2. [Component-level default value](<https://help.chargify.com/products/product-components.html#component-proration>)\n3. Allocation API call top level (outside of the `allocations` array)\n4. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n### Order of Resolution for accrue_charge\n\n1. Allocation API call top level (outside of the `allocations` array)\n2. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n## Input Fields\n\n| **Input Fields**           | **Description** |\n|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| quantity                   | For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.|\n| memo                       | (optional) A memo to record along with the allocation |\n| upgrade_charge             | (optional) The type of charge to be created if the change in cost is an upgrade. Defaults to the component and then site setting if one is not provided. |\n| downgrade_credit           | (optional) The type of credit to be created if the change in cost is a downgrade. Defaults to the component and then site setting if one is not provided. |\n| accrue_charge              | (optional) If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately. Defaults to the site setting if one is not provided. |\n| proration_upgrade_scheme   | (deprecated) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |\n| proration_downgrade_scheme | (deprecated) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |\n| payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |\n\n## Output Fields\n\n| Output Fields              | Description                                                                                                                                                                     |\n|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                            |\n| subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                              |\n| quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                 |\n| previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.            |\n| memo                       | The memo passed when the allocation was created                                                                                                                                 |\n| upgrade_charge             | The type of charge to be created if the change in cost is an upgrade.                                                                                                           |\n| downgrade_credit           | The type of credit to be created if the change in cost is a downgrade.                                                                                                          |\n| accrue_charge              | If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately.                             |\n| proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                               |\n| proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                              |\n| timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                            |\n| payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |\n\n## On/Off Component Example\n\nThe following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.\n\n**Toggle OFF**\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 0,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```\n\n**Toggle ON**\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 1,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```"
       parameters:
         - name: body
           in: body
@@ -26946,75 +26881,29 @@ definitions:
         subscription:
           type: object
           properties:
-            id:
-              type: integer
-            state:
+            product_handle:
               type: string
-            balance_in_cents:
-              type: integer
-            total_revenue_in_cents:
-              type: integer
-            product_price_in_cents:
-              type: integer
-            product_version_number:
-              type: integer
-            current_period_ends_at:
+            product_id:
               type: string
-            next_assessment_at:
+            ref:
               type: string
-            trial_started_at:
-              type: 'null'
-            trial_ended_at:
-              type: 'null'
-            activated_at:
-              type: string
-            expires_at:
-              type: 'null'
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            cancellation_message:
-              type:
-                - 'null'
-                - string
-            cancellation_method:
-              type:
-                - 'null'
-                - string
-            cancel_at_end_of_period:
-              type:
-                - boolean
-                - 'null'
-            canceled_at:
-              type:
-                - 'null'
-                - string
-            current_period_started_at:
-              type: string
-            previous_state:
-              type: string
-            signup_payment_id:
-              type: integer
-            signup_revenue:
-              type: string
-            delayed_cancel_at:
-              type: 'null'
             coupon_code:
-              type:
-                - 'null'
-                - string
+              type: string
             payment_collection_method:
               type: string
-            snap_day:
-              type: 'null'
-            reason_code:
-              type: 'null'
             receives_invoice_emails:
               type: boolean
             net_terms:
               type: string
-            customer:
+            customer_id:
+              type: string
+            next_billing_at:
+              type: string
+            stored_credential_transaction_id:
+              type: integer
+            payment_profile_id:
+              type: string
+            customer_attributes:
               type: object
               properties:
                 first_name:
@@ -27029,12 +26918,6 @@ definitions:
                   type: string
                 reference:
                   type: 'null'
-                id:
-                  type: integer
-                created_at:
-                  type: string
-                updated_at:
-                  type: string
                 address:
                   type: string
                 address_2:
@@ -27051,94 +26934,15 @@ definitions:
                   type: string
                 verified:
                   type: boolean
-                portal_customer_created_at:
-                  type: string
-                portal_invite_last_sent_at:
-                  type: string
-                portal_invite_last_accepted_at:
-                  type: 'null'
                 tax_exempt:
                   type: boolean
                 vat_number:
                   type: string
-            product:
+            credit_card_attributes:
               type: object
               properties:
-                id:
-                  type: integer
-                name:
+                chargify_token:
                   type: string
-                handle:
-                  type: string
-                description:
-                  type: string
-                accounting_code:
-                  type: string
-                price_in_cents:
-                  type: integer
-                interval:
-                  type: integer
-                interval_unit:
-                  type: string
-                initial_charge_in_cents:
-                  type: 'null'
-                expiration_interval:
-                  type: 'null'
-                expiration_interval_unit:
-                  type: string
-                trial_price_in_cents:
-                  type: 'null'
-                trial_interval:
-                  type: 'null'
-                trial_interval_unit:
-                  type: string
-                initial_charge_after_trial:
-                  type: boolean
-                return_params:
-                  type: string
-                request_credit_card:
-                  type: boolean
-                require_credit_card:
-                  type: boolean
-                created_at:
-                  type: string
-                updated_at:
-                  type: string
-                archived_at:
-                  type: 'null'
-                update_return_url:
-                  type: string
-                update_return_params:
-                  type: string
-                product_family:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    handle:
-                      type: string
-                    accounting_code:
-                      type: 'null'
-                    description:
-                      type: string
-                public_signup_pages:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      url:
-                        type: string
-                taxable:
-                  type: boolean
-                version_number:
-                  type: integer
-            credit_card:
-              type: object
-              properties:
                 id:
                   type: integer
                 payment_type:
@@ -27148,21 +26952,15 @@ definitions:
                 last_name:
                   type: string
                 masked_card_number:
-                  type:
-                    - 'null'
-                    - string
+                  type: string
+                full_number:
+                  type: string
                 card_type:
-                  type:
-                    - 'null'
-                    - string
+                  type: string
                 expiration_month:
-                  type:
-                    - integer
-                    - 'null'
+                  type: integer
                 expiration_year:
-                  type:
-                    - integer
-                    - 'null'
+                  type: integer
                 billing_address:
                   type: string
                 billing_address_2:
@@ -27170,9 +26968,7 @@ definitions:
                 billing_city:
                   type: string
                 billing_state:
-                  type:
-                    - 'null'
-                    - string
+                  type: 'null'
                 billing_country:
                   type: string
                 billing_zip:
@@ -27182,68 +26978,83 @@ definitions:
                 vault_token:
                   type: string
                 customer_vault_token:
-                  type: 'null'
+                  type: string
                 customer_id:
                   type: integer
-            payment_type:
-              type: string
-            referral_code:
-              type: string
-            next_product_id:
-              type: 'null'
-            coupon_use_count:
-              type:
-                - integer
-                - 'null'
-            coupon_uses_allowed:
-              type:
-                - integer
-                - 'null'
-            stored_credential_transaction_id:
-              type:
-                - integer
-                - 'null'
+                paypal_email:
+                  type: string
+                payment_method_nonce:
+                  type: string
+            bank_account_attributes:
+              type: object
+              properties:
+                chargify_token:
+                  type: string
+                bank_name:
+                  type: string
+                bank_routing_number:
+                  type: string
+                bank_account_number:
+                  type: string
+                bank_account_type:
+                  type: string
+                bank_branch_code:
+                  type: string
+                bank_iban:
+                  type: string
+                bank_account_holder_type:
+                  type: string
+                payment_type:
+                  type: string
+            components:
+              type: array
+              items:
+                type: object
+                properties:
+                  component_id:
+                    type: integer
+                  enabled:
+                    type: boolean
+                  unit_balance:
+                    type: integer
+                  allocated_quantity:
+                    type: integer
+                  price_point_id:
+                    type: integer
+            calendar_billing:
+              type: object
+              properties:
+                snap_day:
+                  type: integer
+                calendar_billing_first_charge:
+                  type: string
+            metafields:
+              type: object
+              properties:
+                color:
+                  type: string
+                comments:
+                  type: string
     example:
       - subscription:
-          id: 15236915
-          state: active
-          balance_in_cents: 0
-          total_revenue_in_cents: 14000
-          product_price_in_cents: 1000
-          product_version_number: 7
-          current_period_ends_at: '2016-11-15T14:48:10-05:00'
-          next_assessment_at: '2016-11-15T14:48:10-05:00'
-          trial_started_at: null
-          trial_ended_at: null
-          activated_at: '2016-11-14T14:48:12-05:00'
-          expires_at: null
-          created_at: '2016-11-14T14:48:10-05:00'
-          updated_at: '2016-11-14T15:24:41-05:00'
-          cancellation_message: null
-          cancellation_method: null
-          cancel_at_end_of_period: null
-          canceled_at: null
-          current_period_started_at: '2016-11-14T14:48:10-05:00'
-          previous_state: active
-          signup_payment_id: 162269766
-          signup_revenue: '260.00'
-          delayed_cancel_at: null
+          product_handle: Pro
+          product_id: '482734'
+          ref: 1q2w3e
           coupon_code: 5SNN6HFK3GBH
           payment_collection_method: automatic
-          snap_day: null
-          reason_code: null
           receives_invoice_emails: false
           net_terms: '10'
-          customer:
+          customer_id: '12345'
+          next_billing_at: 1/1/2020
+          stored_credential_transaction_id: 166465511220288
+          payment_profile_id: '54321'
+          customer_attributes:
             first_name: Curtis
             last_name: Test
             email: curtis@example.com
             cc_emails: jeff@example.com
             organization: ''
             reference: null
-            id: 14714298
-            created_at: '2016-11-14T14:48:10-05:00'
-            updated_at: '2016-11-14T14:48:13-05:00'
             address: 123 Anywhere Street
             address_2: ''
             city: Boulder
@@ -27252,56 +27063,16 @@ definitions:
             country: US
             phone: ''
             verified: false
-            portal_customer_created_at: '2016-11-14T14:48:13-05:00'
-            portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
-            portal_invite_last_accepted_at: null
             tax_exempt: false
             vat_number: 012345678
-          product:
-            id: 3792003
-            name: $10 Basic Plan
-            handle: basic
-            description: lorem ipsum
-            accounting_code: basic
-            price_in_cents: 1000
-            interval: 1
-            interval_unit: day
-            initial_charge_in_cents: null
-            expiration_interval: null
-            expiration_interval_unit: never
-            trial_price_in_cents: null
-            trial_interval: null
-            trial_interval_unit: month
-            initial_charge_after_trial: false
-            return_params: ''
-            request_credit_card: false
-            require_credit_card: false
-            created_at: '2016-03-24T13:38:39-04:00'
-            updated_at: '2016-11-03T13:03:05-04:00'
-            archived_at: null
-            update_return_url: ''
-            update_return_params: ''
-            product_family:
-              id: 527890
-              name: Acme Projects
-              handle: billing-plans
-              accounting_code: null
-              description: ''
-            public_signup_pages:
-              - id: 281054
-                url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-              - id: 281240
-                url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-              - id: 282694
-                url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-            taxable: false
-            version_number: 7
-          credit_card:
+          credit_card_attributes:
+            chargify_token: tok_cwhvpfcnbtgkd8nfkzf9dnjn
             id: 10191713
             payment_type: credit_card
             first_name: Curtis
             last_name: Test
             masked_card_number: XXXX-XXXX-XXXX-1
+            full_number: ''
             card_type: bogus
             expiration_month: 1
             expiration_year: 2026
@@ -27313,14 +27084,34 @@ definitions:
             billing_zip: '80302'
             current_vault: bogus
             vault_token: '1'
-            customer_vault_token: null
+            customer_vault_token: '1234'
             customer_id: 14714298
-          payment_type: credit_card
-          referral_code: w7kjc9
-          next_product_id: null
-          coupon_use_count: 1
-          coupon_uses_allowed: 1
-          stored_credential_transaction_id: 166465511220288
+            paypal_email: amelia@example.com
+            payment_method_nonce: abc123
+          bank_account_attributes:
+            chargify_token: tok_cwhvpfcnbtgkd8nfkzf9dnjn
+            bank_name: Best Bank
+            bank_routing_number: 021000089
+            bank_account_number: '111111111111'
+            bank_account_type: checking
+            bank_branch_code: '00006'
+            bank_iban: FR1420041010050500013M02606
+            bank_account_holder_type: business
+            payment_type: bank_account
+          components:
+            - component_id: 2500
+              enabled: true
+            - component_id: 195268
+              unit_balance: 20
+            - component_id: 2500
+              allocated_quantity: 14
+              price_point_id: 499
+          calendar_billing:
+            snap_day: 1
+            calendar_billing_first_charge: immediate
+          metafields:
+            color: blue
+            comments: Thanks!
     x-stoplight:
       id: subscriptions/create-subscription-request
       name: Create Subscription Request
