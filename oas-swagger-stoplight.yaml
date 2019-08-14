@@ -20244,10 +20244,14 @@ definitions:
           payment_id:
             type: 'null'
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
     example:
       adjustment:
@@ -21722,9 +21726,15 @@ definitions:
           item_name:
             type: string
           period_range_start:
-            type: 'null'
+            type:
+              - 'null'
+              - string
+            format: date
           period_range_end:
-            type: 'null'
+            type:
+              - 'null'
+              - string
+            format: date
           original_amount_in_cents:
             type: integer
           discount_amount_in_cents:
@@ -21872,10 +21882,14 @@ definitions:
           taxable:
             type: string
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
     example:
       charge:
@@ -21902,10 +21916,14 @@ definitions:
           memo:
             type: string
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
     example:
       adjustment:
@@ -21927,10 +21945,14 @@ definitions:
           memo:
             type: string
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
         required:
           - amount
@@ -22497,10 +22519,14 @@ definitions:
             items:
               type: object
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
     example:
       charge:
@@ -22580,10 +22606,14 @@ definitions:
           customer_id:
             type: integer
           period_range_start:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
           period_range_end:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date
     example:
       adjustment:
@@ -42471,6 +42501,8 @@ x-stoplight:
         | amount_in_cents   | (either `amount` or `amount_in_cents` is required) If you use this parameter, you should pass the amount represented as a number of cents, either as a string or integer. For example, $10.00 would be represented as `1000` and -$10.00 would be represented as `-1000`. If you pass a value for both `amount` and `amount_in_cents`, the value in `amount_in_cents` will be used and `amount` will be discarded. |
         | memo              | A helpful explanation for the adjustment. This amount will remind you and your customer for the reason for the assessment of the adjustment.                                                                                                                                                                                                                                                                   |
         | adjustment_method | (Optional) A string that toggles how the adjustment should be applied. If target is passed for this param, the adjustment will automatically set the subscription’s balance to the amount. If left blank, the amount will be added to the current balance.                                                                                                                                                     |
+        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
 
         ## Adjustment Output Attributes
 
@@ -42480,6 +42512,8 @@ x-stoplight:
         |-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | amount_in_cents | The amount of the adjustment, represented in cents.                                                                                                                                                                                             |
         | memo            | The memo for the created adjustment.                                                                                                                                                                                                            |
+        | period_range_start        | A date range represents a service period.                                                               |
+        | period_range_end          | A date range represents a service period.                                                               |
 
         ## Response Codes
 
@@ -42528,6 +42562,8 @@ x-stoplight:
         |-----------------|------------------------------------------------------------------------------------------------------|
         | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
         | memo            | Typically the description of why the payment occurred                                                |
+        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
       public: true
     metered-usage-intro:
       id: metered-usage-intro
@@ -42601,6 +42637,8 @@ x-stoplight:
         |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | amount_in_cents | The amount of the charge and captured payment, represented in cents.                                                                                                                                                                        |
         | memo            | The memo for the created charge.                                                                                                                                                                                                            |
+        | period_range_start        | A date range represents a service period.                                                               |
+        | period_range_end          | A date range represents a service period.                                                               |
 
         ## Response Codes
 
@@ -42881,7 +42919,9 @@ x-stoplight:
         |-----------------|------------------------------------------------------------------------------------------------------|
         | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
         | memo            | Typically the description of why the payment occurred                                                |
-         
+        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+
         ## Invoice Documentation
 
         Full documentation on how invoices function within the Chargify UI can be located [here](https://help.chargify.com/invoices/invoice-intro.html).
