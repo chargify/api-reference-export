@@ -19941,6 +19941,16 @@ definitions:
           memo:
             type: string
             maxLength: 255
+          period_range_start:
+            type:
+              - string
+              - 'null'
+            format: date
+          period_range_end:
+            type:
+              - string
+              - 'null'
+            format: date
     required:
       - adjustment
     example:
@@ -20233,6 +20243,12 @@ definitions:
             format: date-time
           payment_id:
             type: 'null'
+          period_range_start:
+            type: string
+            format: date
+          period_range_end:
+            type: string
+            format: date
     example:
       adjustment:
         id: 123456
@@ -21857,8 +21873,10 @@ definitions:
             type: string
           period_range_start:
             type: string
+            format: date
           period_range_end:
             type: string
+            format: date
     example:
       charge:
         memo: Amount collected
@@ -21883,6 +21901,12 @@ definitions:
             type: integer
           memo:
             type: string
+          period_range_start:
+            type: string
+            format: date
+          period_range_end:
+            type: string
+            format: date
     example:
       adjustment:
         amount: 10
@@ -21895,13 +21919,21 @@ definitions:
     title: Create Invoice Charge Input
     type: object
     properties:
-      payment:
+      charge:
         type: object
         properties:
           amount:
             type: integer
           memo:
             type: string
+          period_range_start:
+            type: string
+            format: date
+          period_range_end:
+            type: string
+            format: date
+        required:
+          - amount
     example:
       payment:
         amount: 10
@@ -22464,6 +22496,12 @@ definitions:
             type: array
             items:
               type: object
+          period_range_start:
+            type: string
+            format: date
+          period_range_end:
+            type: string
+            format: date
     example:
       charge:
         id: 160573619
@@ -22541,6 +22579,12 @@ definitions:
             type: integer
           customer_id:
             type: integer
+          period_range_start:
+            type: string
+            format: date
+          period_range_end:
+            type: string
+            format: date
     example:
       adjustment:
         id: 165068820
