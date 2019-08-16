@@ -44023,11 +44023,21 @@ x-stoplight:
         | coupon_code               | The coupon code of the coupon currently applied to the subscription                                                                                                                                                                                                                                                                                                                                                                                                |
         | total_revenue_in_cents    | Gives the total revenue from the subscription in the number of cents.                                                                                                                                                                                                                                                                                                                                                                                              |
         | product_price_in_cents    | (Added Nov 5 2013) The recurring amount of the product (and version),currently subscribed. NOTE: this may differ from the current price of,the product, if you’ve changed the price of the product but haven’t,moved this subscription to a newer version.                                                                                                                                                                                                         |
+        | product_version_number  | The version of the product for the subscription. Note that this is a deprecated field kept for backwards-compatibility. |
+        | payment_type  | The payment profile type for the active profile on file. |
+        | referral_code | The subscription's unique code that can be given to referrals. |
+        | coupon_use_count | How many times the subscription's coupon has been used. |
+        | coupon_uses_allowed | How many times the subscription's coupon may be used. |
+        | reason_code | If the subscription is canceled, this is their churn code.
         | automatically_resume_at   | The date the subscription is scheduled to automatically resume from the on_hold state. |
+        | coupon_codes | An array for all the coupons attached to the subscription. |
+        | offer_id | The ID of the offer associated with the subscription. |
+        | payer_id | On Relationship Invoicing, the ID of the individual paying for the subscription. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled.
+        | current_billing_amount_in_cents | The balance in cents plus the estimated renewal amount in cents. |
         | receives_invoice_emails   | (Optional) Default: True - Whether or not this subscription is set to receive emails related to this subscription. |
-        | product_price_point_id   | The product price point currently subscribed. |
+        | product_price_point_id   | The product price point currently subscribed to. |
         | next_product_price_point_id   | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |
-        | payer_id | The ID of the payer. Defaults to the Customer ID unless the 'Customer Hierarchies & WhoPays' feature is enabled. |
+        | net_terms | On Relationship Invoicing, the number of days before a renewal invoice is due.  |
 
         ### Credit Card Attributes
 
