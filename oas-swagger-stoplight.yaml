@@ -15926,6 +15926,11 @@ paths:
         - incomplete
         - 'Subscriptions: Cancellations'
       description: "## Cancel Subscription\n\nThe DELETE action causes the cancellation of the Subscription. This means, the method sets the Subscription state to \"canceled\".\n\nThere are no required parameters. Optionally, you can use the `cancellation_message` field to note the reason for cancellation. `cancellation_message` note will be stored with the Subscription.\n\nThe response returns the Subscription object with the canceled state: `\"state\": \"canceled\",` or `<state>canceled</state>`. The `canceled_at` field records the timestamp of the most recent cancellation.\n\n## Cancel Subscription \n\nAdd the following key/value pairs to the DELETE request when cancelling a subscription.\n\n| cancellation_message | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to make a note about the reason for cancellation.       |\n|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|\n| reason_code          | (Optional) Can be used when canceling a subscription (via the HTTP DELETE method) to indicate why a subscription was canceled.            |\n\n## Cancel Subscription with Reason Code\n\nIf you'd like to cancel a subscription and add a reason/churn code, use the following JSON:\n\n```\n{\n\t\"subscription\": {\n\t\t\"reason_code\": \"CODE\"\n\t}\n}\n```"
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/subscriptions/cancel-subscription-request'
       responses:
         '200':
           description: OK
@@ -16050,6 +16055,8 @@ paths:
                   customer_vault_token: '67890'
                   billing_address_2: null
                   payment_type: credit_card
+        '404':
+          description: ''
         '422':
           description: ''
           schema:
@@ -16092,108 +16099,6 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            type: object
-            properties:
-              subscription:
-                $ref: '#/definitions/subscription/read-subscription'
-          examples:
-            application/xml:
-              subscription:
-                id: 18220670
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
-                activated_at: '2017-06-27T13:45:15-05:00'
-                created_at: '2017-06-27T13:45:13-05:00'
-                updated_at: '2017-06-30T09:26:50-05:00'
-                expires_at: null
-                balance_in_cents: 10000
-                current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                next_assessment_at: '2017-06-30T12:00:00-05:00'
-                canceled_at: null
-                cancellation_message: null
-                next_product_id: null
-                cancel_at_end_of_period: false
-                payment_collection_method: automatic
-                snap_day: end
-                cancellation_method: null
-                current_period_started_at: '2017-06-27T13:45:13-05:00'
-                previous_state: active
-                signup_payment_id: 191819284
-                signup_revenue: '0.00'
-                delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
-                product_version_number: 1
-                payment_type: null
-                referral_code: d3pw7f
-                coupon_use_count: null
-                coupon_uses_allowed: null
-                reason_code: null
-                automatically_resume_at: null
-                current_billing_amount_in_cents: 10000
-                customer:
-                  id: 17780587
-                  first_name: Catie
-                  last_name: Test
-                  organization: 'Acme, Inc.'
-                  email: catie@example.com
-                  created_at: '2017-06-27T13:01:05-05:00'
-                  updated_at: '2017-06-30T09:23:10-05:00'
-                  reference: 123ABC
-                  address: 123 Anywhere Street
-                  address_2: 'Apartment #10'
-                  city: Los Angeles
-                  state: CA
-                  zip: '90210'
-                  country: US
-                  phone: 555-555-5555
-                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
-                  portal_invite_last_accepted_at: null
-                  verified: true
-                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                  cc_emails: support@example.com
-                  tax_exempt: true
-                product:
-                  id: 4470347
-                  name: Zero Dollar Product
-                  handle: zero-dollar-product
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2017-03-23T10:54:12-05:00'
-                  updated_at: '2017-04-20T15:18:46-05:00'
-                  price_in_cents: 0
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  tax_code: ''
-                  initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: ''
-                  product_family:
-                    id: 997233
-                    name: Acme Products
-                    description: ''
-                    handle: acme-products
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 316810
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -16218,8 +16123,6 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/subscription/read-subscription'
           examples:
             application/json:
               subscription:
@@ -16317,6 +16220,8 @@ paths:
                       return_url: ''
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+        '404':
+          description: ''
       security:
         - <<api_key>>: []
       x-stoplight:
