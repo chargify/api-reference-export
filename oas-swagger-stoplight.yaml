@@ -6432,7 +6432,7 @@ paths:
 
         ```
         {
-          "payment": {
+          "charge": {
             "amount": 10.00,
             "memo": "Lorem ipsum"
           }
