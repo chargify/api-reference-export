@@ -29905,7 +29905,7 @@ definitions:
             type: string
           address:
             type: string
-          address2:
+          address_2:
             type: string
           city:
             type: string
