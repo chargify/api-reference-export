@@ -44290,7 +44290,11 @@ x-stoplight:
         ```
 
         To let the customer go through 3D Secure Authentication he needs to be redirected to the URL specified in `action_link`.
-        Optionally, you can `callback_url` if you’d like to be notified about the result of 3D Secure Authentication.
+        Optionally, you can `callback_url` if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
+
+        - whether the authentication was successful (`success`)
+        - the gateway ID for the payment (`gateway_payment_id`)
+        - the subscription ID (`subscription_id`)
       public: true
   mock:
     enabled: false
