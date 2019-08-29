@@ -44284,17 +44284,19 @@ x-stoplight:
             "Your card was declined. This transaction requires 3D secure authentication."
           ],
           "gateway_payment_id": "pi_1F0aGoJ2UDb3Q4av7zU3sHPh",
-          "description": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Example: http://followup-pcrm-sandbox.chargify.test/3d-secure/pi_1F0aGoJ2UDb3Q4av7zU3sHPh?one_time_token_id=242&callback_url=http://localhost:4000 will do a POST request to https://localhost:4000 after payment is authenticated.",
+          "description": "This card requires 3D secure authentication. Redirect the customer to the URL from the action_link attribute to authenticate. Attach callback_url param to this URL if you want to be notified about the result of 3D Secure authentication. Attach redirect_url param to this URL if you want to redirect a customer back to your page after 3D Secure authentication. Example: https://mysite.chargify.com/3d-secure/pi_1FCm4RKDeye4C0XfbqquXRYm?one_time_token_id=128&callback_url=https://localhost:4000&redirect_url=https://yourpage.com will do a POST request to https://localhost:4000 after payment is authenticated and will redirect a customer to https://yourpage.com after 3DS authentication.",
           "action_link": "http://acme.chargify.com/3d-secure/pi_1F0aGoJ2UDb3Q4av7zU3sHPh?one_time_token_id=242"
         }
         ```
 
         To let the customer go through 3D Secure Authentication he needs to be redirected to the URL specified in `action_link`.
-        Optionally, you can `callback_url` if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
+        Optionally, you can specify `callback_url` parameter if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
 
         - whether the authentication was successful (`success`)
         - the gateway ID for the payment (`gateway_payment_id`)
         - the subscription ID (`subscription_id`)
+         
+        Optionally, you can also specify `redirect_url` if you’d like to redirect a customer back to your site.
       public: true
   mock:
     enabled: false
