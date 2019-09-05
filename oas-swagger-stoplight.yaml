@@ -16280,6 +16280,8 @@ paths:
 
         A payment in the amount of the assessed charge is automatically captured from the credit card on file for the subscription.
 
+        This endpoint is only available for Statement-based sites.  It is not available for sites using Relationship Invoicing.
+
         ## Limitations of attribute combinations
 
         When you add a charge to an existing subscription, you may only use the following combinations of attributes:
@@ -44276,7 +44278,7 @@ x-stoplight:
         ## 3D Secure
 
         It may happen that a payment needs 3D Secure Authentication when subscription is created. 
-        Server returns `422 Unprocessable Entity` in this case with the following response:
+        The server returns `422 Unprocessable Entity` in this case with the following response:
 
         ```
         {
@@ -44289,14 +44291,27 @@ x-stoplight:
         }
         ```
 
-        To let the customer go through 3D Secure Authentication he needs to be redirected to the URL specified in `action_link`.
-        Optionally, you can specify `callback_url` parameter if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
+        To let the customer go through 3D Secure Authentication, they need to be redirected to the URL specified in `action_link`.
+        Optionally, you can specify `callback_url` parameter in the `action_link` URL if you’d like to be notified about the result of 3D Secure Authentication. The `callback_url` will return the following information:
 
         - whether the authentication was successful (`success`)
         - the gateway ID for the payment (`gateway_payment_id`)
         - the subscription ID (`subscription_id`)
          
-        Optionally, you can also specify `redirect_url` if you’d like to redirect a customer back to your site.
+        Lastly, you can also specify a `redirect_url` within the `action_link` URL if you’d like to redirect a customer back to your site. 
+
+        The final URL that you send a customer to to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`: `https://mysite.chargify.com/3d-secure/pi_1FCm4RKDeye4C0XfbqquXRYm?one_time_token_id=128&callback_url=https://localhost:4000&redirect_url=https://yourpage.com`
+
+        You may wish to redirect customers to different pages depending on whether their SCA was performed successfully. Here's an example flow to use as a reference:
+
+        1. Create a subscription via API; it requires 3DS
+        2. You receive a `gateway_payment_id` in the `action_link` along other params in the response.
+        3. Use this `gateway_payment_id` to, for example, connect with your internal resources or generate a session_id
+        4. Include 1 of those attributes inside the `callback_url` and `redirect_url` to be aware which “session” this applies to
+        5. Redirect the customer to the `action_link` with `callback_url` and `redirect_url` applied
+        6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
+        7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known 
+        8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
       public: true
   mock:
     enabled: false
