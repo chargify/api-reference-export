@@ -4447,7 +4447,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/metadata/create-metadata-input'
+            $ref: '#/definitions/metafields/create-metafields-input'
             example:
               metafields:
                 name: Color
@@ -22942,18 +22942,28 @@ definitions:
                 type: string
               portal:
                 type: string
+          input_type:
+            type: string
+          enum:
+            type: array
+            items:
+              type: string
     example:
       metafields:
-        name: Color
+        name: aute officia
         scope:
           hosted:
-            - '1'
-            - '2'
-            - '3'
-          csv: '0'
-          invoices: '1'
-          statements: '1'
-          portal: '0'
+            - magna aliqua nulla eu anim
+            - nostrud ad nulla do
+            - ''
+          csv: officia elit laboris ullamco
+          invoices: Excepteur aute veniam
+          statements: sunt deserunt dolor
+          portal: 'aliqua '
+        input_type: proident esse aliquip cillum
+        enum:
+          - option 1
+          - option 2
     x-stoplight:
       id: metafields/create-metafields-input
       name: Create Metafields Input
@@ -44320,7 +44330,7 @@ x-stoplight:
     subscription-threedsecure-cyber-source:
       id: subscription-threedsecure-cyber-source
       name: Subscription 3D Secure - CyberSource
-      content: "## 3D Secure - CyberSource\n\nCyberSource requires to embed on your checkout page special 3DS library called Songbird.Js from Cardinal Commerce. Checkout our help pages for more informations how to integrate it.\n\nAfter successful 3D Secure authorization you will receive `ProcessorTransactionId` which you will need to pass as `three_ds_token` when creating subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```"
+      content: "## 3D Secure - CyberSource\n\nCyberSource requires you to embed a special 3DS library called Songbird.Js from Cardinal Commerce on your checkout page. See our help pages for more information on how to integrate it.\n\nAfter a successful 3D Secure authorization you will receive a `ProcessorTransactionId` which you will need to pass as the  `three_ds_token` attribute when creating a subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```"
       public: true
   mock:
     enabled: false
