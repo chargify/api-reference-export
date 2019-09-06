@@ -23255,6 +23255,8 @@ definitions:
             type: 'null'
           payment_type:
             type: string
+          three_ds_token:
+            type: string
         required:
           - customer_id
     example:
@@ -41406,6 +41408,8 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-threedsecure-stripe
               type: docTextSections
+            - _id: subscription-threedsecure-cyber-source
+              type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
             - _id: subscriptions/create-subscription-request
@@ -44316,16 +44320,7 @@ x-stoplight:
     subscription-threedsecure-cyber-source:
       id: subscription-threedsecure-cyber-source
       name: Subscription 3D Secure - CyberSource
-      content: |-
-        ## 3D Secure - CyberSource
-
-        CyberSource requires to embed on your checkout page special 3DS library called Songbird.Js from Cardinal Commerce. Checkout our help page how to integrate it.
-
-        After successful 3D Secure authorization you will receive `ProcessorTransactionId` which you will need to pass when creating subscription:
-
-        ```
-
-        ```
+      content: "## 3D Secure - CyberSource\n\nCyberSource requires to embed on your checkout page special 3DS library called Songbird.Js from Cardinal Commerce. Checkout our help pages for more informations how to integrate it.\n\nAfter successful 3D Secure authorization you will receive `ProcessorTransactionId` which you will need to pass as `three_ds_token` when creating subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```"
       public: true
   mock:
     enabled: false
