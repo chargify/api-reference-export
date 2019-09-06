@@ -42926,9 +42926,9 @@ x-stoplight:
 
         ```"portal": "1"```
 
-        ### Metafield Types
+        ## Metafield Types
 
-        Metafields can have three different `input_type`s:
+        Metafields can have three different types defined by the `input_type` attribute:
 
         + text (the default)
         + dropdown
