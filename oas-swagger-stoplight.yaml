@@ -4443,6 +4443,23 @@ paths:
             ]
           }
         ```
+
+        ## Create a Dropdown Metafield
+
+        The default `input_type` for a custom field is `text`. Here's an example request that creates a metafield with `dropdown` options defined in an `enum` array:
+
+        ```
+        {
+          "metafields": {
+            "name": "Dropdown field",
+            "input_type": "dropdown",
+            "enum": [
+                "option 1",
+                "option 2"
+              ]
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
@@ -4452,14 +4469,14 @@ paths:
               metafields:
                 name: Color
                 scope:
-                  hosted:
-                    - '1'
-                    - '2'
-                    - '3'
                   csv: '0'
                   invoices: '1'
                   statements: '1'
                   portal: '0'
+                input_type: radio
+                enum:
+                  - option 1
+                  - option 2
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:name'
         - $ref: '#/parameters/trait:metafieldsNameRequiredCurrentNameOptional:current_name'
       responses:
@@ -22930,10 +22947,6 @@ definitions:
           scope:
             type: object
             properties:
-              hosted:
-                type: array
-                items:
-                  type: string
               csv:
                 type: string
               invoices:
@@ -22950,17 +22963,13 @@ definitions:
               type: string
     example:
       metafields:
-        name: aute officia
+        name: Color
         scope:
-          hosted:
-            - magna aliqua nulla eu anim
-            - nostrud ad nulla do
-            - ''
-          csv: officia elit laboris ullamco
-          invoices: Excepteur aute veniam
-          statements: sunt deserunt dolor
-          portal: 'aliqua '
-        input_type: proident esse aliquip cillum
+          csv: '0'
+          invoices: '1'
+          statements: '1'
+          portal: '0'
+        input_type: radio
         enum:
           - option 1
           - option 2
@@ -42886,18 +42895,12 @@ x-stoplight:
 
         The scope field has four acceptable attributes, which dictate where metafields will appear:
 
-        + hosted
+        + portal
         + csv
         + invoices
         + statements
          
-        + If configured in the Admin UI or via the API be careful sending updates to metafields with the scope attribute – if a partial update is sent it will overwrite the current configuration.
-
-        ## Hosted Metafields
-
-        The `hosted` field is an array of products which specifies which hosted pages that the metafield will appear on.
-
-        ```“hosted”: [“1”, “2”]```
+        If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – if a partial update is sent it will overwrite the current configuration.
 
         ## CSV Metafields
 
@@ -42917,14 +42920,21 @@ x-stoplight:
 
         ```“invoices”: “1”```
 
-        ## Server Respones
+        ### Billing Portal Metafields
 
-        The following fields are returned from GET operations.
+        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude on invoices.
 
-        | name       | The name of the attribute that is added to the resource.      |
-        |------------|---------------------------------------------------------------|
-        | scope      | This specifies where the metafield / metadata will visible    |
-        | data_count | The number of metadata that are associated to this metafield. |
+        ```"portal": "1"```
+
+        ### Metafield Types
+
+        Metafields can have three different `input_type`s:
+
+        + text (the default)
+        + dropdown
+        + radio
+
+        The `input_type` indicates how data should be added to the metafield. For example, a `text` type is just a string, so a given metafield of this type can have any value attached. On the other hand, `dropdown` and `radio` have a set of allowed values that can be input, and appear differently on a Public Signup Page.
       public: true
     migrations-intro:
       id: migrations-intro
