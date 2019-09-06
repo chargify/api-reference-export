@@ -41404,7 +41404,7 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-request-examples
               type: docTextSections
-            - _id: subscription-threedsecure
+            - _id: subscription-threedsecure-stripe
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
@@ -44271,11 +44271,11 @@ x-stoplight:
         | BPoint                    | “ReceiptNumber” from the transaction response                                                                                                                                                                                                                                                 |
         | All other gateways        | Undefined at this time                                                                                                                                                                                                                                                                        |
       public: true
-    subscription-threedsecure:
-      id: subscription-threedsecure
-      name: Subscription 3D Secure
+    subscription-threedsecure-stripe:
+      id: subscription-threedsecure-stripe
+      name: Subscription 3D Secure - Stripe
       content: |-
-        ## 3D Secure
+        ## 3D Secure - Stripe
 
         It may happen that a payment needs 3D Secure Authentication when subscription is created. 
         The server returns `422 Unprocessable Entity` in this case with the following response:
@@ -44312,6 +44312,20 @@ x-stoplight:
         6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
         7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known 
         8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
+      public: true
+    subscription-threedsecure-cyber-source:
+      id: subscription-threedsecure-cyber-source
+      name: Subscription 3D Secure - CyberSource
+      content: |-
+        ## 3D Secure - CyberSource
+
+        CyberSource requires to embed on your checkout page special 3DS library called Songbird.Js from Cardinal Commerce. Checkout our help page how to integrate it.
+
+        After successful 3D Secure authorization you will receive `ProcessorTransactionId` which you will need to pass when creating subscription:
+
+        ```
+
+        ```
       public: true
   mock:
     enabled: false
