@@ -44301,8 +44301,7 @@ x-stoplight:
       content: |-
         ## 3D Secure - Stripe
 
-        It may happen that a payment needs 3D Secure Authentication when subscription is created. 
-        The server returns `422 Unprocessable Entity` in this case with the following response:
+        It may happen that a payment needs 3D Secure Authentication when the subscription is created; this is referred to in our help docs as a [post-authentication flow](https://help.chargify.com/payment-gateways/testing-3dsecure.html). The server returns `422 Unprocessable Entity` in this case with the following response:
 
         ```
         {
@@ -44326,6 +44325,8 @@ x-stoplight:
 
         The final URL that you send a customer to to complete 3D Secure may resemble the following, where the first half is the `action_link` and the second half contains a `redirect_url` and `callback_url`: `https://mysite.chargify.com/3d-secure/pi_1FCm4RKDeye4C0XfbqquXRYm?one_time_token_id=128&callback_url=https://localhost:4000&redirect_url=https://yourpage.com`
 
+        ### Example Redirect Flow
+
         You may wish to redirect customers to different pages depending on whether their SCA was performed successfully. Here's an example flow to use as a reference:
 
         1. Create a subscription via API; it requires 3DS
@@ -44340,7 +44341,7 @@ x-stoplight:
     subscription-threedsecure-cyber-source:
       id: subscription-threedsecure-cyber-source
       name: Subscription 3D Secure - CyberSource
-      content: "## 3D Secure - CyberSource\n\nCyberSource requires you to embed a special 3DS library called Songbird.Js from Cardinal Commerce on your checkout page. See our help pages for more information on how to integrate it.\n\nAfter a successful 3D Secure authorization you will receive a `ProcessorTransactionId` which you will need to pass as the  `three_ds_token` attribute when creating a subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```"
+      content: "## 3D Secure - CyberSource\n\nIf your business is PCI compliant and are securely passing raw card data to Chargify, CyberSource requires you to embed a special 3DS library called Songbird.Js from Cardinal Commerce on your checkout page.\n\nAfter a successful 3D Secure authorization you will receive a `ProcessorTransactionId` which you will need to pass as the  `three_ds_token` attribute when creating a subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```\n\nAlternatively, if you are passing a Chargify.js token, the call will resemble the normal Chargify.js subscription creation call. Reference our [Subscription Request Examples](#docTextSection:Z3Ts5maQ3cLpTsxWG) for a guide."
       public: true
   mock:
     enabled: false
