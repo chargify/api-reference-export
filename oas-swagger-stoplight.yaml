@@ -512,13 +512,13 @@ paths:
         ### Simplified example using component_id as handle:<string>
 
         ```
-        curl mysub.chargify.com/product_families/999/component/handle:foo
+        curl mysub.chargify.com/product_families/999/components/handle:foo
         ```
 
         ### Simplified example using component_id as integer
 
         ```
-        curl mysub.chargify.com/product_families/999/component/999
+        curl mysub.chargify.com/product_families/999/components/999
         ```
 
         both examples assume component with id 999 has handle 'foo'
@@ -15330,6 +15330,11 @@ paths:
         | revenue_today       | Total revenue received today                                    |
         | revenue_this_month  | Revenue received this month                                     |
         | revenue_this_year   | Revenue received this year                                      |
+        | total_canceled_subscriptions   | Total number of all canceled subscriptions                                       |
+        | total_active_subscriptions   | Total number of all active subscriptions                                      |
+        | total_past_due_subscriptions  | Total number of all subscriptions in past due state                                      |
+        | total_unpaid_subscriptions   | Total number of subscriptions in unpaid state                                      |
+        | total_dunning_subscriptions   | Total number of subscriptions in dunning                                      |
       responses:
         '200':
           description: OK
@@ -15348,6 +15353,11 @@ paths:
                 revenue_today: '$1,405.12'
                 revenue_this_month: '$10,000.00'
                 revenue_this_year: '$27,935.24'
+                total_canceled_subscriptions: 1
+                total_active_subscriptions: 118
+                total_past_due_subscriptions: 1
+                total_unpaid_subscriptions: 0
+                total_dunning_subscriptions: 1
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -19912,6 +19922,16 @@ definitions:
             type: string
           revenue_this_year:
             type: string
+          total_canceled_subscriptions:
+            type: integer
+          total_active_subscriptions:
+            type: number
+          total_past_due_subscriptions:
+            type: number
+          total_unpaid_subscriptions:
+            type: number
+          total_dunning_subscriptions:
+            type: number
     example:
       seller_name: 'Acme, Inc.'
       site_name: Production
