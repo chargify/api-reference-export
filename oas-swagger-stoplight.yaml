@@ -10029,6 +10029,9 @@ paths:
       summary: Read Product Price Points
       tags:
         - 'Products: Price Points'
+      parameters:
+        - $ref: '#/parameters/trait:pagination10:page'
+        - $ref: '#/parameters/trait:pagination10:per_page'
       responses:
         '200':
           description: ''
@@ -19123,6 +19126,19 @@ parameters:
       - renewal_success_recreated
       - payment_failure_recreated
       - payment_success_recreated
+  'trait:pagination10:page':
+    name: page
+    in: query
+    description: 'Result records are organized in pages. By default, the first page of results is displayed. The `page` parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a `page` parameter. Retrieve the next page by adding `?page=2` to the query string. If there are no results to return, then an empty result set will be returned.'
+    type: number
+    default: ''
+  'trait:pagination10:per_page':
+    name: per_page
+    in: query
+    description: This parameter indicates how many records to fetch in each request. Default value is 10. The maximum allowed values is 200; any `per_page` value over 200 will be changed to 200.
+    type: number
+    default: ''
+    maximum: 200
 definitions:
   get-a-sale-output:
     title: Get a Sale Output
