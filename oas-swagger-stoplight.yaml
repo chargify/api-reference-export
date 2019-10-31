@@ -32323,8 +32323,6 @@ definitions:
             type: string
           current_vault:
             type: string
-          vault_token:
-            type: string
           billing_address:
             type: string
           billing_city:
@@ -36865,13 +36863,13 @@ definitions:
       public: true
   update-subscription-product-change-request-id:
     title: 'Update Subscription: Product Change Request - ID'
-    anyOf:
-      - properties:
-          product_id:
-            type:
-              - string
-              - integer
     type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          product_id:
+            type: string
     example:
       subscription:
         product_id: '123456'
