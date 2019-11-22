@@ -7972,7 +7972,7 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/invoices/{uid}/reopen':
+  '/invoices/{uid}/reopen.json':
     parameters:
       - name: uid
         in: path
@@ -7980,7 +7980,7 @@ paths:
         required: true
         type: string
     post:
-      operationId: POST_invoices-uid-reopen
+      operationId: POST_invoices-uid-reopen-json
       summary: Reopen Invoice
       tags:
         - Relationship Invoicing (NEW)
@@ -8024,7 +8024,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_invoices-uid-reopen
+        id: POST_invoices-uid-reopenjson
         beforeScript: null
         afterScript: null
         public: true
@@ -8032,7 +8032,7 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/invoices/{uid}/void':
+  '/invoices/{uid}/void.json':
     parameters:
       - name: uid
         in: path
@@ -8040,7 +8040,7 @@ paths:
         required: true
         type: string
     post:
-      operationId: POST_invoices-uid-void
+      operationId: POST_invoices-uid-void-json
       summary: Void Invoice
       tags:
         - Relationship Invoicing (NEW)
@@ -8094,7 +8094,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_invoices-uid-void
+        id: POST_invoices-uid-voidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -41320,9 +41320,9 @@ x-stoplight:
               type: schemas
             - _id: create-bulk-payment-response
               type: schemas
-            - _id: POST_invoices-uid-reopen
+            - _id: POST_invoices-uid-reopenjson
               type: endpoints
-            - _id: POST_invoices-uid-void
+            - _id: POST_invoices-uid-voidjson
               type: endpoints
           name: Relationship Invoicing (NEW)
           description: ''
