@@ -408,18 +408,18 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family_id}/components/handle:{component_id}.json':
+  '/product_families/{product_family_id}/components/handle:{component_handle}.json':
     parameters:
       - name: product_family_id
         in: path
         required: true
         type: integer
-      - name: component_id
+      - name: component_handle
         in: path
         required: true
         type: string
     get:
-      operationId: 'GET_product_families-product_family_id-components-handle:component_id-json'
+      operationId: 'GET_product_families-product_family_id-components-handle:component_handle-json'
       summary: Read Specific Component for a Product Family via Handle
       tags:
         - Component
@@ -473,7 +473,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
+        id: GET_productfamilies-productfamilyid-components-handlecomponenthandlejson
         beforeScript: null
         afterScript: null
         public: true
@@ -40919,7 +40919,7 @@ x-stoplight:
           items:
             - _id: components-intro
               type: docTextSections
-            - _id: GET_productfamilies-productfamilyid-components-handlecomponentidjson
+            - _id: GET_productfamilies-productfamilyid-components-handlecomponenthandlejson
               type: endpoints
             - _id: GET_components-lookupjson
               type: endpoints
@@ -43229,12 +43229,13 @@ x-stoplight:
 
         ### Use Handle 
 
-        You may elect to use `product_handle` instead of `product_id`:
+        You may elect to use `product_handle` instead of `product_id`, and  `product_price_point_handle` instead of `product_price_point_id`:
 
         ```
         {
             "migration": {
-                "product_handle": 3801242,
+                "product_handle": "silver-plan",
+                "product_price_point_handle": "199"
                 "include_trial": false,
                 "include_initial_charge": false,
                 "include_coupons": true,
