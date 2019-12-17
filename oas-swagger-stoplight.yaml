@@ -1769,6 +1769,7 @@ paths:
         - $ref: '#/parameters/trait:subscriptionQueryString:start_datetime'
         - $ref: '#/parameters/trait:subscriptionQueryString:end_datetime'
         - $ref: '#/parameters/trait:subscriptionQueryString:metadata[Field Name]'
+        - $ref: '#/parameters/trait:subscriptionQueryString:direction'
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
@@ -3354,9 +3355,8 @@ paths:
       produces:
         - application/xml
       parameters:
-        - name: product_family_id
-          in: query
-          type: integer
+        - $ref: '#/parameters/trait:pagination30:page'
+        - $ref: '#/parameters/trait:pagination30:per_page'
       responses:
         '200':
           description: ''
@@ -3852,8 +3852,8 @@ paths:
 
         The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
       parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:pagination30:page'
+        - $ref: '#/parameters/trait:pagination30:per_page'
       responses:
         '200':
           description: OK
@@ -18980,6 +18980,12 @@ parameters:
   'trait:pagination30:page':
     name: page
     in: query
+    description: 'Result records are organized in pages. By default, the first page of results is displayed. The `page` parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a `page` parameter. Retrieve the next page by adding `?page=2` to the query string. If there are no results to return, then an empty result set will be returned.'
+    type: integer
+  'trait:pagination30:per_page':
+    name: per_page
+    in: query
+    description: This parameter indicates how many records to fetch in each request. Default value is 30. The maximum allowed values is 200; any `per_page` value over 200 will be changed to 200.
     type: integer
   'trait:metafieldsNameRequiredCurrentNameOptional:name':
     name: name
@@ -19155,6 +19161,11 @@ parameters:
     name: 'metadata[Field Name]'
     in: query
     description: The value of the metadata field specified in the parameter
+    type: string
+  'trait:subscriptionQueryString:direction':
+    name: direction
+    in: query
+    description: Controls the order in which results are returned. Can either be `asc` for ascending or `desc` for descending
     type: string
   'trait:txnMaxId:max_id':
     name: max_id
@@ -27189,8 +27200,6 @@ definitions:
               type: string
             product_price_point_id:
               type: string
-            ref:
-              type: string
             coupon_code:
               type: string
             payment_collection_method:
@@ -27206,6 +27215,8 @@ definitions:
             stored_credential_transaction_id:
               type: integer
             payment_profile_id:
+              type: string
+            reference:
               type: string
             customer_attributes:
               type: object
@@ -27345,7 +27356,6 @@ definitions:
           product_id: '482734'
           product_price_point_handle: v3
           product_price_point_id: '615342'
-          ref: 1q2w3e
           coupon_code: 5SNN6HFK3GBH
           payment_collection_method: automatic
           receives_invoice_emails: false
@@ -27354,6 +27364,7 @@ definitions:
           next_billing_at: 1/1/2020
           stored_credential_transaction_id: 166465511220288
           payment_profile_id: '54321'
+          reference: my-ref-123
           customer_attributes:
             first_name: Curtis
             last_name: Test
@@ -27723,6 +27734,7 @@ definitions:
           reason_code: null
           receives_invoice_emails: false
           net_terms: 0
+          reference: my-ref-123
           customer:
             first_name: Curtis
             last_name: Test
@@ -43402,6 +43414,7 @@ x-stoplight:
         | product_price_point_handle | The user-friendly API handle of a product's particular price point. |
         | customer_id        | The ID of an existing customer within Chargify. Required, unless a `customer_reference` or a set of `customer_attributes` is given.                               |
         | customer_reference | The reference value (provided by your app) of an existing customer within Chargify. Required, unless a `customer_id` or a set of `customer_attributes` is given.  |
+        | reference | The reference value (provided by your app) for the subscription itelf. |
         | group              | Group attributes including the target subscription with which to group the new subscription and optional billing attributes.                                      |
 
 
@@ -43492,6 +43505,7 @@ x-stoplight:
         | calendar_billing_first_charge         | (Optional) One of “prorated” (the default – the prorated product price will be charged immediately), “immediate” (the full product price will be charged immediately), or “delayed” (the full product price will be charged with the first scheduled renewal).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
         | receives_invoice_emails               | (Optional) Default: True - Whether or not this subscription is set to receive emails related to this subscription.                                                                                                                         |
         | net_terms               | (Optional) Default: null The number of days after renewal (on invoice billing) that a subscription is due. A value between 0 (due immediately) and 180.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+        | stored_credential_transaction_id | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
         ------------------
 
 
@@ -44134,6 +44148,8 @@ x-stoplight:
         | product_price_point_id   | The product price point currently subscribed to. |
         | next_product_price_point_id   | If a delayed product change is scheduled, the ID of the product price point that the subscription will be changed to at the next renewal. |
         | net_terms | On Relationship Invoicing, the number of days before a renewal invoice is due.  |
+        | stored_credential_transaction_id | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
+        | reference | The reference value (provided by your app) for the subscription itelf. |
 
         ### Credit Card Attributes
 
