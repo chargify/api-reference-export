@@ -22175,6 +22175,8 @@ definitions:
                   type: 'null'
                 customer_id:
                   type: integer
+                product_price_point_id:
+                  type: integer
           payments_and_credits:
             type: array
             items:
