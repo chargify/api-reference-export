@@ -6332,6 +6332,7 @@ paths:
                     id: 193822851
                     payment_id: null
                     product_id: 4465911
+                    product_price_point_id: 1
                     transaction_type: charge
                     gateway_transaction_id: null
                     gateway_order_id: null
@@ -6350,6 +6351,7 @@ paths:
                     id: 193822852
                     payment_id: null
                     product_id: 4465911
+                    product_price_point_id: null
                     transaction_type: adjustment
                     gateway_transaction_id: null
                     gateway_order_id: null
@@ -6368,6 +6370,7 @@ paths:
                     id: 193822853
                     payment_id: null
                     product_id: 4465911
+                    product_price_point_id: null
                     transaction_type: charge
                     gateway_transaction_id: null
                     gateway_order_id: null
@@ -6386,6 +6389,7 @@ paths:
                     id: 193822901
                     payment_id: null
                     product_id: 4465911
+                    product_price_point_id: null
                     transaction_type: adjustment
                     gateway_transaction_id: null
                     gateway_order_id: null
