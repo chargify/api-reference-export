@@ -5566,7 +5566,7 @@ paths:
       operationId: GET_invoices-json
       summary: Read All Invoices
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: 'By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.'
       consumes:
         - application/xml
@@ -5914,7 +5914,7 @@ paths:
       tags:
         - Invoice
         - incomplete
-        - Invoices
+        - Invoices (Legacy)
       description: |-
         ## Read the Invoice by ID
 
@@ -6154,7 +6154,7 @@ paths:
       tags:
         - Invoice Payment
         - incomplete
-        - Invoices
+        - Invoices (Legacy)
       description: |-
         ## Read Payments for an Invoice
 
@@ -6256,7 +6256,7 @@ paths:
       tags:
         - Invoice Charge
         - incomplete
-        - Invoices
+        - Invoices (Legacy)
       description: |-
         ## Read Charges for an Invoice
 
@@ -6552,7 +6552,7 @@ paths:
       operationId: GET_invoices-uid-json
       summary: Read One Invoice
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       responses:
         '200':
           description: ''
@@ -6675,7 +6675,7 @@ paths:
       operationId: POST_invoices-uid-refunds-json
       summary: Refund Single Invoice
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: 'This relates to refunding either a non-consolidated invoice, or a segment of a consoldiated invoice (see below for docs on refunding a consolidated invoice). This endpoint accepts an `amount`, `memo`, and the `payment_id` of the payment that is being refunded. The `amount` is a dollar amount, not in cents, and cannot exceed to remaining refundable balance of the payment.'
       consumes:
         - application/xml
@@ -6835,7 +6835,7 @@ paths:
       operationId: GET_invoices-events-json
       summary: Read Invoice Events
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         ## Read Invoice Events
 
@@ -7185,7 +7185,7 @@ paths:
       operationId: POST_invoices-uid-payments-json
       summary: Create Payment
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         ## Create Payment
         This API call should be used when you want to record an external payment against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the [bulk payment](#endpoint:EMs2kYgYbkxKtnpij) endpoint.
@@ -7254,7 +7254,7 @@ paths:
       operationId: GET_credit_notes-json
       summary: Read All Credit Notes
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         Credit Notes are like inverse invoices. They reduce the amount a customer owes.
 
@@ -7551,7 +7551,7 @@ paths:
       operationId: GET_credit_notes-uid-json
       summary: Read One Credit Note
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       responses:
         '200':
           description: ''
@@ -7793,7 +7793,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-payments-json
       summary: Create a Payment
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         ## Create a Payment
 
@@ -7861,7 +7861,7 @@ paths:
       operationId: POST_invoices-uid-reopen-json
       summary: Reopen Invoice
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         ### Overview
 
@@ -7921,7 +7921,7 @@ paths:
       operationId: POST_invoices-uid-void-json
       summary: Void Invoice
       tags:
-        - Relationship Invoicing (NEW)
+        - Relationship Invoicing
       description: |-
         ### Overview
 
@@ -41267,7 +41267,7 @@ x-stoplight:
             - _id: legacyFilters
               type: traits
           divider: false
-        - name: Invoices
+        - name: Invoices (Legacy)
           items:
             - _id: invoices
               type: docTextSections
@@ -41293,6 +41293,7 @@ x-stoplight:
               type: traits
             - _id: subscriptionIdQuery
               type: traits
+          divider: false
         - name: 'Invoices: Payments'
           items:
             - _id: invoices-payments-intro
@@ -41366,8 +41367,7 @@ x-stoplight:
               type: endpoints
             - _id: POST_invoices-uid-voidjson
               type: endpoints
-          name: Relationship Invoicing (NEW)
-          description: ''
+          name: Relationship Invoicing
         - name: Notes
           items:
             - _id: introduction-to-notes
@@ -42581,7 +42581,7 @@ x-stoplight:
       content: |-
         ## Invoices Intro
 
-        This method affords the option to manage invoices through the Chargify API.
+        This method affords the option to manage legacy invoices through the Chargify API for customers prior to January 2018.
 
         If you are using the new Relationship Invoicing feature, see the the [new invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C).
 
