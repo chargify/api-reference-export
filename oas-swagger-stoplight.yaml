@@ -8106,9 +8106,9 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /mrr:
+  /mrr.json:
     get:
-      operationId: GET_mrr
+      operationId: GET_mrr-json
       summary: MRR
       tags:
         - MRR
@@ -8165,7 +8165,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_mrr
+        id: GET_mrrjson
         beforeScript: null
         afterScript: null
         public: true
@@ -8173,9 +8173,9 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /mrr_movements:
+  /mrr_movements.json:
     get:
-      operationId: GET_mrr_movements
+      operationId: GET_mrr_movements-json
       summary: MRR Movements
       tags:
         - MRR
@@ -8201,7 +8201,9 @@ paths:
           description: The sort direction of the returned records.
           type: string
           default: ASC
-          enum: '[ASC, DESC]'
+          enum:
+            - ASC
+            - DESC
         - name: subscription_id
           in: query
           description: A Subscription's ID. Providing this param will cause MRR to be scoped to the specified Subscription.
@@ -8323,7 +8325,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_mrrmovements
+        id: GET_mrrmovementsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -41590,9 +41592,9 @@ x-stoplight:
           items:
             - _id: mrr-overview
               type: docTextSections
-            - _id: GET_mrr
+            - _id: GET_mrrjson
               type: endpoints
-            - _id: GET_mrrmovements
+            - _id: GET_mrrmovementsjson
               type: endpoints
           name: MRR
         - name: Notes
@@ -44745,7 +44747,13 @@ x-stoplight:
 
         In the MRR Report UI, we support a setting to [include or exclude](https://help.chargify.com/reports/mrr-analytics.html#displaying-component-based-metered-usage-in-mrr) usage revenue. In the MRR APIs, responses include `plan` and `usage` breakouts.
 
-        Revenue from products, on/off components, and quantity-based components is bucketed into the `plan` breakout. Metered usage component revenue is bucketed into the `usage` breakout. Line items marked `recurring: true` contribute to the `plan` breakout.
+        Plan includes revenue from:
+        * Products
+        * Quantity-Based Components
+        * On/Off Components
+
+        Usage includes revenue from:
+        * Metered Components
       public: true
   mock:
     enabled: false
