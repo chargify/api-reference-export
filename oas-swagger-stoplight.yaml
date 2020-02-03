@@ -8262,6 +8262,7 @@ paths:
                                 type: integer
                               component_id:
                                 type: integer
+                                description: 'For Product (or "baseline") line items, this field will have a value of `0`.'
                               name:
                                 type: string
                               mrr:
@@ -8281,6 +8282,7 @@ paths:
                                 type: integer
                               recurring:
                                 type: boolean
+                                description: 'When `true`, the line item''s MRR value will contribute to the `plan` breakout. When `false`, the line item contributes to the `usage` breakout.'
                         subscription_id:
                           type: integer
                         subscriber_name:
@@ -41586,6 +41588,8 @@ x-stoplight:
           name: Relationship Invoicing
         - divider: false
           items:
+            - _id: mrr-overview
+              type: docTextSections
             - _id: GET_mrr
               type: endpoints
             - _id: GET_mrrmovements
@@ -44724,6 +44728,24 @@ x-stoplight:
       id: subscription-threedsecure-cyber-source
       name: Subscription 3D Secure - CyberSource
       content: "## 3D Secure - CyberSource\n\nIf your business is PCI compliant and are securely passing raw card data to Chargify, CyberSource requires you to embed a special 3DS library called Songbird.Js from Cardinal Commerce on your checkout page.\n\nAfter a successful 3D Secure authorization you will receive a `ProcessorTransactionId` which you will need to pass as the  `three_ds_token` attribute when creating a subscription:\n\n```\n    {\n    \t\"subscription\": {\n    \t\t\"product_handle\": \"basic\",\n    \t\t\"customer_id\": 2000,\n    \t\t\"credit_card_attributes\": {\n    \t\t\t\"last_name\": \"Smith\",\n    \t\t\t\"first_name\": \"Joe\",\n    \t\t\t\"full_number\": \"4111111111111111\",\n    \t\t\t\"expiration_year\": \"2021\",\n    \t\t\t\"expiration_month\": \"1\",\n    \t\t\t\"card_type\": \"visa\",\n    \t\t\t\"billing_zip\": \"02120\",\n    \t\t\t\"billing_state\": \"MA\",\n    \t\t\t\"billing_country\": \"US\",\n    \t\t\t\"billing_city\": \"Boston\",\n    \t\t\t\"billing_address_2\": null,\n    \t\t\t\"billing_address\": \"123 Mass Ave.\",\n    \t\t\t\"three_ds_token\": \"n41lMGxIpBJ1XDJYXLz0\"\n    \t\t}\n    \t}\n    }\n```\n\nAlternatively, if you are passing a Chargify.js token, the call will resemble the normal Chargify.js subscription creation call. Reference our [Subscription Request Examples](#docTextSection:Z3Ts5maQ3cLpTsxWG) for a guide."
+      public: true
+    mrr-overview:
+      id: mrr-overview
+      name: MRR Overview
+      content: |-
+        This section describes API endpoints for accessing your site's [MRR Report](https://help.chargify.com/reports/mrr-analytics.html) data.
+
+        ### Understanding MRR movements
+
+        Whenever a subscription event occurs that causes your site's MRR to change (such as a signup or upgrade), we record an MRR movement. These records are accessible via the MRR Movements endpoint.
+
+        Each MRR Movement belongs to a subscription and contains a timestamp, category, and an amount. `line_items` represent the subscription's product configuration at the time of the movement.
+
+        ### Plan & Usage Breakouts
+
+        In the MRR Report UI, we support a setting to [include or exclude](https://help.chargify.com/reports/mrr-analytics.html#displaying-component-based-metered-usage-in-mrr) usage revenue. In the MRR APIs, responses include `plan` and `usage` breakouts.
+
+        Revenue from products, on/off components, and quantity-based components is bucketed into the `plan` breakout. Metered usage component revenue is bucketed into the `usage` breakout. Line items marked `recurring: true` contribute to the `plan` breakout.
       public: true
   mock:
     enabled: false
