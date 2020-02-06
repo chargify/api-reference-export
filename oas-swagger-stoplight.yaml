@@ -16499,7 +16499,7 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  /subscriptions/lookup:
+  /subscriptions/lookup.json:
     get:
       operationId: GET_subscriptions-lookup-reference-format
       summary: Lookup Subscription by Reference
@@ -16508,6 +16508,7 @@ paths:
       parameters:
         - name: reference
           in: query
+          required: true
           type: string
       responses:
         '200':
