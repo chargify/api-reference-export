@@ -18471,6 +18471,16 @@ paths:
                           type: integer
                         taxable_amount_in_cents:
                           type: integer
+                        product_id:
+                          type: integer
+                        component_id:
+                          type: integer
+                        component_handle:
+                          type: string
+                        component_name:
+                          type: string
+                        product_handle:
+                          type: string
           examples:
             application/json:
               renewal_preview:
@@ -18489,12 +18499,17 @@ paths:
                     memo: Gold Product (03/13/2017 - 04/13/2017)
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
+                    product_handle: gold
                   - transaction_type: charge
                     kind: quantity_based_component
                     amount_in_cents: 1000
                     memo: 'Quantity Component: 10 Quantity Components'
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
+                    product_id: 113
+                    component_id: 104
+                    component_handle: quantity-component
+                    component_name: Quantity Component
       security:
         - <<api_key>>: []
       x-stoplight:
