@@ -17913,6 +17913,9 @@ paths:
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
                       component_id: 462149
+                      product_id: 113
+                      component_handle: hundo
+                      component_name: HUNDO
                   total_in_cents: 25000
                   total_discount_in_cents: 0
                   total_tax_in_cents: 0
@@ -17936,6 +17939,9 @@ paths:
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
                       component_id: 462149
+                      product_id: 113
+                      component_handle: hundo
+                      component_name: HUNDO
                   total_in_cents: 25000
                   total_discount_in_cents: 0
                   total_tax_in_cents: 0
@@ -20914,6 +20920,16 @@ definitions:
                   type: integer
                 taxable_amount_in_cents:
                   type: integer
+                product_id:
+                  type: integer
+                product_handle:
+                  type: string
+                component_id:
+                  type: integer
+                component_handle:
+                  type: string
+                component_name:
+                  type: string
     example:
       renewal_preview:
         next_assessment_at: '2017-03-13T12:50:55-04:00'
@@ -20931,12 +20947,17 @@ definitions:
             memo: Gold Product (03/13/2017 - 04/13/2017)
             discount_amount_in_cents: 0
             taxable_amount_in_cents: 0
+            product_handle: gold-product
           - transaction_type: charge
             kind: quantity_based_component
             amount_in_cents: 1000
             memo: 'Quantity Component: 10 Quantity Components'
             discount_amount_in_cents: 0
             taxable_amount_in_cents: 0
+            product_id: 113
+            component_id: 104
+            component_handle: quantity-component
+            component_name: Quantity Component
     x-stoplight:
       id: renewal-preview-output
       name: Renewal Preview Output
@@ -35257,6 +35278,12 @@ definitions:
                       type: integer
                     component_id:
                       type: integer
+                    component_handle:
+                      type: string
+                    component_name:
+                      type: string
+                    product_id:
+                      type: integer
               total_in_cents:
                 type: integer
               total_discount_in_cents:
@@ -35295,6 +35322,12 @@ definitions:
                       type: integer
                     component_id:
                       type: integer
+                    component_handle:
+                      type: string
+                    component_name:
+                      type: string
+                    product_id:
+                      type: integer
               total_in_cents:
                 type: integer
               total_discount_in_cents:
@@ -35328,6 +35361,9 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
+              product_id: 113
+              component_handle: hundo
+              component_name: HUNDO
           total_in_cents: 25000
           total_discount_in_cents: 0
           total_tax_in_cents: 0
@@ -35351,6 +35387,9 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
+              product_id: 113
+              component_handle: hundo
+              component_name: HUNDO
           total_in_cents: 25000
           total_discount_in_cents: 0
           total_tax_in_cents: 0
