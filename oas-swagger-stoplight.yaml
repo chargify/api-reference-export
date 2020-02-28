@@ -36015,6 +36015,9 @@ definitions:
               memo: Gold Product (08/21/2018 - 09/21/2018)
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
+              product_id: 1
+              product_handle: gold-product
+              product_name: Gold Product
             - transaction_type: charge
               kind: component
               amount_in_cents: 28000
@@ -36022,6 +36025,8 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
+              component_handle: handle
+              component_name: Component name
             - transaction_type: charge
               kind: component
               amount_in_cents: 2000
@@ -36029,6 +36034,8 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 426665
+              component_handle: handle
+              component_name: Fractional Metered Components
             - transaction_type: charge
               kind: component
               amount_in_cents: 0
@@ -36036,6 +36043,8 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 426670
+              component_handle: handle
+              component_name: On/Off Component
             - transaction_type: adjustment
               kind: coupon
               amount_in_cents: 0
@@ -36058,6 +36067,9 @@ definitions:
               memo: Gold Product (09/21/2018 - 10/21/2018)
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
+              product_id: 1
+              product_handle: gold-product
+              product_name: Gold Product
             - transaction_type: charge
               kind: component
               amount_in_cents: 28000
@@ -36065,6 +36077,8 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
+              component_handle: handle
+              component_name: Component name
             - transaction_type: charge
               kind: component
               amount_in_cents: 0
@@ -36072,6 +36086,8 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 426670
+              component_handle: handle
+              component_name: On/Off Component
           total_in_cents: 33000
           total_discount_in_cents: 0
           total_tax_in_cents: 0
