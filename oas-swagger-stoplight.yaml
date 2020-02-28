@@ -17908,9 +17908,12 @@ paths:
                     - transaction_type: charge
                       kind: baseline
                       amount_in_cents: 5000
-                      memo: Monthly product  (02/05/2018 - 03/05/2018)
+                      memo: Monthly product (02/05/2018 - 03/05/2018)
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
+                      product_id: 1780014
+                      product_handle: monthly-product
+                      product_name: Monthly product
                     - transaction_type: charge
                       kind: component
                       amount_in_cents: 20000
@@ -17918,7 +17921,6 @@ paths:
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
                       component_id: 462149
-                      product_id: 113
                       component_handle: hundo
                       component_name: HUNDO
                   total_in_cents: 25000
@@ -17937,6 +17939,9 @@ paths:
                       memo: Monthly product  (03/05/2018 - 04/05/2018)
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
+                      product_id: 1780014
+                      product_handle: monthly-product
+                      product_name: Monthly product
                     - transaction_type: charge
                       kind: component
                       amount_in_cents: 20000
@@ -17944,7 +17949,6 @@ paths:
                       discount_amount_in_cents: 0
                       taxable_amount_in_cents: 0
                       component_id: 462149
-                      product_id: 113
                       component_handle: hundo
                       component_name: HUNDO
                   total_in_cents: 25000
@@ -35406,6 +35410,9 @@ definitions:
               memo: Monthly product  (02/05/2018 - 03/05/2018)
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
+              product_id: 1780014
+              product_handle: monthly-product
+              product_name: Monthly product
             - transaction_type: charge
               kind: component
               amount_in_cents: 20000
@@ -35413,7 +35420,6 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
-              product_id: 113
               component_handle: hundo
               component_name: HUNDO
           total_in_cents: 25000
@@ -35432,6 +35438,9 @@ definitions:
               memo: Monthly product  (03/05/2018 - 04/05/2018)
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
+              product_id: 1780014
+              product_handle: monthly-product
+              product_name: Monthly product
             - transaction_type: charge
               kind: component
               amount_in_cents: 20000
@@ -35439,7 +35448,6 @@ definitions:
               discount_amount_in_cents: 0
               taxable_amount_in_cents: 0
               component_id: 462149
-              product_id: 113
               component_handle: hundo
               component_name: HUNDO
           total_in_cents: 25000
