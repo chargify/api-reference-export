@@ -18508,14 +18508,15 @@ paths:
                     memo: Gold Product (03/13/2017 - 04/13/2017)
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
-                    product_handle: gold
+                    product_id: 1
+                    product_handle: gold-product
+                    product_name: Gold Product
                   - transaction_type: charge
                     kind: quantity_based_component
                     amount_in_cents: 1000
                     memo: 'Quantity Component: 10 Quantity Components'
                     discount_amount_in_cents: 0
                     taxable_amount_in_cents: 0
-                    product_id: 113
                     component_id: 104
                     component_handle: quantity-component
                     component_name: Quantity Component
