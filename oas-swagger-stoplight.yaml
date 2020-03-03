@@ -31303,7 +31303,10 @@ definitions:
           component_id:
             type: integer
           price_point_id:
-            type: integer
+            type:
+              - integer
+              - string
+            description: 'Will either be the numeric ID of the price point, or the handle name as a string. You can enter the handle name as is, or prepend it with `handle:`'
           quantity:
             type: integer
           memo:
@@ -31322,6 +31325,8 @@ definitions:
             type: string
           downgrade_credit:
             type: string
+        required:
+          - quantity
     example:
       allocation:
         component_id: 375250
