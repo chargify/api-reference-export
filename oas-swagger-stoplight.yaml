@@ -472,7 +472,7 @@ paths:
         id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -1860,328 +1860,77 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription Using Offer Handle
+      summary: Create Subscription with a Coupon
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Create a subscription with an offer handle
+        ## Create Subscription with a Coupon
 
-        This method allows you to provide an offer handle to create a subscription.
+        This method allows you to create a Subscription within Chargify with a coupon applied at signup.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscription-offer-handle-request'
+            $ref: '#/definitions/coupon/create-subscription-with-coupon-input'
             example:
               subscription:
-                offer_id: 'handle:godfather'
+                product_handle: basic
                 customer_attributes:
-                  first_name: Alysa
-                  last_name: Test
-                  email: alysa@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
+                coupon_code: 100PERCENT
       responses:
         '201':
           description: ''
           schema:
-            type: object
-            properties:
-              subscription:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  state:
-                    type: string
-                  trial_started_at:
-                    type: string
-                  trial_ended_at:
-                    type: string
-                  activated_at:
-                    type: 'null'
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  expires_at:
-                    type: 'null'
-                  balance_in_cents:
-                    type: integer
-                  current_period_ends_at:
-                    type: string
-                  next_assessment_at:
-                    type: string
-                  canceled_at:
-                    type: 'null'
-                  cancellation_message:
-                    type: 'null'
-                  next_product_id:
-                    type: 'null'
-                  cancel_at_end_of_period:
-                    type: boolean
-                  payment_collection_method:
-                    type: string
-                  snap_day:
-                    type: 'null'
-                  cancellation_method:
-                    type: 'null'
-                  receives_invoice_emails:
-                    type: 'null'
-                  current_period_started_at:
-                    type: string
-                  previous_state:
-                    type: string
-                  signup_payment_id:
-                    type: integer
-                  signup_revenue:
-                    type: string
-                  delayed_cancel_at:
-                    type: 'null'
-                  coupon_code:
-                    type: 'null'
-                  total_revenue_in_cents:
-                    type: integer
-                  product_price_in_cents:
-                    type: integer
-                  product_version_number:
-                    type: integer
-                  payment_type:
-                    type: string
-                  referral_code:
-                    type: 'null'
-                  coupon_use_count:
-                    type: 'null'
-                  coupon_uses_allowed:
-                    type: 'null'
-                  reason_code:
-                    type: 'null'
-                  automatically_resume_at:
-                    type: 'null'
-                  coupon_codes:
-                    type: array
-                    items:
-                      type: object
-                  offer_id:
-                    type: integer
-                  customer:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      organization:
-                        type: 'null'
-                      email:
-                        type: string
-                      created_at:
-                        type: string
-                      updated_at:
-                        type: string
-                      reference:
-                        type: 'null'
-                      address:
-                        type: 'null'
-                      address_2:
-                        type: 'null'
-                      city:
-                        type: 'null'
-                      state:
-                        type: 'null'
-                      zip:
-                        type: 'null'
-                      country:
-                        type: 'null'
-                      phone:
-                        type: 'null'
-                      portal_invite_last_sent_at:
-                        type: string
-                      portal_invite_last_accepted_at:
-                        type: 'null'
-                      verified:
-                        type: boolean
-                      portal_customer_created_at:
-                        type: string
-                      vat_number:
-                        type: 'null'
-                      cc_emails:
-                        type: 'null'
-                      tax_exempt:
-                        type: boolean
-                  product:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      handle:
-                        type: string
-                      description:
-                        type: string
-                      accounting_code:
-                        type: string
-                      request_credit_card:
-                        type: boolean
-                      expiration_interval:
-                        type: 'null'
-                      expiration_interval_unit:
-                        type: string
-                      created_at:
-                        type: string
-                      updated_at:
-                        type: string
-                      price_in_cents:
-                        type: integer
-                      interval:
-                        type: integer
-                      interval_unit:
-                        type: string
-                      initial_charge_in_cents:
-                        type: 'null'
-                      trial_price_in_cents:
-                        type: integer
-                      trial_interval:
-                        type: integer
-                      trial_interval_unit:
-                        type: string
-                      archived_at:
-                        type: 'null'
-                      require_credit_card:
-                        type: boolean
-                      return_params:
-                        type: string
-                      taxable:
-                        type: boolean
-                      update_return_url:
-                        type: string
-                      tax_code:
-                        type: string
-                      initial_charge_after_trial:
-                        type: boolean
-                      version_number:
-                        type: integer
-                      update_return_params:
-                        type: string
-                      product_family:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                          description:
-                            type: string
-                          handle:
-                            type: string
-                          accounting_code:
-                            type: 'null'
-                      public_signup_pages:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            return_url:
-                              type: 'null'
-                            return_params:
-                              type: string
-                            url:
-                              type: string
-                  credit_card:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      masked_card_number:
-                        type: string
-                      card_type:
-                        type: string
-                      expiration_month:
-                        type: integer
-                      expiration_year:
-                        type: integer
-                      customer_id:
-                        type: integer
-                      current_vault:
-                        type: string
-                      vault_token:
-                        type: string
-                      billing_address:
-                        type: 'null'
-                      billing_city:
-                        type: 'null'
-                      billing_state:
-                        type: 'null'
-                      billing_zip:
-                        type: 'null'
-                      billing_country:
-                        type: 'null'
-                      customer_vault_token:
-                        type: 'null'
-                      billing_address_2:
-                        type: 'null'
-                      payment_type:
-                        type: string
-                      disabled:
-                        type: boolean
+            $ref: '#/definitions/coupon/create-subscription-with-coupon-output'
           examples:
             application/json:
               subscription:
-                id: 25374928
-                state: trialing
-                trial_started_at: '2019-01-25T09:31:38-05:00'
-                trial_ended_at: '2019-01-26T09:31:38-05:00'
-                activated_at: null
-                created_at: '2019-01-25T09:31:38-05:00'
-                updated_at: '2019-01-25T09:31:38-05:00'
+                id: 15479934
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2016-12-02T15:59:08-05:00'
+                created_at: '2016-12-02T15:59:06-05:00'
+                updated_at: '2016-12-02T15:59:08-05:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2019-01-26T09:31:38-05:00'
-                next_assessment_at: '2019-01-26T09:31:38-05:00'
+                current_period_ends_at: '2016-12-03T15:59:06-05:00'
+                next_assessment_at: '2016-12-03T15:59:06-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
-                cancel_at_end_of_period: false
+                cancel_at_end_of_period: null
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                receives_invoice_emails: null
-                current_period_started_at: '2019-01-25T09:31:38-05:00'
-                previous_state: trialing
-                signup_payment_id: 284261141
-                signup_revenue: '0.00'
+                current_period_started_at: '2016-12-02T15:59:06-05:00'
+                previous_state: active
+                signup_payment_id: 164720323
+                signup_revenue: '5.00'
                 delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
-                product_version_number: 1
+                coupon_code: 100PERCENT
+                total_revenue_in_cents: 500
+                product_price_in_cents: 1000
+                product_version_number: 7
                 payment_type: credit_card
-                referral_code: null
-                coupon_use_count: null
+                referral_code: 7b8p8v
+                coupon_use_count: 1
                 coupon_uses_allowed: null
-                reason_code: null
-                automatically_resume_at: null
-                coupon_codes: []
-                offer_id: 1086
                 customer:
-                  id: 25158862
-                  first_name: Alysa
-                  last_name: Test
+                  id: 14943291
+                  first_name: Joe
+                  last_name: Blow
                   organization: null
-                  email: alysa@example.com
-                  created_at: '2019-01-25T09:31:38-05:00'
-                  updated_at: '2019-01-25T09:31:39-05:00'
+                  email: joe@example.com
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T15:59:09-05:00'
                   reference: null
                   address: null
                   address_2: null
@@ -2190,60 +1939,66 @@ paths:
                   zip: null
                   country: null
                   phone: null
-                  portal_invite_last_sent_at: '2019-01-25T09:31:39-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: '2019-01-25T09:31:39-05:00'
-                  vat_number: null
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
                   cc_emails: null
                   tax_exempt: false
                 product:
-                  id: 4468706
-                  name: No Obligation Trial
-                  handle: testmonthly
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
+                  id: 3792003
+                  name: $10 Basic Plan
+                  handle: basic
+                  description: lorem ipsum
+                  accounting_code: basic
+                  request_credit_card: false
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-03-17T12:59:24-04:00'
-                  updated_at: '2018-05-17T09:19:27-04:00'
-                  price_in_cents: 0
+                  created_at: '2016-03-24T13:38:39-04:00'
+                  updated_at: '2016-11-03T13:03:05-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: day
                   initial_charge_in_cents: null
-                  trial_price_in_cents: 0
-                  trial_interval: 1
-                  trial_interval_unit: day
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
                   archived_at: null
                   require_credit_card: false
                   return_params: ''
                   taxable: false
                   update_return_url: ''
-                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
+                  version_number: 7
                   update_return_params: ''
                   product_family:
-                    id: 994344
-                    name: FREE TRIAL
+                    id: 527890
+                    name: Acme Projects
                     description: ''
-                    handle: general-goods-billing-plans
+                    handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 315945
-                      return_url: null
+                    - id: 281054
+                      return_url: 'http://www.example.com?successfulsignup'
                       return_params: ''
-                      url: 'https://trial-period.chargifypay.com/subscribe/x532dvt3vjrx/testmonthly'
+                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                    - id: 281240
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                    - id: 282694
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                 credit_card:
-                  id: 17778534
-                  first_name: Alysa
-                  last_name: Test
+                  id: 10345872
+                  first_name: Joe
+                  last_name: Blow
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 25158862
+                  customer_id: 14943291
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -2254,7 +2009,6 @@ paths:
                   customer_vault_token: null
                   billing_address_2: null
                   payment_type: credit_card
-                  disabled: false
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -5399,24 +5153,21 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Search for Customer
+      summary: Read Customers for a Site
       tags:
         - Customers
       description: |-
-        ## Search for Customer
+        ## Read Customers for a Site
 
-        Use the search feature to retrieve a single or group of customers. 
-
-        Common use cases are:
-
-        + Search by email
-        + Search by Chargify ID
-        + Search by Reference (Your App)
-        + Search by Organization
-
-        If multiple customers meet the criteria for the search string, please expect an array.
+        This request will list all customers associated with your Site.
       parameters:
-        - $ref: '#/parameters/trait:searchString:q'
+        - $ref: '#/parameters/trait:direction:direction'
+        - $ref: '#/parameters/trait:pagination50:page'
+        - $ref: '#/parameters/trait:customerQueryString:date_field'
+        - $ref: '#/parameters/trait:customerQueryString:start_date'
+        - $ref: '#/parameters/trait:customerQueryString:end_date'
+        - $ref: '#/parameters/trait:customerQueryString:start_datetime'
+        - $ref: '#/parameters/trait:customerQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -5426,43 +5177,64 @@ paths:
               type: object
               properties:
                 customer:
-                  $ref: '#/definitions/customer/customer-output'
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    cc_emails:
+                      type: string
+                    organization:
+                      type: string
+                    reference:
+                      type: 'null'
+                    id:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    address:
+                      type: string
+                    address_2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                    phone:
+                      type: string
+                    verified:
+                      type: 'null'
+                    portal_customer_created_at:
+                      type: string
+                    portal_invite_last_sent_at:
+                      type: string
+                    portal_invite_last_accepted_at:
+                      type: 'null'
+                    tax_exempt:
+                      type: boolean
+                    parent_id:
+                      type: integer
           examples:
             application/json:
               - customer:
-                  first_name: Amelia
-                  last_name: Example
-                  email: amelia@example.com
-                  cc_emails: 'john@example.com, joe@example.com'
-                  organization: Acme
-                  reference: JQPUBLIC
-                  id: 14399371
-                  created_at: '2016-10-24T16:20:12-04:00'
-                  updated_at: '2016-10-26T13:25:33-04:00'
-                  address: 123 Anywhere Street
-                  address_2: ''
-                  city: Anywhere
-                  state: MA
-                  zip: '02120'
-                  country: US
-                  phone: 555-555-1212
-                  verified: false
-                  portal_customer_created_at: null
-                  portal_invite_last_sent_at: null
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-                  vat_number: 012345678
-                  parent_id: 14585723
-              - customer:
-                  first_name: Matt
-                  last_name: Example
-                  email: matt@example.com
+                  first_name: Kayla
+                  last_name: Test
+                  email: kayla@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: '1234'
-                  id: 14585723
-                  created_at: '2016-11-04T17:08:31-04:00'
-                  updated_at: '2016-12-02T18:03:36-05:00'
+                  organization: ''
+                  reference: null
+                  id: 14126091
+                  created_at: '2016-10-04T15:22:27-04:00'
+                  updated_at: '2016-10-04T15:22:30-04:00'
                   address: ''
                   address_2: ''
                   city: ''
@@ -5470,60 +5242,56 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
+                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
-                  parent_id: null
               - customer:
-                  first_name: John
-                  last_name: Doe
-                  email: john.doe@example.com
+                  first_name: 'Nick '
+                  last_name: Test
+                  email: nick@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme Widgets
-                  reference: '123'
-                  id: 14731081
-                  created_at: '2016-11-15T15:33:44-05:00'
-                  updated_at: '2016-11-15T15:33:45-05:00'
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  verified: false
-                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  organization: ''
+                  reference: null
+                  id: 14254093
+                  created_at: '2016-10-13T16:52:51-04:00'
+                  updated_at: '2016-10-13T16:52:54-04:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
                   parent_id: 123
               - customer:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe@example.com
+                  first_name: Don
+                  last_name: Test
+                  email: don@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: ABC123
-                  id: 14943291
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T18:03:17-05:00'
-                  address: ''
+                  organization: ''
+                  reference: null
+                  id: 14332342
+                  created_at: '2016-10-19T10:49:13-04:00'
+                  updated_at: '2016-10-19T10:49:19-04:00'
+                  address: 1737 15th St
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
+                  city: Boulder
+                  state: CO
+                  zip: '80302'
+                  country: US
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
+                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
                   parent_id: null
       security:
         - <<api_key>>: []
@@ -6021,6 +5789,67 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  /events.json:
+    get:
+      operationId: list-events
+      summary: Read Events for a Site
+      tags:
+        - Event
+        - incomplete
+        - Events
+      description: |-
+        ## List Events for a Site
+
+        This method will retrieve a list of events for a site. Use query string filters to narrow down results. You may use the `key` filter as part of your query string to narrow down results.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
+        - $ref: '#/parameters/trait:eventsBasicFilters:max_id'
+        - $ref: '#/parameters/trait:eventsBasicFilters:direction'
+        - $ref: '#/parameters/trait:filterByEventName:filter'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/events/list-site-event-output'
+          examples:
+            application/json:
+              - event:
+                  id: 343087780
+                  key: subscription_state_change
+                  message: State changed on Test subscription to Monthly Product from active to past_due
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:22-04:00'
+                  event_specific_data:
+                    previous_subscription_state: active
+                    new_subscription_state: past_due
+              - event:
+                  id: 343087742
+                  key: billing_date_change
+                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
+                  subscription_id: 14950962
+                  created_at: '2016-10-27T16:42:19-04:00'
+                  event_specific_data: null
+              - event:
+                  id: 343085267
+                  key: statement_closed
+                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
+                  subscription_id: 14950975
+                  created_at: '2016-10-27T16:40:40-04:00'
+                  event_specific_data: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: list-events
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/events.json':
     parameters:
       - name: subscription_id
@@ -6081,67 +5910,6 @@ paths:
                   message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
                   subscription_id: 14900541
                   created_at: '2016-11-01T12:41:25-04:00'
-                  event_specific_data: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: list-events
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  /events.json:
-    get:
-      operationId: list-events
-      summary: Read Events for a Site
-      tags:
-        - Event
-        - incomplete
-        - Events
-      description: |-
-        ## List Events for a Site
-
-        This method will retrieve a list of events for a site. Use query string filters to narrow down results. You may use the `key` filter as part of your query string to narrow down results.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
-        - $ref: '#/parameters/trait:eventsBasicFilters:max_id'
-        - $ref: '#/parameters/trait:eventsBasicFilters:direction'
-        - $ref: '#/parameters/trait:filterByEventName:filter'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/events/list-site-event-output'
-          examples:
-            application/json:
-              - event:
-                  id: 343087780
-                  key: subscription_state_change
-                  message: State changed on Test subscription to Monthly Product from active to past_due
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:22-04:00'
-                  event_specific_data:
-                    previous_subscription_state: active
-                    new_subscription_state: past_due
-              - event:
-                  id: 343087742
-                  key: billing_date_change
-                  message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
-                  subscription_id: 14950962
-                  created_at: '2016-10-27T16:42:19-04:00'
-                  event_specific_data: null
-              - event:
-                  id: 343085267
-                  key: statement_closed
-                  message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
-                  subscription_id: 14950975
-                  created_at: '2016-10-27T16:40:40-04:00'
                   event_specific_data: null
       security:
         - <<api_key>>: []
@@ -7308,13 +7076,10 @@ paths:
         type: string
     post:
       operationId: POST_invoices-uid-refunds-json
-      summary: Refund Consolidated Invoice
+      summary: Refund Single Invoice
       tags:
         - Relationship Invoicing
-      description: |-
-        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts a `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded or `segment_uids: 'all'` to indicate that the entire invoice should be refunded.
-
-        **Each segment that is passed in will be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
+      description: 'This relates to refunding either a non-consolidated invoice, or a segment of a consoldiated invoice (see below for docs on refunding a consolidated invoice). This endpoint accepts an `amount`, `memo`, and the `payment_id` of the payment that is being refunded. The `amount` is a dollar amount, not in cents, and cannot exceed to remaining refundable balance of the payment.'
       consumes:
         - application/xml
       produces:
@@ -7328,38 +7093,35 @@ paths:
               refund:
                 type: object
                 required:
+                  - amount
                   - memo
                   - payment_id
-                  - segment_uids
                 properties:
+                  amount:
+                    type: string
+                    description: A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
                   memo:
                     type: string
-                    description: A description for the refund
+                    description: A description that will be attached to the refund
                   payment_id:
                     type: integer
                     description: The ID of the payment to be refunded
-                  segment_uids:
-                    type:
-                      - array
-                      - string
-                    description: An array of segment uids to refund or the string 'all' to indicate that all segments should be refunded
-                    items:
-                      type: string
                   external:
                     type: boolean
                     description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
                   apply_credit:
                     type: boolean
                     description: 'If set to true, creates credit and applies it to an invoice. Defaults to `false`.'
+                  void_invoice:
+                    type: boolean
+                    description: 'If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.'
             required:
               - refund
             example:
               refund:
+                amount: '10.00'
                 memo: Refund for basic plan renewal
                 payment_id: 101
-                segment_uids:
-                  - inv_123
-                  - inv_789
       responses:
         '200':
           description: ''
@@ -8432,90 +8194,54 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-payments-json
-      summary: Create Bulk Payment
+      summary: Create a Payment
       tags:
         - Relationship Invoicing
       description: |-
-        <h2> Create Bulk Payment </h2>
+        ## Create a Payment
 
-        Only available for accounts on Relationship Invoicing.
-
-        Record an external payment made against a subscription that will pay partially or in full one or more invoices.
-
-        Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
-
-        Excess payment will result in the creation of a prepayment on the Invoice Account.
-
-        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
+        This method will allow you to record an external payment on a subscription.
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              payment:
-                type: object
-                required:
-                  - amount
-                  - memo
-                  - payment_details
-                  - payment_method
-                properties:
-                  amount:
-                    type: string
-                  memo:
-                    type: string
-                  payment_details:
-                    type: string
-                  payment_method:
-                    type: string
-            required:
-              - payment
+            $ref: '#/definitions/payments/create-payment-input'
             example:
               payment:
-                amount: '10.0'
-                memo: to pay the bills
-                payment_details: check number 8675309
-                payment_method: check
+                amount: 10
+                memo: Client x paid with $10.00 of nickles
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/create-bulk-payment-response'
+            $ref: '#/definitions/payments/create-payment-output'
           examples:
             application/json:
-              paid_invoices:
-                - invoice_uid: xyz_012345678
-                  status: paid
-                  due_amount: '0.0'
-                  paid_amount: '50.0'
-                - invoice_uid: xyz_012345678
-                  status: paid
-                  due_amount: '0.0'
-                  paid_amount: '50.0'
-              prepayment:
-                subscription_id: '123456'
-                amount_in_cents: '5000'
-                ending_balance_in_cents: '5000'
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type:
-                  - string
-                  - array
-                description: |-
-                  Unproccessable Entity Possible Errors:  
-                  "Payment amount, details, method, and memo must be present"
-
-                   "Payment amount, details, method, and memo must valid"
-
-                  "Payment amount must be greater than zero"
-
-                  "If in a group, the Subscription must be the primary"
-                items: {}
+              payment:
+                id: 160873334
+                subscription_id: 15054201
+                type: Payment
+                kind: manual
+                transaction_type: payment
+                success: true
+                amount_in_cents: 1000
+                memo: Client x paid with $10.00 of nickles
+                created_at: '2016-11-03T14:58:30-04:00'
+                starting_balance_in_cents: -13989
+                ending_balance_in_cents: -14989
+                gateway_used: null
+                gateway_transaction_id: null
+                gateway_order_id: null
+                payment_id: null
+                product_id: 3861800
+                tax_id: null
+                component_id: null
+                statement_id: 79870822
+                customer_id: 14543792
+                card_number: null
+                card_expiration: null
+                card_type: null
+                refunded_amount_in_cents: 0
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -12764,30 +12490,40 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Default)'
+      summary: 'Clear all Site data:  (Customers)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Default)
+        ## Clear all Site data:  (Customers)
 
-        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
         ```
 
-        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Required Parameter: cleanup_scope
+
+        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
+      parameters:
+        - name: cleanup_scope
+          in: query
+          required: true
+          type: string
+          enum:
+            - customers
       responses:
-        '200':
+        default:
           description: ''
+          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -16728,24 +16464,31 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_subscriptions-subscription_id-format
-      summary: 'Update Subscription: Payment Method Change'
+      summary: 'Update Subscription: Cancel Delayed Product Change'
       tags:
         - Subscription
         - incomplete
         - 'Subscriptions: Date Changes / Calendar Billing'
       description: |-
-        ## Update Subscription: Payment Method Change
+        ## Update Subscription: Cancel Delayed Product Change
 
-        Change the card that your Subscriber uses for their subscription. You can also use this method to simply change the expiration date of the card **if your gateway allows**.
+        To cancel a delayed product change, set `next_product_id` to an empty string:
 
-        Note that partial card updates for **Authorize.Net** are not allowed via this endpoint. See [Payment Profiles Update](#endpoint:XaKv2mYcuT6g9EErH) instead
-
-        You also use this method to change the subscription to a different product by setting a new value for product_handle. A product change can be done in two different ways, **product change** or **delayed product change**.
+        ```
+        {
+          "subscription": {    
+            "next_product_id": ""  
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/update-subscription-payment-method-request'
+            $ref: '#/definitions/update-subscription-cancel-delayed-product-change-request'
+            example:
+              subscription:
+                next_product_id: ''
       responses:
         '200':
           description: OK
@@ -16753,102 +16496,133 @@ paths:
             $ref: '#/definitions/subscription/read-subscription'
           examples:
             application/json:
-              - subscription:
-                  id: 18220670
-                  state: active
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2017-06-27T13:45:15-05:00'
-                  created_at: '2017-06-27T13:45:13-05:00'
-                  updated_at: '2017-06-30T09:26:50-05:00'
-                  expires_at: null
-                  balance_in_cents: 10000
-                  current_period_ends_at: '2017-06-30T12:00:00-05:00'
-                  next_assessment_at: '2017-06-30T12:00:00-05:00'
-                  canceled_at: null
-                  cancellation_message: null
-                  next_product_id: null
-                  cancel_at_end_of_period: false
-                  payment_collection_method: automatic
-                  snap_day: end
-                  cancellation_method: null
-                  current_period_started_at: '2017-06-27T13:45:13-05:00'
-                  previous_state: active
-                  signup_payment_id: 191819284
-                  signup_revenue: '0.00'
-                  delayed_cancel_at: null
-                  coupon_code: null
-                  total_revenue_in_cents: 0
-                  product_price_in_cents: 0
-                  product_version_number: 1
-                  payment_type: null
-                  referral_code: d3pw7f
-                  coupon_use_count: null
-                  coupon_uses_allowed: null
-                  reason_code: null
-                  automatically_resume_at: null
-                  current_billing_amount_in_cents: 10000
-                  receives_invoice_emails: false
-                  customer:
-                    id: 17780587
-                    first_name: Catie
-                    last_name: Test
-                    organization: 'Acme, Inc.'
-                    email: catie@example.com
-                    created_at: '2017-06-27T13:01:05-05:00'
-                    updated_at: '2017-06-30T09:23:10-05:00'
-                    reference: 123ABC
-                    address: 123 Anywhere Street
-                    address_2: 'Apartment #10'
-                    city: Los Angeles
-                    state: CA
-                    zip: '90210'
-                    country: US
-                    phone: 555-555-5555
-                    portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
-                    portal_invite_last_accepted_at: null
-                    verified: true
-                    portal_customer_created_at: '2017-06-27T13:01:08-05:00'
-                    cc_emails: support@example.com
-                    tax_exempt: true
-                  product:
-                    id: 4470347
-                    name: Zero Dollar Product
-                    handle: zero-dollar-product
+              subscription:
+                id: 21607180
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2018-04-20T14:20:57-05:00'
+                created_at: '2018-04-20T14:20:57-05:00'
+                updated_at: '2018-05-11T13:31:48-05:00'
+                expires_at: null
+                balance_in_cents: 49000
+                current_period_ends_at: '2018-05-12T11:33:03-05:00'
+                next_assessment_at: '2018-05-12T11:33:03-05:00'
+                canceled_at: null
+                cancellation_message: null
+                next_product_id: null
+                cancel_at_end_of_period: false
+                payment_collection_method: invoice
+                snap_day: null
+                cancellation_method: null
+                current_period_started_at: '2018-05-11T11:33:03-05:00'
+                previous_state: active
+                signup_payment_id: 237154761
+                signup_revenue: '0.00'
+                delayed_cancel_at: null
+                coupon_code: COUPONB
+                total_revenue_in_cents: 52762
+                product_price_in_cents: 100000
+                product_version_number: 2
+                payment_type: credit_card
+                referral_code: x45nc8
+                coupon_use_count: 0
+                coupon_uses_allowed: 1
+                reason_code: null
+                automatically_resume_at: null
+                coupon_codes:
+                  - COUPONB
+                customer:
+                  id: 21259051
+                  first_name: K
+                  last_name: c
+                  organization: ''
+                  email: example+nownownownow@chargify.com
+                  created_at: '2018-04-20T14:20:57-05:00'
+                  updated_at: '2018-04-23T15:29:28-05:00'
+                  reference: null
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  portal_invite_last_sent_at: '2018-04-20T14:20:59-05:00'
+                  portal_invite_last_accepted_at: null
+                  verified: false
+                  portal_customer_created_at: '2018-04-20T14:20:59-05:00'
+                  cc_emails: ''
+                  tax_exempt: false
+                product:
+                  id: 4581816
+                  name: Basic
+                  handle: basic
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2018-04-10T09:02:59-05:00'
+                  price_in_cents: 100000
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: 100000
+                  trial_price_in_cents: 1000
+                  trial_interval: 10
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: true
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  tax_code: ''
+                  initial_charge_after_trial: false
+                  version_number: 2
+                  update_return_params: ''
+                  product_family:
+                    id: 1025627
+                    name: Stack Overflow for Teams
                     description: ''
-                    accounting_code: ''
-                    request_credit_card: true
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    created_at: '2017-03-23T10:54:12-05:00'
-                    updated_at: '2017-04-20T15:18:46-05:00'
-                    price_in_cents: 0
-                    interval: 1
-                    interval_unit: month
-                    initial_charge_in_cents: null
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
-                    archived_at: null
-                    require_credit_card: false
-                    return_params: ''
-                    taxable: false
-                    update_return_url: ''
-                    tax_code: ''
-                    initial_charge_after_trial: false
-                    version_number: 1
-                    update_return_params: ''
-                    product_family:
-                      id: 997233
-                      name: Acme Products
-                      description: ''
-                      handle: acme-products
-                      accounting_code: null
-                    public_signup_pages:
-                      - id: 316810
-                        return_url: ''
-                        return_params: ''
-                        url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
+                    handle: acme-products
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 333589
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
+                    - id: 335926
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
+                    - id: 345555
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/txqyyqk7d8rz/basic'
+                    - id: 345556
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/2zss3qpf4249/basic'
+                credit_card:
+                  id: 14839830
+                  first_name: K
+                  last_name: C
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 1
+                  expiration_year: 2028
+                  customer_id: 21259051
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: '99999'
+                  billing_country: null
+                  customer_vault_token: null
+                  billing_address_2: null
+                  payment_type: credit_card
         '422':
           description: Unprocessable Entity
       security:
@@ -17377,78 +17151,76 @@ paths:
         type: number
     post:
       operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-      summary: Add the Coupon to an Existing Subscription
+      summary: Add Multiple Coupons to Existing Subscription
       tags:
         - Coupon
         - incomplete
         - 'Subscriptions: Coupons'
       description: |-
-        ## Add the Coupon to an existing Subscription
+        ## Add Multiple Coupons to Existing Subscription
 
-        If the coupon is successfully applied, the subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
-        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
-
-        ## Coupon Application Warning
-
-        Sending this request will overwrite all (single and multiple) coupons previously applied to the subscription.  
-
-        If you want to apply stackable coupons, **remove** any coupons you have and use [request with 'codes' parameter](#endpoint:DbA9MDLykDkNbYCaJ).
+        An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our [coupon documentation.](https://help.chargify.com/products/product-coupons.html#stackable-coupons)
       parameters:
-        - name: code
-          in: query
-          required: true
-          type: string
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
+            example:
+              codes:
+                - COUPON_1
+                - COUPON_2
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupon/add-coupon-to-subscription-output'
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
           examples:
             application/json:
               subscription:
-                id: 50
+                id: 21607180
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-11-01T04:17:47-04:00'
-                created_at: '2017-11-01T04:17:46-04:00'
-                updated_at: '2017-11-08T09:17:44-05:00'
+                activated_at: '2018-04-20T14:20:57-05:00'
+                created_at: '2018-04-20T14:20:57-05:00'
+                updated_at: '2018-05-11T13:53:44-05:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-12-01T03:17:46-05:00'
-                next_assessment_at: '2017-12-01T03:17:46-05:00'
+                balance_in_cents: 49000
+                current_period_ends_at: '2018-05-12T11:33:03-05:00'
+                next_assessment_at: '2018-05-12T11:33:03-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
-                payment_collection_method: automatic
+                payment_collection_method: invoice
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-11-01T04:17:46-04:00'
+                current_period_started_at: '2018-05-11T11:33:03-05:00'
                 previous_state: active
-                signup_payment_id: 109
-                signup_revenue: '10.00'
+                signup_payment_id: 237154761
+                signup_revenue: '0.00'
                 delayed_cancel_at: null
-                coupon_code: ABC123
-                total_revenue_in_cents: 1000
-                product_price_in_cents: 1000
-                product_version_number: 1
+                coupon_code: COUPONA
+                total_revenue_in_cents: 52762
+                product_price_in_cents: 100000
+                product_version_number: 2
                 payment_type: credit_card
-                referral_code: null
+                referral_code: x45nc8
                 coupon_use_count: 0
                 coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
                 coupon_codes:
-                  - ABC123
+                  - COUPONA
+                  - COUPONB
                 customer:
-                  id: 50
-                  first_name: Fred
-                  last_name: Jones
+                  id: 21259051
+                  first_name: K
+                  last_name: C
                   organization: ''
-                  email: fred@jones.com
-                  created_at: '2017-11-01T04:17:46-04:00'
-                  updated_at: '2017-11-01T04:17:46-04:00'
+                  email: example@chargify.com
+                  created_at: '2018-04-20T14:20:57-05:00'
+                  updated_at: '2018-04-23T15:29:28-05:00'
                   reference: null
                   address: ''
                   address_2: ''
@@ -17457,71 +17229,98 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  portal_invite_last_sent_at: null
+                  portal_invite_last_sent_at: '2018-04-20T14:20:59-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: null
-                  cc_emails: null
+                  portal_customer_created_at: '2018-04-20T14:20:59-05:00'
+                  cc_emails: ''
                   tax_exempt: false
                 product:
-                  id: 97
-                  name: User-friendly systemic matrices
-                  handle: handle_1d382acd0
-                  description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
-                  accounting_code: null
+                  id: 4581816
+                  name: Basic
+                  handle: basic
+                  description: ''
+                  accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
-                  expiration_interval_unit: null
-                  created_at: '2017-09-13T12:45:35-04:00'
-                  updated_at: '2017-09-13T12:45:35-04:00'
-                  price_in_cents: 1000
+                  expiration_interval_unit: never
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2018-04-10T09:02:59-05:00'
+                  price_in_cents: 100000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: null
+                  initial_charge_in_cents: 100000
+                  trial_price_in_cents: 1000
+                  trial_interval: 10
+                  trial_interval_unit: month
                   archived_at: null
                   require_credit_card: true
-                  return_params: null
+                  return_params: ''
                   taxable: false
-                  update_return_url: null
-                  tax_code: null
+                  update_return_url: ''
+                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: null
+                  version_number: 2
+                  update_return_params: ''
                   product_family:
-                    id: 4
-                    name: Acme Online
-                    description: null
-                    handle: acme-online
+                    id: 1025627
+                    name: My Product Family
+                    description: ''
+                    handle: acme-products
                     accounting_code: null
-                  public_signup_pages: []
+                  public_signup_pages:
+                    - id: 333589
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
+                    - id: 335926
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
+                    - id: 345555
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/txqyyqk7d8rz/basic'
+                    - id: 345556
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/2zss3qpf4249/basic'
                 credit_card:
-                  id: 36
-                  first_name: Fred
-                  last_name: Jones
+                  id: 14839830
+                  first_name: John
+                  last_name: Doe
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 1
-                  expiration_year: 2025
-                  customer_id: 50
+                  expiration_year: 2028
+                  customer_id: 21259051
                   current_vault: bogus
                   vault_token: '1'
-                  billing_address: ''
-                  billing_city: ''
-                  billing_state: AL
-                  billing_zip: ''
-                  billing_country: US
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: '99999'
+                  billing_country: null
                   customer_vault_token: null
-                  billing_address_2: ''
+                  billing_address_2: null
                   payment_type: credit_card
         '422':
           description: ''
+          schema:
+            type: object
+            properties:
+              codes:
+                type: array
+                items:
+                  type: string
+              subscription:
+                type: array
+                items:
+                  type: string
           examples:
             application/json:
               codes:
-                - 'Coupon Codes: Subscription already has a non-stackable coupon.'
+                - 'Coupon Codes: Subscription already has at least one non-stackable coupon.'
               subscription:
                 - Coupon is invalid.
       security:
@@ -18830,18 +18629,24 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Trial Ended Subscription
+      summary: Canceled Subscription With Coupon
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Reactivating Trial Ended Subscription
+        ## Reactivating a Canceled Subscription With Coupon
 
-        + Given you have a trial_ended subscription
-        + Send a PUT request
+        + Given you have a canceled subscription
+        + It has no current period defined
+        + You have a coupon code "EARLYBIRD"
+        + The coupon is set to recur for 6 periods
 
-        ### Results 
+        PUT request sent to:
+        `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?coupon_code=EARLYBIRD`
+
+        ### Results
 
         + The subscription will transition to active
+        + The subscription should have applied a coupon with code "EARLYBIRD"
       responses:
         '200':
           description: ''
@@ -19689,17 +19494,193 @@ paths:
           examples:
             application/json:
               endpoint:
-                id: 16894
+                id: 1
                 url: 'https://your.site/webhooks'
-                site_id: 2
+                site_id: 1
                 status: enabled
                 webhook_subscriptions:
                   - payment_success
                   - payment_failure
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'URL: invalid, only http and https supported'
       security:
         - <<api_key>>: []
       x-stoplight:
         id: POST_endpointsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_endpoints-json
+      summary: Read Endpoints for site
+      tags:
+        - Webhook
+        - Webhooks
+      description: |-
+        ## List of endpoints for site
+
+        This method returns created endpoints for site
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                url:
+                  type: string
+                site_id:
+                  type: integer
+                status:
+                  type: string
+                webhook_subscriptions:
+                  type: array
+                  items:
+                    type: string
+          examples:
+            application/json:
+              - id: 11
+                url: 'https://foobar.com/webhooks'
+                site_id: 1
+                status: enabled
+                webhook_subscriptions:
+                  - payment_success
+                  - payment_failure
+              - id: 12
+                url: 'https:/example.com/webhooks'
+                site_id: 1
+                status: enabled
+                webhook_subscriptions:
+                  - payment_success
+                  - payment_failure
+                  - refund_failure
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_endpointsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/endpoints/{endpoint_id}.json':
+    parameters:
+      - name: endpoint_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_endpoints-endpoint_id-json
+      summary: Update Endpoint for site
+      tags:
+        - Webhook
+        - Webhooks
+      description: |-
+        ## Update an Endpoint
+
+        You can update an Endpoint via the API with a PUT request to the resource endpoint.
+
+        You can change the `url` of your endpoint which consumes webhooks or list of `webhook_subscriptions`.   
+        [Events keys](https://help.chargify.com/webhooks/webhooks-reference.html)
+
+        Always send a complete list of events which you want subscribe/watch.
+        Sending an PUT request for existing endpoint with empty list of `webhook_subscriptions` will end with unsubscribe from all events.
+
+        If you want unsubscribe from specific event jest sens a list of `webhook_subscriptions` without this event key.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              endpoint:
+                $ref: '#/definitions/endpoint/create-an-endpoint'
+            example:
+              endpoint:
+                url: 'https://yout.site/webhooks/1/json.'
+                webhook_subscriptions:
+                  - payment_failure
+                  - payment_success
+                  - refund_failure
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          enum:
+            - application/json
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              endpoint:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  url:
+                    type: string
+                  site_id:
+                    type: integer
+                  status:
+                    type: string
+                  webhook_subscriptions:
+                    type: array
+                    items:
+                      type: string
+          examples:
+            application/json:
+              endpoint:
+                id: 1
+                url: 'https://yoursite.site/webhooks'
+                site_id: 1
+                status: enabled
+                webhook_subscriptions:
+                  - payment_success
+                  - payment_failure
+                  - refund_failure
+        '404':
+          description: ''
+          schema:
+            type: 'null'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - Event key is not valid - foobar
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_endpoints-endpointidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -41778,7 +41759,7 @@ definitions:
       name: Read Product Families For a Site
       public: true
   endpoint/create-an-endpoint:
-    title: Endpoint Create Request POST
+    title: Endpoint Create/Update Request POST
     type: object
     properties:
       endpoint:
@@ -41796,7 +41777,7 @@ definitions:
           - url
     x-stoplight:
       id: endpoint/create-an-endpoint
-      name: Endpoint Create Request POST
+      name: Endpoint Create/Update Request POST
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
@@ -43033,6 +43014,10 @@ x-stoplight:
               type: endpoints
             - _id: endpoint/create-an-endpoint
               type: schemas
+            - _id: GET_endpoints-endpointidjson
+              type: endpoints
+            - _id: GET_endpointsjson
+              type: endpoints
   functions: {}
   textSections:
     guidelines:
