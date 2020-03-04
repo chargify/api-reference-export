@@ -812,7 +812,193 @@ paths:
       tags:
         - Component
         - Components
-      description: "## Create Component within a Product Family\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n### Component Documentation\n\nFor more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Component\",\n\t\t\"description\": \"Example of JSON per-unit component example\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"unit_price\": \"10\",\n\t\t\"taxable\": \"1\"\n\t},\n\t\"display_on_hosted_page\": \"1\",\n\t\"allow_fractional_quantities\": \"1\",\n\t\"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON stairstep example\",\n\t\t\"pricing_scheme\": \"stairstep\",\n\t\t\"unit_price\": \"\",\n\t  \"taxable\": \"1\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"100\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"101\",\n\t\t\t\t\"ending_quantity\": \"200\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"display_on_hosted_page\": \"1\",\n\t\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\t\"public_signup_page_ids\": [\"323397\"]\n\t\t}\n\t}\n}\n```\n\n**Volume Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON volume component example\",\n\t\t\"pricing_scheme\": \"volume\",\n\t\t\"taxable\": \"1\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"10\",\n\t\t\t\t\"unit_price\": \"10\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"11\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"5\"\n\t\t\t}\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t},\n\t\"commit\": \"Create Component\",\n\t\"product_family_id\": \"997233\"\n}\n```\n\n**Tiered Example**\n\n```\n{\n\t\"quantity_based_component\": {\n\t\t\"name\": \"Quantity Based Component\",\n\t\t\"unit_name\": \"Quantity Based Component\",\n\t\t\"description\": \"Example of JSON for tiered quantity based component\",\n\t  \"taxable\": \"1\",\n\t\t\"pricing_scheme\": \"tiered\",\n\t\t\"unit_price\": \"\",\n\t\t\"prices_attributes\": {\n\t\t\t\"0\": {\n\t\t\t\t\"starting_quantity\": \"1\",\n\t\t\t\t\"ending_quantity\": \"20\",\n\t\t\t\t\"unit_price\": \"50\"\n\t\t\t},\n\t\t\t\"1\": {\n\t\t\t\t\"starting_quantity\": \"21\",\n\t\t\t\t\"ending_quantity\": \"40\",\n\t\t\t\t\"unit_price\": \"25\"\n\t\t\t}\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"allow_fractional_quantities\": \"1\",\n\t\t\"public_signup_page_ids\": [\"323397\"]\n\t}\n}\n```\n\n\n## On/Off Component\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"]\n}\n```\n\n## Create a Component with Default Proration Schemes\n\nThis endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.\n\n### On/Off Component with Default Proration Schemes\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"],\n\t\t\"upgrade_charge\": \"full\",\n\t\t\"downgrade_credit\": \"prorated\",\n\t\t\n\t}\n}\n```"
+      description: |-
+        ## Create Component within a Product Family
+
+        This request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.
+
+        ### Component Documentation
+
+        For more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)
+
+        ## Plural Kind  
+
+        In order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.
+
+        Use one of the following:
+
+        + metered_components
+        + quantity_based_components
+        + on_off_components
+
+        ## Metered Component Example
+
+        ```
+        {
+          "metered_component": {
+            "name": "Text messages",
+            "unit_name": "text message",
+            "taxable": false,
+            "pricing_scheme": "stairstep",
+            "prices": [
+              {
+                "starting_quantity": 1,
+                "unit_price": 1,
+                "component": null
+              }
+            ]
+          }
+        }
+        ```
+
+        ## Quantity Based Example
+
+        **Per Unit Example**
+
+        ```
+        {
+          "quantity_based_component": {
+            "name": "Quantity Based Component",
+            "unit_name": "Component",
+            "description": "Example of JSON per-unit component example",
+            "pricing_scheme": "per_unit",
+            "unit_price": "10",
+            "taxable": "1"
+            "display_on_hosted_page": "1",
+            "allow_fractional_quantities": "1",
+            "public_signup_page_ids": ["323397"]
+        }
+        ```
+
+        **Stairstep Example**
+
+        ```
+        {
+          "quantity_based_component": {
+            "name": "Quantity Based Component",
+            "unit_name": "Quantity Based Component",
+            "description": "Example of JSON stairstep example",
+            "pricing_scheme": "stairstep",
+            "taxable": "1",
+            "prices_attributes": 
+              [
+                {
+                  "starting_quantity": "1",
+                  "ending_quantity": "100",
+                  "unit_price": "50"
+                },
+                {
+                  "starting_quantity": "101",
+                  "ending_quantity": "200",
+                  "unit_price": "10"
+                }
+              ],
+            "display_on_hosted_page": "1",
+            "allow_fractional_quantities": "1",
+            "public_signup_page_ids": ["323397"]
+          }
+        }
+        ```
+
+        **Volume Example**
+
+        ```
+        {
+          "quantity_based_component": {
+            "name": "Quantity Based Component",
+            "unit_name": "Quantity Based Component",
+            "description": "Example of JSON volume component example",
+            "pricing_scheme": "volume",
+            "taxable": "1",
+            "prices_attributes": [
+              {
+                "starting_quantity": "1",
+                "ending_quantity": "10",
+                "unit_price": "10"
+              },
+              {
+                "starting_quantity": "11",
+                "ending_quantity": "20",
+                "unit_price": "5"
+              }
+            ],
+            "display_on_hosted_page": "1",
+            "allow_fractional_quantities": "1",
+            "public_signup_page_ids": ["323397"]
+          }
+        }
+        ```
+
+        **Tiered Example**
+
+        ```
+        {
+          "quantity_based_component": {
+            "name": "Quantity Based Component",
+            "unit_name": "Quantity Based Component",
+            "description": "Example of JSON for tiered quantity based component",
+            "taxable": "1",
+            "pricing_scheme": "tiered",
+            "prices_attributes": [
+              {
+                "starting_quantity": "1",
+                "ending_quantity": "20",
+                "unit_price": "50"
+              },
+              {
+                "starting_quantity": "21",
+                "ending_quantity": "40",
+                "unit_price": "25"
+              }
+            ],
+            "display_on_hosted_page": "1",
+            "allow_fractional_quantities": "1",
+            "public_signup_page_ids": ["323397"]
+          }
+        }
+        ```
+
+
+        ## On/Off Component
+
+        ```
+        {
+          "on_off_component": {
+            "name": "Annual Support Services",
+            "description": "Prepay for support services",
+            "taxable": "1",
+            "price_attributes": {
+              "unit_price": "100.00",
+              "starting_quantity": "0"
+            },
+            "display_on_hosted_page": "1",
+            "public_signup_page_ids": ["320495"]
+        }
+        ```
+
+        ## Create a Component with Default Proration Schemes
+
+        This endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.
+
+        ### On/Off Component with Default Proration Schemes
+
+        ```
+        {
+          "on_off_component": {
+            "name": "Annual Support Services",
+            "description": "Prepay for support services",
+            "taxable": "1",
+            "price_attributes": {
+              "unit_price": "100.00",
+              "starting_quantity": "0"
+            },
+            "display_on_hosted_page": "1",
+            "public_signup_page_ids": ["320495"],
+            "upgrade_charge": "full",
+            "downgrade_credit": "prorated",
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
@@ -3905,14 +4091,18 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  '/coupons/{coupon_id}/usage.json':
+  '/product_families/{product_family_id}/coupons/{coupon_id}/usage.json':
     parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
       - name: coupon_id
         in: path
         required: true
         type: string
     get:
-      operationId: GET_coupons-coupon_id-usage-json
+      operationId: GET_product_families-product_family_id-coupons-coupon_id-usage-json
       summary: Read Coupon Usage for a Site
       tags:
         - 'Coupons: Editing'
@@ -3951,7 +4141,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_coupons-couponid-usagejson
+        id: GET_productfamilies-productfamilyid-coupons-couponid-usagejson
         beforeScript: null
         afterScript: null
         public: true
@@ -41712,7 +41902,7 @@ x-stoplight:
               type: schemas
             - _id: GET_coupons-coupon_id-format
               type: endpoints
-            - _id: GET_coupons-couponid-usagejson
+            - _id: GET_productfamilies-productfamilyid-coupons-couponid-usagejson
               type: endpoints
             - _id: coupons/coupon-usage-output
               type: schemas
