@@ -44923,7 +44923,7 @@ x-stoplight:
 
         ## Webhooks Documentation
 
-        We recommend that you review Chargify's webhook documentation located in our help site. The following resources will help guide you on how to use webhooks in Chargify, in addition to these webhook endpoints
+        We recommend that you review Chargify's webhook documentation located in our help site. The following resources will help guide you on how to use webhooks in Chargify, in addition to these webhook endpoints:
 
         + [Adding/editing new webhooks](https://help.chargify.com/settings/webhooks.html)
         + [Webhooks introduction and delivery information](https://help.chargify.com/webhooks/introduction.html)
@@ -44942,7 +44942,7 @@ x-stoplight:
         + `created_at` Timestamp indicating when the Webhook was created
         + `accepted_at` Timestamp indicating when the Webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
         + `last_sent_at` Timestamp indicating when the most recent attempt was made to send the Webhook
-        + `last_error_at` Timestamp indicating when the last non-acceptance occurred. If a webhooks is later resent and accepted, this field will be cleared.
+        + `last_error_at` Timestamp indicating when the last non-acceptance occurred. If a webhook is later resent and accepted, this field will be cleared.
         + `last_sent_url` The url that the endpoint was last sent to.
         + `last_error` Text describing the status code and/or error from the last failed attempt to send the Webhook. When a webhook is retried and accepted, this field will be cleared.
       public: true
