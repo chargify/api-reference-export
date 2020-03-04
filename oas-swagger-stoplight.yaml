@@ -287,39 +287,125 @@ paths:
         type: integer
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Create Allocation for On/Off Component
+      summary: Updating the Quantity
       tags:
         - 'Components: On/Off Toggling'
-      description: "## Create Allocation for On/Off Component\n\nAfter a subscription has been created, you may enable of disable the on/off componentat any time. To do this, use the [Allocations](#endpoint:3stsG5oibfdivng9j) endpoint.\n\nThe method creates a new allocation, setting the current allocated quantity for the Component and recording a memo.\n\n**Notice**: Allocations can only be updated for Quantity and On/Off Components.\n\n## Proration Schemes\n\nChanging the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.\n\nFor background information on prorated components and upgrade/downgrade schemes, see: API: [Setting Component Allocations.](<https://help.chargify.com/subscriptions/setting-component-allocations.html>) See the tables below for valid values.\n\n| upgrade_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|----------------|-------------------------------------------------------------------|\n| `full` \_ \_ \_ \_ |\_A charge is added for the full price of the component. \_\_\_ \_ \_ \_ \_|\n| `prorated` \_ \_ |\_A charge is added for the prorated price of the component change. |\n| `none` \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| downgrade_credit | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|------------------|---------------------------------------------------|\n| `full` \_ \_ \_ \_ \_ |\_A full price credit is added for the amount owed. |\n| `prorated` \_ \_ \_ |\_A prorated credit is added for the amount owed. \_ |\n| `none` \_ \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| accrue_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_   |\n|---------------|------------------------------------------------------------------------------------------------------------|\n| `true` \_ \_ \_ \_| Attempt to charge the customer at next renewal.                                                            |\n| `false` \_ \_ \_ |\_Attempt to charge the customer right away.\_If it fails, the charge will be accrued until the next renewal. |\n\n### Order of Resolution for upgrade_charge and downgrade_credit\n\n1. Per allocation in API call (within a single allocation of the `allocations` array)\n2. [Component-level default value](<https://help.chargify.com/products/product-components.html#component-proration>)\n3. Allocation API call top level (outside of the `allocations` array)\n4. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n### Order of Resolution for accrue_charge\n\n1. Allocation API call top level (outside of the `allocations` array)\n2. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n## Input Fields\n\n| **Input Fields**           | **Description** |\n|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| quantity                   | For On/Off components, use `1 `for on and `0` for off. By default, this is an integer.|\n| memo                       | (optional) A memo to record along with the allocation |\n| upgrade_charge             | (optional) The type of charge to be created if the change in cost is an upgrade. Defaults to the component and then site setting if one is not provided. |\n| downgrade_credit           | (optional) The type of credit to be created if the change in cost is a downgrade. Defaults to the component and then site setting if one is not provided. |\n| accrue_charge              | (optional) If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately. Defaults to the site setting if one is not provided. |\n| proration_upgrade_scheme   | (deprecated) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. |\n| proration_downgrade_scheme | (deprecated) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided. |\n| payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |\n\n## Output Fields\n\n| Output Fields              | Description                                                                                                                                                                     |\n|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                            |\n| subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                              |\n| quantity                   | In the case of a on/off component, the quantity will be either `1` for enabled, or `0` for off.                                                                                 |\n| previous_quantity          | The allocated quantity that was in effect before this allocation was created. In the case of an on/off component, it will be either `1` for enabled, or `0` for off.            |\n| memo                       | The memo passed when the allocation was created                                                                                                                                 |\n| upgrade_charge             | The type of charge to be created if the change in cost is an upgrade.                                                                                                           |\n| downgrade_credit           | The type of credit to be created if the change in cost is a downgrade.                                                                                                          |\n| accrue_charge              | If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately.                             |\n| proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                               |\n| proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                              |\n| timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                            |\n| payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file. |\n\n## On/Off Component Example\n\nThe following example will toggle an on/off component to ON. A value of `0` will toggle the component to OFF.\n\n**Toggle OFF**\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 0,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```\n\n**Toggle ON**\n\n```\n{\n  \"allocation\": {\n    \"quantity\": 1,\n    \"memo\": \"Recoding component purchase of Acme Support\"\n  }\n}\n```"
+      description: |-
+        ## Updating the Quantity
+
+        For full documentation on configuring allocations for subscriptions, please view the [intro to allocations](#docTextSection:ySykKNKfEXRJ5CgTK) endpoint documentation.
+
+        The method defined here creates a new allocation for the subscription, setting a new currently allocated quantity and recording a memo.
+
+        **Notice**: 
+
+        + Allocations can only be updated for quantity and on/off components.
+        + When using metered-based components we refer to this as "recording usage"
+
+        ## Price Point ID usage
+
+        If you are using price points, for quantity components, Chargify gives you the option to specify a price point in your request. The same attribute, `price_point_id`, takes both an ID and a handle. For example:
+
+        ```
+        price_point_id: 12345
+        price_point_id: "my-handle"
+        price_point_id: "handle:my-handle"
+        ```
+
+        You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the allocation is recorded.
+
+        If an invalid `price_point_id` is submitted, the endpoint will return an error. 
+
+        ## Input Fields
+
+        | **Input Fields**           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+        |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | quantity                   | The allocated quantity to which to set the line-items allocated quantity. By default, this is an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use `1 `for on and `0` for off.                                                                                                                                                                                                                          |
+        | memo                       | (optional) A memo to record along with the allocation                                                                                                                                                                                                                                                                                                                                                                                                                        |
+        | proration_upgrade_scheme   | (optional) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided. **Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**                                                                                                                                                                                               |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `full`:a credit is added for the full price of the component, `prorate`:a credit is added for the prorated amount of the component, or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                                                                                                                                                                                                                           |
+        | payment_collection_method  | (optional, default `automatic`) For subscriptions on invoice billing, when `proration_upgrade_scheme` is set to either `prorate-attempt-capture` or `full-price-attempt-capture` and `payment_collection_method` is set to invoice, a mid-period invoice will be created from any charges that are a result of the allocation change. The charge will not appear on the invoice created at the next renewal. For subscriptions on statement billing, this option is ignored. |
+
+        ## Output Fields
+
+        | Output Fields              | Description                                                                                                                                                                                                                                                                      |
+        |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                                                                                                                             |
+        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                                                                                                                               |
+        | quantity                   | The allocated quantity set in to effect by the allocation                                                                                                                                                                                                                        |
+        | previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                                                                                                                                     |
+        | memo                       | The memo passed when the allocation was created                                                                                                                                                                                                                                  |
+        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.**Please see introduction [here](https://reference.chargify.com/v1/components-quantity-allocations/quantity-allocations-intro) for scheme types/definitions.**  |
+        | proration_downgrade_scheme | (optional) The scheme used if the proration is a downgrade. Can be one of the following: `prorate`:a credit is added for the amount owed or `no-prorate`: no credit is added. Defaults to the site setting if one is not provided.                                               |
+        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                                                                                             |
+        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file.                                                                                                  |
+
+        ## Response Status Codes
+
+        | 201 Created              | Allocation created successfully                                                         |
+        |--------------------------|-----------------------------------------------------------------------------------------|
+        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
+        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
+        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
+
+        ## Quantity-based component example
+
+        The following example will set a quantity of 5 for a quantity-based component.
+
+        ```
+        {
+          "allocation": {
+            "quantity": 5,
+            "memo": "Recoding component purchase of Acme Support"
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/onoff/toggling-on-off-request'
+            $ref: '#/definitions/components/quantity/update-the-quantity-allocation-request'
             example:
               allocation:
-                component_id: 399850
-                quantity: 0
-                price_point_id: 130350
+                component_id: 375250
+                price_point_id: 75
+                quantity: 29
+                memo: Text messages usage May 2020
+                proration_downgrade_scheme: no-prorate
+                proration_collection_method: automatic
+                proration_upgrade_scheme: no-prorate
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/onoff/toggling-on-off-response'
+            $ref: '#/definitions/components/quantity/update-the-quantity-allocation'
           examples:
             application/json:
               - allocation:
-                  component_id: 399853
+                  component_id: 399850
                   subscription_id: 18342261
-                  quantity: 0
-                  previous_quantity: 1
-                  memo: null
-                  timestamp: '2017-07-10T21:00:38Z'
+                  quantity: 29
+                  previous_quantity: 0
+                  memo: Text messages usage May 2020
+                  timestamp: '2017-07-12T20:01:36Z'
                   proration_upgrade_scheme: no-prorate
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 121003
-                  previous_price_point_id: 121003
+                  price_point_id: 130350
+                  previous_price_point_id: 130350
                   payment: null
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1515,56 +1601,29 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading Current Quantity
+      summary: Reading the Current Status of On/Off Component
       tags:
         - 'Components: On/Off Toggling'
       description: |-
         ## Reading Current Quantity
 
         You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
-
-        ## Querying data via Chargify gem
-
-        You can also query the current quantity via the [official Chargify Gem.]( http://github.com/chargify/chargify_api_ares)
-
-        ```# First way
-        component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-        puts component.allocated_quantity
-        # => 23
-
-        # Second way
-        component = Chargify::Subscription.find(7).component(1)
-        puts component.allocated_quantity
-        # => 23
-        ```
-
-        ## Handle lookup support
-
-         You can now pass either an integer as the component_id or the component handle as a string prefixed by handle:
-         
-        ```
-        # Example 1
-        curl mysub.chargify.com/subscriptions/999/components/1.json
-
-        # Example 2
-        curl mysub.chargify.com/subscriptions/999/components/handle:myhandle
-        ```
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/quantity/reading-current-quantity-response'
+            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
           examples:
             application/json:
               component:
-                component_id: 399850
+                component_id: 399853
                 subscription_id: 18342261
-                allocated_quantity: 29
-                name: Bronze Subscriptions 123
-                kind: quantity_based_component
-                unit_name: Bronze Subscriptions
-                pricing_scheme: per_unit
-                price_point_id: 121000
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -5340,21 +5399,24 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Read Customers for a Site
+      summary: Search for Customer
       tags:
         - Customers
       description: |-
-        ## Read Customers for a Site
+        ## Search for Customer
 
-        This request will list all customers associated with your Site.
+        Use the search feature to retrieve a single or group of customers. 
+
+        Common use cases are:
+
+        + Search by email
+        + Search by Chargify ID
+        + Search by Reference (Your App)
+        + Search by Organization
+
+        If multiple customers meet the criteria for the search string, please expect an array.
       parameters:
-        - $ref: '#/parameters/trait:direction:direction'
-        - $ref: '#/parameters/trait:pagination50:page'
-        - $ref: '#/parameters/trait:customerQueryString:date_field'
-        - $ref: '#/parameters/trait:customerQueryString:start_date'
-        - $ref: '#/parameters/trait:customerQueryString:end_date'
-        - $ref: '#/parameters/trait:customerQueryString:start_datetime'
-        - $ref: '#/parameters/trait:customerQueryString:end_datetime'
+        - $ref: '#/parameters/trait:searchString:q'
       responses:
         '200':
           description: ''
@@ -5364,86 +5426,43 @@ paths:
               type: object
               properties:
                 customer:
-                  type: object
-                  properties:
-                    first_name:
-                      type: string
-                    last_name:
-                      type: string
-                    email:
-                      type: string
-                    cc_emails:
-                      type: string
-                    organization:
-                      type: string
-                    reference:
-                      type: 'null'
-                    id:
-                      type: integer
-                    created_at:
-                      type: string
-                    updated_at:
-                      type: string
-                    address:
-                      type: string
-                    address_2:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    zip:
-                      type: string
-                    country:
-                      type: string
-                    phone:
-                      type: string
-                    verified:
-                      type: 'null'
-                    portal_customer_created_at:
-                      type: string
-                    portal_invite_last_sent_at:
-                      type: string
-                    portal_invite_last_accepted_at:
-                      type: 'null'
-                    tax_exempt:
-                      type: boolean
-                    parent_id:
-                      type: integer
+                  $ref: '#/definitions/customer/customer-output'
           examples:
             application/json:
               - customer:
-                  first_name: Kayla
-                  last_name: Test
-                  email: kayla@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14126091
-                  created_at: '2016-10-04T15:22:27-04:00'
-                  updated_at: '2016-10-04T15:22:30-04:00'
-                  address: ''
+                  first_name: Amelia
+                  last_name: Example
+                  email: amelia@example.com
+                  cc_emails: 'john@example.com, joe@example.com'
+                  organization: Acme
+                  reference: JQPUBLIC
+                  id: 14399371
+                  created_at: '2016-10-24T16:20:12-04:00'
+                  updated_at: '2016-10-26T13:25:33-04:00'
+                  address: 123 Anywhere Street
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+                  city: Anywhere
+                  state: MA
+                  zip: '02120'
+                  country: US
+                  phone: 555-555-1212
+                  verified: false
+                  portal_customer_created_at: null
+                  portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: 14585723
               - customer:
-                  first_name: 'Nick '
-                  last_name: Test
-                  email: nick@example.com
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14254093
-                  created_at: '2016-10-13T16:52:51-04:00'
-                  updated_at: '2016-10-13T16:52:54-04:00'
+                  organization: Acme
+                  reference: '1234'
+                  id: 14585723
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-12-02T18:03:36-05:00'
                   address: ''
                   address_2: ''
                   city: ''
@@ -5451,34 +5470,60 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: null
+              - customer:
+                  first_name: John
+                  last_name: Doe
+                  email: john.doe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme Widgets
+                  reference: '123'
+                  id: 14731081
+                  created_at: '2016-11-15T15:33:44-05:00'
+                  updated_at: '2016-11-15T15:33:45-05:00'
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+                  vat_number: 012345678
                   parent_id: 123
               - customer:
-                  first_name: Don
-                  last_name: Test
-                  email: don@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14332342
-                  created_at: '2016-10-19T10:49:13-04:00'
-                  updated_at: '2016-10-19T10:49:19-04:00'
-                  address: 1737 15th St
+                  organization: Acme
+                  reference: ABC123
+                  id: 14943291
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T18:03:17-05:00'
+                  address: ''
                   address_2: ''
-                  city: Boulder
-                  state: CO
-                  zip: '80302'
-                  country: US
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
                   parent_id: null
       security:
         - <<api_key>>: []
@@ -7263,10 +7308,13 @@ paths:
         type: string
     post:
       operationId: POST_invoices-uid-refunds-json
-      summary: Refund Single Invoice
+      summary: Refund Consolidated Invoice
       tags:
         - Relationship Invoicing
-      description: 'This relates to refunding either a non-consolidated invoice, or a segment of a consoldiated invoice (see below for docs on refunding a consolidated invoice). This endpoint accepts an `amount`, `memo`, and the `payment_id` of the payment that is being refunded. The `amount` is a dollar amount, not in cents, and cannot exceed to remaining refundable balance of the payment.'
+      description: |-
+        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts a `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded or `segment_uids: 'all'` to indicate that the entire invoice should be refunded.
+
+        **Each segment that is passed in will be refunded in full**. If you need to partially refund a segment, do each segment individually by following the above docs for refunding a single invoice.
       consumes:
         - application/xml
       produces:
@@ -7280,35 +7328,38 @@ paths:
               refund:
                 type: object
                 required:
-                  - amount
                   - memo
                   - payment_id
+                  - segment_uids
                 properties:
-                  amount:
-                    type: string
-                    description: A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
                   memo:
                     type: string
-                    description: A description that will be attached to the refund
+                    description: A description for the refund
                   payment_id:
                     type: integer
                     description: The ID of the payment to be refunded
+                  segment_uids:
+                    type:
+                      - array
+                      - string
+                    description: An array of segment uids to refund or the string 'all' to indicate that all segments should be refunded
+                    items:
+                      type: string
                   external:
                     type: boolean
                     description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
                   apply_credit:
                     type: boolean
                     description: 'If set to true, creates credit and applies it to an invoice. Defaults to `false`.'
-                  void_invoice:
-                    type: boolean
-                    description: 'If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.'
             required:
               - refund
             example:
               refund:
-                amount: '10.00'
                 memo: Refund for basic plan renewal
                 payment_id: 101
+                segment_uids:
+                  - inv_123
+                  - inv_789
       responses:
         '200':
           description: ''
@@ -8381,54 +8432,90 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-payments-json
-      summary: Create a Payment
+      summary: Create Bulk Payment
       tags:
         - Relationship Invoicing
       description: |-
-        ## Create a Payment
+        <h2> Create Bulk Payment </h2>
 
-        This method will allow you to record an external payment on a subscription.
+        Only available for accounts on Relationship Invoicing.
+
+        Record an external payment made against a subscription that will pay partially or in full one or more invoices.
+
+        Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
+
+        Excess payment will result in the creation of a prepayment on the Invoice Account.
+
+        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payments/create-payment-input'
+            type: object
+            properties:
+              payment:
+                type: object
+                required:
+                  - amount
+                  - memo
+                  - payment_details
+                  - payment_method
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
+                  payment_details:
+                    type: string
+                  payment_method:
+                    type: string
+            required:
+              - payment
             example:
               payment:
-                amount: 10
-                memo: Client x paid with $10.00 of nickles
+                amount: '10.0'
+                memo: to pay the bills
+                payment_details: check number 8675309
+                payment_method: check
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payments/create-payment-output'
+            $ref: '#/definitions/create-bulk-payment-response'
           examples:
             application/json:
-              payment:
-                id: 160873334
-                subscription_id: 15054201
-                type: Payment
-                kind: manual
-                transaction_type: payment
-                success: true
-                amount_in_cents: 1000
-                memo: Client x paid with $10.00 of nickles
-                created_at: '2016-11-03T14:58:30-04:00'
-                starting_balance_in_cents: -13989
-                ending_balance_in_cents: -14989
-                gateway_used: null
-                gateway_transaction_id: null
-                gateway_order_id: null
-                payment_id: null
-                product_id: 3861800
-                tax_id: null
-                component_id: null
-                statement_id: 79870822
-                customer_id: 14543792
-                card_number: null
-                card_expiration: null
-                card_type: null
-                refunded_amount_in_cents: 0
+              paid_invoices:
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+              prepayment:
+                subscription_id: '123456'
+                amount_in_cents: '5000'
+                ending_balance_in_cents: '5000'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type:
+                  - string
+                  - array
+                description: |-
+                  Unproccessable Entity Possible Errors:  
+                  "Payment amount, details, method, and memo must be present"
+
+                   "Payment amount, details, method, and memo must valid"
+
+                  "Payment amount must be greater than zero"
+
+                  "If in a group, the Subscription must be the primary"
+                items: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -12677,40 +12764,30 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Customers)'
+      summary: 'Clear all Site data:  (Default)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Customers)
+        ## Clear all Site data:  (Default)
 
-        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
+        https://<subdomain>.chargify.com/sites/clear_data.json
         ```
 
-        Required Parameter: cleanup_scope
-
-        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
 
         ## Response
 
         The response will be a string value of `200 OK`.
-      parameters:
-        - name: cleanup_scope
-          in: query
-          required: true
-          type: string
-          enum:
-            - customers
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -18753,30 +18830,23 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Attempting to Resume but not Reactivate Subscription Which is not Resumable
+      summary: Trial Ended Subscription
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Attempting to resume but not reactivate a subscription which is not resumable
+        ## Reactivating Trial Ended Subscription
 
-        + Given you have a `canceled` subscription, and it is not resumable
-        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume[require_resume]=true`
-        + The response status should be "422 UNPROCESSABLE ENTITY"
-        + The subscription should be canceled with the following response
-        ```
-          {
-            "errors": ["Request was 'resume only', but this subscription cannot be resumed."]
-          }
-        ```
+        + Given you have a trial_ended subscription
+        + Send a PUT request
 
-        ### Results
+        ### Results 
 
-        + The subscription should remain `canceled`
-        + The next billing date should not have changed
+        + The subscription will transition to active
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
       x-stoplight:
         id: PUT_subscriptions-subscriptionid-reactivatejson
         beforeScript: null
@@ -18794,50 +18864,52 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-refunds-json
-      summary: Create a Refund
+      summary: Create an External Refund
       tags:
         - 'Subscriptions: Refunds'
       description: |-
-        ## Create a Refund
+        ## Create an External Refund
 
-        Creating a refund requires a valid, live subscription and payment. A refund in the amount specified will be immediately applied to the customer’s credit card.
+        Use the following method to record an external refund within Chargify. Please note the existence of the following object.
 
-        In order to create a Refund, you must pass an a Payment ID, amount and a memo. The amount can be specified by either the `amount` parameter or the `amount_in_cents` parameter.
+        ```
+        "external": 1
+        ```
 
-        When a Refund is successfully created, a representation of the newly created Refund will be returned to you as JSON or XML in the message body, with the Output attributes.
+        This addition to the payload categorizes this refund as **external**.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/refunds/create-a-refund-request'
+            $ref: '#/definitions/refunds/external/create-an-external-refund-request'
             example:
               refund:
-                payment_id: '162269766'
-                amount: '100.00'
-                memo: Your memo here.
+                amount: 20
+                memo: 'Refunded with check# 123'
+              external: 1
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/refunds/create-a-refund-response'
+            $ref: '#/definitions/refunds/external/create-an-external-refund-response'
           examples:
             application/json:
               refund:
-                id: 162272485
+                id: 162275149
                 subscription_id: 15236915
                 type: Refund
-                kind: null
+                kind: manual
                 transaction_type: refund
                 success: true
-                amount_in_cents: 10000
-                memo: Your memo here.
-                created_at: '2016-11-14T15:14:14-05:00'
+                amount_in_cents: 2000
+                memo: 'Refunded with check# 123'
+                created_at: '2016-11-14T15:24:41-05:00'
                 starting_balance_in_cents: 0
                 ending_balance_in_cents: 0
-                gateway_used: bogus
+                gateway_used: null
                 gateway_transaction_id: null
                 gateway_order_id: null
-                payment_id: 162269766
+                payment_id: null
                 product_id: 3792003
                 tax_id: null
                 component_id: null
@@ -19556,6 +19628,43 @@ paths:
         public: true
         mock:
           enabled: false
+          statusCode: 200
+  /endpoints.json:
+    post:
+      operationId: POST_endpoints-json
+      summary: Create Endpoint for site
+      tags:
+        - Webhook
+        - Webhooks
+      description: |-
+        ## Endpoint
+
+        The Chargify API allows you to create an endpoint and assign a list of webhooks subscriptions to it.
+
+        You can check available events here.                
+        [Event keys](https://help.chargify.com/webhooks/webhooks-reference.html#example-payloads)
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          default: ''
+          enum:
+            - application/json
+      responses:
+        default:
+          description: ''
+          schema: {}
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_endpointsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
           statusCode: 200
 parameters:
   'trait:pagination20:page':
@@ -42858,6 +42967,8 @@ x-stoplight:
               type: endpoints
             - _id: webhooks/replay-webhooks-site
               type: schemas
+            - _id: POST_endpointsjson
+              type: endpoints
   functions: {}
   textSections:
     guidelines:
