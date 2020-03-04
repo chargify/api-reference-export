@@ -19601,12 +19601,12 @@ paths:
         You can update an Endpoint via the API with a PUT request to the resource endpoint.
 
         You can change the `url` of your endpoint which consumes webhooks or list of `webhook_subscriptions`.   
-        [Events keys](https://help.chargify.com/webhooks/webhooks-reference.html)
+        Check available [Event keys](https://help.chargify.com/webhooks/webhooks-reference.html).
 
         Always send a complete list of events which you want subscribe/watch.
         Sending an PUT request for existing endpoint with empty list of `webhook_subscriptions` will end with unsubscribe from all events.
 
-        If you want unsubscribe from specific event jest sens a list of `webhook_subscriptions` without this event key.
+        If you want unsubscribe from specific event jest send a list of `webhook_subscriptions` without the specific event key.
       parameters:
         - name: body
           in: body
