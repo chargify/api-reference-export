@@ -19639,11 +19639,25 @@ paths:
       description: |-
         ## Endpoint
 
-        The Chargify API allows you to create an endpoint and assign a list of webhooks subscriptions to it.
+        The Chargify API allows you to create an endpoint and assign a list of webhooks subscriptions (events) to it.
 
         You can check available events here.                
         [Event keys](https://help.chargify.com/webhooks/webhooks-reference.html#example-payloads)
       parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            description: create endpoint
+            properties:
+              '':
+                $ref: '#/definitions/endpoint/create-an-endpoint'
+            example:
+              endpoint:
+                url: 'https://your.site/webhooks'
+                webhook_subscriptions:
+                  - payment_success
+                  - payment_failure
         - name: Content-Type
           in: header
           required: true
@@ -19652,9 +19666,36 @@ paths:
           enum:
             - application/json
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            type: object
+            properties:
+              endpoint:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  url:
+                    type: string
+                  site_id:
+                    type: integer
+                  status:
+                    type: string
+                  webhook_subscriptions:
+                    type: array
+                    items:
+                      type: string
+          examples:
+            application/json:
+              endpoint:
+                id: 16894
+                url: 'https://your.site/webhooks'
+                site_id: 2
+                status: enabled
+                webhook_subscriptions:
+                  - payment_success
+                  - payment_failure
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -41736,6 +41777,27 @@ definitions:
       id: product-families/read-product-families-for-a-site
       name: Read Product Families For a Site
       public: true
+  endpoint/create-an-endpoint:
+    title: Endpoint Create Request POST
+    type: object
+    properties:
+      endpoint:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          webook_subscriptions:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        required:
+          - url
+    x-stoplight:
+      id: endpoint/create-an-endpoint
+      name: Endpoint Create Request POST
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -42969,6 +43031,8 @@ x-stoplight:
               type: schemas
             - _id: POST_endpointsjson
               type: endpoints
+            - _id: endpoint/create-an-endpoint
+              type: schemas
   functions: {}
   textSections:
     guidelines:
