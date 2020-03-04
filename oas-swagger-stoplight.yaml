@@ -19456,7 +19456,7 @@ paths:
             description: create endpoint
             properties:
               '':
-                $ref: '#/definitions/endpoint/create-an-endpoint'
+                $ref: '#/definitions/endpoint/create-update-an-endpoint'
             example:
               endpoint:
                 url: 'https://your.site/webhooks'
@@ -19614,7 +19614,7 @@ paths:
             type: object
             properties:
               endpoint:
-                $ref: '#/definitions/endpoint/create-an-endpoint'
+                $ref: '#/definitions/endpoint/create-update-an-endpoint'
             example:
               endpoint:
                 url: 'https://yout.site/webhooks/1/json.'
@@ -19681,6 +19681,56 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_endpoints-endpointidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /webhooks/settings.json:
+    put:
+      operationId: PUT_webhooks-settings-json
+      summary: Enable Webhooks for site
+      tags:
+        - Webhook
+        - Webhooks
+      description: |-
+        ## Enable webhooks for site
+
+        This method allows you to enable webhooks via API for your site
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              webhooks_enabled:
+                type: boolean
+            example:
+              webhooks_enabled: true
+        - name: Content-Type
+          in: header
+          description: application/json
+          type: string
+          enum:
+            - application/json
+          default: application/json
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              webhooks_enabled:
+                type: boolean
+          examples:
+            application/json:
+              webhooks_enabled: true
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_webhooks-settingsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -41758,7 +41808,7 @@ definitions:
       id: product-families/read-product-families-for-a-site
       name: Read Product Families For a Site
       public: true
-  endpoint/create-an-endpoint:
+  endpoint/create-update-an-endpoint:
     title: Endpoint Create/Update Request POST
     type: object
     properties:
@@ -41776,7 +41826,7 @@ definitions:
         required:
           - url
     x-stoplight:
-      id: endpoint/create-an-endpoint
+      id: endpoint/create-update-an-endpoint
       name: Endpoint Create/Update Request POST
       public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
@@ -43012,11 +43062,13 @@ x-stoplight:
               type: schemas
             - _id: POST_endpointsjson
               type: endpoints
-            - _id: endpoint/create-an-endpoint
+            - _id: endpoint/create-update-an-endpoint
               type: schemas
             - _id: GET_endpoints-endpointidjson
               type: endpoints
             - _id: GET_endpointsjson
+              type: endpoints
+            - _id: PUT_webhooks-settingsjson
               type: endpoints
   functions: {}
   textSections:
