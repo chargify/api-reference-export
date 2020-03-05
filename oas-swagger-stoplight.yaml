@@ -19538,7 +19538,7 @@ paths:
       description: |-
         ## List of endpoints for site
 
-        This method returns created endpoints for site
+        This method returns created endpoints for site.
       responses:
         '200':
           description: ''
@@ -44924,6 +44924,8 @@ x-stoplight:
         ## Webhooks Intro
 
         The Webhooks API allows you to view a list of all webhooks and to selectively resend individual or groups of webhooks.
+        Webhooks will be sent on endpoints specified by you. Endpoints can be added via API or Web UI.
+        There is also an option to enable / disable webhooks via API request. 
 
         ## Webhooks Documentation
 
@@ -44937,20 +44939,30 @@ x-stoplight:
 
         ## Webhook Attributes
 
-        | Attribute | Description|
-        |-----------|------------|
-        |`id` | The unique identifier for the webhooks (unique across all of Chargify). This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
-        |`successfu`| A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
-        |`event` | A string describing which event type produced the given Webhook
-        |`body` | The data sent within the Webhook post
-        |`signature` | The calculated Webhook signature
-        |`signature_hmac_sha_256` | The calculated HMAC-SHA-256 Webhook signature
-        |`created_at` | Timestamp indicating when the Webhook was created
-        |`accepted_at` | Timestamp indicating when the Webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
-        |`last_sent_at` | Timestamp indicating when the most recent attempt was made to send the Webhook
+        | <div style="width:200px">**Attribute**</div> | **Description** |
+        |---------------|-----------------|
+        |`id`| The unique identifier for the webhooks (unique across all of Chargify). This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
+        |`successful`| A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt. (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
+        |`event` | A string describing which event type produced the given webhook
+        |`body` | The data sent within the webhook post
+        |`signature` | The calculated webhook signature
+        |`signature_hmac_sha_256` | The calculated HMAC-SHA-256 webhook signature
+        |`created_at` | Timestamp indicating when the webhook was created
+        |`accepted_at` | Timestamp indicating when the webhook was accepted by the merchant endpoint. When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
+        |`last_sent_at` | Timestamp indicating when the most recent attempt was made to send the webhook
         | `last_error_at` | Timestamp indicating when the last non-acceptance occurred. If a webhook is later resent and accepted, this field will be cleared.
         | `last_sent_url` | The url that the endpoint was last sent to.
         | `last_error` | Text describing the status code and/or error from the last failed attempt to send the Webhook. When a webhook is retried and accepted, this field will be cleared.
+
+        ## Endpoint Attributes
+
+        |**Attribute** | **Description** |
+        |----------|-------------|
+        | `id`     | The unique identifier for resource. Use this id to update an endpoint. |
+        | `url`    | Your API url of the webhook integration. |
+        | `site_id`| ID of your site in Chargify. | 
+        | `status` | A boolean flag describing wheter endpoint is disabled or enabled. |
+        | `webhooks_subscriptions` | An array of subscribed events keys, each key is a string (e.g. `payment_success`). Visit [Webhook reference](https://help.chargify.com/webhooks/webhooks-reference.html) to learn more.
       public: true
     coupon-subcodes-intro-1:
       id: coupon-subcodes-intro-1
