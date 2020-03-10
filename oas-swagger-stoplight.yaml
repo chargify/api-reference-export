@@ -29463,6 +29463,9 @@ definitions:
             type: integer
           price_point_handle:
             type: string
+          gateway_response:
+            type: object
+            description: 'the gateway response for a single payment, only if requested in the query string. not available when listing multiple transactions for a site.'
     example:
       transaction:
         id: 237759849
