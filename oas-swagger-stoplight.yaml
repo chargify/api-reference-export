@@ -20474,6 +20474,9 @@ parameters:
     description: 'The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns subscriptions with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `end_date`.'
     type: string
     format: date-time
+responses:
+  'trait:pagination20:200':
+    description: ''
 definitions:
   get-a-sale-output:
     title: Get a Sale Output
