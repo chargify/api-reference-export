@@ -19281,6 +19281,11 @@ paths:
 
         Given that you have a valid transaction ID, you can retrieve its full details.
       parameters:
+        - name: gateway_response
+          in: query
+          description: optionally include the response from the gateway if the transaction is a payment
+          type: boolean
+          default: false
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
