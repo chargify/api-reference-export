@@ -6735,7 +6735,7 @@ paths:
       tags:
         - 'Invoices: Payments'
       description: |-
-        ## Create Payment
+        ## Create an External Payment 
 
         In order to specify a payment made against an invoice, specify the `amount`. 
 
@@ -7749,6 +7749,35 @@ paths:
       description: |-
         ## Create Payment
         This API call should be used when you want to record an external payment against a specific invoice. If you would like to apply a payment across multiple invoices, you can use the [bulk payment](#endpoint:EMs2kYgYbkxKtnpij) endpoint.
+
+        ## Create a Payment from the Subscription's Prepayment Account
+
+        In order apply a prepayment to an invoice, specify the `type` as `prepayment`, and also the `amount`.
+
+
+        ```
+        {
+          "type": "prepayment",
+          "payment": {
+            "amount": 10.00,
+          }
+        }
+        ```
+
+        Note that the `amount` must be less than or equal to the Subscription's Prepayment account balance.
+
+        ## Create a Payment from the Subscription's Service Credit Account
+
+        In order to apply a service credit to an invoice, specify the `type` as `service_credit`:
+
+
+        ```
+        {
+          "type": "service_credit",
+        }
+        ```
+
+        Note that Chargify will attempt to fully pay the invoice's `due_amount` from the Subscription's Service Credit account. At this time you cannot partially pay an invoice from a Subscription's Service Credit account. Therefore, the Service Credit account balance must be greater than or equal to the invoice's `due_amount`.
       consumes:
         - application/xml
       parameters:
@@ -7785,6 +7814,15 @@ paths:
                   details:
                     type: string
                     description: 'Additional information related to the payment method (eg. Check #)'
+              type:
+                type: string
+                default: external
+                enum:
+                  - external
+                  - prepayment
+                  - service_credit
+                description: |
+                  The type of payment to be applied to an Invoice. 
             required:
               - payment
             example:
