@@ -31957,8 +31957,9 @@ definitions:
           proration_downgrade_scheme:
             type: string
             description: deprecated
-          proration_collection_method:
+          payment_collection_method:
             type: string
+            description: ''
           proration_upgrade_scheme:
             type: string
             description: deprecated
