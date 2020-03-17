@@ -43793,7 +43793,18 @@ x-stoplight:
 
         ## Inclusion of Components
 
-        This endpoint is particularly useful due to the fact that it will return the amount in cents of the products and the components which have been purchased by a subscriber.
+        This endpoint is particularly useful due to the fact that it will return the computed billing amount for the base product and the components which are in use by a subscriber.
+
+        By default, the preview will include billing details for all components _at their **current** quantities_. This means:
+
+        * Current `allocated_quantity` for quantity-based components
+        * Current enabled/disabled status for on/off components
+        * Current metered usage `unit_balance` for metered components
+        * Current metric quantity value for events recorded thus far for events-based components
+
+        In the above statements, "current" means the quantity or value as of the call to the renewal preview endpoint. We do not predict end-of-period values for components, so metered or events-based usage may be less than it will eventually be at the end of the period.
+
+        Optionally, **you may provide your own custom quantities** for any component to see a billing preview for non-current quantities. This is accomplished by sending a request body with data under the `components` key. See the request body documentation below.
 
         ## Subscription Side Effects
 
