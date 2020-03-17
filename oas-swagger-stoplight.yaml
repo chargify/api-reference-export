@@ -18936,26 +18936,73 @@ paths:
       tags:
         - incomplete
         - 'Subscription: Renewal Preview'
-      description: |-
-        ## Renewal Preview
+      description: "## Renewal Preview\n\nThe Chargify API allows you to preview a renewal by posting to the renewals endpoint. \n\n## Renewal Input Fields\n\nThe input request body is entirely optional. If provided, it may be used to specify which components and at which quantities to drive the previewed billing amount. If no body is provided, current components and quantity values will be used.\n\n**Example _optional_ request body for previewing certain components at certain quantities:**\n\n```json\n{\n  \"components\": [\n    {\n\t\t\t\"component_id\": 10708,\n\t\t\t\"quantity\": 10000\n\t\t},\n\t\t{\n\t\t\t\"component_id\": \"handle:small-instance-hours\",\n\t\t\t\"quantity\": 10000,\n\t\t\t\"price_point_id\": 8712\n\t\t},\n\t\t{\n\t\t\t\"component_id\": \"handle:large-instance-hours\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"price_point_id\": \"handle:startup-pricing\"\n\t\t}\n\n  ]\n}\n```\n\n## Renewal Output Fields\n\nIn the server response you will recieve an array of allocation objects with the following fields:\n\n| next_assessment_at        | The timestamp for the subscription’s next renewal                                                                                                                                                                         |\n|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| existing_balance_in_cents | An integer representing the amount of the subscription’s current balance                                                                                                                                                  |\n| subtotal_in_cents         | An integer representing the amount of the total pre-tax, pre-discount charges that will be assessed at the next renewal                                                                                                   |\n| total_discount_in_cents   | An integer representing the amount of the coupon discounts that will be applied to the next renewal                                                                                                                       |\n| total_tax_in_cents        | An integer representing the total tax charges that will be assessed at the next renewal                                                                                                                                   |\n| total_in_cents            | An integer representing the total amount owed, less any discounts, that will be assessed at the next renewal                                                                                                              |\n| total_amount_due_in_cents | An integer representing the existing_balance_in_cents plus the total_in_cents                                                                                                                                             |\n| uncalculated_taxes        | A boolean indicating whether or not additional taxes will be calculated at the time of renewal. This will be true if you are using Avalara and the address of the subscription is in one of your defined taxable regions. |\n| line_items                | An array of objects representing the individual transactions that will be created at the next renewal                                                                                                                     |"
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              components:
+                type: array
+                description: 'An optional array of component definitions to preview. Providing any component definitions here will override the actual components on the subscription (and their quantities), and the billing preview will contain _only_ these components (in addition to any product base fees).'
+                items:
+                  type: object
+                  properties:
+                    component_id:
+                      type:
+                        - string
+                        - integer
+                      description: |-
+                        The component to include in the preview, identified by either its official Chargify ID _or_ its handle.
 
-        The Chargify API allows you to preview a renewal by posting to the renewals endpoint. 
+                        If providing a handle, you must specify the value as a string prepended by `handle:`. Example:
 
+                        ```
+                        "component_id": "handle:server-hours"
+                        ```
 
-        ## Renewal Output Fields
+                        If identifying the component by official Chargify ID, you may specify the numeric value either as an integer or a string. Example:
 
-        In the server response you will recieve an array of allocation objects with the following fields:
+                        ```
+                        "component_id": 12345
+                        // OR
+                        "component_id": "12345"
+                        ```
+                    quantity:
+                      type: integer
+                      description: |
+                        The quantity for which you wish to preview billing. This is useful if you want to preview a predicted, higher usage value than is currently present on the subscription.
 
-        | next_assessment_at        | The timestamp for the subscription’s next renewal                                                                                                                                                                         |
-        |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | existing_balance_in_cents | An integer representing the amount of the subscription’s current balance                                                                                                                                                  |
-        | subtotal_in_cents         | An integer representing the amount of the total pre-tax, pre-discount charges that will be assessed at the next renewal                                                                                                   |
-        | total_discount_in_cents   | An integer representing the amount of the coupon discounts that will be applied to the next renewal                                                                                                                       |
-        | total_tax_in_cents        | An integer representing the total tax charges that will be assessed at the next renewal                                                                                                                                   |
-        | total_in_cents            | An integer representing the total amount owed, less any discounts, that will be assessed at the next renewal                                                                                                              |
-        | total_amount_due_in_cents | An integer representing the existing_balance_in_cents plus the total_in_cents                                                                                                                                             |
-        | uncalculated_taxes        | A boolean indicating whether or not additional taxes will be calculated at the time of renewal. This will be true if you are using Avalara and the address of the subscription is in one of your defined taxable regions. |
-        | line_items                | An array of objects representing the individual transactions that will be created at the next renewal                                                                                                                     |
+                        This quantity represents:
+
+                        * Whether or not an on/off component is enabled - use `0` for disabled or `1` for enabled
+                        * The desired `allocated_quantity` for a quantity-based component
+                        * The desired `unit_balance` for a metered component
+                        * The desired metric quantity for an events-based component
+                    price_point_id:
+                      type:
+                        - string
+                        - integer
+                      description: |-
+                        An optional identifier for the price point to use in computing the billing preview. This value may be provided either as an official Chargify ID or the price point's handle. If no value is provided, the subscription's current price point for the component is used (which may be the default price point if none has been specified on the subscription).
+
+                        If providing a handle, you must specify the value as a string prepended by `handle:`. Example:
+
+                        ```
+                        "price_point_id": "handle:startup-pricing"
+                        ```
+
+                        If identifying the price point by official Chargify ID, you may specify the numeric value either as an integer or a string. Example:
+
+                        ```
+                        "component_id": 12345
+                        // OR
+                        "component_id": "12345"
+                        ```
+                  required:
+                    - component_id
+                    - quantity
       responses:
         '200':
           description: ''
