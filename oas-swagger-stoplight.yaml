@@ -25766,8 +25766,6 @@ definitions:
             type: string
           accounting_code:
             type: string
-          request_credit_card:
-            type: boolean
           expiration_interval:
             type: 'null'
           expiration_interval_unit:
