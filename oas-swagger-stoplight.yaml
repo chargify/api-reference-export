@@ -570,6 +570,8 @@ paths:
                           type: integer
                         formatted_unit_price:
                           type: string
+                  default_price_point_name:
+                    type: string
           examples:
             application/json:
               component:
@@ -592,6 +594,7 @@ paths:
                 upgrade_charge: null
                 downgrade_credit: null
                 created_at: '2019-08-02T05:54:53-04:00'
+                default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -877,6 +880,8 @@ paths:
                           type: string
                   created_at:
                     type: string
+                  default_price_point_name:
+                    type: string
           examples:
             application/json:
               component:
@@ -900,6 +905,7 @@ paths:
                     unit_price: '1.0'
                     price_point_id: 173
                     formatted_unit_price: $1.00
+                default_price_point_name: Original
         '422':
           description: ''
           schema:
@@ -1022,6 +1028,8 @@ paths:
                         - string
                     created_at:
                       type: string
+                    default_price_point_name:
+                      type: string
           examples:
             application/json:
               - component:
@@ -1052,6 +1060,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
               - component:
                   id: 399853
                   name: Annual Support Services
@@ -1072,6 +1081,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:37-04:00'
+                  default_price_point_name: Original
               - component:
                   id: 386937
                   name: Cancellation fee
@@ -1092,6 +1102,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1197,6 +1208,8 @@ paths:
                           type: integer
                         formatted_unit_price:
                           type: string
+                  default_price_point_name:
+                    type: string
           examples:
             application/json:
               component:
@@ -1219,6 +1232,7 @@ paths:
                 upgrade_charge: null
                 downgrade_credit: null
                 created_at: '2019-08-02T05:54:53-04:00'
+                default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1407,6 +1421,8 @@ paths:
                         - string
                     created_at:
                       type: string
+                    default_price_point_name:
+                      type: string
           examples:
             application/json:
               - component:
@@ -1437,6 +1453,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
               - component:
                   id: 399853
                   name: Annual Support Services
@@ -1457,6 +1474,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:37-04:00'
+                  default_price_point_name: Original
               - component:
                   id: 386937
                   name: Cancellation fee
@@ -1477,6 +1495,7 @@ paths:
                   upgrade_charge: null
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -2223,6 +2242,8 @@ paths:
                           type: boolean
                         version_number:
                           type: integer
+                        product_price_point_name:
+                          type: string
                     credit_card:
                       type: object
                       properties:
@@ -2386,6 +2407,7 @@ paths:
                         url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                     taxable: false
                     version_number: 7
+                    product_price_point_name: Default
                   credit_card:
                     id: 10191713
                     payment_type: credit_card
@@ -10458,6 +10480,7 @@ paths:
                     return_url: null
                     return_params: null
                     url: 'https://general-goods.chargify.com/subscribe/wgyd96tb5pj9/platinum'
+                product_price_point_name: Original
         '422':
           description: ''
           schema:
@@ -16499,6 +16522,8 @@ paths:
                           type: boolean
                         version_number:
                           type: integer
+                        product_price_point_name:
+                          type: string
                     credit_card:
                       type: object
                       properties:
@@ -16664,6 +16689,7 @@ paths:
                         url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                     taxable: false
                     version_number: 7
+                    product_price_point_name: Default
                   credit_card:
                     id: 10191713
                     payment_type: credit_card
@@ -21803,6 +21829,8 @@ definitions:
                     type: string
                   url:
                     type: string
+            product_price_point_name:
+              type: string
     example:
       - product:
           id: 3801242
@@ -21841,6 +21869,7 @@ definitions:
               return_url: null
               return_params: ''
               url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+          product_price_point_name: Original
       - product:
           id: 3858146
           name: Calendar Billing Product
@@ -21878,6 +21907,7 @@ definitions:
               return_url: ''
               return_params: ''
               url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
+          product_price_point_name: Original
     x-stoplight:
       id: products/list-products-output
       name: Read by Products Output
@@ -22094,6 +22124,8 @@ definitions:
                   type: string
                 trial_interval_unit:
                   type: 'null'
+                product_price_point_name:
+                  type: string
             current_period_ends_at:
               type: string
             next_assessment_at:
@@ -22198,6 +22230,7 @@ definitions:
             archived_at: null
             interval_unit: month
             trial_interval_unit: null
+            product_price_point_name: Default
           current_period_ends_at: '2010-09-22T07:13:18-04:00'
           next_assessment_at: '2010-09-22T07:13:18-04:00'
           trial_started_at: null
@@ -22696,6 +22729,8 @@ definitions:
             type: string
           created_at:
             type: string
+          default_price_point_name:
+            type: string
     example:
       component:
         id: 292609
@@ -22720,6 +22755,7 @@ definitions:
         price_point_count: 2
         price_points_url: /components/292609/price_points
         created_at: '2019-08-06T02:53:43-04:00'
+        default_price_point_name: Original
     x-stoplight:
       id: components/create-response-post
       name: Create a Component Response POST
@@ -25457,6 +25493,8 @@ definitions:
                   type: string
                 url:
                   type: string
+          product_price_point_name:
+            type: string
     example:
       product:
         id: 3861800
@@ -25495,6 +25533,7 @@ definitions:
             return_url: ''
             return_params: ''
             url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
+        product_price_point_name: Original
     x-stoplight:
       id: products/read-the-product-via-chargify-id
       name: Read the Product by Product ID
@@ -25793,6 +25832,8 @@ definitions:
                   type: 'null'
                 url:
                   type: string
+          product_price_point_name:
+            type: string
     example:
       product:
         id: 4364984
@@ -25831,6 +25872,7 @@ definitions:
             return_url: null
             return_params: null
             url: 'https://general-goods.chargify.com/subscribe/ftgbpq7f5qpr/gold'
+        product_price_point_name: Original
     x-stoplight:
       id: products/create-a-product-output
       name: Create a Product Output
@@ -28836,6 +28878,8 @@ definitions:
                   type: boolean
                 version_number:
                   type: integer
+                product_price_point_name:
+                  type: string
             credit_card:
               type: object
               properties:
@@ -29001,6 +29045,7 @@ definitions:
                 url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
             taxable: false
             version_number: 7
+            product_price_point_name: Default
           credit_card:
             id: 10191713
             payment_type: credit_card
@@ -36054,8 +36099,6 @@ definitions:
             type: integer
           trial_interval_unit:
             type: string
-          archived_at:
-            type: 'null'
           require_credit_card:
             type: boolean
           return_params:
@@ -36083,12 +36126,18 @@ definitions:
                 type: string
               handle:
                 type: string
-              accounting_code:
-                type: 'null'
           public_signup_pages:
             type: array
             items:
               type: object
+              properties:
+                '':
+                  type:
+                    - string
+                    - array
+                  items: {}
+          product_price_point_name:
+            type: string
     example:
       product:
         id: 4535635
@@ -36124,6 +36173,7 @@ definitions:
           handle: acme-products
           accounting_code: null
         public_signup_pages: []
+        product_price_point_name: Original
     x-stoplight:
       id: read-a-product-output
       name: Read a Product Output
@@ -36204,6 +36254,8 @@ definitions:
             type: array
             items:
               type: object
+          product_price_point_name:
+            type: string
     example:
       product:
         id: 4535638
@@ -36239,6 +36291,7 @@ definitions:
           handle: acme-products
           accounting_code: null
         public_signup_pages: []
+        product_price_point_name: Original
     x-stoplight:
       id: archive-a-product-output
       name: Archive a Product Output
@@ -38177,6 +38230,8 @@ definitions:
                     type: integer
                   formatted_unit_price:
                     type: string
+            default_price_point_name:
+              type: string
     example:
       - component:
           id: 24
@@ -38199,6 +38254,7 @@ definitions:
           upgrade_charge: null
           downgrade_credit: null
           created_at: '2019-08-02T05:54:53-04:00'
+          default_price_point_name: Original
     x-stoplight:
       id: read-specific-component-output
       name: Read Specific Component Output
