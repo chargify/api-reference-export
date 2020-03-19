@@ -10255,6 +10255,8 @@ paths:
         - name: include_archived
           in: query
           type: boolean
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
         - $ref: '#/parameters/trait:productQueryString:date_field'
         - $ref: '#/parameters/trait:productQueryString:start_date'
         - $ref: '#/parameters/trait:productQueryString:end_date'
