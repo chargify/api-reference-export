@@ -470,6 +470,7 @@ paths:
                 upgrade_charge: null
                 downgrade_credit: null
                 created_at: '2019-08-02T05:54:53-04:00'
+                default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1315,6 +1316,7 @@ paths:
                     unit_price: '1.0'
                 price_point_count: 2
                 price_points_url: /components/292609/price_points
+                default_price_point_name: Original
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -5694,6 +5696,7 @@ paths:
                         url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                     taxable: false
                     version_number: 7
+                    product_price_point_name: Default
                   credit_card:
                     id: 10191713
                     payment_type: credit_card
@@ -5803,6 +5806,7 @@ paths:
                         url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
                     taxable: false
                     version_number: 1
+                    product_price_point_name: Default
                   credit_card:
                     id: 10188522
                     payment_type: credit_card
