@@ -10195,6 +10195,7 @@ paths:
                     return_url: null
                     return_params: null
                     url: 'https://general-goods.chargify.com/subscribe/ftgbpq7f5qpr/gold'
+                product_price_point_name: Default
         '422':
           description: ''
           schema:
@@ -10292,6 +10293,7 @@ paths:
                       return_url: null
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/smcc4j3d2w6h/zero-dollar-product'
+                  product_price_point_name: Default
               - product:
                   id: 3858146
                   name: Calendar Billing Product
@@ -10329,6 +10331,7 @@ paths:
                       return_url: ''
                       return_params: ''
                       url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
+                  product_price_point_name: Default
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10395,6 +10398,7 @@ paths:
                   handle: acme-products
                   accounting_code: null
                 public_signup_pages: []
+                product_price_point_name: Default
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10560,6 +10564,7 @@ paths:
                   handle: acme-products
                   accounting_code: null
                 public_signup_pages: []
+                product_price_point_name: Default
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10645,6 +10650,7 @@ paths:
                     return_url: 'http://www.example.com/'
                     return_params: engine=md7a
                     url: 'https://general-goods.chargify.com/subscribe/m6tbcq4mcgpw/no-cost-product'
+                product_price_point_name: Default
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10759,6 +10765,8 @@ paths:
                           type: string
                         url:
                           type: string
+                  product_price_point_name:
+                    type: string
           examples:
             application/json:
               product:
@@ -10798,6 +10806,7 @@ paths:
                     return_url: ''
                     return_params: ''
                     url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
+                product_price_point_name: Default
       security:
         - <<api_key>>: []
       x-stoplight:
