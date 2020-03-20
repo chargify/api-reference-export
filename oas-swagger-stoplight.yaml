@@ -43172,8 +43172,6 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-threedsecure-stripe
               type: docTextSections
-            - _id: migration-3d-secure-stripe
-              type: docTextSections
             - _id: subscription-threedsecure-cyber-source
               type: docTextSections
             - _id: POST_subscriptionsjson
@@ -43372,6 +43370,8 @@ x-stoplight:
         - name: 'Subscriptions: Product Changes / Migrations / Upgrades / Downgrades'
           items:
             - _id: migrations-intro
+              type: docTextSections
+            - _id: migration-3d-secure-stripe
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-migrationsjson
               type: endpoints
@@ -46127,7 +46127,7 @@ x-stoplight:
         5. Redirect the customer to the `action_link` with `callback_url` and `redirect_url` applied
         6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
         7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known 
-        8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not
+        8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not.
       public: true
   mock:
     enabled: false
