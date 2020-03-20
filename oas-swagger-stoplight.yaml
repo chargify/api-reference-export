@@ -573,6 +573,8 @@ paths:
                           type: string
                   default_price_point_name:
                     type: string
+                  product_family_name:
+                    type: string
           examples:
             application/json:
               component:
@@ -596,6 +598,7 @@ paths:
                 downgrade_credit: null
                 created_at: '2019-08-02T05:54:53-04:00'
                 default_price_point_name: Original
+                product_family_name: Chargify
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1031,6 +1034,8 @@ paths:
                       type: string
                     default_price_point_name:
                       type: string
+                    product_family_name:
+                      type: string
           examples:
             application/json:
               - component:
@@ -1062,6 +1067,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
               - component:
                   id: 399853
                   name: Annual Support Services
@@ -1083,6 +1089,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:37-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
               - component:
                   id: 386937
                   name: Cancellation fee
@@ -1104,6 +1111,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1211,29 +1219,35 @@ paths:
                           type: string
                   default_price_point_name:
                     type: string
+                  product_family_name:
+                    type: string
           examples:
-            application/json:
-              component:
-                id: 399853
-                name: Annual Support Services
-                pricing_scheme: null
-                unit_name: on/off
-                unit_price: '100.0'
-                product_family_id: 997233
-                price_per_unit_in_cents: null
-                kind: on_off_component
-                archived: false
-                taxable: true
-                description: Prepay for support services
-                default_price_point_id: 121003
-                price_point_count: 4
-                price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
-                tax_code: D0000000
-                recurring: true
-                upgrade_charge: null
-                downgrade_credit: null
-                created_at: '2019-08-02T05:54:53-04:00'
-                default_price_point_name: Original
+            application/json: |-
+              {
+                  "component": {
+                      "id": 399853,
+                      "name": "Annual Support Services",
+                      "pricing_scheme": null,
+                      "unit_name": "on/off",
+                      "unit_price": "100.0",
+                      "product_family_id": 997233,
+                      "price_per_unit_in_cents": null,
+                      "kind": "on_off_component",
+                      "archived": false,
+                      "taxable": true,
+                      "description": "Prepay for support services",
+                      "default_price_point_id": 121003,
+                      "price_point_count": 4,
+                      "price_points_url": "https://general-goods.chargify.com/components/399853/price_points",
+                      "tax_code": "D0000000",
+                      "recurring": true,
+                      "upgrade_charge": null,
+                      "downgrade_credit": null,
+                      "created_at": "2019-08-02T05:54:53-04:00",
+                      "default_price_point_name": "Original",
+                      "product_family_name": "Chargify
+                  }
+              }
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1317,6 +1331,7 @@ paths:
                 price_point_count: 2
                 price_points_url: /components/292609/price_points
                 default_price_point_name: Original
+                product_family_name: Chargify
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1425,6 +1440,8 @@ paths:
                       type: string
                     default_price_point_name:
                       type: string
+                    product_family_name:
+                      type: string
           examples:
             application/json:
               - component:
@@ -1456,6 +1473,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
               - component:
                   id: 399853
                   name: Annual Support Services
@@ -1477,6 +1495,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:37-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
               - component:
                   id: 386937
                   name: Cancellation fee
@@ -1498,6 +1517,7 @@ paths:
                   downgrade_credit: null
                   created_at: '2019-08-01T09:35:38-04:00'
                   default_price_point_name: Original
+                  product_family_name: Chargify
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -22788,6 +22808,8 @@ definitions:
             type: string
           default_price_point_name:
             type: string
+          product_family_name:
+            type: string
     example:
       component:
         id: 292609
@@ -22813,6 +22835,7 @@ definitions:
         price_points_url: /components/292609/price_points
         created_at: '2019-08-06T02:53:43-04:00'
         default_price_point_name: Original
+        product_family_name: Chargify
     x-stoplight:
       id: components/create-response-post
       name: Create a Component Response POST
@@ -38290,6 +38313,8 @@ definitions:
                     type: string
             default_price_point_name:
               type: string
+            product_family_name:
+              type: string
     example:
       - component:
           id: 24
@@ -38313,6 +38338,7 @@ definitions:
           downgrade_credit: null
           created_at: '2019-08-02T05:54:53-04:00'
           default_price_point_name: Original
+          product_family_name: Chargify
     x-stoplight:
       id: read-specific-component-output
       name: Read Specific Component Output
