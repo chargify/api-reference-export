@@ -2047,6 +2047,13 @@ paths:
 
         Use the query strings below to search for a subscription using the criteria available. The return value will be an array.
       parameters:
+        - name: sort
+          in: query
+          description: |
+            Allowed sort keys.
+          type: string
+          enum: '["signup_date","period_start","period_end","next_assessment","updated_at, "created_at""]'
+          default: created_at
         - $ref: '#/parameters/trait:subscriptionQueryString:page'
         - $ref: '#/parameters/trait:subscriptionQueryString:per_page'
         - $ref: '#/parameters/trait:subscriptionQueryString:state'
