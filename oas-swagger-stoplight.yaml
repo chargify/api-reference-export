@@ -4699,6 +4699,11 @@ paths:
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:metadataQueryString:date_field'
+        - $ref: '#/parameters/trait:metadataQueryString:start_date'
+        - $ref: '#/parameters/trait:metadataQueryString:end_date'
+        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -4745,6 +4750,11 @@ paths:
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:metadataQueryString:date_field'
+        - $ref: '#/parameters/trait:metadataQueryString:start_date'
+        - $ref: '#/parameters/trait:metadataQueryString:end_date'
+        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -20698,6 +20708,38 @@ parameters:
     name: end_datetime
     in: query
     description: 'The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns coupons with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `end_date`.'
+    type: string
+    format: date-time
+  'trait:metadataQueryString:date_field':
+    name: date_field
+    in: query
+    description: The type of filter you would like to apply to your search.
+    type: string
+    enum:
+      - created_at
+      - updated_at
+  'trait:metadataQueryString:start_date':
+    name: start_date
+    in: query
+    description: 'The start date (format YYYY-MM-DD) with which to filter the `date_field`. Returns metadata with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified'
+    type: string
+    format: date
+  'trait:metadataQueryString:end_date':
+    name: end_date
+    in: query
+    description: 'The end date (format YYYY-MM-DD) with which to to filter the `date_field`. Returns metadata with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified'
+    type: string
+    format: date
+  'trait:metadataQueryString:start_datetime':
+    name: start_datetime
+    in: query
+    description: 'The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns metadata with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `start_date`.'
+    type: string
+    format: date-time
+  'trait:metadataQueryString:end_datetime':
+    name: end_datetime
+    in: query
+    description: 'The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `end_date`.'
     type: string
     format: date-time
 responses:
@@ -42687,6 +42729,8 @@ x-stoplight:
               type: endpoints
           divider: false
         - items:
+            - _id: metadataQueryString
+              type: traits
             - _id: metadata-intro
               type: docTextSections
             - _id: fRwCSab7Gcsav2eJ7
