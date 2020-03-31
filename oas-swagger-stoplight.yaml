@@ -40722,6 +40722,9 @@ definitions:
             type: string
           trial_type:
             type: string
+          introductory_offer:
+            type: boolean
+            description: reserved for future use
           initial_charge_in_cents:
             type: integer
           initial_charge_after_trial:
@@ -40750,6 +40753,7 @@ definitions:
         trial_interval: 1
         trial_interval_unit: month
         trial_type: payment_expected
+        introductory_offer: false
         initial_charge_in_cents: 120000
         initial_charge_after_trial: false
         expiration_interval: 12
@@ -40787,6 +40791,9 @@ definitions:
             type: string
           trial_type:
             type: string
+          introductory_offer:
+            type: boolean
+            description: reserved for future use
           initial_charge_in_cents:
             type: integer
           initial_charge_after_trial:
@@ -40795,9 +40802,6 @@ definitions:
             type: integer
           expiration_interval_unit:
             type: string
-        required:
-          - name
-          - price_in_cents
     example:
       price_point:
         name: Educational
@@ -40809,6 +40813,7 @@ definitions:
         trial_interval: 1
         trial_interval_unit: month
         trial_type: payment_expected
+        introductory_offer: false
         initial_charge_in_cents: 120000
         initial_charge_after_trial: false
         expiration_interval: 12
