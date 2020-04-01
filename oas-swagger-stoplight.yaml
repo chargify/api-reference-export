@@ -8579,9 +8579,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/:subscription_id/account_balances.json':
+  '/subscriptions/{subscription_id}/account_balances.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
     get:
-      operationId: 'GET_subscriptions-:subscription_id-account_balances-json'
+      operationId: GET_subscriptions-subscription_id-account_balances-json
       summary: Read Account Balances
       tags:
         - Subscription
