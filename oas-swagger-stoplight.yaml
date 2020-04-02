@@ -9149,6 +9149,8 @@ paths:
                             type: string
                           component_name:
                             type: string
+                          component_unit_price:
+                            type: string
                     offer_discounts:
                       type: array
                       items:
@@ -9166,6 +9168,8 @@ paths:
                       type: string
                     product_name:
                       type: string
+                    product_price_in_cents:
+                      type: integer
           examples:
             application/json:
               offers:
@@ -9175,6 +9179,7 @@ paths:
                   product_family_name: Monthly
                   product_id: 4636355
                   product_name: Silver
+                  product_price_in_cents: 2000
                   product_revisable_number: 0
                   name: Third Offer
                   handle: third
@@ -9186,18 +9191,21 @@ paths:
                   offer_items:
                     - component_id: 426665
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 149438
                       price_point_name: Original
                       starting_quantity: '0.0'
                       editable: false
                     - component_id: 426670
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 149444
                       price_point_name: Original
                       starting_quantity: '0.0'
                       editable: false
                     - component_id: 462138
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 195184
                       price_point_name: Original
                       starting_quantity: '0.0'
@@ -9213,6 +9221,7 @@ paths:
                   product_family_name: Monthly
                   product_id: 4671521
                   product_name: Silver
+                  product_price_in_cents: 2000
                   product_revisable_number: 0
                   name: Another offer
                   handle: offer_2
@@ -9224,6 +9233,7 @@ paths:
                   offer_items:
                     - component_id: 465356
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 199761
                       price_point_name: Original
                       starting_quantity: '0.0'
@@ -9239,6 +9249,7 @@ paths:
                   product_family_name: Monthly
                   product_id: 4610619
                   product_name: Silver
+                  product_price_in_cents: 2000
                   product_revisable_number: 3
                   name: My Awesome Offer
                   handle: offer_123
@@ -9250,18 +9261,21 @@ paths:
                   offer_items:
                     - component_id: 426643
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 149416
                       price_point_name: Original
                       starting_quantity: '0.0'
                       editable: false
                     - component_id: 426645
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 149418
                       price_point_name: Original
                       starting_quantity: '0.0'
                       editable: false
                     - component_id: 426670
                       component_name: 24/7 Support
+                      component_unit_price: '3.0'
                       price_point_id: 149444
                       price_point_name: Original
                       starting_quantity: '0.0'
@@ -9329,6 +9343,7 @@ paths:
                 product_family_name: Chargify
                 product_id: 31
                 product_name: 30-Day Square Trial
+                product_price_in_cents: 2000
                 product_revisable_number: 0
                 name: Solo
                 handle: han_shot_first
@@ -9340,6 +9355,7 @@ paths:
                 offer_items:
                   - component_id: 24
                     component_name: Invoices
+                    component_unit_price: '3.0'
                     price_point_id: 104
                     price_point_name: Original
                     starting_quantity: '1.0'
@@ -9398,6 +9414,8 @@ paths:
             $ref: '#/definitions/show-offer-output'
         '401':
           description: ''
+          schema:
+            type: object
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -9427,6 +9445,8 @@ paths:
       responses:
         '200':
           description: ''
+          schema:
+            type: object
         '401':
           description: ''
       security:
@@ -38134,6 +38154,8 @@ definitions:
                   type: string
                 editable:
                   type: boolean
+                component_unit_price:
+                  type: string
           offer_discounts:
             type: array
             items:
@@ -38147,6 +38169,8 @@ definitions:
             type: string
           product_price_point_name:
             type: string
+          product_price_in_cents:
+            type: integer
     example:
       offer:
         id: 3
@@ -38155,6 +38179,7 @@ definitions:
         product_family_name: Chargify
         product_id: 31
         product_name: 31-Day Trial
+        product_price_in_cents: 2000
         product_price_point_id: 103
         product_price_point_name: Default
         product_revisable_number: 0
@@ -38167,6 +38192,7 @@ definitions:
         offer_items:
           - component_id: 24
             component_name: Invoices
+            component_unit_price: '3.0'
             price_point_id: 104
             price_point_name: Original
             starting_quantity: '1.0'
@@ -38273,6 +38299,8 @@ definitions:
                   type: string
                 price_point_name:
                   type: string
+                component_unit_price:
+                  type: string
           offer_discounts:
             type: array
             items:
@@ -38305,6 +38333,8 @@ definitions:
             type: string
           product_price_point_name:
             type: string
+          product_price_in_cents:
+            type: integer
     example:
       offer:
         id: 1
@@ -38313,6 +38343,7 @@ definitions:
         product_family_name: Chargify
         product_id: 32
         product_name: 30-Day Square Trial
+        product_price_in_cents: 2000
         product_price_point_id: 132
         product_price_point_name: Default
         product_revisable_number: 0
@@ -38325,6 +38356,7 @@ definitions:
         offer_items:
           - component_id: 22
             component_name: Invoices
+            component_unit_price: '3.0'
             price_point_id: 102
             price_point_name: Original
             starting_quantity: '0.0'
