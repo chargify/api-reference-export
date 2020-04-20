@@ -28645,6 +28645,8 @@ definitions:
               type: string
             stored_credential_transaction_id:
               type: integer
+            sales_rep_id:
+              type: integer
             payment_profile_id:
               type: string
             reference:
