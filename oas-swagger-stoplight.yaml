@@ -43253,6 +43253,10 @@ x-stoplight:
             - _id: get-a-sale-output
               type: schemas
           name: Sales
+        - divider: false
+          items: []
+          name: Sales Commission
+          description: ''
         - name: Sales Receipts
           items:
             - _id: sales-receipt-intro
@@ -46287,6 +46291,11 @@ x-stoplight:
         6. After the customer finishes 3DS authentication, we let you know the result by making a request to applied `callback_url`.
         7. After that, we redirect the customer to the `redirect_url`; at this point the result of authentication is known 
         8. Optionally, you can use the applied "msg" param in the `redirect_url` to determine whether it was successful or not.
+      public: true
+    sales-commission-intro:
+      id: sales-commission-intro
+      name: Sales Commission Intro
+      content: ''
       public: true
   mock:
     enabled: false
