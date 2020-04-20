@@ -43254,7 +43254,9 @@ x-stoplight:
               type: schemas
           name: Sales
         - divider: false
-          items: []
+          items:
+            - _id: sales-commission-intro
+              type: docTextSections
           name: Sales Commission
           description: ''
         - name: Sales Receipts
@@ -46295,8 +46297,11 @@ x-stoplight:
     sales-commission-intro:
       id: sales-commission-intro
       name: Sales Commission Intro
-      content: ''
-      public: true
+      content: |-
+        ## Sales Commission Intro
+
+        The Sales Commission API differs from other Chargify API endpoints. This resource is associated with the seller itself. Up to now all available resources were at the level of the site, therefore creating the API Key per site was a sufficient solution. To share resources at the seller level, a new authentication method was introduced, which is user authentication. Creating an API Key for a user is a required step to correctly use the Sales Commission API, more details [here]().
+      public: false
   mock:
     enabled: false
     dynamic: false
