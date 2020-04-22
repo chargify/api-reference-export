@@ -3238,6 +3238,10 @@ paths:
         ## Read Price Points
 
         Use this endpoint to read current price points that are associated with a component.
+
+        When fetching a component's price points, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the price point is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       responses:
         '201':
           description: ''
@@ -4016,6 +4020,10 @@ paths:
         ## Read Coupons for a Specific Product Family
 
         List coupons for a specific Product Family in a Site.
+
+        When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       produces:
         - application/xml
       parameters:
@@ -4128,6 +4136,10 @@ paths:
 
         You can retrieve the Coupon via the API with the Show method. You must identify the Coupon in this call by the ID parameter that Chargify assigns.
         If instead you would like to find a Coupon using a Coupon code, see the Coupon Find method.
+
+        When fetching a coupon, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       parameters:
         - $ref: '#/parameters/trait:couponQueryString:date_field'
         - $ref: '#/parameters/trait:couponQueryString:start_date'
@@ -4525,6 +4537,10 @@ paths:
         You can retrieve a list of coupons that belong to the default product family for a site via this method.
 
         The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
+
+        When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       parameters:
         - $ref: '#/parameters/trait:pagination30:page'
         - $ref: '#/parameters/trait:pagination30:per_page'
@@ -11487,6 +11503,10 @@ paths:
       summary: Read Product Price Points
       tags:
         - 'Products: Price Points'
+      description: |-
+        When fetching a product's price points, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the product price point is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       parameters:
         - $ref: '#/parameters/trait:pagination10:page'
         - $ref: '#/parameters/trait:pagination10:per_page'
@@ -11609,6 +11629,10 @@ paths:
       summary: Read a Product Price Point
       tags:
         - 'Products: Price Points'
+      description: |-
+        When fetching a product price point, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the product price point is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
       responses:
         '200':
           description: ''
@@ -31179,6 +31203,10 @@ definitions:
               type: array
               items:
                 type: object
+            use_site_exchange_rate:
+              type: boolean
+              default: true
+              description: Whether to use the site level exchange rate or to define your own pricing for a given currency if you have defined multiple currencies for the site.
     example:
       - coupon:
           id: 999999
@@ -34715,6 +34743,10 @@ definitions:
                   type: integer
                 unit_price:
                   type: integer
+          use_site_exchange_rate:
+            type: boolean
+            default: true
+            description: Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
     required:
       - price_point
     example:
@@ -34774,6 +34806,10 @@ definitions:
                     - 'null'
                 unit_price:
                   type: string
+          use_site_exchange_rate:
+            type: boolean
+            description: Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
+            default: true
     example:
       price_point:
         id: 79
@@ -34826,6 +34862,10 @@ definitions:
                     type: integer
                   ending_quantity:
                     type: integer
+            use_site_exchange_rate:
+              type: boolean
+              default: true
+              description: Whether to use the site level exchange rate or define your own prices for each currency if you have multiple currencies defined on the site.
           required:
             - name
             - pricing_scheme
@@ -41114,6 +41154,9 @@ definitions:
               - full-price
               - compound
             description: Must be either `compound` or  `full-price`.
+          use_site_exchange_rate:
+            type: boolean
+            description: Whether to use the site level exchange rate or to define your own pricing for a given currency if you have defined multiple currencies for the site.
       restricted_products:
         type: object
         properties:
@@ -41246,6 +41289,10 @@ definitions:
             type: array
             items:
               type: object
+          use_site_exchange_rate:
+            type: boolean
+            default: true
+            description: Whether to use the site level exchange rate or to define your own pricing for a given currency if you have defined multiple currencies for the site.
     example:
       coupon:
         id: 67
