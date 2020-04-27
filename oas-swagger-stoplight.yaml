@@ -652,6 +652,7 @@ paths:
         + metered_components
         + quantity_based_components
         + on_off_components
+        + prepaid_usage_components
 
         ## Metered Component Example
 
@@ -819,6 +820,39 @@ paths:
             "upgrade_charge": "full",
             "downgrade_credit": "prorated",
           }
+        }
+        ```
+
+        ### Prepaid Usage Component Example
+
+        ```
+        {
+           "prepaid_usage_component":{
+              "name":"Minutes",
+              "unit_name":"minutes",
+              "unit_price":2.0,
+              "pricing_scheme":"per_unit",
+              "rollover_prepaid_remainder": true,
+              "renew_prepaid_allocation": true,
+              "expiration_interval": 15,
+              "expiration_interval_unit": "day",
+              "overage_pricing":{
+                 "pricing_scheme":"stairstep",
+                 "prices":[
+                    {
+                       "starting_quantity":1,
+                       "ending_quantity":100,
+                       "unit_price":3.0,
+                       "formatted_unit_price":"$3.00"
+                    },
+                    {
+                       "starting_quantity":101,
+                       "unit_price":5.0,
+                       "formatted_unit_price":"$5.00"
+                    }
+                 ]
+              }
+           }
         }
         ```
       parameters:
@@ -2587,21 +2621,150 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  /:
+  '/product_families/{product_family_id}/prepaid_usage_components':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: string
     post:
-      operationId: POST_root
+      operationId: POST_product_families-product_family_id-prepaid_usage_components
       summary: Create a Prepaid Usage Component
       tags:
         - 'Components: Prepaid Usage'
+      description: |-
+        ## Create a Prepaid Usage Component within a Product Family
+
+        This request will create a prepaid usage component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.
+
+        ### Component Documentation
+
+        For more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)
+
+        ### API Call
+
+        The call to create a Prepaid Usage Component looks very similar to the calls to create other types of components, except that an `overage_pricing` object is **required**.
+
+
+        ```
+        {
+           "prepaid_usage_component":{
+              "name":"Minutes",
+              "unit_name":"minutes",
+              "unit_price":2.0,
+              "pricing_scheme":"per_unit",
+              "overage_pricing":{
+                 "pricing_scheme":"stairstep",
+                 "prices":[
+                    {
+                       "starting_quantity":1,
+                       "ending_quantity":100,
+                       "unit_price":3.0,
+                       "formatted_unit_price":"$3.00"
+                    },
+                    {
+                       "starting_quantity":101,
+                       "unit_price":5.0,
+                       "formatted_unit_price":"$5.00"
+                    }
+                 ]
+              }
+           }
+        }
+        ```
+
+        In addition to the above, specific parameters can also be sent to control the behavior allocation renewals, unused units rollover and expiration date.
+
+        ```
+        "rollover_prepaid_remainder": true
+        "renew_prepaid_allocation": true
+        "expiration_interval": 15
+        "expiration_interval_unit": "day"
+        ```
+
+        Please note that the expiration feature of this component can only be used if the `rollover_prepaid_remainder` is set to `true`.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              prepaid_usage_component:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  unit_name:
+                    type: string
+                  unit_price:
+                    type: integer
+                  pricing_scheme:
+                    type: string
+                  rollover_prepaid_remainder:
+                    type: boolean
+                  renew_prepaid_allocation:
+                    type: boolean
+                  expiration_interval:
+                    type: integer
+                  expiration_interval_unit:
+                    type: string
+                  overage_pricing:
+                    type: object
+                    required:
+                      - pricing_scheme
+                      - prices
+                    properties:
+                      pricing_scheme:
+                        type: string
+                      prices:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            starting_quantity:
+                              type: integer
+                            ending_quantity:
+                              type: integer
+                            unit_price:
+                              type: integer
+                            formatted_unit_price:
+                              type: string
+                required:
+                  - name
+                  - unit_name
+                  - pricing_scheme
+                  - overage_pricing
+            example:
+              prepaid_usage_component:
+                name: Minutes
+                unit_name: minutes
+                unit_price: 2
+                pricing_scheme: per_unit
+                rollover_prepaid_remainder: true
+                renew_prepaid_allocation: true
+                expiration_interval: 15
+                expiration_interval_unit: day
+                overage_pricing:
+                  pricing_scheme: stairstep
+                  prices:
+                    - starting_quantity: 1
+                      ending_quantity: 100
+                      unit_price: 3
+                      formatted_unit_price: $3.00
+                    - starting_quantity: 101
+                      unit_price: 5
+                      formatted_unit_price: $5.00
       responses:
         default:
           description: ''
           schema: {}
+      security:
+        - <<api_key>>: []
       x-stoplight:
-        id: POST_
+        id: POST_productfamilies-productfamilyid-prepaidusagecomponents
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
@@ -25057,26 +25220,6 @@ definitions:
   components/metered/create-usage-input:
     title: Create Usage Input
     type: object
-    properties:
-      usage:
-        type: object
-        properties:
-          quantity:
-            type:
-              - integer
-              - number
-            description: integer by default or decimal number if fractional quantities are enabled for the component
-          price_point_id:
-            type: string
-          memo:
-            type: string
-        required:
-          - quantity
-    example:
-      usage:
-        quantity: 1000
-        price_point_id: '149416'
-        memo: My memo
     x-stoplight:
       id: components/metered/create-usage-input
       name: Create Usage Input
@@ -43252,8 +43395,10 @@ x-stoplight:
           items:
             - _id: prepaid-usage-introduction
               type: docTextSections
-            - _id: POST_
+            - _id: POST_productfamilies-productfamilyid-prepaidusagecomponents
               type: endpoints
+            - _id: components/metered/create-usage-input
+              type: schemas
           name: 'Components: Prepaid Usage'
         - name: 'Components: Quantity Allocations'
           items:
@@ -46966,7 +47111,7 @@ x-stoplight:
         Prepaid usage components can be configured using options suchs as recurring allocations, rollover unused quantities and expiration dates.
 
         For more information, please visit our help docs. ## TODO: ADD LINK
-      public: true
+      public: false
   mock:
     enabled: false
     dynamic: false
