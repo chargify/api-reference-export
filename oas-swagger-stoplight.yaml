@@ -3222,27 +3222,33 @@ paths:
       tags:
         - 'Components: Prepaid Usage'
       description: |-
-        ## Destroying a Prepaid Usage Allocation
+        ## Updating a Prepaid Usage Allocation's Expiration Date
 
-        Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component each allocation must be destroyed individually via this endpoint.
+        When the expiration interval options are selected on a prepaid usage component price point, all allocations will be created with an expiration date. This expiration date can be changed after the fact to allow for extending or shortening the allocation's active window.
 
-        ## Credit Scheme
+        In order to change a prepaid usage allocation's expiration date, a PUT call must be made to the allocation's endpoint with a new expiration date.
 
-        By default, destroying an allocation will generate a service credit on the subscription. This behavior can be modified with the optional `credit_scheme` parameter on this endpoint. The accepted values are:
+        ## Limitations
 
-        1. `none`: The allocation will be destroyed and the balances will be updated but no service credit or refund will be created.
-        2. `credit`: The allocation will be destroyed and the balances will be updated and a service credit will be generated. This is also the default behavior if the `credit_scheme` param is not passed.
-        3. `refund`: The allocation will be destroyed and the balances will be updated and a refund will be issued along with a Credit Note.
+        A few limitations exist when changing an allocation's expiration date:
+
+        - An expiration date can only be changed for an allocation that belongs to a price point with expiration interval options explicitly set.
+        - An expiration date can be changed towards the future with no limitations.
+        - An expiration date can be changed towards the past (essentially expiring it) up to the subscription's current period beginning date.
       parameters:
         - name: body
           in: body
           schema:
             type: object
             properties:
-              credit_scheme:
-                type: string
+              allocation:
+                type: object
+                properties:
+                  expires_at:
+                    type: string
             example:
-              credit_scheme: none
+              allocation:
+                expires_at: 05/07/2021
       responses:
         '200':
           description: ''
@@ -23153,6 +23159,12 @@ definitions:
                     type: string
             product_price_point_name:
               type: string
+            request_billing_address:
+              type: boolean
+            require_billing_address:
+              type: boolean
+            require_shipping_address:
+              type: boolean
     example:
       - product:
           id: 3801242
@@ -26820,6 +26832,12 @@ definitions:
                   type: string
           product_price_point_name:
             type: string
+          request_billing_address:
+            type: boolean
+          require_billing_address:
+            type: boolean
+          require_shipping_address:
+            type: boolean
     example:
       product:
         id: 3861800
@@ -27160,6 +27178,12 @@ definitions:
                   type: string
           product_price_point_name:
             type: string
+          request_billing_address:
+            type: boolean
+          require_billing_address:
+            type: boolean
+          require_shipping_address:
+            type: boolean
     example:
       product:
         id: 4364984
@@ -27286,6 +27310,12 @@ definitions:
                   type: 'null'
                 url:
                   type: string
+          request_billing_address:
+            type: boolean
+          require_billing_address:
+            type: boolean
+          require_shipping_address:
+            type: boolean
     example:
       product:
         id: 4365034
@@ -37482,6 +37512,12 @@ definitions:
                   items: {}
           product_price_point_name:
             type: string
+          request_billing_address:
+            type: boolean
+          require_billing_address:
+            type: boolean
+          require_shipping_address:
+            type: boolean
     example:
       product:
         id: 4535635
@@ -37600,6 +37636,12 @@ definitions:
               type: object
           product_price_point_name:
             type: string
+          request_billing_address:
+            type: boolean
+          require_billing_address:
+            type: boolean
+          require_shipping_address:
+            type: boolean
     example:
       product:
         id: 4535638
@@ -43793,6 +43835,8 @@ x-stoplight:
               type: docTextSections
             - _id: api-access-limitations
               type: docTextSections
+            - _id: secure-applications
+              type: docTextSections
             - _id: /basics/subscription-api-response-exampe
               type: schemas
             - type: docTextSections
@@ -46649,6 +46693,9 @@ x-stoplight:
         | url                      | The url where the signup page can be viewed (`public_signup_pages` only)                                                                                                                                                           |
         | return_url               | The url to which a customer will be returned after a successful signup (`public_signup_pages` only)                                                                                                                                |
         | return_params            | The params to be appended to the return_url (`public_signup_pages` only)                                                                                                                                                           |
+        | request_billing_address | A boolean indicating whether to request a billing address on any Self-Service Pages that are used by subscribers of this product.   |
+        | require_billing_address | A boolean indicating whether a billing address is required to add a payment profile, especially at signup. |
+        | require_shipping_address | A boolean indicating whether a shipping address is required for the customer, especially at signup. |
         | tax_code                 | A string representing the tax code related to the product type. This is especially important when using the Avalara service to tax based on locale. This attribute has a max length of 10 characters.                                                   |
       public: true
     statements-intro:
@@ -47340,22 +47387,6 @@ x-stoplight:
           ]
         }
         ```
-
-        ## Single Page Applications
-
-        Please note that it is NOT possible to make API requests directly from the customer's browser or device.  Doing so would expose your API key on the client side, and anyone who has that key has full access to all of your Chargify data. 
-
-        Instead you will need to take care to tokenize sensitive information by using [Chargify.js](https://developer.chargify.com/content/chargify-js/chargify-js.html) or a similar JavaScript library provided by your gateway, and then post the token and other information to your own server, from which you can make the API call to Chargify.
-
-        ### Troubleshooting
-
-        If you attempt to make a Chargify API request directly from the customer's browser, you may see an error such as: 
-
-        ```Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.```
-
-        ```Origin 'https://example.com' is therefore not allowed access.` `The response had HTTP status code 404.```
-
-        This is an error message indicating that Cross-Origin Resource Sharing (CORS) is not enabled on the Chargify server.
       public: true
     relationship-invoicing-intro:
       id: relationship-invoicing-intro
@@ -47694,7 +47725,27 @@ x-stoplight:
 
         Prepaid usage components can be configured using options suchs as recurring allocations, rollover unused quantities and expiration dates.
 
-        For more information, please visit our help docs. ## TODO: ADD LINK
+        For more information, please visit our documentation page: [https://help.chargify.com/products/prepaid-components.html](https://help.chargify.com/products/prepaid-components.html)
+      public: true
+    secure-applications:
+      id: secure-applications
+      name: Secure Applications
+      content: |-
+        ## Secure Applications
+
+        Please note that it is NOT possible to make API requests directly from the customer's browser or device.  Doing so would expose your API key on the client side, and anyone who has that key has full access to all of your Chargify data. 
+
+        Instead you will need to take care to tokenize sensitive information by using [Chargify.js](https://developer.chargify.com/content/chargify-js/chargify-js.html) or a similar JavaScript library provided by your gateway, and then post the token and other information to your own server, from which you can make the API call to Chargify.
+
+        ### Troubleshooting
+
+        If you attempt to make a Chargify API request directly from the customer's browser, you may see an error such as: 
+
+        ```Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.```
+
+        ```Origin 'https://example.com' is therefore not allowed access.` `The response had HTTP status code 404.```
+
+        This is an error message indicating that Cross-Origin Resource Sharing (CORS) is not enabled on the Chargify server.
       public: true
   mock:
     enabled: false
