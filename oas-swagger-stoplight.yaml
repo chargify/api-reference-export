@@ -4200,7 +4200,7 @@ paths:
         id: POST_pricepoints-pricepointid-currencypricesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -4252,7 +4252,7 @@ paths:
         id: PUT_pricepoints-pricepointid-currencypricesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -5014,7 +5014,7 @@ paths:
         id: PUT_coupon-couponid-currencypricesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -12444,7 +12444,7 @@ paths:
         id: POST_productpricepoints-productpricepointid-currencypricesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -12499,7 +12499,7 @@ paths:
         id: PUT_productpricepoints-productpricepointid-currencypricesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
