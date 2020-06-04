@@ -24533,6 +24533,10 @@ definitions:
             type: string
           unit_name:
             type: string
+          price_point_id:
+            type: integer
+          price_point_handle:
+            type: string
     example:
       component:
         component_id: 193028
