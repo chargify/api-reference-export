@@ -5483,6 +5483,8 @@ paths:
                       type: integer
                     name:
                       type: string
+                    id:
+                      type: integer
           examples:
             application/json:
               total_count: 2
@@ -25339,6 +25341,8 @@ definitions:
           type: integer
         value:
           type: string
+        id:
+          type: integer
     example:
       - name: Color
         resource_id: 100000
@@ -32040,6 +32044,8 @@ definitions:
               type: integer
             name:
               type: string
+            id:
+              type: integer
     example:
       total_count: 2
       current_page: 1
@@ -32246,6 +32252,8 @@ definitions:
               type: integer
             name:
               type: string
+            id:
+              type: integer
     example:
       total_count: 2
       current_page: 1
@@ -33226,6 +33234,8 @@ definitions:
               type: integer
             name:
               type: string
+            id:
+              type: integer
     example:
       total_count: 2
       current_page: 1
@@ -33254,6 +33264,8 @@ definitions:
           type: integer
         name:
           type: string
+        id:
+          type: integer
     example:
       - value: Blue
         resource_id: 15479934
@@ -36075,6 +36087,8 @@ definitions:
               type: integer
             name:
               type: string
+            id:
+              type: integer
     example:
       total_count: 1
       current_page: 1
@@ -46023,10 +46037,11 @@ x-stoplight:
 
         The following fields are returned from GET (read) operations.
 
-        | name        | The name of the attribute that is added to the resource.  |
+        | name        | The name of the attribute that is added to the resource, i.e. the name of the metafield/custom field.  |
         |-------------|-----------------------------------------------------------|
-        | value       | The value of the attribute that was added to the resource |
-        | resource_id | The resource id that the metadata belongs to              |
+        | id          | The unique ID of this particular metadata record. |
+        | value       | The value of the attribute that was added to the resource. |
+        | resource_id | The resource ID that the metadata belongs to, i.e. a subscription or customer ID.              |
       public: true
     intro-to-payment-profiles:
       id: intro-to-payment-profiles
