@@ -45169,11 +45169,11 @@ x-stoplight:
         + [API Basics:](https://developer.chargify.com/content/basics/signups.html) Signups, Components, Syncing
         + [Chargify Ecosystem:](https://developer.chargify.com/content/ecosystem/ecosystem.html) Code samples, Signup methods
 
-        ## Chargify Direct
+        ## Chargify.js
 
-        Our [Chargify Direct documentation](https://developer.chargify.com/content/chargify-direct/chargify-direct.html) can be found under the developer portal. 
+        Our [Chargify.js documentation](https://developer.chargify.com/content/chargify-js/chargify-js.html) can be found under the developer portal. 
 
-        Here you'll find an introduction to how Chargify Direct operates within Chargify. Additionally, we cover some example implementations, as well as troubleshooting.
+        Here you'll find an introduction to how Chargify.js allows you to tokenize sensitive information such as card numbers. Additionally, we cover some example implementations, as well as troubleshooting.
 
         ## Testing Guide
 
@@ -46905,6 +46905,8 @@ x-stoplight:
         Another handy tool is [Beeceptor](https://beeceptor.com/). You can use this to intercept your request to see exactly what is being sent.
 
         If you are unable to connect at all, check that you are using TLS 1.2 or better, and review the information in [API Authentication Troubleshooting.](#docTextSection:xnGtyxFy5nLWhGB34)
+
+        If you see a "Could not resolve host" error, double check that the url is correct, including your subdomain. For example: `mysite.chargify.com`.  This error means your DNS server could not find an IP address for the domain you are trying to connect to.
 
         ## Backwards Compatibility
 
