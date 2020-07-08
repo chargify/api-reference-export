@@ -5408,6 +5408,7 @@ paths:
         - $ref: '#/parameters/trait:metadataQueryString:end_date'
         - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
         - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
       responses:
         '200':
           description: ''
@@ -5459,6 +5460,7 @@ paths:
         - $ref: '#/parameters/trait:metadataQueryString:end_date'
         - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
         - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
       responses:
         '200':
           description: ''
@@ -21547,6 +21549,7 @@ parameters:
   'trait:filterByEventName:filter':
     name: filter
     in: query
+    description: 'You can pass multiple event keys after comma. Example: /events.json?filter=signup_success,payment_success'
     type: string
     enum:
       - account_transaction_changed
@@ -21801,6 +21804,12 @@ parameters:
     description: 'The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the `date_field`. Returns metadata with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of `end_date`.'
     type: string
     format: date-time
+  'trait:metadataQueryString:with_deleted':
+    name: with_deleted
+    in: query
+    description: Allow to fetch deleted metadata.
+    type: boolean
+    default: false
   'trait:eventsQueryString:date_field':
     name: date_field
     in: query
