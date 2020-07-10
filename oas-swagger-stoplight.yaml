@@ -44825,6 +44825,8 @@ x-stoplight:
           divider: false
         - divider: false
           items:
+            - _id: subscriptions-hierarchies-and-whopays-intro
+              type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
             - _id: subscription-create-hierarchy-request
@@ -47230,6 +47232,16 @@ x-stoplight:
         | stored_credential_transaction_id | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
         | reference | The reference value (provided by your app) for the subscription itelf. |
 
+        ### Group Attributes
+
+        `group` will only be returned on Relationship Invoicing sites. If the subscription is not in a group, `group` will explicitly return as null. Otherwise, it will return the following information:
+
+        | uid      | The UID for the group                      |
+        |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | scheme | Whether the group is configured to rely on a primary subscription for billing. At this time, it will always be 1. See [the hierarchies & WhoPays section](docTextSection:TXgzpkexh7gg7tnn2) for more information. |
+        | primary_subscription_id | The subscription ID of the primary within the group. Applicable to scheme 1. |
+        | primary | A boolean indicating whether the subscription is the primary in the group. Applicable to scheme 1. |
+
         ### Credit Card Attributes
 
         + `credit_card` Nested credit card attributes, if payment profile is a credit_card
@@ -47710,6 +47722,20 @@ x-stoplight:
         ```Origin 'https://example.com' is therefore not allowed access.` `The response had HTTP status code 404.```
 
         This is an error message indicating that Cross-Origin Resource Sharing (CORS) is not enabled on the Chargify server.
+      public: true
+    subscriptions-hierarchies-and-whopays-intro:
+      id: subscriptions-hierarchies-and-whopays-intro
+      name: Subscriptions Hierarchies & WhoPays Intro
+      content: |-
+        ## Hierarchies & WhoPays
+
+        When subscription groups were first added to our Relationship Invoicing architecture, to group together invoices for related subscriptions and allow for complex customer hierarchies and WhoPays scenarios, they were designed to consist of a primary and a collection of group members. The primary would control many aspects of the group, such as when the consolidated invoice is generated. As of today, groups still function this way.
+
+        In the future, the concept of a "primary" will be removed in order to offer more flexibility into group management and reduce confusion concerning what actions must be done on a primary level, rather than a member level.
+
+        We have introduced a two scheme system as a bridge between these two group organizations. Scheme 1, which is relevant to all subscription groups today, will include the ID of the primary subscription and a boolean flag to indicate whether the subscription being read is the primary. 
+
+        When reading a subscription via API, they will return a top-level attribute called `group`, which will denote which scheme is being used. At this time, the `scheme` attribute will always be 1.
       public: true
   mock:
     enabled: false
