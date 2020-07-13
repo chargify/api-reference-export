@@ -47647,7 +47647,7 @@ x-stoplight:
 
         | uid      | The UID for the group                      |
         |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | scheme | Whether the group is configured to rely on a primary subscription for billing. At this time, it will always be 1. See [the hierarchies & WhoPays section](docTextSection:TXgzpkexh7gg7tnn2) for more information. |
+        | scheme | Whether the group is configured to rely on a primary subscription for billing. At this time, it will always be 1. See [the hierarchies & WhoPays section](#docTextSection:TXgzpkexh7gg7tnn2) for more information. |
         | primary_subscription_id | The subscription ID of the primary within the group. Applicable to scheme 1. |
         | primary | A boolean indicating whether the subscription is the primary in the group. Applicable to scheme 1. |
 
