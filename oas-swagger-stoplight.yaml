@@ -17606,7 +17606,10 @@ paths:
       summary: Read Subscription Groups
       tags:
         - Subscription Groups
-      description: Returns an array of subscription groups for the site. The response is paginated and will return a `meta` key with pagination information.
+      description: |-
+        ## Read Subscription Groups
+
+        Returns an array of subscription groups for the site. The response is paginated and will return a `meta` key with pagination information.
       responses:
         '200':
           description: ''
@@ -17796,7 +17799,7 @@ paths:
         id: GET_subscriptiongroups-uidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           statusCode: 200
@@ -17938,7 +17941,7 @@ paths:
         id: GET_subscriptiongroups-lookupjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           statusCode: 200
@@ -18104,7 +18107,10 @@ paths:
       summary: Issue Service Credit
       tags:
         - 'Subscription Groups: Service Credits'
-      description: Credit can be issued for a subscription group identified by the group's `uid`. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
+      description: |-
+        ## Issue Service Credit
+
+        Credit can be issued for a subscription group identified by the group's `uid`. Credit will be added to the group in the amount specified in the request body. The credit will be applied to group member invoices as they are generated.
       parameters:
         - name: body
           in: body
@@ -18166,7 +18172,10 @@ paths:
       summary: Deduct Service Credit
       tags:
         - 'Subscription Groups: Service Credits'
-      description: Credit can be deducted for a subscription group identified by the group's `uid`. Credit will be deducted from the group in the amount specified in the request body.
+      description: |-
+        ## Deduct Service Credit
+
+        Credit can be deducted for a subscription group identified by the group's `uid`. Credit will be deducted from the group in the amount specified in the request body.
       parameters:
         - name: body
           in: body
