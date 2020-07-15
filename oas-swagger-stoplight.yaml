@@ -18091,7 +18091,7 @@ paths:
         id: POST_subscriptiongroups-subscriptiongroupuid-reactivatejson
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           dynamic: false
