@@ -7139,6 +7139,10 @@ paths:
           in: query
           description: The subscription's ID.
           type: number
+        - name: subscription_group_uid
+          in: query
+          description: The UID of the subscription group you want to fetch consolidated invoices for. This will return a paginated list of consolidated invoices for the specified group.
+          type: string
         - name: page
           in: query
           description: 'Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.'
