@@ -2409,6 +2409,10 @@ paths:
                       type:
                         - integer
                         - 'null'
+                    on_hold_at:
+                      type:
+                        - string
+                        - 'null'
           examples:
             application/json:
               - subscription:
@@ -2528,6 +2532,7 @@ paths:
                   coupon_uses_allowed: 1
                   next_product_handle: null
                   stored_credential_transaction_id: 125577782251178
+                  on_hold_at: null
               - subscription:
                   id: 15189649
                   state: canceled
@@ -2637,6 +2642,7 @@ paths:
                   coupon_uses_allowed: null
                   next_product_handle: null
                   stored_credential_transaction_id: 125566782250778
+                  on_hold_at: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6782,6 +6788,7 @@ paths:
                   coupon_uses_allowed: null
                   next_product_handle: null
                   stored_credential_transaction_id: 165565533220288
+                  on_hold_at: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -18513,6 +18520,10 @@ paths:
                       type:
                         - integer
                         - 'null'
+                    on_hold_at:
+                      type:
+                        - string
+                        - 'null'
           examples:
             application/json:
               - subscription:
@@ -18633,6 +18644,7 @@ paths:
                   coupon_use_count: 1
                   coupon_uses_allowed: 1
                   stored_credential_transaction_id: 166411599220288
+                  on_hold_at: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -31153,6 +31165,10 @@ definitions:
                 - 'null'
             currency:
               type: string
+            on_hold_at:
+              type:
+                - string
+                - 'null'
     example:
       - subscription:
           id: 15236915
@@ -31274,6 +31290,7 @@ definitions:
           coupon_uses_allowed: 1
           stored_credential_transaction_id: 166115589220288
           next_product_handle: null
+          on_hold_at: null
     x-stoplight:
       id: subscription/read-subscription
       name: Read Subscription MAIN
@@ -48240,6 +48257,7 @@ x-stoplight:
         | net_terms | On Relationship Invoicing, the number of days before a renewal invoice is due.  |
         | stored_credential_transaction_id | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
         | reference | The reference value (provided by your app) for the subscription itelf. |
+        | on_hold_at | The timestamp of the most recent on hold action. |
 
         ### Group Attributes
 
