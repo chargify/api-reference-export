@@ -4976,18 +4976,18 @@ paths:
         + Coupon is invalid
         + Coupon expired
 
-        If you have more than one product family and if the coupon you are validating does not belong to the first product family in your site, then you will need to specify (either in the url or as a query string param) the product family id.
+        If you have more than one product family and if the coupon you are validating does not belong to the first product family in your site, then you will need to specify the product family, either in the url or as a query string param. This can be done by supplying the id or the handle in the `handle:my-family` format.
 
         Eg.
 
         ```
-        https://<subdomain>.chargify.com/product_families/<product_family_id>/coupons/validate.<format>?code=<coupon_code>
+        https://<subdomain>.chargify.com/product_families/handle:<product_family_handle>/coupons/validate.<format>?code=<coupon_code>
         ```
 
         Or:
 
         ```
-        https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=1
+        https://<subdomain>.chargify.com/coupons/validate.<format>?code=<coupon_code>&product_family_id=<id>
         ```
       parameters:
         - name: code
@@ -12698,9 +12698,11 @@ paths:
         - incomplete
         - Product Families
       description: |-
-        ## Read Product Family via Product Family ID
+        ## Read Product Family
 
         This method allows to retrieve a Product Family via the `product_family_id`. The response will contain a Product Family object.
+
+        The product family can be specified either with the id number, or with the `handle:my-family` format.
       responses:
         '200':
           description: OK
