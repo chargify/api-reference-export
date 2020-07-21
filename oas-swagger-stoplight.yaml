@@ -18092,18 +18092,79 @@ paths:
       tags:
         - Subscription Groups
         - 'Subscription Groups: Reactivations'
+      description: |-
+        This endpoint will attempt to reactivate or resume a cancelled subscription group. Upon reactivation, any canceled invoices created after the beginning of the primary subscription's billing period will be reopened and payment will be attempted on them. If the subscription group is being reactivated (as opposed to resumed), new charges will also be assessed for the new billing period.
+
+        Whether a subscription group is reactivated (a new billing period is created) or resumed (the current billing period is respected) will depend on the parameters that are sent with the request as well as the date of the request relative to the primary subscription's period.
+
+        ## Reactivating within the current period
+
+        If a subscription group is cancelled and reactivated within the primary subscription's current period, we can choose to either start a new billing period or maintain the existing one. If we want to maintain the existing billing period the `resume=true` option must be passed in request parameters.
+
+        An exception to the above are subscriptions that are on calendar billing. These subscriptions cannot be reactivatied within the current period. If the `resume=true` option is not passed the request will return an error.
+
+
+        ## Reactivating beyond the current period
+
+        In this case, a subscription group can only be reactivated with a new billing period. If the `resume=true` option is passed it will be ignored.
+
+        For calendar billing subscriptions, the new billing period created will be a partial one, spanning from the date of reactivation to the next corresponding calendar renewal date.
       parameters:
-        - name: resume
-          in: query
-          type: boolean
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              resume:
+                type: boolean
+            example:
+              resume: true
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/create-subscription-group-request'
+            type: object
+            properties:
+              uid:
+                type: string
+              scheme:
+                type: integer
+              customer_id:
+                type: integer
+              payment_profile_id:
+                type: integer
+              subscription_ids:
+                type: array
+                items:
+                  type: integer
+              primary_subscription_id:
+                type: integer
+              next_assessment_at:
+                type: string
           examples:
             application/json:
-              id: voluptate laborum sed adipisicing
+              uid: grp_93wgm89cbjkw6
+              scheme: 1
+              customer_id: 1
+              payment_profile_id: 1
+              subscription_ids:
+                - 1
+                - 2
+              primary_subscription_id: 1
+              next_assessment_at: '2020-06-18T12:00:00-04:00'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - Must be inside the current billing period to resume this subscription group
       security:
         - <<api_key>>: []
       x-stoplight:
