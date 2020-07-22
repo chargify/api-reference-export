@@ -17637,19 +17637,36 @@ paths:
             properties:
               subscription_groups:
                 type: array
-                description: An array of subscription groups
                 items:
-                  $ref: '#/definitions/subscription-group'
+                  type: object
+                  properties:
+                    uid:
+                      type: string
+                    scheme:
+                      type: integer
+                    customer_id:
+                      type: integer
+                    payment_profile_id:
+                      type: integer
+                    subscription_ids:
+                      type: array
+                      items:
+                        type: integer
+                    primary_subscription_id:
+                      type: integer
+                    next_assessment_at:
+                      type: string
+                    state:
+                      type: string
+                    cancel_at_end_of_period:
+                      type: boolean
               meta:
                 type: object
-                description: An object containing pagination details
                 properties:
                   current_page:
-                    type: number
-                    description: The current page of the response
+                    type: integer
                   total_count:
-                    type: number
-                    description: The total number of groups
+                    type: integer
           examples:
             application/json:
               subscription_groups:
@@ -17662,6 +17679,8 @@ paths:
                     - 82370782
                   primary_subscription_id: 69844395
                   next_assessment_at: 'Sun, 09 Aug 2020 15:59:06 EDT -04:00'
+                  state: active
+                  cancel_at_end_of_period: false
               meta:
                 current_page: 1
                 total_count: 1
@@ -17713,78 +17732,60 @@ paths:
             properties:
               uid:
                 type: string
-                description: The uid of the subscription group
               scheme:
-                type: number
-                description: Current scheme being used for the group structure
+                type: integer
               customer_id:
-                type: number
-                description: ID of the group's paying customer
+                type: integer
               payment_profile_id:
-                type: number
-                description: ID of the group's payment profile
+                type: integer
               subscription_ids:
                 type: array
-                description: A list of all subscription ids belonging to the group
                 items:
-                  type: number
+                  type: integer
               primary_subscription_id:
-                type: number
-                description: ID of the primary subscription in the group (only relevant for scheme 1)
-              next_assesment_at:
+                type: integer
+              next_assessment_at:
                 type: string
-                description: The date the group will be assessed at next
+              state:
+                type: string
+              cancel_at_end_of_period:
+                type: boolean
               customer:
                 type: object
                 properties:
                   first_name:
                     type: string
-                    description: The first name of the customer
                   last_name:
                     type: string
-                    description: The last name of the customer
-                  email:
-                    type: string
-                    description: The customer email address
                   organization:
                     type: string
-                    description: The organization of the customer
+                  email:
+                    type: string
                   reference:
-                    type:
-                      - string
-                      - 'null'
-                    description: The reference information associated with the customer
+                    type: string
               account_balances:
                 type: object
                 properties:
-                  open_invoices:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the sum of the subscription group''s open, payable invoices.'
-                        default: 0
-                  pending_discounts:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the subscription group''s Pending Discount account.'
-                        default: 0
-                  service_credits:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the subscription group''s Service Credit account.'
-                        default: 0
                   prepayments:
                     type: object
                     properties:
                       balance_in_cents:
                         type: integer
-                        description: 'The balance, in cents, of the subscription group''s Prepayment account.'
-                        default: 0
+                  service_credits:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
+                  open_invoices:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
+                  pending_discounts:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
           examples:
             application/json:
               uid: grp_939ktzq8v4477
@@ -17797,6 +17798,8 @@ paths:
                 - 103
               primary_subscription_id: 101
               next_assessment_at: '2020-08-01T14:00:00-05:00'
+              state: active
+              cancel_at_end_of_period: false
               customer:
                 first_name: Mark
                 last_name: Wannabewahlberg
@@ -17855,78 +17858,60 @@ paths:
             properties:
               uid:
                 type: string
-                description: The uid of the subscription group
               scheme:
-                type: number
-                description: Current scheme being used for the group structure
+                type: integer
               customer_id:
-                type: number
-                description: ID of the group's paying customer
+                type: integer
               payment_profile_id:
-                type: number
-                description: ID of the group's payment profile
+                type: integer
               subscription_ids:
                 type: array
-                description: A list of all subscription ids belonging to the group
                 items:
-                  type: number
+                  type: integer
               primary_subscription_id:
-                type: number
-                description: ID of the primary subscription in the group (only relevant for scheme 1)
-              next_assesment_at:
+                type: integer
+              next_assessment_at:
                 type: string
-                description: The date the group will be assessed at next
+              state:
+                type: string
+              cancel_at_end_of_period:
+                type: boolean
               customer:
                 type: object
                 properties:
                   first_name:
                     type: string
-                    description: The first name of the customer
                   last_name:
                     type: string
-                    description: The last name of the customer
-                  email:
-                    type: string
-                    description: The customer email address
                   organization:
                     type: string
-                    description: The organization of the customer
+                  email:
+                    type: string
                   reference:
-                    type:
-                      - string
-                      - 'null'
-                    description: The reference information associated with the customer
+                    type: string
               account_balances:
                 type: object
                 properties:
-                  open_invoices:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the sum of the subscription group''s open, payable invoices.'
-                        default: 0
-                  pending_discounts:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the subscription group''s Pending Discount account.'
-                        default: 0
-                  service_credits:
-                    type: object
-                    properties:
-                      balance_in_cents:
-                        type: integer
-                        description: 'The balance, in cents, of the subscription group''s Service Credit account.'
-                        default: 0
                   prepayments:
                     type: object
                     properties:
                       balance_in_cents:
                         type: integer
-                        description: 'The balance, in cents, of the subscription group''s Prepayment account.'
-                        default: 0
+                  service_credits:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
+                  open_invoices:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
+                  pending_discounts:
+                    type: object
+                    properties:
+                      balance_in_cents:
+                        type: integer
           examples:
             application/json:
               uid: grp_939ktzq8v4477
@@ -17939,6 +17924,8 @@ paths:
                 - 103
               primary_subscription_id: 101
               next_assessment_at: '2020-08-01T14:00:00-05:00'
+              state: active
+              cancel_at_end_of_period: false
               customer:
                 first_name: Mark
                 last_name: Wannabewahlberg
@@ -44846,27 +44833,24 @@ definitions:
     properties:
       uid:
         type: string
-        description: The uid of the subscription group
       scheme:
-        type: number
-        description: Current scheme being used for the group structure
+        type: integer
       customer_id:
-        type: number
-        description: ID of the group's paying customer
+        type: integer
       payment_profile_id:
-        type: number
-        description: ID of the group's payment profile
+        type: integer
       subscription_ids:
         type: array
-        description: A list of all subscription ids belonging to the group
         items:
-          type: number
+          type: integer
       primary_subscription_id:
-        type: number
-        description: ID of the primary subscription in the group (only relevant for scheme 1)
+        type: integer
       next_assessment_at:
         type: string
-        description: The date the group will be assessed at next
+      state:
+        type: string
+      cancel_at_end_of_period:
+        type: boolean
     example:
       uid: grp_952mvqcnk53wq
       scheme: 1
@@ -44877,6 +44861,8 @@ definitions:
         - 82370782
       primary_subscription_id: 69844395
       next_assessment_at: 'Sun, 09 Aug 2020 15:59:06 EDT -04:00'
+      state: active
+      cancel_at_end_of_period: true
     x-stoplight:
       id: subscription-group
       name: Subscription Group
