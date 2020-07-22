@@ -18075,10 +18075,10 @@ paths:
         type: string
     post:
       operationId: POST_subscription_groups-subscription_group_uid-reactivate-json
-      summary: Reactivate a Subscription Group
+      summary: Reactivate or Resume a Subscription Group
       tags:
         - Subscription Groups
-        - 'Subscription Groups: Reactivations'
+        - 'Subscription Groups: Reactivation and Resumption'
       description: |-
         This endpoint will attempt to reactivate or resume a cancelled subscription group. Upon reactivation, any canceled invoices created after the beginning of the primary subscription's billing period will be reopened and payment will be attempted on them. If the subscription group is being reactivated (as opposed to resumed), new charges will also be assessed for the new billing period.
 
@@ -18128,6 +18128,10 @@ paths:
                 type: integer
               next_assessment_at:
                 type: string
+              state:
+                type: string
+              cancel_at_end_of_period:
+                type: boolean
           examples:
             application/json:
               uid: grp_93wgm89cbjkw6
@@ -18139,6 +18143,8 @@ paths:
                 - 2
               primary_subscription_id: 1
               next_assessment_at: '2020-06-18T12:00:00-04:00'
+              state: active
+              cancel_at_end_of_period: false
         '422':
           description: ''
           schema:
@@ -18158,7 +18164,7 @@ paths:
         id: POST_subscriptiongroups-subscriptiongroupuid-reactivatejson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -45819,7 +45825,7 @@ x-stoplight:
           items:
             - _id: POST_subscriptiongroups-subscriptiongroupuid-reactivatejson
               type: endpoints
-          name: 'Subscription Groups: Reactivations'
+          name: 'Subscription Groups: Reactivation and Resumption'
         - divider: false
           items:
             - _id: POST_subscriptiongroups-uid-servicecredits
