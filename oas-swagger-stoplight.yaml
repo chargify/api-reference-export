@@ -17619,9 +17619,9 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  /subscription_groups:
+  /subscription_groups.json:
     get:
-      operationId: GET_subscription_groups
+      operationId: GET_subscription_groups-json
       summary: Read Subscription Groups
       tags:
         - Subscription Groups
@@ -17687,7 +17687,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_subscriptiongroups
+        id: GET_subscriptiongroupsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -18169,14 +18169,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscription_groups/{uid}/service_credits':
+  '/subscription_groups/{uid}/service_credits.json':
     parameters:
       - name: uid
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscription_groups-uid-service_credits
+      operationId: POST_subscription_groups-uid-service_credits-json
       summary: Issue Service Credit
       tags:
         - 'Subscription Groups: Service Credits'
@@ -18226,7 +18226,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptiongroups-uid-servicecredits
+        id: POST_subscriptiongroups-uid-servicecreditsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -18234,14 +18234,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscription_groups/{uid}/service_credit_deductions':
+  '/subscription_groups/{uid}/service_credit_deductions.json':
     parameters:
       - name: uid
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscription_groups-uid-service_credit_deductions
+      operationId: POST_subscription_groups-uid-service_credit_deductions-json
       summary: Deduct Service Credit
       tags:
         - 'Subscription Groups: Service Credits'
@@ -18289,7 +18289,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptiongroups-uid-servicecreditdeductions
+        id: POST_subscriptiongroups-uid-servicecreditdeductionsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -21245,14 +21245,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/service_credit_deductions':
+  '/subscriptions/{subscription_id}/service_credit_deductions.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-service_credit_deductions
+      operationId: POST_subscriptions-subscription_id-service_credit_deductions-json
       summary: Deduct Service Credit
       tags:
         - 'Subscriptions: Service Credits'
@@ -21267,13 +21267,16 @@ paths:
             type: object
             properties:
               deduction:
-                $ref: '#/definitions/service-credit-post'
-            required:
-              - deduction
+                type: object
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
             example:
-              service_credit:
+              deduction:
                 amount: '1'
-                memo: Courtesy credit
+                memo: Deduction
       responses:
         '201':
           description: ''
@@ -21293,7 +21296,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-servicecreditdeductions
+        id: POST_subscriptions-subscriptionid-servicecreditdeductionsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -45803,7 +45806,7 @@ x-stoplight:
           divider: false
         - divider: false
           items:
-            - _id: GET_subscriptiongroups
+            - _id: GET_subscriptiongroupsjson
               type: endpoints
             - _id: GET_subscriptiongroups-uidjson
               type: endpoints
@@ -45828,9 +45831,9 @@ x-stoplight:
           name: 'Subscription Groups: Reactivation and Resumption'
         - divider: false
           items:
-            - _id: POST_subscriptiongroups-uid-servicecredits
+            - _id: POST_subscriptiongroups-uid-servicecreditsjson
               type: endpoints
-            - _id: POST_subscriptiongroups-uid-servicecreditdeductions
+            - _id: POST_subscriptiongroups-uid-servicecreditdeductionsjson
               type: endpoints
             - _id: service-credit
               type: schemas
@@ -46160,7 +46163,7 @@ x-stoplight:
           items:
             - _id: POST_subscriptions-subscriptionid-servicecreditsjson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-servicecreditdeductions
+            - _id: POST_subscriptions-subscriptionid-servicecreditdeductionsjson
               type: endpoints
             - _id: subscription-issue-credit-request
               type: schemas
