@@ -20861,7 +20861,7 @@ paths:
       description: |-
         ## Create Prepayment 
 
-        In order to specify a prepayment made against a subcription, specify the `amount, memo, details, method` and `payment_profile_id` if `method` you choose is a `credit_card_on_file`
+        In order to specify a prepayment made against a subcription, specify the `amount, memo, details, method`
 
         Please note that you **can't** pass `amount_in_cents`.
 
@@ -20869,26 +20869,13 @@ paths:
         {
           "prepayment": {
             "amount": 10.00,
-            "memo": "Mieczyslaw Czosnek",
+            "memo": "John Doe",
             "details": "Dire Straits - Money for nothing",
             "memo": "Signup for $10",
             "method": "check"
           }
         }
 
-        ```
-
-        ```
-        {
-          "prepayment": {
-            "amount": 10.00,
-            "memo": "Mieczyslaw Czosnek",
-            "details": "Dire Straits - Money for nothing",
-            "memo": "Signup for $10",
-            "method": "credit_card_on_file",
-            "payment_profile_id": 1
-          }
-        }
         ```
       parameters:
         - name: body
@@ -20913,7 +20900,6 @@ paths:
                   method:
                     type: string
                     enum:
-                      - credit_card_on_file
                       - check
                       - cash
                       - money_order
@@ -20927,10 +20913,9 @@ paths:
             example:
               prepayment:
                 amount: 100
-                details: Mieczyslaw Czosnek
+                details: John Doe signup for $10
                 memo: Signup for $10
-                method: credit_card_on_file
-                payment_profile_id: 1
+                method: check
       responses:
         '200':
           description: ''
@@ -20960,7 +20945,7 @@ paths:
                 id: 1
                 subscription_id: 1
                 amount_in_cents: 10000
-                memo: Mieczyslaw Czosnek - Prepayment
+                memo: John Doe - Prepayment
                 created_at: '2020-07-31T05:52:32-04:00'
                 starting_balance_in_cents: 0
                 ending_balance_in_cents: -10000
