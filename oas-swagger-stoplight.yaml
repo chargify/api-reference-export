@@ -46103,6 +46103,9 @@ x-stoplight:
               type: schemas
           divider: false
         - divider: false
+          items: []
+          name: 'Subscriptions: Prepayments'
+        - divider: false
           items:
             - _id: subscription-reactivation-intro
               type: docTextSections
