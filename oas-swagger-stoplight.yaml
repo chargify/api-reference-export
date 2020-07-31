@@ -20893,6 +20893,7 @@ paths:
                 properties:
                   amount:
                     type: integer
+                    minimum: 1
                   details:
                     type: string
                   memo:
@@ -20935,6 +20936,7 @@ paths:
                     type: string
                   created_at:
                     type: string
+                    format: date-time
                   starting_balance_in_cents:
                     type: integer
                   ending_balance_in_cents:
