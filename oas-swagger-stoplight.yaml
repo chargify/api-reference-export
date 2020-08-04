@@ -17580,6 +17580,24 @@ paths:
                       type: string
                     cancel_at_end_of_period:
                       type: boolean
+                    account_balances:
+                      type: object
+                      properties:
+                        prepayments:
+                          type: object
+                          properties:
+                            balance_in_cents:
+                              type: integer
+                        service_credits:
+                          type: object
+                          properties:
+                            balance_in_cents:
+                              type: integer
+                        pending_discounts:
+                          type: object
+                          properties:
+                            balance_in_cents:
+                              type: integer
               meta:
                 type: object
                 properties:
@@ -17601,6 +17619,13 @@ paths:
                   next_assessment_at: 'Sun, 09 Aug 2020 15:59:06 EDT -04:00'
                   state: active
                   cancel_at_end_of_period: false
+                  account_balances:
+                    prepayments:
+                      balance_in_cents: 0
+                    service_credits:
+                      balance_in_cents: 0
+                    pending_discounts:
+                      balance_in_cents: 0
               meta:
                 current_page: 1
                 total_count: 1
