@@ -17549,6 +17549,22 @@ paths:
         ## Read Subscription Groups
 
         Returns an array of subscription groups for the site. The response is paginated and will return a `meta` key with pagination information.
+
+        #### Account Balance Information
+
+        Account balance information for the subscription groups is not returned by default. If this information is desired, the `include[]=account_balances` param must be provided with the request.
+      parameters:
+        - name: per_page
+          in: query
+          type: array
+          items:
+            type: string
+        - name: page
+          in: query
+          type: string
+        - name: include
+          in: query
+          type: string
       responses:
         '200':
           description: ''
