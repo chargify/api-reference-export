@@ -17552,7 +17552,7 @@ paths:
 
         #### Account Balance Information
 
-        Account balance information for the subscription groups is not returned by default. If this information is desired, the `include[]=account_balances` param must be provided with the request.
+        Account balance information for the subscription groups is not returned by default. If this information is desired, the `include[]=account_balances` parameter must be provided with the request.
       parameters:
         - name: per_page
           in: query
@@ -17605,6 +17605,11 @@ paths:
                             balance_in_cents:
                               type: integer
                         service_credits:
+                          type: object
+                          properties:
+                            balance_in_cents:
+                              type: integer
+                        open_invoices:
                           type: object
                           properties:
                             balance_in_cents:
