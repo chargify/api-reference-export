@@ -40014,6 +40014,10 @@ definitions:
               type: string
             value:
               type: string
+            owner_id:
+              type: number
+            owner_type:
+              type: string
       public_url:
         type: string
         description: The public URL of the invoice
@@ -42401,6 +42405,10 @@ definitions:
             name:
               type: string
             value:
+              type: string
+            owner_id:
+              type: number
+            owner_type:
               type: string
       public_url:
         type: string
