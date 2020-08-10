@@ -17678,7 +17678,11 @@ paths:
       description: |-
         ## Read Subscription Group
 
-        Use this endpoint to find subscription group details
+        Use this endpoint to find subscription group details.
+
+        #### Current Billing Amount in Cents
+
+        Current billing amount for the subscription group is not returned by default. If this information is desired, the `include[]=current_billing_amount_in_cents` parameter must be provided with the request.
       parameters:
         - name: ''
           in: query
@@ -17716,6 +17720,8 @@ paths:
                 type: string
               cancel_at_end_of_period:
                 type: boolean
+              current_billing_amount_in_cents:
+                type: integer
               customer:
                 type: object
                 properties:
@@ -17766,6 +17772,7 @@ paths:
               next_assessment_at: '2020-08-01T14:00:00-05:00'
               state: active
               cancel_at_end_of_period: false
+              current_billing_amount_in_cents: 11500
               customer:
                 first_name: Mark
                 last_name: Wannabewahlberg
