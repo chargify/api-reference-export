@@ -10419,7 +10419,7 @@ paths:
       description: |-
         ## Using GoCardless with Chargify
 
-        For more information on GoCardless, please view the following two resources:
+        For more information on GoCardless, please view the following resources:
 
         + [Payment Profiles via API for GoCardless](#endpoint:CaR3rApsyniuZtoEH)
         + [Full documentation on GoCardless](https://help.chargify.com/payment-gateways/gocardless.html)
@@ -10473,6 +10473,28 @@ paths:
             "customer_id": "24907598",
             "bank_name": "French Bank",
             "bank_iban": "FR1420041010050500013M02606",
+            "payment_type": "bank_account",
+            "billing_address": "20 Place de la Gare",
+            "billing_city": "Colombes",
+            "billing_state": "Île-de-France",
+            "billing_zip": "92700",
+            "billing_country": "FR"
+          }
+        }
+        ```
+
+        ## Importing GoCardless
+
+        If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs:
+
+        ```
+        {
+          "payment_profile": {
+            "customer_id": "24907598",
+            "customer_vault_token": [Existing GoCardless Customer ID]
+            "vault_token": [Existing GoCardless Mandate ID],
+            "current_vault": "gocardless",
+            "bank_name": "French Bank",
             "payment_type": "bank_account",
             "billing_address": "20 Place de la Gare",
             "billing_city": "Colombes",
@@ -47342,9 +47364,10 @@ x-stoplight:
         | bank_account_holder_type | When payment_type is `bank_account`, may be `personal` (default) or `business`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
         | verified                 | When payment type is `bank_account` and `current_vault` is `stripe_connect`, may be set to `true` to indicate that the bank account has already been verified.                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
         | paypal_email             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-        | payment_method_nonce     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-        | vault_token              | (Only allowed during the creation of a new payment profile.) If you have an existing `vault_token` from your gateway, you may associate it with this new payment profile.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-        | chargify_token           | (Optional) Token received after sending billing informations using [chargify.js](). This token must be passed along with `customer_id` attribute (i.e. `tok_9g6hw85pnpt6knmskpwp4ttt`)                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+        | payment_method_nonce     |                                                                                                                                                                                                                  |
+        | vault_token              | (Only allowed during the creation of a new payment profile.) If you have an existing `vault_token` from your gateway, you may associate it with this new payment profile.                     |
+        | customer_vault_token | (Only allowed during the creation of a new payment profile.) For some gateways, used in conjuction with vault_token. |
+        | chargify_token           | (Optional) Token received after sending billing informations using [chargify.js](). This token must be passed along with `customer_id` attribute (i.e. `tok_9g6hw85pnpt6knmskpwp4ttt`)                                                                                                                                                                                                                                                                                                                                                                                           |
         | current_vault            | (Required when you pass in a `vault_token`.) Will be one of the following: `bogus` (for testing), `authorizenet`, `authorizenet_cim`, `beanstream`, `bpoint`, `braintree_blue`, `chargify`, `cybersource`, `elavon`, `eway`, `eway_rapid_std` , `firstdata`, `fusebox`, `litle`, `moneris`, `moneris_us`, `orbital`, `payment_express`, `paymill`, `pin`, `quickpay`, `square`, `stripe_connect`, `trust_commerce`, `wirecard`. Provides a hint about where the credit card details represented by `vault_token` are stored, however transactions will always be sent to the gateway configured in the Site's settings. |
         | card_type                | Can be any of the following `visa`, `master`, `discover`, `american_express`, `diners_club`, `jcb`, `switch`, `solo`, `dankort`, `maestro`, `forbrugsforeningen`, `laser`                                                                                                                                                                                                                                                                                                                                                                                                                                               |
         | gateway_handle | (Optional) This attribute is only available if MultiGateway feature is enabled for your Site. This feature is in the Private Beta currently.  `gateway_handle` is used to directly select a gateway where a payment profile will be stored in. Every connected gateway must have a unique gateway handle specified. Read [MultiGateway description](https://help.chargify.com/payment-gateways/gateway-configuration.html#connecting-with-multiple-gateways) to learn more about new concepts that MultiGateway introduces and the default behavior when this attribute is not passed. |
