@@ -20920,14 +20920,14 @@ paths:
         mock:
           statusCode: 200
           enabled: false
-  '/subscriptions/{subscription_id}/prepayments':
+  '/subscriptions/{subscription_id}/prepayments.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscriptions-subscription_id-prepayments
+      operationId: POST_subscriptions-subscription_id-prepayments-json
       summary: Create Prepayment
       tags:
         - Subscription
@@ -20944,7 +20944,6 @@ paths:
         {
           "prepayment": {
             "amount": 10.00,
-            "memo": "John Doe",
             "details": "Dire Straits - Money for nothing",
             "memo": "Signup for $10",
             "method": "check"
@@ -20989,8 +20988,8 @@ paths:
             example:
               prepayment:
                 amount: 100
-                details: John Doe signup for $10
-                memo: Signup for $10
+                details: John Doe signup for $100
+                memo: Signup for $100
                 method: check
       responses:
         '200':
@@ -21029,7 +21028,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-prepayments
+        id: POST_subscriptions-subscriptionid-prepaymentsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -46226,7 +46225,7 @@ x-stoplight:
           divider: false
         - divider: false
           items:
-            - _id: POST_subscriptions-subscriptionid-prepayments
+            - _id: POST_subscriptions-subscriptionid-prepaymentsjson
               type: endpoints
           name: 'Subscriptions: Prepayments'
         - divider: false
