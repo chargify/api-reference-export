@@ -2051,6 +2051,9 @@ paths:
         ## Search for a subscription
 
         Use the query strings below to search for a subscription using the criteria available. The return value will be an array.
+
+        ### Self-Service Page token
+        Self-Service Page token for the subscriptions is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
       parameters:
         - name: sort
           in: query
@@ -18306,7 +18309,13 @@ paths:
         - Subscription
         - incomplete
         - Subscriptions
-      description: '## Read a Subscription'
+      description: |-
+        ## Read a Subscription
+        Use this endpoint to find subscription details.
+
+
+        ### Self-Service Page token
+        Self-Service Page token for the subscription is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
       responses:
         '200':
           description: OK
