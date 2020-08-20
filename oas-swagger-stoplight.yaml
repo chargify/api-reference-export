@@ -21933,9 +21933,9 @@ paths:
       description: |-
         ## Replay Webhooks for Site
 
-        Posting to the replay endpoint does not immediate resend the webhooks. They are added to the background job queue and should be resent momentarily.
+        Posting to the replay endpoint does not immediate resend the webhooks. They are added to a queue and will be sent as soon as possible, depending on available system resources.
 
-        You'll submit an array of webhook IDs to replay in the request.
+        You may submit an array of up to 1000 webhook IDs to replay in the request.
       parameters:
         - name: body
           in: body
