@@ -18069,14 +18069,14 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  '/subscription_groups/{uid}/cancel':
+  '/subscription_groups/{uid}/cancel.json':
     parameters:
       - name: uid
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscription_groups-uid-cancel
+      operationId: POST_subscription_groups-uid-cancel-json
       summary: Cancel Group Subscriptions (Immediately)
       tags:
         - 'Subscription Groups: Cancellations'
@@ -18115,7 +18115,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptiongroups-uid-cancel
+        id: POST_subscriptiongroups-uid-canceljson
         beforeScript: null
         afterScript: null
         public: true
@@ -18123,14 +18123,14 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscription_groups/{uid}/delayed_cancel':
+  '/subscription_groups/{uid}/delayed_cancel.json':
     parameters:
       - name: uid
         in: path
         required: true
         type: string
     post:
-      operationId: POST_subscription_groups-uid-delayed_cancel
+      operationId: POST_subscription_groups-uid-delayed_cancel-json
       summary: Cancel Group Subscriptions (Delayed)
       tags:
         - 'Subscription Groups: Cancellations'
@@ -18157,7 +18157,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptiongroups-uid-delayedcancel
+        id: POST_subscriptiongroups-uid-delayedcanceljson
         beforeScript: null
         afterScript: null
         public: true
@@ -18166,7 +18166,7 @@ paths:
           dynamic: false
           statusCode: 200
     delete:
-      operationId: DELETE_subscription_groups-uid-delayed_cancel
+      operationId: DELETE_subscription_groups-uid-delayed_cancel-json
       summary: Remove Delayed Cancellation
       tags:
         - 'Subscription Groups: Cancellations'
@@ -18190,7 +18190,7 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: DELETE_subscriptiongroups-uid-delayedcancel
+        id: DELETE_subscriptiongroups-uid-delayedcanceljson
         beforeScript: null
         afterScript: null
         public: true
@@ -46077,11 +46077,11 @@ x-stoplight:
           name: Subscription Groups
         - divider: false
           items:
-            - _id: POST_subscriptiongroups-uid-cancel
+            - _id: POST_subscriptiongroups-uid-canceljson
               type: endpoints
-            - _id: POST_subscriptiongroups-uid-delayedcancel
+            - _id: POST_subscriptiongroups-uid-delayedcanceljson
               type: endpoints
-            - _id: DELETE_subscriptiongroups-uid-delayedcancel
+            - _id: DELETE_subscriptiongroups-uid-delayedcanceljson
               type: endpoints
           name: 'Subscription Groups: Cancellations'
         - divider: false
