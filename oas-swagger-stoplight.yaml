@@ -39161,9 +39161,12 @@ definitions:
         properties:
           next_product_id:
             type: string
+          next_product_price_point_id:
+            type: string
     example:
       subscription:
         next_product_id: ''
+        next_product_price_point_id: ''
     x-stoplight:
       id: update-subscription-cancel-delayed-product-change-request
       name: 'Update Subscription: Cancel Delayed Product Change Request'
