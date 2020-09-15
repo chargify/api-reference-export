@@ -234,53 +234,53 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-allocations-json
-      summary: Read Allocations for a Subscription's Quantity-based Components
+      summary: Read History for Subscription's On/Off Components
       tags:
         - Allocations
       description: |-
-        ## Read Allocations for Quantity-based Component Usage for a Subscription
+        ## Read History for Subscription's On/Off Components
 
-        Use this endpoint to read the previously allocated components for a subscription.
+        Disply the history of the subscription's on/off component. When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/read-allocations-for-a-subscriptions-quantity-based-components'
+            $ref: '#/definitions/read-history-for-subscriptions-on-off-component'
           examples:
             application/json:
               - allocation:
-                  component_id: 426645
+                  component_id: 426655
                   subscription_id: 20310847
-                  quantity: '100.0'
-                  previous_quantity: '50.0'
-                  memo: Third record
-                  timestamp: '2018-01-03T15:15:41Z'
+                  quantity: 1
+                  previous_quantity: 0
+                  memo: Purchased hosting
+                  timestamp: '2018-01-03T15:37:12Z'
                   proration_upgrade_scheme: prorate-delay-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149418
-                  previous_price_point_id: 149418
+                  price_point_id: 149428
+                  previous_price_point_id: 149428
               - allocation:
-                  component_id: 426645
+                  component_id: 426655
                   subscription_id: 20310847
-                  quantity: '50.0'
-                  previous_quantity: '10.0'
-                  memo: Second record
-                  timestamp: '2018-01-03T15:15:13Z'
-                  proration_upgrade_scheme: full-price-attempt-capture
-                  proration_downgrade_scheme: no-prorate
-                  price_point_id: 149418
-                  previous_price_point_id: 149418
+                  quantity: 0
+                  previous_quantity: 1
+                  memo: Canceled hosting
+                  timestamp: '2018-01-03T15:36:33Z'
+                  proration_upgrade_scheme: no-prorate
+                  proration_downgrade_scheme: prorate
+                  price_point_id: 149428
+                  previous_price_point_id: 149428
               - allocation:
-                  component_id: 426645
+                  component_id: 426655
                   subscription_id: 20310847
-                  quantity: '10.0'
-                  previous_quantity: '0.0'
-                  memo: First record
-                  timestamp: '2018-01-03T15:14:46Z'
-                  proration_upgrade_scheme: full-price-delay-capture
+                  quantity: 1
+                  previous_quantity: 0
+                  memo: Purchased hosting
+                  timestamp: '2018-01-03T15:36:10Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
                   proration_downgrade_scheme: no-prorate
-                  price_point_id: 149418
-                  previous_price_point_id: 149418
+                  price_point_id: 149428
+                  previous_price_point_id: 149428
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1667,56 +1667,29 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading Current Quantity
+      summary: Reading the Current Status of On/Off Component
       tags:
         - 'Components: On/Off Toggling'
       description: |-
         ## Reading Current Quantity
 
         You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
-
-        ## Querying data via Chargify gem
-
-        You can also query the current quantity via the [official Chargify Gem.]( http://github.com/chargify/chargify_api_ares)
-
-        ```# First way
-        component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-        puts component.allocated_quantity
-        # => 23
-
-        # Second way
-        component = Chargify::Subscription.find(7).component(1)
-        puts component.allocated_quantity
-        # => 23
-        ```
-
-        ## Handle lookup support
-
-         You can now pass either an integer as the component_id or the component handle as a string prefixed by handle:
-         
-        ```
-        # Example 1
-        curl mysub.chargify.com/subscriptions/999/components/1.json
-
-        # Example 2
-        curl mysub.chargify.com/subscriptions/999/components/handle:myhandle
-        ```
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/quantity/reading-current-quantity-response'
+            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
           examples:
             application/json:
               component:
-                component_id: 399850
+                component_id: 399853
                 subscription_id: 18342261
-                allocated_quantity: 29
-                name: Bronze Subscriptions 123
-                kind: quantity_based_component
-                unit_name: Bronze Subscriptions
-                pricing_scheme: per_unit
-                price_point_id: 121000
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -14216,36 +14189,37 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Customers)'
+      summary: 'Clear all Site data:  (All)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Customers)
+        ## Clear all Site data:  (All)
 
-        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
+        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+
+        This call is asynchronous and there may be a delay before the site data is fully deleted. If you are clearing site data for an automated test, you will need to build in a delay and/or check that there are no products, etc., in the site before proceeding.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=all
         ```
 
         Required Parameter: cleanup_scope
 
-        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
       parameters:
-        - name: cleanup_scope
+        - name: all
           in: query
           required: true
           type: string
           enum:
-            - customers
+            - all
       responses:
         default:
           description: ''
@@ -18495,6 +18469,123 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/subscriptions/{subscription_group_uid}/payment_profiles/{payment_profile_id}/change_payment_profile.json':
+    parameters:
+      - name: subscription_group_uid
+        in: path
+        required: true
+        type: string
+      - name: payment_profile_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_subscriptions-subscription_group_uid-payment_profiles-payment_profile_id-change_payment_profile-json
+      summary: Change Default Payment Profile
+      tags:
+        - 'Subscription Groups: Payment Methods'
+      description: |-
+        ## Change Default Payment Profile for Subscription Group
+
+        This will change the default payment profile on the subscription group to the existing payment profile with the id specified.
+
+        You must elect to change the existing payment profile to a new payment profile ID in order to receive a satisfactory response from this endpoint. The new payment profile must belong to the subscription group's customer, otherwise you will receive an error.
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              payment_profile:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  masked_card_number:
+                    type: string
+                  card_type:
+                    type: string
+                  expiration_month:
+                    type: integer
+                  expiration_year:
+                    type: integer
+                  customer_id:
+                    type: integer
+                  current_vault:
+                    type: 'null'
+                  vault_token:
+                    type: 'null'
+                  billing_address:
+                    type: 'null'
+                  billing_city:
+                    type: 'null'
+                  billing_state:
+                    type: 'null'
+                  billing_zip:
+                    type: 'null'
+                  billing_country:
+                    type: 'null'
+                  customer_vault_token:
+                    type: 'null'
+                  billing_address_2:
+                    type: 'null'
+                  site_gateway_setting_id:
+                    type: 'null'
+                  payment_type:
+                    type: string
+                  disabled:
+                    type: boolean
+          examples:
+            application/json:
+              payment_profile:
+                id: 3
+                first_name: Leland
+                last_name: Considine
+                masked_card_number: XXXX-XXXX-XXXX-1
+                card_type: bogus
+                expiration_month: 12
+                expiration_year: 2022
+                customer_id: 1
+                current_vault: null
+                vault_token: null
+                billing_address: null
+                billing_city: null
+                billing_state: null
+                billing_zip: null
+                billing_country: null
+                customer_vault_token: null
+                billing_address_2: null
+                site_gateway_setting_id: null
+                payment_type: credit_card
+                disabled: false
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - Cannot switch to a payment profile outside of the group
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
+        beforeScript: null
+        afterScript: null
+        public: false
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/subscription_groups/{uid}/service_credits.json':
     parameters:
       - name: uid
@@ -19775,78 +19866,76 @@ paths:
         type: number
     post:
       operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-      summary: Add the Coupon to an Existing Subscription
+      summary: Add Multiple Coupons to Existing Subscription
       tags:
         - Coupon
         - incomplete
         - 'Subscriptions: Coupons'
       description: |-
-        ## Add the Coupon to an existing Subscription
+        ## Add Multiple Coupons to Existing Subscription
 
-        If the coupon is successfully applied, the subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
-        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
-
-        ## Coupon Application Warning
-
-        Sending this request will overwrite all (single and multiple) coupons previously applied to the subscription.  
-
-        If you want to apply stackable coupons, **remove** any coupons you have and use [request with 'codes' parameter](#endpoint:DbA9MDLykDkNbYCaJ).
+        An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our [coupon documentation.](https://help.chargify.com/products/product-coupons.html#stackable-coupons)
       parameters:
-        - name: code
-          in: query
-          required: true
-          type: string
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
+            example:
+              codes:
+                - COUPON_1
+                - COUPON_2
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupon/add-coupon-to-subscription-output'
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
           examples:
             application/json:
               subscription:
-                id: 50
+                id: 21607180
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-11-01T04:17:47-04:00'
-                created_at: '2017-11-01T04:17:46-04:00'
-                updated_at: '2017-11-08T09:17:44-05:00'
+                activated_at: '2018-04-20T14:20:57-05:00'
+                created_at: '2018-04-20T14:20:57-05:00'
+                updated_at: '2018-05-11T13:53:44-05:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-12-01T03:17:46-05:00'
-                next_assessment_at: '2017-12-01T03:17:46-05:00'
+                balance_in_cents: 49000
+                current_period_ends_at: '2018-05-12T11:33:03-05:00'
+                next_assessment_at: '2018-05-12T11:33:03-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
-                payment_collection_method: automatic
+                payment_collection_method: invoice
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-11-01T04:17:46-04:00'
+                current_period_started_at: '2018-05-11T11:33:03-05:00'
                 previous_state: active
-                signup_payment_id: 109
-                signup_revenue: '10.00'
+                signup_payment_id: 237154761
+                signup_revenue: '0.00'
                 delayed_cancel_at: null
-                coupon_code: ABC123
-                total_revenue_in_cents: 1000
-                product_price_in_cents: 1000
-                product_version_number: 1
+                coupon_code: COUPONA
+                total_revenue_in_cents: 52762
+                product_price_in_cents: 100000
+                product_version_number: 2
                 payment_type: credit_card
-                referral_code: null
+                referral_code: x45nc8
                 coupon_use_count: 0
                 coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
                 coupon_codes:
-                  - ABC123
+                  - COUPONA
+                  - COUPONB
                 customer:
-                  id: 50
-                  first_name: Fred
-                  last_name: Jones
+                  id: 21259051
+                  first_name: K
+                  last_name: C
                   organization: ''
-                  email: fred@jones.com
-                  created_at: '2017-11-01T04:17:46-04:00'
-                  updated_at: '2017-11-01T04:17:46-04:00'
+                  email: example@chargify.com
+                  created_at: '2018-04-20T14:20:57-05:00'
+                  updated_at: '2018-04-23T15:29:28-05:00'
                   reference: null
                   address: ''
                   address_2: ''
@@ -19855,71 +19944,98 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  portal_invite_last_sent_at: null
+                  portal_invite_last_sent_at: '2018-04-20T14:20:59-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: null
-                  cc_emails: null
+                  portal_customer_created_at: '2018-04-20T14:20:59-05:00'
+                  cc_emails: ''
                   tax_exempt: false
                 product:
-                  id: 97
-                  name: User-friendly systemic matrices
-                  handle: handle_1d382acd0
-                  description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
-                  accounting_code: null
+                  id: 4581816
+                  name: Basic
+                  handle: basic
+                  description: ''
+                  accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
-                  expiration_interval_unit: null
-                  created_at: '2017-09-13T12:45:35-04:00'
-                  updated_at: '2017-09-13T12:45:35-04:00'
-                  price_in_cents: 1000
+                  expiration_interval_unit: never
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2018-04-10T09:02:59-05:00'
+                  price_in_cents: 100000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: null
+                  initial_charge_in_cents: 100000
+                  trial_price_in_cents: 1000
+                  trial_interval: 10
+                  trial_interval_unit: month
                   archived_at: null
                   require_credit_card: true
-                  return_params: null
+                  return_params: ''
                   taxable: false
-                  update_return_url: null
-                  tax_code: null
+                  update_return_url: ''
+                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: null
+                  version_number: 2
+                  update_return_params: ''
                   product_family:
-                    id: 4
-                    name: Acme Online
-                    description: null
-                    handle: acme-online
+                    id: 1025627
+                    name: My Product Family
+                    description: ''
+                    handle: acme-products
                     accounting_code: null
-                  public_signup_pages: []
+                  public_signup_pages:
+                    - id: 333589
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
+                    - id: 335926
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
+                    - id: 345555
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/txqyyqk7d8rz/basic'
+                    - id: 345556
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/2zss3qpf4249/basic'
                 credit_card:
-                  id: 36
-                  first_name: Fred
-                  last_name: Jones
+                  id: 14839830
+                  first_name: John
+                  last_name: Doe
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 1
-                  expiration_year: 2025
-                  customer_id: 50
+                  expiration_year: 2028
+                  customer_id: 21259051
                   current_vault: bogus
                   vault_token: '1'
-                  billing_address: ''
-                  billing_city: ''
-                  billing_state: AL
-                  billing_zip: ''
-                  billing_country: US
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: '99999'
+                  billing_country: null
                   customer_vault_token: null
-                  billing_address_2: ''
+                  billing_address_2: null
                   payment_type: credit_card
         '422':
           description: ''
+          schema:
+            type: object
+            properties:
+              codes:
+                type: array
+                items:
+                  type: string
+              subscription:
+                type: array
+                items:
+                  type: string
           examples:
             application/json:
               codes:
-                - 'Coupon Codes: Subscription already has a non-stackable coupon.'
+                - 'Coupon Codes: Subscription already has at least one non-stackable coupon.'
               subscription:
                 - Coupon is invalid.
       security:
@@ -21344,30 +21460,24 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Attempting to Resume but not Reactivate Subscription Which is not Resumable
+      summary: 'Trial Ended Subscription, Without the include_trial Flag'
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Attempting to resume but not reactivate a subscription which is not resumable
+        ## Reactivating a trial ended subscription, without the include_trial flag
 
-        + Given you have a `canceled` subscription, and it is not resumable
-        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume[require_resume]=true`
-        + The response status should be "422 UNPROCESSABLE ENTITY"
-        + The subscription should be canceled with the following response
-        ```
-          {
-            "errors": ["Request was 'resume only', but this subscription cannot be resumed."]
-          }
-        ```
+        + Given you have a trial_ended subscription
+        + The product associated with the subscription has a trial
+        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json`
 
-        ### Results
+        ### Results 
 
-        + The subscription should remain `canceled`
-        + The next billing date should not have changed
+        + The subscription will transition to active
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/subscription/read-subscription'
       x-stoplight:
         id: PUT_subscriptions-subscriptionid-reactivatejson
         beforeScript: null
@@ -46262,6 +46372,8 @@ x-stoplight:
         - divider: false
           items:
             - _id: DELETE_subscriptiongroups-subscriptiongroupuid-paymentprofiles-paymentprofileidjson
+              type: endpoints
+            - _id: GET_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
               type: endpoints
           name: 'Subscription Groups: Payment Methods'
         - divider: false
