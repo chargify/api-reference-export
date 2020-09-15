@@ -18464,7 +18464,7 @@ paths:
         id: DELETE_subscriptiongroups-subscriptiongroupuid-paymentprofiles-paymentprofileidjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -18479,8 +18479,8 @@ paths:
         in: path
         required: true
         type: string
-    get:
-      operationId: GET_subscriptions-subscription_group_uid-payment_profiles-payment_profile_id-change_payment_profile-json
+    post:
+      operationId: POST_subscriptions-subscription_group_uid-payment_profiles-payment_profile_id-change_payment_profile-json
       summary: Change Default Payment Profile
       tags:
         - 'Subscription Groups: Payment Methods'
@@ -18578,10 +18578,10 @@ paths:
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: GET_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
+        id: POST_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -46373,7 +46373,7 @@ x-stoplight:
           items:
             - _id: DELETE_subscriptiongroups-subscriptiongroupuid-paymentprofiles-paymentprofileidjson
               type: endpoints
-            - _id: GET_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
+            - _id: POST_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
               type: endpoints
           name: 'Subscription Groups: Payment Methods'
         - divider: false
