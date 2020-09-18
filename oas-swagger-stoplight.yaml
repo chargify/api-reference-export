@@ -145,6 +145,15 @@ paths:
       description: |-
         ## Read Site Data
         This endpoint allows you to fetch some site data.
+
+        #### Relationship invoicing enabled
+        If site has RI enabled then you will see more settings like: 
+
+            "customer_hierarchy_enabled": true,
+            "whopays_enabled": true,
+            "whopays_default_payer": "self"
+        You can read more about these settings here:
+         [Who Pays & Customer Hierarchy](https://help.chargify.com/invoices/customer-hierarchies-whopays.html)
       responses:
         '200':
           description: ''
