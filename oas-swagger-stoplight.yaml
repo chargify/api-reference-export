@@ -18335,17 +18335,54 @@ paths:
         ## Create Prepayment
 
         A prepayment can be added for a subscription group identified by the group's `uid`. This endpoint requires a `amount`, `details`, `method`, and `memo`. On success, the prepayment will be added to the group's prepayment balance.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/subscription-group-prepayment'
+            example:
+              prepayment:
+                amount: 10000
+                details: '001022'
+                memo: Check received 01/01/2020
+                method: check
+                payment_profile_id: 45988908
       responses:
-        default:
+        '201':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/invoice-account-entry'
+          examples:
+            application/json:
+              id: 6049554
+              amount_in_cents: 10000
+              ending_balance_in_cents: 5000
+              entry_type: Debit
+              memo: Debit from invoice account.
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type:
+                    - string
+                    - array
+                  items:
+                    type: string
+          examples:
+            application/json:
+              errors:
+                - Amount must be greater than 0
       security:
         - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptiongroups-uid-prepaymentsjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -45310,6 +45347,65 @@ definitions:
       id: subscription-group
       name: Subscription Group
       public: true
+  invoice-account-entry:
+    title: Invoice Account Entry
+    type: object
+    properties:
+      id:
+        type: integer
+      amount_in_cents:
+        type: integer
+        description: The amount in cents of the entry.
+      ending_balance_in_cents:
+        type: integer
+        description: The ending balance in cents of the account.
+      entry_type:
+        type: string
+        enum:
+          - Credit
+          - Debit
+        description: 'The type of account entry, either "Credit" or "Debit".'
+      memo:
+        type: string
+        description: A memo attached to the entry.
+    x-stoplight:
+      id: invoice-account-entry
+      name: Invoice Account Entry
+      public: true
+  subscription-group-prepayment:
+    title: Subscription Group Prepayment
+    type: object
+    properties:
+      prepayment:
+        type: object
+        required:
+          - amount
+          - details
+          - memo
+          - method
+        properties:
+          amount:
+            type: integer
+            minimum: 1
+          details:
+            type: string
+          memo:
+            type: string
+          method:
+            type: string
+            enum:
+              - check
+              - cash
+              - money_order
+              - ach
+              - paypal_account
+              - other
+    required:
+      - prepayment
+    x-stoplight:
+      id: subscription-group-prepayment
+      name: Subscription Group Prepayment
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -46248,6 +46344,8 @@ x-stoplight:
               type: endpoints
             - _id: subscription-group
               type: schemas
+            - _id: invoice-account-entry
+              type: schemas
           name: Subscription Groups
         - divider: false
           items:
@@ -46272,6 +46370,8 @@ x-stoplight:
           items:
             - _id: POST_subscriptiongroups-uid-prepaymentsjson
               type: endpoints
+            - _id: subscription-group-prepayment
+              type: schemas
           name: 'Subscription Groups: Prepayments'
         - divider: false
           items:
