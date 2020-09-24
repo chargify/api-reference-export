@@ -45463,6 +45463,12 @@ x-stoplight:
   version:
     groups:
       docs:
+        - divider: false
+          items: []
+          name: 'Subscription Groups: Prepayments'
+        - divider: false
+          items: []
+          name: 'Subscription Groups: Prepayment'
         - items:
             - _id: introduction
               type: docTextSections
@@ -46049,10 +46055,10 @@ x-stoplight:
               type: endpoints
             - _id: GET_creditnotesjson
               type: endpoints
-            - _id: GET_creditnotes-uidjson
-              type: endpoints
             - _id: credit-note
               type: schemas
+            - _id: GET_creditnotes-uidjson
+              type: endpoints
             - _id: POST_subscriptions-subscriptionid-paymentsjson
               type: endpoints
             - _id: create-bulk-payment-request
