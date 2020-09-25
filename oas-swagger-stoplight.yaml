@@ -47517,10 +47517,6 @@ x-stoplight:
 
         You may choose to report metered usage to Chargify as often as you wish. You may report usage as it happens. You may also report usage periodically, such as each night or once per billing period. If usage events occur in your system very frequently (on the order of thousands of times an hour), it is best to accumulate usage into batches on your side, and then report those batches less frequently, such as daily. This will ensure you remain below any API throttling limits.
 
-        ## Recording Multiple Usage Limitations
-
-        As of the time of this publication there is not a method to record multiple usage of a metered component against a subscription.
-
         ## Metered Components versus Quantity-based Components
 
         Metered components allow you to record "usage" of a component, such as text messages. These types of components reset to 0 at the beginning of each billing period.
@@ -47533,6 +47529,12 @@ x-stoplight:
 
         + [Recording Metered Component Usage](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-metered-component-usage)
         + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
+
+        ## FAQ
+
+        Q. Is it possible to record metered usage for more than one component at a time?
+
+        A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
       public: true
     charges-intro:
       id: charges-intro
