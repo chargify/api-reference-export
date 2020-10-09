@@ -34252,11 +34252,6 @@ definitions:
             type: string
           parent_id:
             type: integer
-          metafields:
-            type: object
-            properties:
-              metafield_name:
-                type: string
         required:
           - first_name
           - last_name
@@ -48602,7 +48597,7 @@ x-stoplight:
 
         Another handy tool is [Beeceptor](https://beeceptor.com/). You can use this to intercept your request to see exactly what is being sent.
 
-        If you are unable to connect at all, check that you are using TLS 1.2 or better, and review the information in [API Authentication Troubleshooting.](#docTextSection:xnGtyxFy5nLWhGB34)
+        If you are unable to connect at all, check that you are using TLS 1.2 or better.
 
         If you see a "Could not resolve host" error, double check that the url is correct, including your subdomain. For example: `mysite.chargify.com`.  This error means your DNS server could not find an IP address for the domain you are trying to connect to.
 
