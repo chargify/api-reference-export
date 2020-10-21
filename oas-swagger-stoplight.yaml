@@ -2634,6 +2634,10 @@ paths:
                       type:
                         - string
                         - 'null'
+                    scheduled_cancellation_at:
+                      type:
+                        - string
+                        - 'null'
           examples:
             application/json:
               - subscription:
@@ -2754,6 +2758,7 @@ paths:
                   next_product_handle: null
                   stored_credential_transaction_id: 125577782251178
                   on_hold_at: null
+                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
               - subscription:
                   id: 15189649
                   state: canceled
@@ -2864,6 +2869,7 @@ paths:
                   next_product_handle: null
                   stored_credential_transaction_id: 125566782250778
                   on_hold_at: null
+                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6666,6 +6672,7 @@ paths:
                   coupon_uses_allowed: 1
                   next_product_handle: null
                   stored_credential_transaction_id: 166335589244288
+                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
               - subscription:
                   id: 15189649
                   state: canceled
@@ -6777,6 +6784,7 @@ paths:
                   next_product_handle: null
                   stored_credential_transaction_id: 165565533220288
                   on_hold_at: null
+                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -18820,6 +18828,8 @@ paths:
                       type:
                         - string
                         - 'null'
+                    scheduled_cancellation_at:
+                      type: string
           examples:
             application/json:
               - subscription:
@@ -18941,6 +18951,7 @@ paths:
                   coupon_uses_allowed: 1
                   stored_credential_transaction_id: 166411599220288
                   on_hold_at: null
+                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -31737,6 +31748,10 @@ definitions:
               type:
                 - string
                 - 'null'
+            scheduled_cancellation_at:
+              type:
+                - string
+                - 'null'
     example:
       - subscription:
           id: 15236915
@@ -31859,6 +31874,7 @@ definitions:
           stored_credential_transaction_id: 166115589220288
           next_product_handle: null
           on_hold_at: null
+          scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
     x-stoplight:
       id: subscription/read-subscription
       name: Read Subscription MAIN
@@ -43773,6 +43789,10 @@ definitions:
                 - 'null'
             currency:
               type: string
+            scheduled_cancellation_at:
+              type:
+                - string
+                - 'null'
     example:
       - subscription:
           id: 15236915
@@ -43890,6 +43910,7 @@ definitions:
           payer_id: 14714298
           stored_credential_transaction_id: 123466229455588
           next_product_handle: null
+          scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
       - subscription:
           id: 15189649
           state: canceled
@@ -44000,6 +44021,7 @@ definitions:
           payer_id: 14543712
           stored_credential_transaction_id: 166115589229988
           next_product_handle: null
+          scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
     x-stoplight:
       id: read-subscriptions-site-output
       name: Read Subscriptions Site Output
