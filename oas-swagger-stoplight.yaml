@@ -21757,6 +21757,8 @@ paths:
       responses:
         '201':
           description: ''
+          schema:
+            type: object
         '422':
           description: ''
           schema:
