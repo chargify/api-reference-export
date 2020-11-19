@@ -21516,7 +21516,9 @@ paths:
       description: |-
         ## Create Prepayment 
 
-        In order to specify a prepayment made against a subcription, specify the `amount, memo, details, method`
+        In order to specify a prepayment made against a subcription, specify the `amount, memo, details, method`.
+
+        When the `method` specified is `"credit_card_on_file"`, the prepayment amount will be collected using the default credit card payment profile and applied to the prepayment account balance.  This is especially useful for manual replenishment of prepaid subscriptions.
 
         Please note that you **can't** pass `amount_in_cents`.
 
@@ -21554,13 +21556,7 @@ paths:
                     type: string
                   method:
                     type: string
-                    enum:
-                      - check
-                      - cash
-                      - money_order
-                      - ach
-                      - paypal_account
-                      - other
+                    enum: '[check","cash","money_order","ach","paypal_account","credit_card_on_file","other"]'
                   payment_profile_id:
                     type: integer
             required:
@@ -45642,6 +45638,7 @@ definitions:
               - money_order
               - ach
               - paypal_account
+              - credit_card_on_file
               - other
     required:
       - prepayment
