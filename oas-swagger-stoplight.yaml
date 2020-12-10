@@ -8040,7 +8040,7 @@ paths:
       operationId: POST_invoices-invoice_id-payments-json
       summary: Create Payment
       tags:
-        - 'Invoices: Payments'
+        - Invoices (Legacy)
       description: |-
         ## Create an External Payment 
 
@@ -8297,24 +8297,7 @@ paths:
       operationId: POST_invoices-invoice_id-charges-json
       summary: Create Invoice Charge
       tags:
-        - 'Invoices: Charges'
-      description: |-
-        ## Create Invoice Charge
-
-        Use this method to add a charge to an existing, open invoice.
-
-        ## Request charges in cents
-
-        You may submit your request in cents as well:
-
-        ```
-        {
-          "charge": {
-            "amount": 10.00,
-            "memo": "Lorem ipsum"
-          }
-        }
-        ```
+        - Invoices (Legacy)
       parameters:
         - name: body
           in: body
@@ -8350,7 +8333,7 @@ paths:
       operationId: POST_invoices-invoice_id-adjustments-json
       summary: Create Invoice Credit
       tags:
-        - 'Invoices: Credits'
+        - Invoices (Legacy)
       description: |-
         ## Create Invoice Credit
 
@@ -21537,7 +21520,9 @@ paths:
       description: |-
         ## Reset a Subscription Balance
 
-        Chargify offers the ability to easily reset the balance of a Subscription to zero.
+        If you are on the legacy architecture, Chargify offers the ability to reset the balance of a subscription to zero.
+
+        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Attempting to use this endpoint on a Relationship Invoicing site will not work. In order to reduce the balance of a subscription, please void or apply a service credit directly to an invoice.
 
         If a Subscription has a positive balance, this API call will issue a credit to the Subscription for the outstanding balance.
 
@@ -22319,7 +22304,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-refunds-json
       summary: Create an External Refund
       tags:
-        - 'Subscriptions: Refunds'
+        - 'Subscriptions: Refunds (Legacy)'
       description: |-
         ## Create an External Refund
 
@@ -46931,39 +46916,24 @@ x-stoplight:
               type: traits
             - _id: subscriptionIdQuery
               type: traits
-          divider: false
-        - name: 'Invoices: Payments'
-          items:
-            - _id: invoices-payments-intro
-              type: docTextSections
-            - type: endpoints
-              _id: POST_invoices-invoiceid-paymentsjson
-            - type: schemas
-              _id: invoices/payments/create-payment-input
+            - _id: POST_invoices-invoiceid-paymentsjson
+              type: endpoints
+            - _id: invoices/payments/create-payment-input
+              type: schemas
             - _id: invoices/payments/create-payment-output
               type: schemas
-          divider: false
-        - name: 'Invoices: Charges'
-          items:
-            - _id: invoices-charges-intro
-              type: docTextSections
-            - type: endpoints
-              _id: POST_invoices-invoiceid-chargesjson
-            - type: schemas
-              _id: invoices/charges/create-invoice-charge-input
-            - type: schemas
-              _id: invoices/charges/create-invoice-charge-output
-          divider: false
-        - items:
-            - _id: invoices-credits-intro
-              type: docTextSections
-            - type: endpoints
-              _id: POST_invoices-invoiceid-adjustmentsjson
-            - type: schemas
-              _id: invoices/credits/create-invoice-credit-input
-            - type: schemas
-              _id: invoices/credits/create-invoice-credit-output
-          name: 'Invoices: Credits'
+            - _id: POST_invoices-invoiceid-chargesjson
+              type: endpoints
+            - _id: invoices/charges/create-invoice-charge-input
+              type: schemas
+            - _id: invoices/charges/create-invoice-charge-output
+              type: schemas
+            - _id: POST_invoices-invoiceid-adjustmentsjson
+              type: endpoints
+            - _id: invoices/credits/create-invoice-credit-input
+              type: schemas
+            - _id: invoices/credits/create-invoice-credit-output
+              type: schemas
           divider: false
         - divider: false
           items:
@@ -47539,7 +47509,7 @@ x-stoplight:
             - _id: subscriptions/subscription-import-response
               type: schemas
           name: 'Subscriptions: Import'
-        - name: 'Subscriptions: Payments'
+        - name: 'Subscriptions: Payments (Legacy)'
           items:
             - _id: intro-to-payments
               type: docTextSections
@@ -47694,7 +47664,7 @@ x-stoplight:
             - _id: PUT_subscriptions-subscriptionid-reactivatejson
               type: endpoints
           name: 'Subscriptions: Reactivations'
-        - name: 'Subscriptions: Refunds'
+        - name: 'Subscriptions: Refunds (Legacy)'
           items:
             - _id: refunds-intro
               type: docTextSections
@@ -48349,7 +48319,7 @@ x-stoplight:
 
         This method affords the option to manage legacy invoices through the Chargify API for customers prior to January 2018.
 
-        If you are using the new Relationship Invoicing feature, see the the [new invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C).
+        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Attempting to use this endpoint on a Relationship Invoicing site will not work, and attempting to create charges, credits, refunds, etc. will return a 403.
 
         ## Invoice Documentation
 
@@ -48376,7 +48346,53 @@ x-stoplight:
         | charges               | A list of charges applied to this invoice                                           |
         | payments_and_credits  | A list of the financial transactions that modify the amount due                     |
 
-        For more information about the invoicing feature, please see the related [blog post](https://www.chargify.com/blog/invoicing-is-here/).
+        ## Invoice Payment Documentation
+
+        For more information that on adding a payment to an invoice, please see our payment documentation below:
+
+        + [Pay via Card](https://help.chargify.com/invoices/invoice-reference.html#pay-with-card)
+        + [Offline Payments](https://help.chargify.com/invoices/invoice-reference.html#enter-payment)
+
+        ## Invoice Payment Input Attributes
+
+        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
+        |-----------------|------------------------------------------------------------------------------------------------------|
+        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
+        | memo            | Typically the description of why the payment occurred                                                |
+        ## Invoice Charges Documentation
+
+        For more information on adding a charge to an invoice, please see our documentation [here](https://help.chargify.com/invoices/invoice-reference.html#add-charge).
+
+        ## Invoice Charge Input Attributes
+
+        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
+        |-----------------|------------------------------------------------------------------------------------------------------|
+        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
+        | memo            | Typically the description of why the payment occurred                                                |
+        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+
+        You may submit your request in cents as well:
+
+        ```
+        {
+          "charge": {
+            "amount": 10.00,
+            "memo": "Lorem ipsum"
+          }
+        }
+        ```
+
+        ## Invoice Credit Input Attributes
+
+        Use this endpoint to record credits on an existing invoice.
+
+        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
+        |-----------------|------------------------------------------------------------------------------------------------------|
+        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
+        | memo            | Typically the description of why the payment occurred                                                |
+        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
+        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
       public: true
     customers-intro:
       id: customers-intro
@@ -48488,29 +48504,6 @@ x-stoplight:
         ## Subscriptions - Coupons
 
         In addition to the normal CRUD actions on coupons, you can also create Subscriptions using a Coupon, add a Coupon to an existing Subscription, and validate a Coupon via the API.
-      public: true
-    invoices-charges-intro:
-      id: invoices-charges-intro
-      name: Invoices - Charges Intro
-      content: |-
-        ## Invoices - Charges Intro
-
-        Use this endpoint to record charge on an existing invoice.
-
-        ## Invoice Charges Documentation
-
-        Full documentation on how invoices function within the Chargify UI can be located [here](https://help.chargify.com/invoices/invoice-intro.html).
-
-        For information that relates directly to adding a charge to an invoice, please see our documentation [here](https://help.chargify.com/invoices/invoice-reference.html#add-charge).
-
-        ## Invoice 
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
       public: true
     metered-usage-intro:
       id: metered-usage-intro
@@ -48810,35 +48803,13 @@ x-stoplight:
         | card_type                | Can be any of the following `visa`, `master`, `discover`, `american_express`, `diners_club`, `jcb`, `switch`, `solo`, `dankort`, `maestro`, `forbrugsforeningen`, `laser`                                                                                                                                                                                                                                                                                                                                                                                                                                               |
         | gateway_handle | (Optional) This attribute is only available if MultiGateway feature is enabled for your Site. This feature is in the Private Beta currently.  `gateway_handle` is used to directly select a gateway where a payment profile will be stored in. Every connected gateway must have a unique gateway handle specified. Read [MultiGateway description](https://help.chargify.com/payment-gateways/gateway-configuration.html#connecting-with-multiple-gateways) to learn more about new concepts that MultiGateway introduces and the default behavior when this attribute is not passed. |
       public: true
-    invoices-payments-intro:
-      id: invoices-payments-intro
-      name: Invoices - Payments Intro
-      content: |-
-        ## Invoices - Payments Intro
-
-        Use this endpoint to record payments on an existing invoice.
-
-        ## Invoice Payment Documentation
-
-        Full documentation on how invoices function within the Chargify UI can be located [here](https://help.chargify.com/invoices/invoice-intro.html).
-
-        For information that relates directly to adding a payment to an invoice, please see our payment  documentation below:
-
-        + [Pay via Card](https://help.chargify.com/invoices/invoice-reference.html#pay-with-card)
-        + [Offline Payments](https://help.chargify.com/invoices/invoice-reference.html#enter-payment)
-
-        ## Invoice Payment Input Attributes
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-      public: true
     intro-to-payments:
       id: intro-to-payments
       name: Intro to Payments
       content: |-
         ## Payments Intro
+
+        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Relationship Invoicing requires you to create a prepayment rather than an external payment against the subscription. The prepayment endpoint is [defined here](#endpoint:aD6oLHshxgsTvmGCg).
 
         Chargify allows you to record payments that occur **outside** of the normal flow of payment processing.
         These payments are considered **external payments**. A common case to apply such a payment is when a customer pays by check or some other means for their subscription.
@@ -48859,25 +48830,6 @@ x-stoplight:
       name: Allocations Intro
       content: "## Allocations Intro\n\nAllocations describe a change to the allocated quantity for a particular Component (either Quantity-Based or On/Off) for a particular Subscription.\n\nWorking with this resource, you can:\n\n+ [List Allocations](#endpoint:zaqiBGkGM6nbLjxB3) : View the history of the allocated quantity for the component over time\n+ [Create an Allocation](#endpoint:3stsG5oibfdivng9j) : Set a new allocated quantity for the line-item (as an alternative to setting the allocated quantity directly on the Component Line-Item resource)\n+ [Create multiple Allocations](#endpoint:JfQwagtttbwDcsh9Q): Change the allocated quantity of multiple components at once\n\n## Allocations Documentation\n\nFull documentation on how to record Allocations in the Chargify UI can be located [here](http://help.chargify.com/subscriptions/setting-component-allocations.html). \n\nThis documentation is focused on how allocations operate within the Chargify UI. It goes into greater detail on how the user interface will react when recording allocations.\n\nThis documentation also goes into greater detail on how proration is taken into consideration when applying component allocations.\n\n\n## Proration Schemes\n\nChanging the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.\n\nFor background information on prorated components and upgrade/downgrade schemes, see: API: [Setting Component Allocations.](<https://help.chargify.com/subscriptions/setting-component-allocations.html>). See the tables below for valid values.\n\n| upgrade_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|----------------|-------------------------------------------------------------------|\n| `full` \_ \_ \_ \_ |\_A charge is added for the full price of the component. \_\_\_ \_ \_ \_ \_|\n| `prorated` \_ \_ |\_A charge is added for the prorated price of the component change. |\n| `none` \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| downgrade_credit | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|------------------|---------------------------------------------------|\n| `full` \_ \_ \_ \_ \_ |\_A full price credit is added for the amount owed. |\n| `prorated` \_ \_ \_ |\_A prorated credit is added for the amount owed. \_ |\n| `none` \_ \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| accrue_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_   |\n|---------------|------------------------------------------------------------------------------------------------------------|\n| `true` \_ \_ \_ \_| Attempt to charge the customer at next renewal.                                                            |\n| `false` \_ \_ \_ |\_Attempt to charge the customer right away.\_If it fails, the charge will be accrued until the next renewal. |\n\n### Order of Resolution for upgrade_charge and downgrade_credit\n\n1. Per allocation in API call (within a single allocation of the `allocations` array)\n2. [Component-level default value](<https://help.chargify.com/products/product-components.html#component-proration>)\n3. Allocation API call top level (outside of the `allocations` array)\n4. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n### Order of Resolution for accrue_charge\n\n1. Allocation API call top level (outside of the `allocations` array)\n2. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n**NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**"
       public: false
-    invoices-credits-intro:
-      id: invoices-credits-intro
-      name: Invoices - Credits Intro
-      content: |-
-        ## Invoices - Credits Intro
-
-        Use this endpoint to record credits on an existing invoice.
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-
-        ## Invoice Documentation
-
-        Full documentation on how invoices function within the Chargify UI can be located [here](https://help.chargify.com/invoices/invoice-intro.html).
-      public: true
     metafields-intro:
       id: metafields-intro
       name: 'Custom Fields: Metafields Intro'
@@ -49276,6 +49228,8 @@ x-stoplight:
       content: |-
         ## Refunds - External Intro
 
+        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Attempting to use this endpoint on a Relationship Invoicing site will return a 403.
+
         Use this endpoint to record refunds done outside of Chargify, such as directly at the gateway or by sending a check to the subscriber.
 
         | amount          | The amount represented as a string with two decimal places, for example 14.50.                               |
@@ -49430,7 +49384,9 @@ x-stoplight:
       content: |-
         ## Refunds Intro
 
-        With Chargify you have the ability to apply a refund to a payment that has been processed at the gateway. Refunds made through the methods depicted below will interact with the Gateway. 
+        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Attempting to use this endpoint on a Relationship Invoicing site will return a 403.
+
+        With Chargify you have the ability to apply a refund to a payment that has been processed at the gateway. Refunds made through the methods depicted below will interact with the Gateway.
 
         For more information on creating refunds in general, please see [Refunds](https://help.chargify.com/subscriptions/refunds.html).
 
