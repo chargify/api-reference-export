@@ -9067,7 +9067,7 @@ paths:
         {
           "type": "prepayment",
           "payment": {
-            "amount": 10.00,
+            "amount": 10.00
           }
         }
         ```
@@ -9083,7 +9083,7 @@ paths:
         {
           "type": "service_credit",
           "payment": {
-            "amount": 10.00,
+            "amount": 10.00
           }
         }
         ```
