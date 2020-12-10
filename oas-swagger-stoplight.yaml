@@ -21512,7 +21512,7 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reset_balance-xml
-      summary: Reset Subscription Balance
+      summary: Reset Subscription Balance (Legacy)
       tags:
         - Subscription
         - incomplete
