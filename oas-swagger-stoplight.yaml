@@ -20833,6 +20833,8 @@ paths:
       tags:
         - 'Subscriptions: Invoices'
       description: |-
+        **Note:** This functionality is only available to sites with Relationship Invoicing.
+
         ## Create an Invoice
 
         This endpoint will allow you to create an ad-hoc invoice.
