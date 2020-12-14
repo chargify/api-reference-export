@@ -2723,6 +2723,8 @@ paths:
                       type:
                         - string
                         - 'null'
+                    prepaid_dunning:
+                      type: boolean
           examples:
             application/json:
               - subscription:
@@ -19117,6 +19119,8 @@ paths:
                         - 'null'
                     scheduled_cancellation_at:
                       type: string
+                    prepaid_dunning:
+                      type: boolean
           examples:
             application/json:
               - subscription:
@@ -32615,6 +32619,9 @@ definitions:
               type:
                 - string
                 - 'null'
+            prepaid_dunning:
+              type: boolean
+              description: Only returned if the prepaid subscription feature is enabled
     example:
       - subscription:
           id: 15236915
@@ -44656,6 +44663,8 @@ definitions:
               type:
                 - string
                 - 'null'
+            prepaid_dunning:
+              type: boolean
     example:
       - subscription:
           id: 15236915
@@ -49882,6 +49891,7 @@ x-stoplight:
         | stored_credential_transaction_id | For European sites subject to PSD2 and using 3D Secure, this can be used to reference a previous transaction for the customer. This will ensure the card will be charged successfully at renewal. |
         | reference | The reference value (provided by your app) for the subscription itelf. |
         | on_hold_at | The timestamp of the most recent on hold action. |
+        | prepaid_dunning | Boolean representing whether the subscription is prepaid and currently in dunning. Only returned for Relationship Invoicing sites with the feature enabled |
 
         ### Group Attributes
 
