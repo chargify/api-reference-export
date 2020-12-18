@@ -41289,6 +41289,22 @@ definitions:
       public_url:
         type: string
         description: The public URL of the invoice
+      previous_balance_data:
+        type: object
+        properties:
+          capture_date:
+            type: string
+          invoices:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                number:
+                  type: string
+                outstanding_amount:
+                  type: string
     example:
       uid: inv_8cvtwz27ptgp3
       site_id: 20
@@ -43681,6 +43697,22 @@ definitions:
       public_url:
         type: string
         description: The public URL of the invoice.
+      previous_balance_data:
+        type: object
+        properties:
+          capture_date:
+            type: string
+          invoices:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                number:
+                  type: string
+                outstanding_amount:
+                  type: string
     example:
       uid: inv_8cvtwz27ptgp3
       site_id: 20
