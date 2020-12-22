@@ -1672,12 +1672,14 @@ paths:
 
         This request will return a list of components for a site.
       parameters:
-        - $ref: '#/parameters/trait:includesArchive:include_archived'
         - $ref: '#/parameters/trait:componentQueryString:date_field'
         - $ref: '#/parameters/trait:componentQueryString:start_date'
         - $ref: '#/parameters/trait:componentQueryString:end_date'
         - $ref: '#/parameters/trait:componentQueryString:start_datetime'
         - $ref: '#/parameters/trait:componentQueryString:end_datetime'
+        - $ref: '#/parameters/trait:includesArchive:include_archived'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
           description: ''
