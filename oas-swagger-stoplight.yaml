@@ -20765,7 +20765,7 @@ paths:
 
         ## Create an Invoice
 
-        This endpoint will allow you to create an ad-hoc invoice.
+        This endpoint will allow you to create an ad-hoc, remittance invoice.
 
         ### Basic Behavior
 
@@ -20810,10 +20810,6 @@ paths:
         #### Memo and Payment Instructions
 
         A custom memo can be sent with the `memo` parameter to override the site's default. Likewise, custom payment instructions can be sent with the `payment_instrucions` parameter.
-
-        ### Automatic Collection
-
-        By default, all invoices created with this endpoint will have a `remittance` collection method. If the automatic payment collection for one time invoices feature is turned on for the site, it is possible to attempt collection on the newly created invoice. In order to do this, the `collection_method` parameter must be sent with a value of `automatic`.
       parameters:
         - name: body
           in: body
@@ -20822,8 +20818,6 @@ paths:
             properties:
               invoice:
                 type: object
-                required:
-                  - line_items
                 properties:
                   line_items:
                     type: array
@@ -20844,14 +20838,8 @@ paths:
                           type: string
                         period_range_end:
                           type: string
-                      required:
-                        - title
-                        - quantity
-                        - unit_price
                   net_terms:
                     type: integer
-                  collection_method:
-                    type: string
                   payment_instructions:
                     type: string
                   memo:
@@ -20877,8 +20865,6 @@ paths:
                         type: string
                       country:
                         type: string
-                    required:
-                      - first_name
                   billing_address:
                     type: object
                     properties:
@@ -20900,8 +20886,6 @@ paths:
                         type: string
                       country:
                         type: string
-                    required:
-                      - first_name
                   shipping_address:
                     type: object
                     properties:
@@ -20923,10 +20907,6 @@ paths:
                         type: string
                       country:
                         type: string
-                    required:
-                      - first_name
-            required:
-              - invoice
             example:
               invoice:
                 line_items:
@@ -20938,7 +20918,6 @@ paths:
                     period_range_start: '2020-11-20'
                     period_range_end: '2020-11-25'
                 net_terms: 2
-                collection_method: automatic
                 payment_instructions: PAY ME
                 memo: Thank you for your business!
                 seller_address:
