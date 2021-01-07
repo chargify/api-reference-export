@@ -18896,9 +18896,13 @@ paths:
                           type: string
                         state:
                           type: string
+                        state_name:
+                          type: string
                         zip:
                           type: string
                         country:
+                          type: string
+                        country_name:
                           type: string
                         phone:
                           type: string
@@ -24723,6 +24727,11 @@ definitions:
               - string
               - 'null'
             description: The customer's state
+          state_name:
+            type:
+              - string
+              - 'null'
+            description: The customer's full name of state
           zip:
             type:
               - string
@@ -24733,6 +24742,11 @@ definitions:
               - string
               - 'null'
             description: The customer's county
+          country_name:
+            type:
+              - string
+              - 'null'
+            description: The customer's full name of country
           phone:
             type:
               - string
@@ -32350,9 +32364,13 @@ definitions:
                   type: string
                 state:
                   type: string
+                state_name:
+                  type: string
                 zip:
                   type: string
                 country:
+                  type: string
+                country_name:
                   type: string
                 phone:
                   type: string
