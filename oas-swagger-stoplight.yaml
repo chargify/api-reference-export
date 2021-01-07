@@ -6975,6 +6975,10 @@ paths:
                   created_at:
                     type: string
                     description: 'An ISO-8601 timestamp, set by Chargify at the time each event is recorded. Please note that this field is reserved. If `chargify.created_at` is present in the request payload, it will be overwritten. '
+                  uniqueness_token:
+                    type: string
+                    description: user-defined string scoped per-stream so only duplicate events within a stream will be rejected. Tokens expire after 31 days.
+                    maxLength: 64
             example:
               chargify:
                 subscription_id: 1
