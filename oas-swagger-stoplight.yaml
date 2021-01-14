@@ -47735,6 +47735,10 @@ x-stoplight:
         ## Available Consultants
 
         Check out the list of [Chargify Consultants](http://chargify.com/consultants) if you require deeper technical expertise for your integration.
+
+        ## OpenAPI
+
+        An export of this API reference documentation is available in OpenAPI (Swagger) YAML format on [Github](https://github.com/chargify/api-reference-export). Please note that this export is provided mainly as a backup of the hosted documentation and we are unable to support code generation from it.
       public: true
     authentication:
       id: authentication
