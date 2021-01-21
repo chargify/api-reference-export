@@ -662,7 +662,7 @@ paths:
 
         You can resend a customer's Billing Portal invitation.
 
-        If you attempt to resend an invitation 5 times within 30 minutes, you will receive a `422` error response.
+        If you attempt to resend an invitation 5 times within 30 minutes, you will receive a `422` response with `error` message in the body.
 
         If you attempt to resend an invitation when the Billing Portal is already disabled for a Customer, you will receive a `422` error response.
 
