@@ -18039,7 +18039,7 @@ paths:
       description: |-
         ## Create Subscription Groups
 
-        Creates a subscription group with given members. Returns information about subscription group that has been created or an error message.
+        Creates a subscription group with given members. The response will either return information the subscription group that was created or an error message
 
         ## Input Attributes (Create)
 
@@ -18282,7 +18282,7 @@ paths:
         ## Update Subscription Group
 
         Use this endpoint to update subscription group members.
-        Set in `"members_ids": []` array subscription ids to set as group members, including already addyd subscriptions. Not including them will result in removing them from subscription group. To clean up members, just leave rhis array empty.
+        `"member_ids": []` should contain an array of both subscription IDs to set as group members and subscription IDs already present in the groups. Not including them will result in removing them from subscription group. To clean up members, just leave the array empty.
       parameters:
         - name: body
           in: body
@@ -18389,6 +18389,11 @@ paths:
       summary: Delete Subscription Group
       tags:
         - Subscription Groups
+      description: |-
+        ## Delete Subscription Group
+
+        Use this endpoint to delete subscription group.
+        Only groups without members can be deleted
       responses:
         '200':
           description: ''
