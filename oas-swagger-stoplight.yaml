@@ -9923,6 +9923,9 @@ paths:
                         type: integer
                       usage_amount_formatted:
                         type: string
+                  at_time:
+                    type: string
+                    description: ISO8601 timestamp
           examples:
             application/json:
               mrr:
