@@ -9885,7 +9885,7 @@ paths:
       summary: MRR
       tags:
         - MRR
-      description: 'This endpoint returns your site''s current MRR, including plan and usage breakouts. Results can be scoped to a single subscription by providing a `subscription_id` query param.'
+      description: 'This endpoint returns your site''s current MRR, including plan and usage breakouts. If you wish to request historic MRR at a specific point in time, you can supply a timestamp in ISO8601 format via an `at_time` query param. Additionally, results can be scoped to a single subscription by providing a `subscription_id` query param.'
       consumes:
         - application/xml
       produces:
@@ -9895,6 +9895,10 @@ paths:
           in: query
           description: A Subscription's ID. Providing this param will cause MRR to be scoped to the specified Subscription.
           type: number
+        - name: at_time
+          in: query
+          description: An ISO8601 timestamp. Provide this param to request MRR at a historic point in time.
+          type: string
       responses:
         '200':
           description: ''
@@ -9933,6 +9937,7 @@ paths:
                 amount_formatted: '$99,155.93'
                 currency: USD
                 currency_symbol: $
+                at_time: '2021-02-03T14:23:17-05:00'
                 breakouts:
                   plan_amount_in_cents: 9913593
                   plan_amount_formatted: '$99,135.93'
