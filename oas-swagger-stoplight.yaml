@@ -33461,6 +33461,18 @@ definitions:
           gateway_response:
             type: object
             description: 'the gateway response for a single payment, only if requested in the query string. not available when listing multiple transactions for a site.'
+          component_handle:
+            type:
+              - string
+              - 'null'
+          component_price_point_id:
+            type:
+              - integer
+              - 'null'
+          component_price_point_handle:
+            type:
+              - string
+              - 'null'
     example:
       transaction:
         id: 237759849
