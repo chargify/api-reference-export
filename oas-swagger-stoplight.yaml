@@ -6041,6 +6041,12 @@ paths:
         + US States (2 characters): [ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
 
         + States Outside the US (2-3 characters): To find the correct state codes outside of the US, please go to [ISO_3166-1](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) and click on the link in the “ISO 3166-2 codes” column next to country you wish to populate.
+
+
+        ## Locale
+
+        Chargify allows you to attribute a language/region to your customer to deliver invoices in any required language.
+        For more: [Customer Locale](https://help.chargify.com/settings/multi-lingual-invoices.html#customer-locale)
       parameters:
         - name: body
           in: body
@@ -6048,7 +6054,37 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/customer/create-a-customer-input'
+                type: object
+                properties:
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
+                  cc_emails:
+                    type: string
+                  organization:
+                    type: string
+                  reference:
+                    type: string
+                  address:
+                    type: string
+                  address2:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  zip:
+                    type: string
+                  country:
+                    type: string
+                  phone:
+                    type: string
+                  locale:
+                    type: string
+                    description: Set a specific language on a customer record.
             example:
               customer:
                 first_name: Martha
@@ -6064,6 +6100,7 @@ paths:
                 zip: '02120'
                 country: US
                 phone: 555-555-1212
+                locale: es-MX
       responses:
         '201':
           description: Created
