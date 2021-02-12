@@ -5553,6 +5553,11 @@ paths:
 
         This endpoint will also display the current stats of your metadata to use as a tool for pagination.
       parameters:
+        - name: 'resource_ids[]'
+          in: query
+          type: array
+          items:
+            type: string
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
         - $ref: '#/parameters/trait:metadataQueryString:date_field'
@@ -5613,6 +5618,7 @@ paths:
         - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
         - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
         - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
+        - $ref: '#/parameters/trait:metadataQueryString:resource_ids[]'
       responses:
         '200':
           description: ''
@@ -24350,6 +24356,14 @@ parameters:
     description: Allow to fetch deleted metadata.
     type: boolean
     default: false
+  'trait:metadataQueryString:resource_ids[]':
+    name: 'resource_ids[]'
+    in: query
+    description: Allow to fetch metadata for multiple records based on provided ids.
+    type: array
+    maxItems: 200
+    items:
+      type: number
   'trait:eventsQueryString:date_field':
     name: date_field
     in: query
