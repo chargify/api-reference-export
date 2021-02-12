@@ -178,7 +178,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/adjustments/request'
+            $ref: '#/definitions/adjustments-request'
             example:
               adjustment:
                 amount: '75'
@@ -187,7 +187,7 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/adjustments/response'
+            $ref: '#/definitions/adjustments-response'
           examples:
             application/json:
               adjustment:
@@ -448,7 +448,7 @@ paths:
         '429':
           description: ''
           schema:
-            $ref: '#/definitions/billing-portal/request'
+            $ref: '#/definitions/billing-portal-request'
           examples:
             application/json:
               errors:
@@ -1093,7 +1093,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/component/create'
+            $ref: '#/definitions/component-create'
             example:
               metered_component:
                 name: Text messages
@@ -1551,7 +1551,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/create-component-with-price-points-request'
+            $ref: '#/definitions/components-create-component-with-price-points-request'
             example:
               quantity_based_component:
                 name: Widget
@@ -1580,7 +1580,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/create-response-post'
+            $ref: '#/definitions/components-create-response-post'
           examples:
             application/json:
               component:
@@ -1828,7 +1828,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/ononff/reading-the-current-status-response'
+            $ref: '#/definitions/components-ononff-reading-the-current-status-response'
           examples:
             application/json:
               component:
@@ -1876,7 +1876,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/components/read-components-get'
+            $ref: '#/definitions/components-read-components-get'
           examples:
             application/json:
               - {}
@@ -2061,7 +2061,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/metered/read-usage-output-subscription'
+            $ref: '#/definitions/components-metered-read-usage-output-subscription'
           examples:
             application/json:
               - usage:
@@ -2107,7 +2107,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/metered/create-usage-when-creating-a-new-subscription Input'
+            $ref: '#/definitions/components-metered-create-usage-when-creating-a-new-subscription-input'
             example:
               subscription:
                 product_handle: basic
@@ -2127,7 +2127,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
@@ -2971,7 +2971,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/prepaid-usage/create'
+            $ref: '#/definitions/components-prepaid-usage-create'
             example:
               prepaid_usage_component:
                 name: Minutes
@@ -3178,7 +3178,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/price-points/create-price-point-request'
+            $ref: '#/definitions/components-price-points-create-price-point-request'
             example:
               price_point:
                 name: Wholesale
@@ -3194,7 +3194,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/create-price-point-response'
+            $ref: '#/definitions/components-price-points-create-price-point-response'
           examples:
             application/json:
               price_point:
@@ -3248,7 +3248,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/list-price-points-response'
+            $ref: '#/definitions/components-price-points-list-price-points-response'
           examples:
             application/json:
               price_points:
@@ -3522,7 +3522,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/allocation/multiple-request-post'
+            $ref: '#/definitions/allocation-multiple-request-post'
             example:
               proration_upgrade_scheme: prorate-attempt-capture
               proration_downgrade_scheme: no-prorate
@@ -3537,7 +3537,7 @@ paths:
         '201':
           description: OK
           schema:
-            $ref: '#/definitions/allocation/multiple-response-post'
+            $ref: '#/definitions/allocation-multiple-response-post'
           examples:
             application/json:
               - allocation:
@@ -3783,7 +3783,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/price-points/bulk-create-price-points-request'
+            $ref: '#/definitions/components-price-points-bulk-create-price-points-request'
             example:
               price_points:
                 - name: Wholesale
@@ -3802,7 +3802,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/list-price-points-response'
+            $ref: '#/definitions/components-price-points-list-price-points-response'
           examples:
             application/json:
               price_points:
@@ -3872,7 +3872,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/price-points/update-price-point-request'
+            $ref: '#/definitions/components-price-points-update-price-point-request'
             example:
               price_point:
                 name: Default
@@ -3888,7 +3888,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/create-price-point-response'
+            $ref: '#/definitions/components-price-points-create-price-point-response'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -3923,7 +3923,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/components/create-response-post'
+            $ref: '#/definitions/components-create-response-post'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4052,7 +4052,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/create-price-point-response'
+            $ref: '#/definitions/components-price-points-create-price-point-response'
           examples:
             application/json:
               price_point:
@@ -4111,7 +4111,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/components/price-points/bulk-update-a-subscription-s-component-s-price-points'
+            $ref: '#/definitions/components-price-points-bulk-update-a-subscriptions-components-price-points'
             example:
               components:
                 - component_id: 997
@@ -4124,7 +4124,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/bulk-update-a-subscription-s-component-s-price-points'
+            $ref: '#/definitions/components-price-points-bulk-update-a-subscriptions-components-price-points'
           examples:
             application/json:
               components:
@@ -4184,7 +4184,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components/price-points/bulk-reset-a-subscription-s-component-s-price-points'
+            $ref: '#/definitions/components-price-points-bulk-reset-a-subscriptions-components-price-points'
           examples:
             application/json:
               subscription:
@@ -4434,8 +4434,8 @@ paths:
           in: body
           schema:
             oneOf:
-              - $ref: '#/definitions/coupons/create-coupon-input-percentage'
-              - $ref: '#/definitions/coupons/create-coupon-input-flat-amount'
+              - $ref: '#/definitions/coupons-create-coupon-input-percentage'
+              - $ref: '#/definitions/coupons-create-coupon-input-flat-amount'
             example:
               coupon:
                 name: 15% off
@@ -4458,8 +4458,8 @@ paths:
           description: Created
           schema:
             oneOf:
-              - $ref: '#/definitions/coupons/create-coupon-input-percentage'
-              - $ref: '#/definitions/coupons/create-coupon-input-flat-amount'
+              - $ref: '#/definitions/coupons-create-coupon-input-percentage'
+              - $ref: '#/definitions/coupons-create-coupon-input-flat-amount'
           examples:
             application/json:
               coupon:
@@ -4512,7 +4512,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+              $ref: '#/definitions/coupons-list-coupons-for-a-site-output'
           examples:
             application/json:
               - coupon:
@@ -4627,7 +4627,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+            $ref: '#/definitions/coupons-create-coupon-output-percentage'
           examples:
             application/json:
               coupon:
@@ -4679,7 +4679,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/coupons/create-coupon-input-percentage'
+            $ref: '#/definitions/coupons-create-coupon-input-percentage'
             example:
               coupon:
                 name: 15% off
@@ -4701,7 +4701,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+            $ref: '#/definitions/coupons-create-coupon-output-percentage'
           examples:
             application/json:
               coupon:
@@ -4752,7 +4752,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+            $ref: '#/definitions/coupons-create-coupon-output-percentage'
           examples:
             application/json:
               coupon:
@@ -4810,7 +4810,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/coupons/coupon-usage-output'
+            $ref: '#/definitions/coupons-coupon-usage-output'
           examples:
             application/json:
               - name: No cost product
@@ -4880,7 +4880,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+            $ref: '#/definitions/coupons-create-coupon-output-percentage'
           examples:
             application/json:
               coupon:
@@ -4961,7 +4961,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/coupons/create-coupon-output-percentage'
+            $ref: '#/definitions/coupons-create-coupon-output-percentage'
           examples:
             application/json:
               coupon:
@@ -5031,7 +5031,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/list-coupons-for-a-site-output'
+            $ref: '#/definitions/coupons-list-coupons-for-a-site-output'
           examples:
             application/json:
               - coupon:
@@ -5217,7 +5217,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/coupons/subcodes/retrieve-coupon-subcodes-output'
+            $ref: '#/definitions/coupons-subcodes-retrieve-coupon-subcodes-output'
           examples:
             application/json:
               codes:
@@ -5277,7 +5277,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/coupon/subcodes/create-a-coupon-subcode'
+            $ref: '#/definitions/coupon-subcodes-create-a-coupon-subcode'
             example:
               codes:
                 - AAAA
@@ -5289,7 +5289,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupons/subcodes/create-a-coupon-subcode-output'
+            $ref: '#/definitions/coupons-subcodes-create-a-coupon-subcode-output'
           examples:
             application/json:
               codes:
@@ -5476,7 +5476,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metadata/update-metadata-output'
+            $ref: '#/definitions/metadata-update-metadata-output'
           examples:
             application/json:
               - value: Blue
@@ -5573,7 +5573,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metadata/read-metadata-subscribers-output'
+            $ref: '#/definitions/metadata-read-metadata-subscribers-output'
           examples:
             application/json:
               total_count: 2
@@ -5703,7 +5703,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metadata/read-metadata-for-a-site'
+            $ref: '#/definitions/metadata-read-metadata-for-a-site'
           examples:
             application/json:
               total_count: 1
@@ -5829,7 +5829,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/metafields/create-metafields-input'
+            $ref: '#/definitions/metafields-create-metafields-input'
             example:
               metafields:
                 name: Color
@@ -5848,7 +5848,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields/create-metafields-output'
+            $ref: '#/definitions/metafields-create-metafields-output'
           examples:
             application/json:
               - name: Color
@@ -5903,7 +5903,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields/list-metafields-output'
+            $ref: '#/definitions/metafields-list-metafields-output'
           examples:
             application/json:
               total_count: 1
@@ -5945,7 +5945,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/metafields/update-metafields-input'
+            $ref: '#/definitions/metafields-update-metafields-input'
             example:
               metafields:
                 current_name: shirt
@@ -5964,7 +5964,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields/update-metafields-output'
+            $ref: '#/definitions/metafields-update-metafields-output'
           examples:
             application/json:
               - name: Shirts
@@ -6118,7 +6118,7 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/customer/customer-output'
+            $ref: '#/definitions/customer-customer-output'
           examples:
             application/json:
               customer:
@@ -6351,7 +6351,7 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/customer/customer-output'
+                $ref: '#/definitions/customer-customer-output'
           examples:
             application/json:
               customer:
@@ -6405,7 +6405,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/customer/create-a-customer-input'
+            $ref: '#/definitions/customer-create-a-customer-input'
             example:
               customer:
                 first_name: Martha
@@ -6415,7 +6415,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/customer/customer-output'
+            $ref: '#/definitions/customer-customer-output'
           examples:
             application/json:
               customer:
@@ -6513,7 +6513,7 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/customer/customer-output'
+                $ref: '#/definitions/customer-customer-output'
           examples:
             application/json:
               customer:
@@ -6571,7 +6571,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               - subscription:
@@ -6846,7 +6846,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/events/list-site-event-output'
+            $ref: '#/definitions/events-list-site-event-output'
           examples:
             application/json:
               - event:
@@ -6917,7 +6917,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/events/list-events-for-subscription'
+            $ref: '#/definitions/events-list-events-for-subscription'
           examples:
             application/json:
               - event:
@@ -6969,7 +6969,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/event/counts'
+            $ref: '#/definitions/event-counts'
         - $ref: '#/parameters/trait:eventsBasicFilters:page'
         - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
         - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
@@ -7770,12 +7770,12 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/invoices/payments/create-payment-input'
+            $ref: '#/definitions/invoices-payments-create-payment-input'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/invoices/payments/create-payment-output'
+            $ref: '#/definitions/invoices-payments-create-payment-output'
           examples:
             application/json:
               payment:
@@ -7839,7 +7839,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/invoice/list-charges-response'
+            $ref: '#/definitions/invoice-list-charges-response'
           examples:
             application/json:
               invoice:
@@ -8012,7 +8012,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/invoices/charges/create-invoice-charge-input'
+            $ref: '#/definitions/invoices-charges-create-invoice-charge-input'
             example:
               charge:
                 amount: '10.00'
@@ -8021,7 +8021,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/invoices/charges/create-invoice-charge-output'
+            $ref: '#/definitions/invoices-charges-create-invoice-charge-output'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -8052,7 +8052,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/invoices/credits/create-invoice-credit-input'
+            $ref: '#/definitions/invoices-credits-create-invoice-credit-input'
             example:
               adjustment:
                 amount: 10
@@ -8061,7 +8061,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/invoices/credits/create-invoice-credit-output'
+            $ref: '#/definitions/invoices-credits-create-invoice-credit-output'
           examples:
             application/json:
               adjustment:
@@ -9404,7 +9404,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payments/create-payment-input'
+            $ref: '#/definitions/payments-create-payment-input'
             example:
               payment:
                 amount: 10
@@ -9413,7 +9413,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payments/create-payment-output'
+            $ref: '#/definitions/payments-create-payment-output'
           examples:
             application/json:
               payment:
@@ -10186,7 +10186,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/notes/create-note-input'
+            $ref: '#/definitions/notes-create-note-input'
             example:
               note:
                 body: New test note.
@@ -10195,7 +10195,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/notes/create-note-output'
+            $ref: '#/definitions/notes-create-note-output'
           examples:
             application/json:
               note:
@@ -10230,7 +10230,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/notes/list-notes-output'
+            $ref: '#/definitions/notes-list-notes-output'
             example:
               - note:
                   body: Test note.
@@ -10254,7 +10254,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/notes/create-note-output'
+              $ref: '#/definitions/notes-create-note-output'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10289,7 +10289,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/notes/create-note-output'
+            $ref: '#/definitions/notes-create-note-output'
           examples:
             application/json:
               note:
@@ -10325,7 +10325,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/notes/create-note-input'
+            $ref: '#/definitions/notes-create-note-input'
             example:
               note:
                 body: Modified test note.
@@ -10334,7 +10334,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/notes/create-note-output'
+            $ref: '#/definitions/notes-create-note-output'
           examples:
             application/json:
               note:
@@ -11036,7 +11036,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/payment-profiles/list-payment-profiles-for-a-site-outuput'
+            $ref: '#/definitions/payment-profiles-list-payment-profiles-for-a-site-outuput'
           examples:
             application/json:
               - payment_profile:
@@ -11110,7 +11110,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payment-profile/read-payment-output-bank-account'
+            $ref: '#/definitions/payment-profile-read-payment-output-bank-account'
           examples:
             application/json:
               payment_profile:
@@ -11194,7 +11194,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payments/update-payment-profile'
+            $ref: '#/definitions/payments-update-payment-profile'
             example:
               payment_profile:
                 first_name: Graham
@@ -11390,7 +11390,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payment-profile/read-payment-output-bank-account'
+            $ref: '#/definitions/payment-profile-read-payment-output-bank-account'
           examples:
             application/json:
               payment_profile:
@@ -11488,7 +11488,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/products/create-a-product-input'
+            $ref: '#/definitions/products-create-a-product-input'
             example:
               product:
                 name: Gold Plan
@@ -11505,7 +11505,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/products/create-a-product-output'
+            $ref: '#/definitions/products-create-a-product-output'
           examples:
             application/json:
               product:
@@ -11605,7 +11605,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/products/list-products-output'
+            $ref: '#/definitions/products-list-products-output'
           examples:
             application/json:
               - product:
@@ -11782,7 +11782,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/products/update-product-input'
+            $ref: '#/definitions/products-update-product-input'
             example:
               product:
                 name: Platinum Plan
@@ -11950,7 +11950,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/products/read-the-product-via-chargify-id'
+            $ref: '#/definitions/products-read-the-product-via-chargify-id'
           examples:
             application/json:
               product:
@@ -12968,7 +12968,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/product-families/create-product-family-input'
+            $ref: '#/definitions/product-families-create-product-family-input'
             example:
               product_family:
                 name: Acme Projects
@@ -12977,7 +12977,7 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/product-families/create-product-family-output'
+            $ref: '#/definitions/product-families-create-product-family-output'
           examples:
             application/json:
               product_family:
@@ -13019,7 +13019,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/product-families/read-product-families-for-a-site'
+            $ref: '#/definitions/product-families-read-product-families-for-a-site'
           examples:
             application/json:
               product_family:
@@ -13062,7 +13062,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/product-families/list-product-family-by-id'
+            $ref: '#/definitions/product-families-list-product-family-by-id'
           examples:
             application/json:
               product_family:
@@ -13105,7 +13105,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions//reason_codes/create_code_request'
+            $ref: '#/definitions/reason_codes-create_code_request'
             example:
               reason_code:
                 code: NOTHANKYOU
@@ -13115,7 +13115,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response'
+            $ref: '#/definitions/reason_code-show_response'
         '422':
           description: ''
           schema:
@@ -13158,7 +13158,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/list_response'
+            $ref: '#/definitions/reason_code-list_response'
           examples:
             application/json:
               - reason_code:
@@ -13215,7 +13215,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_code/show_response'
+            $ref: '#/definitions/reason_code-show_response'
           examples:
             application/json:
               reason_code:
@@ -13254,7 +13254,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/reason_code/update_response'
+            $ref: '#/definitions/reason_code-update_response'
             example:
               reason_code:
                 id: 1
@@ -13298,7 +13298,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/reason_codes/delete_response'
+            $ref: '#/definitions/reason_codes-delete_response'
           examples:
             application/json:
               ok: ok
@@ -13333,7 +13333,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/referral/validate-response'
+            $ref: '#/definitions/referral-validate-response'
           examples:
             application/json:
               referral_code:
@@ -13502,7 +13502,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/sales-receipts/list-sales-receipts'
+            $ref: '#/definitions/sales-receipts-list-sales-receipts'
           examples:
             application/json:
               links:
@@ -14203,7 +14203,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/sales-receipts/list-sales-receipts'
+            $ref: '#/definitions/sales-receipts-list-sales-receipts'
           examples:
             application/json:
               links:
@@ -14240,7 +14240,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/sales-receipts/get-a-sales-receipt-output'
+            $ref: '#/definitions/sales-receipts-get-a-sales-receipt-output'
           examples:
             application/json:
               id: f22b6080-4c28-11e5-93ee-000a27020040
@@ -14597,7 +14597,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/statements/list-statement-ids-for-a-subscription-response'
+            $ref: '#/definitions/statements-list-statement-ids-for-a-subscription-response'
           examples:
             application/json:
               statement_ids:
@@ -14648,7 +14648,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/statements/list-statement-ids-for-a-site-response'
+            $ref: '#/definitions/statements-list-statement-ids-for-a-site-response'
           examples:
             application/json:
               statement_ids:
@@ -17460,7 +17460,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/statements/read-show-by-chargify-id'
+            $ref: '#/definitions/statements-read-show-by-chargify-id'
           examples:
             application/json:
               statement:
@@ -17968,7 +17968,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/statements/count-statements-response'
+            $ref: '#/definitions/statements-count-statements-response'
           examples:
             application/json:
               count: 129
@@ -18020,7 +18020,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/stats/read-stats-output'
+            $ref: '#/definitions/stats-read-stats-output'
           examples:
             application/json:
               seller_name: 'Acme, Inc.'
@@ -19646,7 +19646,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/update-subscription-billing-day-change-request'
+            $ref: '#/definitions/subscriptions-update-subscription-billing-day-change-request'
             example:
               subscription:
                 next_billing_at: '2028-12-15'
@@ -19654,7 +19654,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               - subscription:
@@ -19793,12 +19793,12 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/cancel-subscription-request'
+            $ref: '#/definitions/subscriptions-cancel-subscription-request'
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
@@ -19958,7 +19958,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions//basics/subscription-api-response-exampe'
+            $ref: '#/definitions/basics-subscription-api-response-exampe'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -19995,7 +19995,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/subscriptions/change-default-payment-profile-response'
+            $ref: '#/definitions/subscriptions-change-default-payment-profile-response'
           examples:
             application/json:
               payment_profile:
@@ -20249,7 +20249,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
       x-stoplight:
         id: POST_subscriptions-subscriptionid-canceldunningjson
         beforeScript: null
@@ -20303,7 +20303,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/charges/create-a-charge-request-post'
+            $ref: '#/definitions/charges-create-a-charge-request-post'
             example:
               charge:
                 memo: Amount collected
@@ -20317,7 +20317,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/charges/create-a-charge-response-post'
+            $ref: '#/definitions/charges-create-a-charge-response-post'
           examples:
             application/json:
               charge:
@@ -20429,7 +20429,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupon/add-coupon-to-subscription-output'
+            $ref: '#/definitions/coupon-add-coupon-to-subscription-output'
           examples:
             application/json:
               subscription:
@@ -20755,7 +20755,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
@@ -20887,7 +20887,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/hold-subscription-request'
+            $ref: '#/definitions/subscriptions-hold-subscription-request'
             example:
               hold:
                 automatically_resume_at: '2017-05-25T11:25:00Z'
@@ -20895,7 +20895,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
@@ -21708,7 +21708,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               - subscription:
@@ -21861,7 +21861,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
@@ -22157,7 +22157,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/migrations/create-migration-input'
+            $ref: '#/definitions/migrations-create-migration-input'
             example:
               migration:
                 product_id: 3801242
@@ -22169,7 +22169,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/create-migration-input'
+            $ref: '#/definitions/migrations-create-migration-input'
           examples:
             application/json:
               subscription:
@@ -22353,7 +22353,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/migrations/preview-migration-output'
+            $ref: '#/definitions/migrations-preview-migration-output'
           examples:
             application/json:
               migration:
@@ -22443,7 +22443,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions/subscription-override-request'
+            $ref: '#/definitions/subscriptions-subscription-override-request'
             example:
               subscription:
                 activated_at: '1999-12-01'
@@ -22610,7 +22610,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription/read-subscription'
+            $ref: '#/definitions/subscription-read-subscription'
       x-stoplight:
         id: PUT_subscriptions-subscriptionid-reactivatejson
         beforeScript: null
@@ -22645,7 +22645,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/refunds/external/create-an-external-refund-request'
+            $ref: '#/definitions/refunds-external-create-an-external-refund-request'
             example:
               refund:
                 amount: 20
@@ -22655,7 +22655,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/refunds/external/create-an-external-refund-response'
+            $ref: '#/definitions/refunds-external-create-an-external-refund-response'
           examples:
             application/json:
               refund:
@@ -23019,7 +23019,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/transactions/transaction-response'
+              $ref: '#/definitions/transactions-transaction-response'
           examples:
             application/json:
               - transaction:
@@ -23122,7 +23122,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/transactions/transaction-response'
+            $ref: '#/definitions/transactions-transaction-response'
           examples:
             application/json:
               transaction:
@@ -23202,7 +23202,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/transactions/transaction-response'
+              $ref: '#/definitions/transactions-transaction-response'
           examples:
             application/json:
               - transaction:
@@ -23425,7 +23425,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/webhooks/list-webhook-output'
+            $ref: '#/definitions/webhooks-list-webhook-output'
           examples:
             application/json:
               - webhook:
@@ -23496,7 +23496,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/webhooks/replay-webhooks-site'
+            $ref: '#/definitions/webhooks-replay-webhooks-site'
           examples:
             application/json:
               status: ok
@@ -23532,7 +23532,7 @@ paths:
             description: create endpoint
             properties:
               '':
-                $ref: '#/definitions/endpoint/create-update-an-endpoint'
+                $ref: '#/definitions/endpoint-create-update-an-endpoint'
             example:
               endpoint:
                 url: 'https://your.site/webhooks'
@@ -23690,7 +23690,7 @@ paths:
             type: object
             properties:
               endpoint:
-                $ref: '#/definitions/endpoint/create-update-an-endpoint'
+                $ref: '#/definitions/endpoint-create-update-an-endpoint'
             example:
               endpoint:
                 url: 'https://yout.site/webhooks/1/json.'
@@ -24877,7 +24877,7 @@ definitions:
       id: list-sales-output
       name: List Sales Output
       public: true
-  webhooks/list-webhook-output:
+  webhooks-list-webhook-output:
     title: List Webhook Output
     type: array
     items:
@@ -24938,10 +24938,10 @@ definitions:
           signature: fbcf2f6be579f9658cff90c4373e0ca2
           signature_hmac_sha_256: db96654f5456c5460062feb944ac8bb1418f9d181ae04a8ed982fe9ffdca8de1
     x-stoplight:
-      id: webhooks/list-webhook-output
+      id: webhooks-list-webhook-output
       name: List Webhook Output
       public: true
-  events/list-events-for-subscription:
+  events-list-events-for-subscription:
     title: Read Events for Subscription
     type: array
     items:
@@ -24992,10 +24992,10 @@ definitions:
           created_at: '2016-11-01T12:41:25-04:00'
           event_specific_data: null
     x-stoplight:
-      id: events/list-events-for-subscription
+      id: events-list-events-for-subscription
       name: Read Events for Subscription
       public: true
-  notes/create-note-output:
+  notes-create-note-output:
     title: Create Note Output
     type: object
     properties:
@@ -25023,10 +25023,10 @@ definitions:
         updated_at: '2016-11-03T14:47:08-04:00'
         sticky: true
     x-stoplight:
-      id: notes/create-note-output
+      id: notes-create-note-output
       name: Create Note Output
       public: true
-  events/list-site-event-output:
+  events-list-site-event-output:
     title: Read Site Event Output
     type: array
     items:
@@ -25084,10 +25084,10 @@ definitions:
           created_at: '2016-10-27T16:40:40-04:00'
           event_specific_data: null
     x-stoplight:
-      id: events/list-site-event-output
+      id: events-list-site-event-output
       name: Read Site Event Output
       public: true
-  customer/customer-output:
+  customer-customer-output:
     title: Customer Output
     type: object
     properties:
@@ -25228,10 +25228,10 @@ definitions:
         tax_exempt: false
         vat_number: 012345678
     x-stoplight:
-      id: customer/customer-output
+      id: customer-customer-output
       name: Customer Output
       public: true
-  sales-receipts/list-sales-receipts:
+  sales-receipts-list-sales-receipts:
     title: List Sales Receipt Output
     type: object
     properties:
@@ -25262,10 +25262,10 @@ definitions:
         total: 25
       data: []
     x-stoplight:
-      id: sales-receipts/list-sales-receipts
+      id: sales-receipts-list-sales-receipts
       name: List Sales Receipt Output
       public: true
-  adjustments/request:
+  adjustments-request:
     title: POST Adjustment Request
     type: object
     properties:
@@ -25298,10 +25298,10 @@ definitions:
         amount: '10.00'
         memo: Monthly charges
     x-stoplight:
-      id: adjustments/request
+      id: adjustments-request
       name: POST Adjustment Request
       public: true
-  stats/read-stats-output:
+  stats-read-stats-output:
     title: Read Stats Output
     type: object
     properties:
@@ -25351,10 +25351,10 @@ definitions:
         revenue_this_month: '$10,000.00'
         revenue_this_year: '$27,935.24'
     x-stoplight:
-      id: stats/read-stats-output
+      id: stats-read-stats-output
       name: Read Stats Output
       public: true
-  coupons/create-coupon-output-percentage:
+  coupons-create-coupon-output-percentage:
     title: Create Coupon Output Percentage
     type: object
     properties:
@@ -25475,10 +25475,10 @@ definitions:
         compounding_strategy: compound
         coupon_restrictions: []
     x-stoplight:
-      id: coupons/create-coupon-output-percentage
+      id: coupons-create-coupon-output-percentage
       name: Create Coupon Output Percentage
       public: true
-  allocation/create-request-post:
+  allocation-create-request-post:
     title: Allocation Create Request POST
     type: object
     properties:
@@ -25517,10 +25517,10 @@ definitions:
         proration_collection_method: automatic
         proration_upgrade_scheme: no-prorate
     x-stoplight:
-      id: allocation/create-request-post
+      id: allocation-create-request-post
       name: Allocation Create Request POST
       public: true
-  webhooks/replay-webhooks-site:
+  webhooks-replay-webhooks-site:
     title: Replay Webhooks for Site
     type: object
     properties:
@@ -25529,10 +25529,10 @@ definitions:
     example:
       status: ok
     x-stoplight:
-      id: webhooks/replay-webhooks-site
+      id: webhooks-replay-webhooks-site
       name: Replay Webhooks for Site
       public: true
-  notes/create-note-input:
+  notes-create-note-input:
     title: Create Note Input
     type: object
     properties:
@@ -25548,10 +25548,10 @@ definitions:
         body: New test note
         sticky: true
     x-stoplight:
-      id: notes/create-note-input
+      id: notes-create-note-input
       name: Create Note Input
       public: true
-  adjustments/response:
+  adjustments-response:
     title: POST Adjustment Response
     type: object
     properties:
@@ -25620,10 +25620,10 @@ definitions:
         created_at: '2012-11-20T22:00:37Z'
         payment_id: null
     x-stoplight:
-      id: adjustments/response
+      id: adjustments-response
       name: POST Adjustment Response
       public: true
-  allocation/read_allocations_subscription:
+  allocation-read-allocations-subscription:
     title: Allocation Response GET
     type: array
     items:
@@ -25694,10 +25694,10 @@ definitions:
           proration_upgrade_scheme: no-prorate
           proration_downgrade_scheme: no-prorate
     x-stoplight:
-      id: allocation/read_allocations_subscription
+      id: allocation-read-allocations-subscription
       name: Allocation Response GET
       public: true
-  products/list-products-output:
+  products-list-products-output:
     title: Read by Products Output
     type: array
     items:
@@ -25872,7 +25872,7 @@ definitions:
               url: 'https://general-goods.chargify.com/subscribe/gxdbfxzxhcjq/calendar-billing-product'
           product_price_point_name: Original
     x-stoplight:
-      id: products/list-products-output
+      id: products-list-products-output
       name: Read by Products Output
       public: true
   renewal-preview-output:
@@ -25969,7 +25969,7 @@ definitions:
       id: count-transactions
       name: Read the Count of Transactions for a Site Output
       public: true
-  /basics/subscription-api-response-exampe:
+  basics-subscription-api-response-exampe:
     title: Subscription API Response Example
     type: array
     items:
@@ -26218,10 +26218,10 @@ definitions:
           state: canceled
           payer_id: 143068
     x-stoplight:
-      id: /basics/subscription-api-response-exampe
+      id: basics-subscription-api-response-exampe
       name: Subscription API Response Example
       public: true
-  allocation/create-response-post:
+  allocation-create-response-post:
     title: Allocation Create Response POST
     type: object
     properties:
@@ -26267,10 +26267,10 @@ definitions:
         price_point_id: 76
         previous_price_point_id: 75
     x-stoplight:
-      id: allocation/create-response-post
+      id: allocation-create-response-post
       name: Allocation Create Response POST
       public: true
-  billing-portal/simul-response-post:
+  billing-portal-simul-response-post:
     title: Billing Portal Simul Response POST
     type: object
     properties:
@@ -26354,10 +26354,10 @@ definitions:
         portal_invite_last_sent_at: '2014-04-17T15:37:08-04:00'
         portal_invite_last_accepted_at: null
     x-stoplight:
-      id: billing-portal/simul-response-post
+      id: billing-portal-simul-response-post
       name: Billing Portal Simul Response POST
       public: true
-  allocation/multiple-response-post:
+  allocation-multiple-response-post:
     title: Allocation Multiple Response POST
     type: array
     items:
@@ -26432,10 +26432,10 @@ definitions:
             memo: 'Payment for: Prorated component allocation changes.'
             id: 165473487
     x-stoplight:
-      id: allocation/multiple-response-post
+      id: allocation-multiple-response-post
       name: Allocation Multiple Response POST
       public: true
-  billing-portal/request:
+  billing-portal-request:
     title: Billing Portal Request GET
     type: object
     properties:
@@ -26465,10 +26465,10 @@ definitions:
       new_link_available_at: '2013-11-20T00:00:00Z'
       expires_at: '2014-01-09T00:00:00Z'
     x-stoplight:
-      id: billing-portal/request
+      id: billing-portal-request
       name: Billing Portal Request GET
       public: true
-  billing-portal/response:
+  billing-portal-response:
     title: Billing Portal Response GET
     type: object
     properties:
@@ -26481,10 +26481,10 @@ definitions:
       errors:
         error: Too many requests for this customer's management link
     x-stoplight:
-      id: billing-portal/response
+      id: billing-portal-response
       name: Billing Portal Response GET
       public: true
-  billing-portal/response-enable:
+  billing-portal-response-enable:
     title: Billing Portal Enable Response POST
     type: object
     properties:
@@ -26567,10 +26567,10 @@ definitions:
         portal_invite_last_sent_at: null
         portal_invite_last_accepted_at: null
     x-stoplight:
-      id: billing-portal/response-enable
+      id: billing-portal-response-enable
       name: Billing Portal Enable Response POST
       public: true
-  allocation/multiple-request-post:
+  allocation-multiple-request-post:
     title: Allocation Multiple Request POST
     type: object
     properties:
@@ -26618,19 +26618,19 @@ definitions:
           quantity: 5
           memo: bar
     x-stoplight:
-      id: allocation/multiple-request-post
+      id: allocation-multiple-request-post
       name: Allocation Multiple Request POST
       public: true
-  billing-portal/request-enable:
+  billing-portal-request-enable:
     title: Billing Portal Enable Request POST
     type:
       - object
       - 'null'
     x-stoplight:
-      id: billing-portal/request-enable
+      id: billing-portal-request-enable
       name: Billing Portal Enable Request POST
       public: true
-  components/create-response-post:
+  components-create-response-post:
     title: Create a Component Response POST
     type: object
     properties:
@@ -26723,10 +26723,10 @@ definitions:
         default_price_point_name: Original
         product_family_name: Chargify
     x-stoplight:
-      id: components/create-response-post
+      id: components-create-response-post
       name: Create a Component Response POST
       public: true
-  component/read-components-for-a-product-family-output:
+  component-read-components-for-a-product-family-output:
     title: Read Components for a Product Family Output
     type: array
     items:
@@ -26870,10 +26870,10 @@ definitions:
           downgrade_credit: null
           created_at: '2019-08-01T09:35:38-04:00'
     x-stoplight:
-      id: component/read-components-for-a-product-family-output
+      id: component-read-components-for-a-product-family-output
       name: Read Components for a Product Family Output
       public: true
-  component/list-specific-component-product-family-get:
+  component-list-specific-component-product-family-get:
     title: Read Specific Component Product Family GET
     type: object
     properties:
@@ -26944,10 +26944,10 @@ definitions:
         downgrade_credit: null
         created_at: '2019-08-02T05:54:53-04:00'
     x-stoplight:
-      id: component/list-specific-component-product-family-get
+      id: component-list-specific-component-product-family-get
       name: Read Specific Component Product Family GET
       public: true
-  component/create:
+  component-create:
     title: Create a Component Request POST
     type: object
     properties:
@@ -27002,10 +27002,10 @@ definitions:
             unit_price: 1
             component: null
     x-stoplight:
-      id: component/create
+      id: component-create
       name: Create a Component Request POST
       public: true
-  components/read-components-get:
+  components-read-components-get:
     title: Read Components GET
     type: array
     items:
@@ -27060,10 +27060,10 @@ definitions:
           name: text messages
       - {}
     x-stoplight:
-      id: components/read-components-get
+      id: components-read-components-get
       name: Read Components GET
       public: true
-  charges/create-a-charge-response-post:
+  charges-create-a-charge-response-post:
     title: Create a charge / Response POST
     type: object
     properties:
@@ -27214,10 +27214,10 @@ definitions:
                 tax_amount_in_cents: 20
                 description: TX CITY TAX - AUSTIN
     x-stoplight:
-      id: charges/create-a-charge-response-post
+      id: charges-create-a-charge-response-post
       name: Create a charge / Response POST
       public: true
-  components/read-specific-component-get:
+  components-read-specific-component-get:
     title: Read Specific Component GET
     type: object
     properties:
@@ -27252,10 +27252,10 @@ definitions:
         kind: quantity_based_component
         unit_name: Users
     x-stoplight:
-      id: components/read-specific-component-get
+      id: components-read-specific-component-get
       name: Read Specific Component GET
       public: true
-  charges/create-a-charge-request-post:
+  charges-create-a-charge-request-post:
     title: Create a charge / Request POST
     type: object
     properties:
@@ -27292,10 +27292,10 @@ definitions:
         period_range_start: '2019-03-01'
         period_range_end: '2019-03-01'
     x-stoplight:
-      id: charges/create-a-charge-request-post
+      id: charges-create-a-charge-request-post
       name: Create a charge / Request POST
       public: true
-  invoices/credits/create-invoice-credit-input:
+  invoices-credits-create-invoice-credit-input:
     title: Create Invoice Credit Input
     type: object
     properties:
@@ -27321,10 +27321,10 @@ definitions:
         amount: 10
         memo: Credit for recycling old computers
     x-stoplight:
-      id: invoices/credits/create-invoice-credit-input
+      id: invoices-credits-create-invoice-credit-input
       name: Create Invoice Credit Input
       public: true
-  invoices/charges/create-invoice-charge-input:
+  invoices-charges-create-invoice-charge-input:
     title: Create Invoice Charge Input
     type: object
     properties:
@@ -27352,10 +27352,10 @@ definitions:
         amount: 10
         memo: Lorem ipsum
     x-stoplight:
-      id: invoices/charges/create-invoice-charge-input
+      id: invoices-charges-create-invoice-charge-input
       name: Create Invoice Charge Input
       public: true
-  invoices/read-the-invoice-by-id:
+  invoices-read-the-invoice-by-id:
     title: Read the Invoice by ID
     type: object
     properties:
@@ -27545,10 +27545,10 @@ definitions:
             card_expiration: 01/2026
             card_type: bogus
     x-stoplight:
-      id: invoices/read-the-invoice-by-id
+      id: invoices-read-the-invoice-by-id
       name: Read the Invoice by ID
       public: true
-  invoices/payments/create-payment-input:
+  invoices-payments-create-payment-input:
     title: Create Payment Input
     type: object
     properties:
@@ -27564,10 +27564,10 @@ definitions:
         amount: 10
         memo: Lorem ipsum
     x-stoplight:
-      id: invoices/payments/create-payment-input
+      id: invoices-payments-create-payment-input
       name: Create Payment Input
       public: true
-  invoices/list-all-invoices-query-response:
+  invoices-list-all-invoices-query-response:
     title: List All Invoices (Multiple Query)
     type: array
     items:
@@ -27837,10 +27837,10 @@ definitions:
               card_expiration: null
               card_type: null
     x-stoplight:
-      id: invoices/list-all-invoices-query-response
+      id: invoices-list-all-invoices-query-response
       name: List All Invoices (Multiple Query)
       public: true
-  event/counts:
+  event-counts:
     title: Count Events for a Site
     type: object
     properties:
@@ -27849,10 +27849,10 @@ definitions:
     example:
       count: 144
     x-stoplight:
-      id: event/counts
+      id: event-counts
       name: Count Events for a Site
       public: true
-  invoices/charges/create-invoice-charge-output:
+  invoices-charges-create-invoice-charge-output:
     title: Create Invoice Charge Output
     type: object
     properties:
@@ -27946,10 +27946,10 @@ definitions:
         taxable_amount_in_cents: null
         taxations: []
     x-stoplight:
-      id: invoices/charges/create-invoice-charge-output
+      id: invoices-charges-create-invoice-charge-output
       name: Create Invoice Charge Output
       public: true
-  invoices/credits/create-invoice-credit-output:
+  invoices-credits-create-invoice-credit-output:
     title: Create Invoice Credit Output
     type: object
     properties:
@@ -28029,10 +28029,10 @@ definitions:
         statement_id: 79335006
         customer_id: 14332342
     x-stoplight:
-      id: invoices/credits/create-invoice-credit-output
+      id: invoices-credits-create-invoice-credit-output
       name: Create Invoice Credit Output
       public: true
-  metadata/create-output:
+  metadata-create-output:
     title: Create Metadata Output
     type: array
     items:
@@ -28054,10 +28054,10 @@ definitions:
         resource_id: 100000
         value: Useful
     x-stoplight:
-      id: metadata/create-output
+      id: metadata-create-output
       name: Create Metadata Output
       public: true
-  metadata/update-metadata-input:
+  metadata-update-metadata-input:
     title: Update Metadata Input
     type: object
     properties:
@@ -28076,10 +28076,10 @@ definitions:
         name: Shirt Color
         value: Blue
     x-stoplight:
-      id: metadata/update-metadata-input
+      id: metadata-update-metadata-input
       name: Update Metadata Input
       public: true
-  metafields/list-metafields-output:
+  metafields-list-metafields-output:
     title: List Metafields Output
     type: object
     properties:
@@ -28138,10 +28138,10 @@ definitions:
           input_type: text
           enum: null
     x-stoplight:
-      id: metafields/list-metafields-output
+      id: metafields-list-metafields-output
       name: List Metafields Output
       public: true
-  metadata/create-metadata-input:
+  metadata-create-metadata-input:
     title: Create Metadata Input
     type: object
     properties:
@@ -28161,10 +28161,10 @@ definitions:
         - name: Something
           value: Useful
     x-stoplight:
-      id: metadata/create-metadata-input
+      id: metadata-create-metadata-input
       name: Create Metadata Input
       public: true
-  metafields/create-metafields-output:
+  metafields-create-metafields-output:
     title: Create Metafields Output
     type: array
     items:
@@ -28215,10 +28215,10 @@ definitions:
         input_type: text
         enum: null
     x-stoplight:
-      id: metafields/create-metafields-output
+      id: metafields-create-metafields-output
       name: Create Metafields Output
       public: true
-  metafields/update-metafields-input:
+  metafields-update-metafields-input:
     title: Update Metafields Input
     type: object
     properties:
@@ -28256,10 +28256,10 @@ definitions:
           statements: '1'
           portal: '0'
     x-stoplight:
-      id: metafields/update-metafields-input
+      id: metafields-update-metafields-input
       name: Update Metafields Input
       public: true
-  metafields/update-metafields-output:
+  metafields-update-metafields-output:
     title: Update Metafields Output
     type: array
     items:
@@ -28300,10 +28300,10 @@ definitions:
         input_type: text
         enum: null
     x-stoplight:
-      id: metafields/update-metafields-output
+      id: metafields-update-metafields-output
       name: Update Metafields Output
       public: true
-  components/metered/read-usage-output-subscription:
+  components-metered-read-usage-output-subscription:
     title: Read Usage by Component for a Subscription
     type: array
     items:
@@ -28348,10 +28348,10 @@ definitions:
           component_handle: handle
           subscription_id: 22824464
     x-stoplight:
-      id: components/metered/read-usage-output-subscription
+      id: components-metered-read-usage-output-subscription
       name: Read Usage by Component for a Subscription
       public: true
-  components/metered/create-usage-input:
+  components-metered-create-usage-input:
     title: Create Usage Input
     type: object
     properties:
@@ -28375,10 +28375,10 @@ definitions:
         price_point_id: '149416'
         memo: My memo
     x-stoplight:
-      id: components/metered/create-usage-input
+      id: components-metered-create-usage-input
       name: Create Usage Input
       public: true
-  components/metered/create-usage-output:
+  components-metered-create-usage-output:
     title: Create Usage Output
     type: object
     properties:
@@ -28403,10 +28403,10 @@ definitions:
         price_point_id: 149416
         quantity: 1000
     x-stoplight:
-      id: components/metered/create-usage-output
+      id: components-metered-create-usage-output
       name: Create Usage Output
       public: true
-  metafields/create-metafields-input:
+  metafields-create-metafields-input:
     title: Create Metafields Input
     type: object
     properties:
@@ -28445,10 +28445,10 @@ definitions:
           - option 1
           - option 2
     x-stoplight:
-      id: metafields/create-metafields-input
+      id: metafields-create-metafields-input
       name: Create Metafields Input
       public: true
-  notes/update-note-output:
+  notes-update-note-output:
     title: Update Note Output
     type: object
     properties:
@@ -28476,10 +28476,10 @@ definitions:
         updated_at: '2016-11-03T14:49:09-04:00'
         sticky: true
     x-stoplight:
-      id: notes/update-note-output
+      id: notes-update-note-output
       name: Update Note Output
       public: true
-  payments/create-payment-input:
+  payments-create-payment-input:
     title: Create Payment Input
     type: object
     properties:
@@ -28495,10 +28495,10 @@ definitions:
         amount: 10
         memo: Client x paid with $10.00 of nickles
     x-stoplight:
-      id: payments/create-payment-input
+      id: payments-create-payment-input
       name: Create Payment Input
       public: true
-  notes/read-show-specific-note-output:
+  notes-read-show-specific-note-output:
     title: Read Specific Note Output
     type: object
     properties:
@@ -28526,10 +28526,10 @@ definitions:
         subscription_id: 100046
         updated_at: '2015-06-15T13:28:12-04:00'
     x-stoplight:
-      id: notes/read-show-specific-note-output
+      id: notes-read-show-specific-note-output
       name: Read Specific Note Output
       public: true
-  notes/update-note-input:
+  notes-update-note-input:
     title: Update Note Input
     type: object
     properties:
@@ -28545,10 +28545,10 @@ definitions:
         body: Modified test note.
         sticky: true
     x-stoplight:
-      id: notes/update-note-input
+      id: notes-update-note-input
       name: Update Note Input
       public: true
-  payments/create-payment-output:
+  payments-create-payment-output:
     title: Create Payment Output
     type: object
     properties:
@@ -28630,10 +28630,10 @@ definitions:
         card_type: null
         refunded_amount_in_cents: 0
     x-stoplight:
-      id: payments/create-payment-output
+      id: payments-create-payment-output
       name: Create Payment Output
       public: true
-  migrations/create-migration-input:
+  migrations-create-migration-input:
     title: Create Migration Input
     type: object
     properties:
@@ -28662,10 +28662,10 @@ definitions:
         include_coupons: true
         preserve_period: true
     x-stoplight:
-      id: migrations/create-migration-input
+      id: migrations-create-migration-input
       name: Create Migration Input
       public: true
-  notes/list-notes-output:
+  notes-list-notes-output:
     title: Read Notes Output
     type: array
     items:
@@ -28702,10 +28702,10 @@ definitions:
           subscription_id: 100046
           updated_at: '2015-06-15T13:26:33-04:00'
     x-stoplight:
-      id: notes/list-notes-output
+      id: notes-list-notes-output
       name: Read Notes Output
       public: true
-  payment-profiles/create-payment-profile-input:
+  payment-profiles-create-payment-profile-input:
     title: Create Payment Profile Input
     type: object
     properties:
@@ -28768,10 +28768,10 @@ definitions:
         billing_address_2: null
         payment_type: credit_card
     x-stoplight:
-      id: payment-profiles/create-payment-profile-input
+      id: payment-profiles-create-payment-profile-input
       name: Create Payment Profile Input
       public: true
-  migrations/preview-migration-output:
+  migrations-preview-migration-output:
     title: Preview Migration Output
     type: object
     properties:
@@ -28793,10 +28793,10 @@ definitions:
         payment_due_in_cents: 0
         credit_applied_in_cents: 0
     x-stoplight:
-      id: migrations/preview-migration-output
+      id: migrations-preview-migration-output
       name: Preview Migration Output
       public: true
-  migrations/create-migration-input-trial-output:
+  migrations-create-migration-input-trial-output:
     title: Create Migration Output
     type: object
     properties:
@@ -29137,10 +29137,10 @@ definitions:
           billing_address_2: Apt. 10
           payment_type: credit_card
     x-stoplight:
-      id: migrations/create-migration-input-trial-output
+      id: migrations-create-migration-input-trial-output
       name: Create Migration Output
       public: true
-  payment-profile/read-payment-output-bank-account:
+  payment-profile-read-payment-output-bank-account:
     title: Read Payment Output - Bank Account
     type: object
     properties:
@@ -29211,10 +29211,10 @@ definitions:
         bank_account_holder_type: personal
         payment_type: bank_account
     x-stoplight:
-      id: payment-profile/read-payment-output-bank-account
+      id: payment-profile-read-payment-output-bank-account
       name: Read Payment Output - Bank Account
       public: true
-  payment-profile/create-payment-profile-output:
+  payment-profile-create-payment-profile-output:
     title: Create Payment Profile Output
     type: object
     properties:
@@ -29278,10 +29278,10 @@ definitions:
         billing_address_2: null
         payment_type: credit_card
     x-stoplight:
-      id: payment-profile/create-payment-profile-output
+      id: payment-profile-create-payment-profile-output
       name: Create Payment Profile Output
       public: true
-  notes/delete-output:
+  notes-delete-output:
     title: Delete Output
     type: object
     properties:
@@ -29290,10 +29290,10 @@ definitions:
     example:
       ok: ok
     x-stoplight:
-      id: notes/delete-output
+      id: notes-delete-output
       name: Delete Output
       public: true
-  payment-profiles/read-payment-output-cc:
+  payment-profiles-read-payment-output-cc:
     title: Read Payment Output - Credit Card
     type: object
     properties:
@@ -29359,10 +29359,10 @@ definitions:
         billing_address_2: ''
         payment_type: credit_card
     x-stoplight:
-      id: payment-profiles/read-payment-output-cc
+      id: payment-profiles-read-payment-output-cc
       name: Read Payment Output - Credit Card
       public: true
-  product-families/create-product-family-input:
+  product-families-create-product-family-input:
     title: Create Product Family Input
     type: object
     properties:
@@ -29380,10 +29380,10 @@ definitions:
         name: Acme Projects
         description: Amazing project management tool
     x-stoplight:
-      id: product-families/create-product-family-input
+      id: product-families-create-product-family-input
       name: Create Product Family Input
       public: true
-  products/read-the-product-via-chargify-id:
+  products-read-the-product-via-chargify-id:
     title: Read the Product by Product ID
     type: object
     properties:
@@ -29514,10 +29514,10 @@ definitions:
             url: 'https://general-goods.chargify.com/subscribe/xv52yrcc3byx/trial-product'
         product_price_point_name: Original
     x-stoplight:
-      id: products/read-the-product-via-chargify-id
+      id: products-read-the-product-via-chargify-id
       name: Read the Product by Product ID
       public: true
-  products/create-a-product-input:
+  products-create-a-product-input:
     title: Create a Product Input
     type: object
     properties:
@@ -29563,10 +29563,10 @@ definitions:
         auto_create_signup_page: true
         tax_code: D0000000
     x-stoplight:
-      id: products/create-a-product-input
+      id: products-create-a-product-input
       name: Create a Product Input
       public: true
-  products/update-product-input:
+  products-update-product-input:
     title: Update Product Input
     type: object
     properties:
@@ -29606,10 +29606,10 @@ definitions:
         auto_create_signup_page: true
         tax_code: D0000000
     x-stoplight:
-      id: products/update-product-input
+      id: products-update-product-input
       name: Update Product Input
       public: true
-  product-families/create-product-family-output:
+  product-families-create-product-family-output:
     title: Create Product Family Output
     type: object
     properties:
@@ -29634,10 +29634,10 @@ definitions:
         handle: acme-projects
         accounting_code: null
     x-stoplight:
-      id: product-families/create-product-family-output
+      id: product-families-create-product-family-output
       name: Create Product Family Output
       public: true
-  components/quantity/create-subscription-with-quantity-based-component:
+  components-quantity-create-subscription-with-quantity-based-component:
     title: Create Subscription with Quantity-based Component
     type: object
     properties:
@@ -29697,10 +29697,10 @@ definitions:
             price_point_id: 20001
             allocated_quantity: 18
     x-stoplight:
-      id: components/quantity/create-subscription-with-quantity-based-component
+      id: components-quantity-create-subscription-with-quantity-based-component
       name: Create Subscription with Quantity-based Component
       public: true
-  product-families/list-product-family-by-id:
+  product-families-list-product-family-by-id:
     title: Read Product Family via Product Family ID
     type: object
     properties:
@@ -29725,10 +29725,10 @@ definitions:
         handle: billing-plans
         accounting_code: null
     x-stoplight:
-      id: product-families/list-product-family-by-id
+      id: product-families-list-product-family-by-id
       name: Read Product Family via Product Family ID
       public: true
-  products/create-a-product-output:
+  products-create-a-product-output:
     title: Create a Product Output
     type: object
     properties:
@@ -29860,10 +29860,10 @@ definitions:
             url: 'https://general-goods.chargify.com/subscribe/ftgbpq7f5qpr/gold'
         product_price_point_name: Original
     x-stoplight:
-      id: products/create-a-product-output
+      id: products-create-a-product-output
       name: Create a Product Output
       public: true
-  products/update-product-output:
+  products-update-product-output:
     title: Update Product Output
     type: object
     properties:
@@ -29991,10 +29991,10 @@ definitions:
             return_params: null
             url: 'https://general-goods.chargify.com/subscribe/wgyd96tb5pj9/platinum'
     x-stoplight:
-      id: products/update-product-output
+      id: products-update-product-output
       name: Update Product Output
       public: true
-  statements/list-statement-ids-for-a-subscription-response:
+  statements-list-statement-ids-for-a-subscription-response:
     title: Read Statement IDs for a Subscription Response
     type: object
     properties:
@@ -30012,10 +30012,10 @@ definitions:
         - 79702531
         - 79733833
     x-stoplight:
-      id: statements/list-statement-ids-for-a-subscription-response
+      id: statements-list-statement-ids-for-a-subscription-response
       name: Read Statement IDs for a Subscription Response
       public: true
-  statements/list-statement-ids-for-a-site-response:
+  statements-list-statement-ids-for-a-site-response:
     title: Read Statement IDs for a Site Response
     type: object
     properties:
@@ -30033,10 +30033,10 @@ definitions:
         - 80499379
         - 80500632
     x-stoplight:
-      id: statements/list-statement-ids-for-a-site-response
+      id: statements-list-statement-ids-for-a-site-response
       name: Read Statement IDs for a Site Response
       public: true
-  components/quantity/reading-current-quantity-response:
+  components-quantity-reading-current-quantity-response:
     title: Reading Current Quantity Response
     type: object
     properties:
@@ -30076,10 +30076,10 @@ definitions:
         pricing_scheme: per_unit
         price_point_id: 121000
     x-stoplight:
-      id: components/quantity/reading-current-quantity-response
+      id: components-quantity-reading-current-quantity-response
       name: Reading Current Quantity Response
       public: true
-  refunds/external/create-an-external-refund-request:
+  refunds-external-create-an-external-refund-request:
     title: Create an External Refund Request
     type: object
     properties:
@@ -30098,10 +30098,10 @@ definitions:
         memo: 'Refunded with check# 123'
       external: 1
     x-stoplight:
-      id: refunds/external/create-an-external-refund-request
+      id: refunds-external-create-an-external-refund-request
       name: Create an External Refund Request
       public: true
-  refunds/external/create-an-external-refund-response:
+  refunds-external-create-an-external-refund-response:
     title: Create an External Refund Response
     type: object
     properties:
@@ -30171,10 +30171,10 @@ definitions:
         statement_id: 80500632
         customer_id: 14714298
     x-stoplight:
-      id: refunds/external/create-an-external-refund-response
+      id: refunds-external-create-an-external-refund-response
       name: Create an External Refund Response
       public: true
-  referral/validate-response:
+  referral-validate-response:
     title: Validate Referral Response
     type: object
     properties:
@@ -30196,10 +30196,10 @@ definitions:
         subscription_id: 15076690
         code: gj4rht
     x-stoplight:
-      id: referral/validate-response
+      id: referral-validate-response
       name: Validate Referral Response
       public: true
-  refunds/create-a-refund-request:
+  refunds-create-a-refund-request:
     title: Create a Refund Request
     type: object
     properties:
@@ -30218,10 +30218,10 @@ definitions:
         amount: '100.00'
         memo: Your memo here.
     x-stoplight:
-      id: refunds/create-a-refund-request
+      id: refunds-create-a-refund-request
       name: Create a Refund Request
       public: true
-  refunds/create-a-refund-response:
+  refunds-create-a-refund-response:
     title: Create a Refund Response
     type: object
     properties:
@@ -30291,10 +30291,10 @@ definitions:
         statement_id: 80500632
         customer_id: 14714298
     x-stoplight:
-      id: refunds/create-a-refund-response
+      id: refunds-create-a-refund-response
       name: Create a Refund Response
       public: true
-  statements/count-statements-response:
+  statements-count-statements-response:
     title: Count Statements Response
     type: object
     properties:
@@ -30303,10 +30303,10 @@ definitions:
     example:
       count: 129
     x-stoplight:
-      id: statements/count-statements-response
+      id: statements-count-statements-response
       name: Count Statements Response
       public: true
-  statements/list-statements-for-a-subscription-response:
+  statements-list-statements-for-a-subscription-response:
     title: Read Statements for a Subscription
     type: array
     items:
@@ -31657,10 +31657,10 @@ definitions:
                   product_id: 3792003
                   account_transaction_id: 159424449
     x-stoplight:
-      id: statements/list-statements-for-a-subscription-response
+      id: statements-list-statements-for-a-subscription-response
       name: Read Statements for a Subscription
       public: true
-  statements/read-show-by-chargify-id:
+  statements-read-show-by-chargify-id:
     title: Read by Statement ID
     type: object
     properties:
@@ -32292,10 +32292,10 @@ definitions:
                 product_id: 3861800
                 account_transaction_id: null
     x-stoplight:
-      id: statements/read-show-by-chargify-id
+      id: statements-read-show-by-chargify-id
       name: Read by Statement ID
       public: true
-  subscriptions/update-subscription-payment-method-request:
+  subscriptions-update-subscription-payment-method-request:
     title: 'Update Subscription: Payment Method Request'
     type: object
     properties:
@@ -32318,10 +32318,10 @@ definitions:
           expiration_month: '10'
           expiration_year: '2030'
     x-stoplight:
-      id: subscriptions/update-subscription-payment-method-request
+      id: subscriptions-update-subscription-payment-method-request
       name: 'Update Subscription: Payment Method Request'
       public: true
-  subscriptions/subscription-import-request:
+  subscriptions-subscription-import-request:
     title: Subscription Import Request
     type: object
     properties:
@@ -32382,10 +32382,10 @@ definitions:
           card_type: visa
           last_four: '1111'
     x-stoplight:
-      id: subscriptions/subscription-import-request
+      id: subscriptions-subscription-import-request
       name: Subscription Import Request
       public: true
-  subscriptions/cancel-subscription-request:
+  subscriptions-cancel-subscription-request:
     title: Cancel Subscription Request
     type: object
     properties:
@@ -32402,10 +32402,10 @@ definitions:
       subscription:
         cancellation_message: Canceling the subscription via the API
     x-stoplight:
-      id: subscriptions/cancel-subscription-request
+      id: subscriptions-cancel-subscription-request
       name: Cancel Subscription Request
       public: true
-  subscriptions/update-subscription-product-change-request:
+  subscriptions-update-subscription-product-change-request:
     title: 'Update Subscription: Product Change Request - handle'
     type: object
     properties:
@@ -32418,10 +32418,10 @@ definitions:
       subscription:
         product_handle: pro
     x-stoplight:
-      id: subscriptions/update-subscription-product-change-request
+      id: subscriptions-update-subscription-product-change-request
       name: 'Update Subscription: Product Change Request - handle'
       public: true
-  subscriptions/create-subscription-request:
+  subscriptions-create-subscription-request:
     title: Create Subscription Request
     type: array
     items:
@@ -32672,10 +32672,10 @@ definitions:
             color: blue
             comments: Thanks!
     x-stoplight:
-      id: subscriptions/create-subscription-request
+      id: subscriptions-create-subscription-request
       name: Create Subscription Request
       public: true
-  subscription/read-subscription:
+  subscription-read-subscription:
     title: Read Subscription MAIN
     type: array
     items:
@@ -33088,10 +33088,10 @@ definitions:
           on_hold_at: null
           scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
     x-stoplight:
-      id: subscription/read-subscription
+      id: subscription-read-subscription
       name: Read Subscription MAIN
       public: true
-  subscriptions/update-subscription-billing-day-change-request:
+  subscriptions-update-subscription-billing-day-change-request:
     title: 'Update Subscription: Billing Day Change Request'
     type: object
     properties:
@@ -33104,10 +33104,10 @@ definitions:
       subscription:
         snap_day: end
     x-stoplight:
-      id: subscriptions/update-subscription-billing-day-change-request
+      id: subscriptions-update-subscription-billing-day-change-request
       name: 'Update Subscription: Billing Day Change Request'
       public: true
-  subscriptions/subscription-import-response:
+  subscriptions-subscription-import-response:
     title: Subscription Import Response
     type: object
     properties:
@@ -33459,10 +33459,10 @@ definitions:
           payment_type: credit_card
         payer_id: 14731081
     x-stoplight:
-      id: subscriptions/subscription-import-response
+      id: subscriptions-subscription-import-response
       name: Subscription Import Response
       public: true
-  subscriptions/change-default-payment-profile-response:
+  subscriptions-change-default-payment-profile-response:
     title: Create Default Payment Profile Response
     type: object
     properties:
@@ -33526,10 +33526,10 @@ definitions:
         billing_address_2: ''
         payment_type: credit_card
     x-stoplight:
-      id: subscriptions/change-default-payment-profile-response
+      id: subscriptions-change-default-payment-profile-response
       name: Create Default Payment Profile Response
       public: true
-  transactions/transaction-response:
+  transactions-transaction-response:
     title: Transaction Response
     type: object
     properties:
@@ -33647,10 +33647,10 @@ definitions:
         price_point_id: 41975
         price_point_handle: default-price
     x-stoplight:
-      id: transactions/transaction-response
+      id: transactions-transaction-response
       name: Transaction Response
       public: true
-  subscriptions/subscription-preview-request:
+  subscriptions-subscription-preview-request:
     title: Subscription Preview Request
     type: object
     properties:
@@ -33689,10 +33689,10 @@ definitions:
           - component_id: 426670
             quantity: 1
     x-stoplight:
-      id: subscriptions/subscription-preview-request
+      id: subscriptions-subscription-preview-request
       name: Subscription Preview Request
       public: true
-  subscriptions/subscription-override-request:
+  subscriptions-subscription-override-request:
     title: Subscription Override Request
     type: object
     example:
@@ -33703,10 +33703,10 @@ definitions:
         expires_at: '2001-07-15'
         current_period_starts_at: '2018-01-01'
     x-stoplight:
-      id: subscriptions/subscription-override-request
+      id: subscriptions-subscription-override-request
       name: Subscription Override Request
       public: true
-  coupons/create-coupon-input-percentage:
+  coupons-create-coupon-input-percentage:
     title: Create Coupon Input Percentage
     type: object
     properties:
@@ -33794,10 +33794,10 @@ definitions:
         '1': true
         '2': false
     x-stoplight:
-      id: coupons/create-coupon-input-percentage
+      id: coupons-create-coupon-input-percentage
       name: Create Coupon Input Percentage
       public: true
-  coupon/create-subscription-with-coupon-output:
+  coupon-create-subscription-with-coupon-output:
     title: Create Subscription with Coupon Output
     type: object
     properties:
@@ -34152,10 +34152,10 @@ definitions:
           billing_address_2: null
           payment_type: credit_card
     x-stoplight:
-      id: coupon/create-subscription-with-coupon-output
+      id: coupon-create-subscription-with-coupon-output
       name: Create Subscription with Coupon Output
       public: true
-  coupons/coupon-usage-output:
+  coupons-coupon-usage-output:
     title: Coupon Usage Output
     type: array
     items:
@@ -34211,10 +34211,10 @@ definitions:
         revenue: 20
         revenue_in_cents: 2000
     x-stoplight:
-      id: coupons/coupon-usage-output
+      id: coupons-coupon-usage-output
       name: Coupon Usage Output
       public: true
-  coupon/create-subscription-with-coupon-input:
+  coupon-create-subscription-with-coupon-input:
     title: Create Subscription with Coupon Input
     type: object
     properties:
@@ -34256,10 +34256,10 @@ definitions:
           expiration_year: '2020'
         coupon_code: 100PERCENT
     x-stoplight:
-      id: coupon/create-subscription-with-coupon-input
+      id: coupon-create-subscription-with-coupon-input
       name: Create Subscription with Coupon Input
       public: true
-  coupons/list-coupons-for-a-site-output:
+  coupons-list-coupons-for-a-site-output:
     title: List Coupons for a Site Output
     type: array
     items:
@@ -34388,10 +34388,10 @@ definitions:
           compounding_strategy: compound
           coupon_restrictions: []
     x-stoplight:
-      id: coupons/list-coupons-for-a-site-output
+      id: coupons-list-coupons-for-a-site-output
       name: List Coupons for a Site Output
       public: true
-  customers/list-customers-for-a-site-output:
+  customers-list-customers-for-a-site-output:
     title: Read Customers for a Site Output
     type: array
     items:
@@ -34512,10 +34512,10 @@ definitions:
           portal_invite_last_accepted_at: null
           tax_exempt: false
     x-stoplight:
-      id: customers/list-customers-for-a-site-output
+      id: customers-list-customers-for-a-site-output
       name: Read Customers for a Site Output
       public: true
-  coupon/subcodes/create-a-coupon-subcode:
+  coupon-subcodes-create-a-coupon-subcode:
     title: Create a Coupon Subcode Input
     type: object
     example:
@@ -34524,10 +34524,10 @@ definitions:
         - 20OFF
         - 50 OFF
     x-stoplight:
-      id: coupon/subcodes/create-a-coupon-subcode
+      id: coupon-subcodes-create-a-coupon-subcode
       name: Create a Coupon Subcode Input
       public: true
-  coupons/subcodes/create-a-coupon-subcode-output:
+  coupons-subcodes-create-a-coupon-subcode-output:
     title: Create a Coupon Subcode Output
     type: object
     properties:
@@ -34551,10 +34551,10 @@ definitions:
       duplicate_codes: []
       invalid_codes: []
     x-stoplight:
-      id: coupons/subcodes/create-a-coupon-subcode-output
+      id: coupons-subcodes-create-a-coupon-subcode-output
       name: Create a Coupon Subcode Output
       public: true
-  coupons/subcodes/retrieve-coupon-subcodes-output:
+  coupons-subcodes-retrieve-coupon-subcodes-output:
     title: Read Coupon Subcodes for a Site
     type: object
     properties:
@@ -34585,10 +34585,10 @@ definitions:
         - 7DF7YT
         - 9FH1ED
     x-stoplight:
-      id: coupons/subcodes/retrieve-coupon-subcodes-output
+      id: coupons-subcodes-retrieve-coupon-subcodes-output
       name: Read Coupon Subcodes for a Site
       public: true
-  customers/search-for-customer-output:
+  customers-search-for-customer-output:
     title: Search for Customer Output
     type: array
     items:
@@ -34751,10 +34751,10 @@ definitions:
           portal_invite_last_accepted_at: null
           tax_exempt: false
     x-stoplight:
-      id: customers/search-for-customer-output
+      id: customers-search-for-customer-output
       name: Search for Customer Output
       public: true
-  metadata/read-metadata-for-a-site:
+  metadata-read-metadata-for-a-site:
     title: Read Metadata Data for Site Output
     type: object
     properties:
@@ -34792,10 +34792,10 @@ definitions:
           resource_id: 19186076
           name: Shirt Color
     x-stoplight:
-      id: metadata/read-metadata-for-a-site
+      id: metadata-read-metadata-for-a-site
       name: Read Metadata Data for Site Output
       public: true
-  invoices/payments/create-payment-output:
+  invoices-payments-create-payment-output:
     title: Create Payment Output
     type: object
     properties:
@@ -34877,10 +34877,10 @@ definitions:
         card_type: null
         refunded_amount_in_cents: 0
     x-stoplight:
-      id: invoices/payments/create-payment-output
+      id: invoices-payments-create-payment-output
       name: Create Payment Output
       public: true
-  customer/create-a-customer-output:
+  customer-create-a-customer-output:
     title: Create a Customer Output
     type: object
     properties:
@@ -34959,10 +34959,10 @@ definitions:
         vat_number: '123456789'
         parent_id: 2158
     x-stoplight:
-      id: customer/create-a-customer-output
+      id: customer-create-a-customer-output
       name: Create a Customer Output
       public: true
-  metadata/read-metadata-subscribers-output:
+  metadata-read-metadata-subscribers-output:
     title: Read Metadata for Subscribers Output
     type: object
     properties:
@@ -35000,10 +35000,10 @@ definitions:
           resource_id: 15479934
           name: T-Shirt Size
     x-stoplight:
-      id: metadata/read-metadata-subscribers-output
+      id: metadata-read-metadata-subscribers-output
       name: Read Metadata for Subscribers Output
       public: true
-  customers/list-customers-subscriptions-array-output:
+  customers-list-customers-subscriptions-array-output:
     title: Read Customers Subscriptions Array Output
     type: array
     items:
@@ -35459,10 +35459,10 @@ definitions:
           coupon_use_count: null
           coupon_uses_allowed: null
     x-stoplight:
-      id: customers/list-customers-subscriptions-array-output
+      id: customers-list-customers-subscriptions-array-output
       name: Read Customers Subscriptions Array Output
       public: true
-  customer/create-a-customer-input:
+  customer-create-a-customer-input:
     title: Create a Customer Input
     type: object
     properties:
@@ -35523,10 +35523,10 @@ definitions:
         metafields:
           metafield_name: blue
     x-stoplight:
-      id: customer/create-a-customer-input
+      id: customer-create-a-customer-input
       name: Create a Customer Input
       public: true
-  payment-profiles/list-payment-profiles-for-a-site-outuput:
+  payment-profiles-list-payment-profiles-for-a-site-outuput:
     title: List Payment Profiles for a Site Output
     type: array
     items:
@@ -35615,10 +35615,10 @@ definitions:
           bank_account_holder_type: personal
           payment_type: bank_account
     x-stoplight:
-      id: payment-profiles/list-payment-profiles-for-a-site-outuput
+      id: payment-profiles-list-payment-profiles-for-a-site-outuput
       name: List Payment Profiles for a Site Output
       public: true
-  sales-receipts/get-a-sales-receipt-output:
+  sales-receipts-get-a-sales-receipt-output:
     title: Get a Sales Receipt Output
     type: object
     properties:
@@ -35936,7 +35936,7 @@ definitions:
             card_expiration: 12/2022
             card_brand: bogus
     x-stoplight:
-      id: sales-receipts/get-a-sales-receipt-output
+      id: sales-receipts-get-a-sales-receipt-output
       name: Get a Sales Receipt Output
       public: true
   list-metadata-for-a-subscriber-output:
@@ -35980,7 +35980,7 @@ definitions:
       id: list-metadata-for-a-subscriber-output
       name: Read Metadata for a Subscriber Output
       public: true
-  metadata/update-metadata-output:
+  metadata-update-metadata-output:
     title: Update Metadata Output
     type: array
     items:
@@ -35999,10 +35999,10 @@ definitions:
         resource_id: 15479934
         name: Shirt Color
     x-stoplight:
-      id: metadata/update-metadata-output
+      id: metadata-update-metadata-output
       name: Update Metadata Output
       public: true
-  components/metered/create-usage-when-creating-a-new-subscription Input:
+  components-metered-create-usage-when-creating-a-new-subscription-input:
     title: Create Usage When Creating a New Subscription Input
     type: object
     properties:
@@ -36059,10 +36059,10 @@ definitions:
             unit_balance: 20
             price_point_id: 12345
     x-stoplight:
-      id: components/metered/create-usage-when-creating-a-new-subscription Input
+      id: components-metered-create-usage-when-creating-a-new-subscription-input
       name: Create Usage When Creating a New Subscription Input
       public: true
-  components/quantity/update-the-quantity-allocation-request:
+  components-quantity-update-the-quantity-allocation-request:
     title: Update the quantity allocation
     type: object
     properties:
@@ -36107,10 +36107,10 @@ definitions:
         proration_collection_method: automatic
         proration_upgrade_scheme: no-prorate
     x-stoplight:
-      id: components/quantity/update-the-quantity-allocation-request
+      id: components-quantity-update-the-quantity-allocation-request
       name: Update the quantity allocation
       public: true
-  statements/list-statements-for-a-site:
+  statements-list-statements-for-a-site:
     title: Read Statements for a Site
     type: array
     items:
@@ -37461,10 +37461,10 @@ definitions:
                   product_id: 3792003
                   account_transaction_id: 159424449
     x-stoplight:
-      id: statements/list-statements-for-a-site
+      id: statements-list-statements-for-a-site
       name: Read Statements for a Site
       public: true
-  reason_code/update_response:
+  reason_code-update_response:
     title: ReasonCode Update Response
     type: object
     properties:
@@ -37495,10 +37495,10 @@ definitions:
         created_at: '2017-02-16T16:48:45-05:00'
         updated_at: '2017-02-21T16:33:10-05:00'
     x-stoplight:
-      id: reason_code/update_response
+      id: reason_code-update_response
       name: ReasonCode Update Response
       public: true
-  reason_code/show_response:
+  reason_code-show_response:
     title: ReasonCode Show Response
     type: object
     properties:
@@ -37529,10 +37529,10 @@ definitions:
         created_at: '2017-02-16T16:48:45-05:00'
         updated_at: '2017-02-17T16:29:59-05:00'
     x-stoplight:
-      id: reason_code/show_response
+      id: reason_code-show_response
       name: ReasonCode Show Response
       public: true
-  reason_codes/delete_response:
+  reason_codes-delete_response:
     title: Delete a Reason Code Response
     type: object
     properties:
@@ -37541,10 +37541,10 @@ definitions:
     example:
       ok: ok
     x-stoplight:
-      id: reason_codes/delete_response
+      id: reason_codes-delete_response
       name: Delete a Reason Code Response
       public: true
-  reason_code/list_response:
+  reason_code-list_response:
     title: Read Reason Codes for a Site Response
     type: array
     items:
@@ -37593,10 +37593,10 @@ definitions:
           created_at: '2017-02-17T16:29:42-05:00'
           updated_at: '2017-02-17T16:29:59-05:00'
     x-stoplight:
-      id: reason_code/list_response
+      id: reason_code-list_response
       name: Read Reason Codes for a Site Response
       public: true
-  reason_codes/create_code_response:
+  reason_codes-create_code_response:
     title: ReasonCode Create Response
     type: object
     properties:
@@ -37629,10 +37629,10 @@ definitions:
         created_at: '2017-02-21T16:20:00-05:00'
         updated_at: '2017-02-21T16:20:00-05:00'
     x-stoplight:
-      id: reason_codes/create_code_response
+      id: reason_codes-create_code_response
       name: ReasonCode Create Response
       public: true
-  /reason_codes/create_code_request:
+  reason_codes-create_code_request:
     title: ReasonCode Create Request
     type: object
     properties:
@@ -37651,10 +37651,10 @@ definitions:
         description: No thank you!
         position: 5
     x-stoplight:
-      id: /reason_codes/create_code_request
+      id: reason_codes-create_code_request
       name: ReasonCode Create Request
       public: true
-  subscriptions/hold-subscription-request:
+  subscriptions-hold-subscription-request:
     title: Hold (Pause) Subscription Request
     type: object
     properties:
@@ -37669,10 +37669,10 @@ definitions:
         automatically_resume: true
         automatically_resume_at: '2017-05-25T11:25:00Z'
     x-stoplight:
-      id: subscriptions/hold-subscription-request
+      id: subscriptions-hold-subscription-request
       name: Hold (Pause) Subscription Request
       public: true
-  payments/update-payment-profile:
+  payments-update-payment-profile:
     title: Update Payment Profile
     type: object
     properties:
@@ -37722,10 +37722,10 @@ definitions:
         billing_country: US
         billing_address_2: null
     x-stoplight:
-      id: payments/update-payment-profile
+      id: payments-update-payment-profile
       name: Update Payment Profile
       public: true
-  components/create-component-with-price-points-request:
+  components-create-component-with-price-points-request:
     title: Create Component with Price Points Request
     type: object
     properties:
@@ -37828,10 +37828,10 @@ definitions:
         public_signup_page_ids:
           - '1'
     x-stoplight:
-      id: components/create-component-with-price-points-request
+      id: components-create-component-with-price-points-request
       name: Create Component with Price Points Request
       public: true
-  components/price-points/create-price-point-request:
+  components-price-points-create-price-point-request:
     title: Create Price Point Request
     type: object
     properties:
@@ -37877,10 +37877,10 @@ definitions:
           - starting_quantity: 101
             unit_price: 4
     x-stoplight:
-      id: components/price-points/create-price-point-request
+      id: components-price-points-create-price-point-request
       name: Create Price Point Request
       public: true
-  components/price-points/create-price-point-response:
+  components-price-points-create-price-point-response:
     title: Create Price Point Response
     type: object
     properties:
@@ -37949,10 +37949,10 @@ definitions:
             ending_quantity: null
             unit_price: '4.0'
     x-stoplight:
-      id: components/price-points/create-price-point-response
+      id: components-price-points-create-price-point-response
       name: Create Price Point Response
       public: true
-  components/price-points/bulk-create-price-points-request:
+  components-price-points-bulk-create-price-points-request:
     title: Bulk Create Price Points Request
     type: object
     properties:
@@ -38006,10 +38006,10 @@ definitions:
             - starting_quantity: 101
               unit_price: 4
     x-stoplight:
-      id: components/price-points/bulk-create-price-points-request
+      id: components-price-points-bulk-create-price-points-request
       name: Bulk Create Price Points Request
       public: true
-  components/price-points/list-price-points-response:
+  components-price-points-list-price-points-response:
     title: List Price Points Response
     type: object
     properties:
@@ -38084,10 +38084,10 @@ definitions:
               ending_quantity: null
               unit_price: '4.0'
     x-stoplight:
-      id: components/price-points/list-price-points-response
+      id: components-price-points-list-price-points-response
       name: List Price Points Response
       public: true
-  components/price-points/update-price-point-request:
+  components-price-points-update-price-point-request:
     title: Update Price Point Request
     type: object
     properties:
@@ -38123,10 +38123,10 @@ definitions:
           - starting_quantity: 101
             unit_price: 4
     x-stoplight:
-      id: components/price-points/update-price-point-request
+      id: components-price-points-update-price-point-request
       name: Update Price Point Request
       public: true
-  components/onoff/create-subscription-with-onoff-component:
+  components-onoff-create-subscription-with-onoff-component:
     title: Create Subscription with On/Off Component Request
     type: object
     properties:
@@ -38178,10 +38178,10 @@ definitions:
             enabled: true
             price_point_id: 123456
     x-stoplight:
-      id: components/onoff/create-subscription-with-onoff-component
+      id: components-onoff-create-subscription-with-onoff-component
       name: Create Subscription with On/Off Component Request
       public: true
-  components/onoff/toggling-on-off-request:
+  components-onoff-toggling-on-off-request:
     title: Create Allocation for On/Off Component Request
     type: object
     properties:
@@ -38206,10 +38206,10 @@ definitions:
         quantity: 0
         price_point_id: 130350
     x-stoplight:
-      id: components/onoff/toggling-on-off-request
+      id: components-onoff-toggling-on-off-request
       name: Create Allocation for On/Off Component Request
       public: true
-  components/onoff/toggling-on-off-response:
+  components-onoff-toggling-on-off-response:
     title: Create Allocation for On/Off Component Response
     type: array
     items:
@@ -38260,10 +38260,10 @@ definitions:
           previous_price_point_id: 121003
           payment: null
     x-stoplight:
-      id: components/onoff/toggling-on-off-response
+      id: components-onoff-toggling-on-off-response
       name: Create Allocation for On/Off Component Response
       public: true
-  components/ononff/reading-the-current-status-response:
+  components-ononff-reading-the-current-status-response:
     title: Reading the current status response
     type: object
     properties:
@@ -38297,10 +38297,10 @@ definitions:
         unit_name: on/off
         price_point_id: 121003
     x-stoplight:
-      id: components/ononff/reading-the-current-status-response
+      id: components-ononff-reading-the-current-status-response
       name: Reading the current status response
       public: true
-  invoice/list-charges-response:
+  invoice-list-charges-response:
     title: Read Charges Response
     type: object
     properties:
@@ -38605,10 +38605,10 @@ definitions:
             tax_id: null
             customer_id: 17034509
     x-stoplight:
-      id: invoice/list-charges-response
+      id: invoice-list-charges-response
       name: Read Charges Response
       public: true
-  components/quantity/update-the-quantity-allocation:
+  components-quantity-update-the-quantity-allocation:
     title: Update the quantity allocation response
     type: array
     items:
@@ -38659,10 +38659,10 @@ definitions:
           previous_price_point_id: 130350
           payment: null
     x-stoplight:
-      id: components/quantity/update-the-quantity-allocation
+      id: components-quantity-update-the-quantity-allocation
       name: Update the quantity allocation response
       public: true
-  components/price-points/bulk-update-a-subscription-s-component-s-price-points:
+  components-price-points-bulk-update-a-subscriptions-components-price-points:
     title: Bulk Update a Subscription's Component's Price Points
     type: object
     properties:
@@ -38686,12 +38686,12 @@ definitions:
         - component_id: 999
           price_point: _default
     x-stoplight:
-      id: components/price-points/bulk-update-a-subscription-s-component-s-price-points
+      id: components-price-points-bulk-update-a-subscriptions-components-price-points
       name: Bulk Update a Subscription's Component's Price Points
       public: true
-  components/price-points/bulk-reset-a-subscription-s-component-s-price-points:
+  components-price-points-bulk-reset-a-subscriptions-components-price-points:
     title: Bulk Reset a Subscription's Component's Price Points
-    $ref: '#/definitions/subscription/read-subscription'
+    $ref: '#/definitions/subscription-read-subscription'
     example:
       subscription:
         id: -70678768
@@ -38789,10 +38789,10 @@ definitions:
               return_url: null
             - {}
     x-stoplight:
-      id: components/price-points/bulk-reset-a-subscription-s-component-s-price-points
+      id: components-price-points-bulk-reset-a-subscriptions-components-price-points
       name: Bulk Reset a Subscription's Component's Price Points
       public: true
-  /customfields/metadata/list-metadata-for-a-customer-output:
+  customfields-metadata-list-metadata-for-a-customer-output:
     title: Read Metadata Data for a Customer Output
     type: object
     properties:
@@ -38827,10 +38827,10 @@ definitions:
           resource_id: 19186044
           name: Shirt Color
     x-stoplight:
-      id: /customfields/metadata/list-metadata-for-a-customer-output
+      id: customfields-metadata-list-metadata-for-a-customer-output
       name: Read Metadata Data for a Customer Output
       public: true
-  coupon/add-coupon-to-subscription-output:
+  coupon-add-coupon-to-subscription-output:
     title: Add the Coupon to Subscription Output
     type: object
     properties:
@@ -39179,7 +39179,7 @@ definitions:
           payment_type: credit_card
         payer_id: 50
     x-stoplight:
-      id: coupon/add-coupon-to-subscription-output
+      id: coupon-add-coupon-to-subscription-output
       name: Add the Coupon to Subscription Output
       public: true
   create-subscription-with-multiple-coupon-output:
@@ -44276,7 +44276,7 @@ definitions:
       id: read-all-invoices
       name: Read All Invoices
       public: true
-  coupons/create-coupon-input-flat-amount:
+  coupons-create-coupon-input-flat-amount:
     title: Create Coupon Input Flat Amount
     type: object
     properties:
@@ -44364,10 +44364,10 @@ definitions:
         '1': true
         '2': false
     x-stoplight:
-      id: coupons/create-coupon-input-flat-amount
+      id: coupons-create-coupon-input-flat-amount
       name: Create Coupon Input Flat Amount
       public: true
-  coupons/create-coupon-output-flat-amount:
+  coupons-create-coupon-output-flat-amount:
     title: Create Coupon Output Flat Amount
     type: object
     properties:
@@ -44491,7 +44491,7 @@ definitions:
         compounding_strategy: compound
         coupon_restrictions: []
     x-stoplight:
-      id: coupons/create-coupon-output-flat-amount
+      id: coupons-create-coupon-output-flat-amount
       name: Create Coupon Output Flat Amount
       public: true
   subscription-create-hierarchy-request:
@@ -46338,7 +46338,7 @@ definitions:
       id: subscription-offer-handle-response
       name: Subscription Offer Handle Response
       public: true
-  product-families/read-product-families-for-a-site:
+  product-families-read-product-families-for-a-site:
     title: Read Product Families For a Site
     type: object
     properties:
@@ -46363,10 +46363,10 @@ definitions:
         handle: billing-plans
         accounting_code: null
     x-stoplight:
-      id: product-families/read-product-families-for-a-site
+      id: product-families-read-product-families-for-a-site
       name: Read Product Families For a Site
       public: true
-  endpoint/create-update-an-endpoint:
+  endpoint-create-update-an-endpoint:
     title: Endpoint Create/Update Request POST
     type: object
     properties:
@@ -46384,7 +46384,7 @@ definitions:
         required:
           - url
     x-stoplight:
-      id: endpoint/create-update-an-endpoint
+      id: endpoint-create-update-an-endpoint
       name: Endpoint Create/Update Request POST
       public: true
   product-price-point-currency-price:
@@ -46485,7 +46485,7 @@ definitions:
       id: coupon-currency-price
       name: Coupon Currency Price
       public: true
-  components/prepaid-usage/create:
+  components-prepaid-usage-create:
     title: Prepaid Component Create
     type: object
     properties:
@@ -46547,7 +46547,7 @@ definitions:
               unit_price: 5
               formatted_unit_price: $5.00
     x-stoplight:
-      id: components/prepaid-usage/create
+      id: components-prepaid-usage-create
       name: Prepaid Component Create
       public: true
   service-credit:
@@ -46796,7 +46796,7 @@ x-stoplight:
               type: docTextSections
             - _id: secure-applications
               type: docTextSections
-            - _id: /basics/subscription-api-response-exampe
+            - _id: basics-subscription-api-response-exampe
               type: schemas
             - type: docTextSections
               _id: guidelines
@@ -46819,25 +46819,25 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-adjustmentsjson
               type: endpoints
-            - _id: adjustments/request
+            - _id: adjustments-request
               type: schemas
             - type: schemas
-              _id: adjustments/response
+              _id: adjustments-response
         - name: Allocations
           items:
             - _id: allocations-intro
               type: docTextSections
             - _id: POST_subscriptions-sub_id-components-comp_id-allocations-format
               type: endpoints
-            - _id: allocation/create-request-post
+            - _id: allocation-create-request-post
               type: schemas
-            - _id: allocation/create-response-post
+            - _id: allocation-create-response-post
               type: schemas
             - type: endpoints
               _id: GET_subscriptions-sub_id-components-comp_id-allocations-format
             - _id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
-            - _id: allocation/read_allocations_subscription
+            - _id: allocation-read-allocations-subscription
               type: schemas
         - name: Billing Portal
           items:
@@ -46845,17 +46845,17 @@ x-stoplight:
               type: docTextSections
             - _id: GET_portal-customers-customer_id-management_link-format
               type: endpoints
-            - _id: billing-portal/request
+            - _id: billing-portal-request
               type: schemas
-            - _id: billing-portal/response
+            - _id: billing-portal-response
               type: schemas
             - _id: POST_portal-customers-customerid-enablejson
               type: endpoints
-            - _id: billing-portal/request-enable
+            - _id: billing-portal-request-enable
               type: schemas
-            - _id: billing-portal/response-enable
+            - _id: billing-portal-response-enable
               type: schemas
-            - _id: billing-portal/simul-response-post
+            - _id: billing-portal-simul-response-post
               type: schemas
             - _id: autoInvite
               type: traits
@@ -46872,7 +46872,7 @@ x-stoplight:
               type: endpoints
             - _id: GET_components-lookupjson
               type: endpoints
-            - _id: component/list-specific-component-product-family-get
+            - _id: component-list-specific-component-product-family-get
               type: schemas
             - _id: read-specific-component-output
               type: schemas
@@ -46880,19 +46880,19 @@ x-stoplight:
               type: traits
             - _id: POST_productfamilies-productfamilyid-pluralkindjson
               type: endpoints
-            - _id: component/create
+            - _id: component-create
               type: schemas
-            - _id: components/create-response-post
+            - _id: components-create-response-post
               type: schemas
             - _id: GET_productfamilies-productfamilyid-componentsjson
               type: endpoints
-            - _id: component/read-components-for-a-product-family-output
+            - _id: component-read-components-for-a-product-family-output
               type: schemas
             - _id: GET_productfamilies-productfamilyid-components-componentidjson
               type: endpoints
             - _id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
               type: endpoints
-            - _id: components/create-component-with-price-points-request
+            - _id: components-create-component-with-price-points-request
               type: schemas
             - _id: componentQueryString
               type: traits
@@ -46904,11 +46904,11 @@ x-stoplight:
               type: docTextSections
             - _id: GET_subscriptions-subscription_id-components-component_id-format
               type: endpoints
-            - _id: components/read-specific-component-get
+            - _id: components-read-specific-component-get
               type: schemas
             - _id: GET_subscriptions-subscription_id-components-format
               type: endpoints
-            - _id: components/read-components-get
+            - _id: components-read-components-get
               type: schemas
           name: Component Line Items
         - name: 'Components: Metered Usage'
@@ -46917,17 +46917,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
-            - _id: components/metered/create-usage-input
+            - _id: components-metered-create-usage-input
               type: schemas
-            - _id: components/metered/create-usage-output
+            - _id: components-metered-create-usage-output
               type: schemas
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/metered/create-usage-when-creating-a-new-subscription Input
+            - _id: components-metered-create-usage-when-creating-a-new-subscription-input
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
-            - _id: components/metered/read-usage-output-subscription
+            - _id: components-metered-read-usage-output-subscription
               type: schemas
             - _id: componentParameters
               type: traits
@@ -46947,13 +46947,13 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/onoff/create-subscription-with-onoff-component
+            - _id: components-onoff-create-subscription-with-onoff-component
               type: schemas
             - _id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
-            - _id: components/onoff/toggling-on-off-request
+            - _id: components-onoff-toggling-on-off-request
               type: schemas
-            - _id: components/onoff/toggling-on-off-response
+            - _id: components-onoff-toggling-on-off-response
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
@@ -46961,7 +46961,7 @@ x-stoplight:
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
               type: endpoints
-            - _id: components/ononff/reading-the-current-status-response
+            - _id: components-ononff-reading-the-current-status-response
               type: schemas
           name: 'Components: On/Off Toggling'
         - divider: false
@@ -46970,7 +46970,7 @@ x-stoplight:
               type: docTextSections
             - _id: POST_productfamilies-productfamilyid-prepaidusagecomponentsjson
               type: endpoints
-            - _id: components/prepaid-usage/create
+            - _id: components-prepaid-usage-create
               type: schemas
             - _id: POST_components-componentid-pricepointsjson
               type: endpoints
@@ -46991,17 +46991,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: components/quantity/create-subscription-with-quantity-based-component
+            - _id: components-quantity-create-subscription-with-quantity-based-component
               type: schemas
             - _id: POST_subscriptions-sub_id-allocations-json
               type: endpoints
-            - _id: allocation/multiple-request-post
+            - _id: allocation-multiple-request-post
               type: schemas
-            - _id: allocation/multiple-response-post
+            - _id: allocation-multiple-response-post
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
               type: endpoints
-            - _id: components/quantity/reading-current-quantity-response
+            - _id: components-quantity-reading-current-quantity-response
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
@@ -47009,34 +47009,34 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscriptionid-components-componentid-allocationsjson
               type: endpoints
-            - _id: components/quantity/update-the-quantity-allocation-request
+            - _id: components-quantity-update-the-quantity-allocation-request
               type: schemas
-            - _id: components/quantity/update-the-quantity-allocation
+            - _id: components-quantity-update-the-quantity-allocation
               type: schemas
             - _id: POST-preview-allocation
               type: endpoints
           divider: false
         - divider: false
           items:
-            - _id: components/price-points/list-price-points-response
+            - _id: components-price-points-list-price-points-response
               type: schemas
             - _id: components-price-point-intro
               type: docTextSections
             - _id: POST_components-componentid-pricepointsjson
               type: endpoints
-            - _id: components/price-points/create-price-point-request
+            - _id: components-price-points-create-price-point-request
               type: schemas
-            - _id: components/price-points/create-price-point-response
+            - _id: components-price-points-create-price-point-response
               type: schemas
             - _id: POST_components-componentid-pricepoints-bulkjson
               type: endpoints
             - _id: GET_components-componentid-pricepointsjson
               type: endpoints
-            - _id: components/price-points/bulk-create-price-points-request
+            - _id: components-price-points-bulk-create-price-points-request
               type: schemas
             - _id: PUT_components-componentid-pricepoints-pricepointidjson
               type: endpoints
-            - _id: components/price-points/update-price-point-request
+            - _id: components-price-points-update-price-point-request
               type: schemas
             - _id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
               type: endpoints
@@ -47046,9 +47046,9 @@ x-stoplight:
               type: endpoints
             - _id: POST_subscriptions-subscriptionid-pricepointsjson
               type: endpoints
-            - _id: components/price-points/bulk-update-a-subscription-s-component-s-price-points
+            - _id: components-price-points-bulk-update-a-subscriptions-components-price-points
               type: schemas
-            - _id: components/price-points/bulk-reset-a-subscription-s-component-s-price-points
+            - _id: components-price-points-bulk-reset-a-subscriptions-components-price-points
               type: schemas
             - _id: POST_subscriptions-subscriptionid-pricepoints-resetjson
               type: endpoints
@@ -47069,19 +47069,19 @@ x-stoplight:
               type: docTextSections
             - _id: POST_coupons-format
               type: endpoints
-            - _id: coupons/create-coupon-input-percentage
+            - _id: coupons-create-coupon-input-percentage
               type: schemas
-            - _id: coupons/create-coupon-input-flat-amount
+            - _id: coupons-create-coupon-input-flat-amount
               type: schemas
-            - _id: coupons/create-coupon-output-percentage
+            - _id: coupons-create-coupon-output-percentage
               type: schemas
-            - _id: coupons/create-coupon-output-flat-amount
+            - _id: coupons-create-coupon-output-flat-amount
               type: schemas
             - _id: GET_coupons-coupon_id-format
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-coupons-couponid-usagejson
               type: endpoints
-            - _id: coupons/coupon-usage-output
+            - _id: coupons-coupon-usage-output
               type: schemas
             - _id: GET_coupons-findjson
               type: endpoints
@@ -47091,7 +47091,7 @@ x-stoplight:
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-couponsjson
               type: endpoints
-            - _id: coupons/list-coupons-for-a-site-output
+            - _id: coupons-list-coupons-for-a-site-output
               type: schemas
             - _id: PUT_coupons-coupon_id-format
               type: endpoints
@@ -47110,15 +47110,15 @@ x-stoplight:
               type: docTextSections
             - _id: POST_coupons-couponid-codesjson
               type: endpoints
-            - _id: coupon/subcodes/create-a-coupon-subcode
+            - _id: coupon-subcodes-create-a-coupon-subcode
               type: schemas
-            - _id: coupons/subcodes/create-a-coupon-subcode-output
+            - _id: coupons-subcodes-create-a-coupon-subcode-output
               type: schemas
             - _id: POST_coupons-coupon_id-codes-format
               type: endpoints
             - _id: GET_coupons-couponid-codesjson
               type: endpoints
-            - _id: coupons/subcodes/retrieve-coupon-subcodes-output
+            - _id: coupons-subcodes-retrieve-coupon-subcodes-output
               type: schemas
             - _id: PUT_coupons-coupon_id-codes-format
               type: endpoints
@@ -47144,21 +47144,21 @@ x-stoplight:
               type: schemas
             - _id: POST_resource-resourceid-metadatajson
               type: endpoints
-            - _id: metadata/create-metadata-input
+            - _id: metadata-create-metadata-input
               type: schemas
-            - _id: metadata/create-output
+            - _id: metadata-create-output
               type: schemas
             - _id: GET_subscriptions-metadatajson
               type: endpoints
-            - _id: metadata/read-metadata-subscribers-output
+            - _id: metadata-read-metadata-subscribers-output
               type: schemas
             - _id: GET_customers-metadatajson
               type: endpoints
-            - _id: metadata/read-metadata-for-a-site
+            - _id: metadata-read-metadata-for-a-site
               type: schemas
             - _id: GET_customers-customerid-metadatajson
               type: endpoints
-            - _id: /customfields/metadata/list-metadata-for-a-customer-output
+            - _id: customfields-metadata-list-metadata-for-a-customer-output
               type: schemas
             - _id: iiKwbwofXKscujz3r
               type: schemas
@@ -47170,9 +47170,9 @@ x-stoplight:
               type: schemas
             - _id: PUT_resource-resourceid-metadatajson
               type: endpoints
-            - _id: metadata/update-metadata-input
+            - _id: metadata-update-metadata-input
               type: schemas
-            - _id: metadata/update-metadata-output
+            - _id: metadata-update-metadata-output
               type: schemas
             - _id: DELETE_resource-resourceid-metadatajson
               type: endpoints
@@ -47189,19 +47189,19 @@ x-stoplight:
             - type: endpoints
               _id: POST_resource-metafieldsjson
             - type: schemas
-              _id: metafields/create-metafields-input
+              _id: metafields-create-metafields-input
             - type: schemas
-              _id: metafields/create-metafields-output
+              _id: metafields-create-metafields-output
             - type: endpoints
               _id: GET_resource-metafieldsjson
             - type: schemas
-              _id: metafields/list-metafields-output
+              _id: metafields-list-metafields-output
             - type: endpoints
               _id: PUT_resource-metafieldsjson
             - type: schemas
-              _id: metafields/update-metafields-input
+              _id: metafields-update-metafields-input
             - type: schemas
-              _id: metafields/update-metafields-output
+              _id: metafields-update-metafields-output
             - type: endpoints
               _id: DELETE_resource-metafieldsjson
             - type: traits
@@ -47219,31 +47219,31 @@ x-stoplight:
               type: docTextSections
             - _id: POST_customers-format
               type: endpoints
-            - _id: customer/create-a-customer-input
+            - _id: customer-create-a-customer-input
               type: schemas
-            - _id: customer/create-a-customer-output
+            - _id: customer-create-a-customer-output
               type: schemas
             - _id: GET_customers-id-format
               type: endpoints
             - _id: GET_customersjson
               type: endpoints
-            - _id: customers/list-customers-for-a-site-output
+            - _id: customers-list-customers-for-a-site-output
               type: schemas
             - _id: GET_customers-lookupjson
               type: endpoints
             - _id: GET_customers-customer_id-subscriptions-format
               type: endpoints
-            - _id: customers/list-customers-subscriptions-array-output
+            - _id: customers-list-customers-subscriptions-array-output
               type: schemas
             - _id: GET_customersjson
               type: endpoints
-            - _id: customers/search-for-customer-output
+            - _id: customers-search-for-customer-output
               type: schemas
             - _id: PUT_customers-id-format
               type: endpoints
             - _id: DELETE_customers-id-format
               type: endpoints
-            - _id: customer/customer-output
+            - _id: customer-customer-output
               type: schemas
             - _id: direction
               type: traits
@@ -47257,15 +47257,15 @@ x-stoplight:
               type: docTextSections
             - _id: list-events
               type: endpoints
-            - _id: events/list-events-for-subscription
+            - _id: events-list-events-for-subscription
               type: schemas
             - _id: list-events
               type: endpoints
-            - _id: events/list-site-event-output
+            - _id: events-list-site-event-output
               type: schemas
             - _id: GET_events_count-format
               type: endpoints
-            - _id: event/counts
+            - _id: event-counts
               type: schemas
             - type: traits
               _id: eventsBasicFilters
@@ -47293,17 +47293,17 @@ x-stoplight:
               type: docTextSections
             - _id: GET_list-invoices-by-subscription
               type: endpoints
-            - _id: invoices/list-all-invoices-query-response
+            - _id: invoices-list-all-invoices-query-response
               type: schemas
             - _id: GET_invoices-invoice_id-format
               type: endpoints
-            - _id: invoices/read-the-invoice-by-id
+            - _id: invoices-read-the-invoice-by-id
               type: schemas
             - _id: GET_invoices-invoice_id-payments-format
               type: endpoints
             - _id: GET_invoices-invoice_id-charges-format
               type: endpoints
-            - _id: invoice/list-charges-response
+            - _id: invoice-list-charges-response
               type: schemas
             - type: traits
               _id: startdateEnddateQuery
@@ -47315,21 +47315,21 @@ x-stoplight:
               type: traits
             - _id: POST_invoices-invoiceid-paymentsjson
               type: endpoints
-            - _id: invoices/payments/create-payment-input
+            - _id: invoices-payments-create-payment-input
               type: schemas
-            - _id: invoices/payments/create-payment-output
+            - _id: invoices-payments-create-payment-output
               type: schemas
             - _id: POST_invoices-invoiceid-chargesjson
               type: endpoints
-            - _id: invoices/charges/create-invoice-charge-input
+            - _id: invoices-charges-create-invoice-charge-input
               type: schemas
-            - _id: invoices/charges/create-invoice-charge-output
+            - _id: invoices-charges-create-invoice-charge-output
               type: schemas
             - _id: POST_invoices-invoiceid-adjustmentsjson
               type: endpoints
-            - _id: invoices/credits/create-invoice-credit-input
+            - _id: invoices-credits-create-invoice-credit-input
               type: schemas
-            - _id: invoices/credits/create-invoice-credit-output
+            - _id: invoices-credits-create-invoice-credit-output
               type: schemas
           divider: false
         - divider: false
@@ -47392,27 +47392,27 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscription_id-notes-format
               type: endpoints
-            - _id: notes/create-note-input
+            - _id: notes-create-note-input
               type: schemas
-            - _id: notes/create-note-output
+            - _id: notes-create-note-output
               type: schemas
             - _id: GET_subscriptions-subscriptionid-notes-noteidjson
               type: endpoints
-            - _id: notes/read-show-specific-note-output
+            - _id: notes-read-show-specific-note-output
               type: schemas
             - _id: GET_subscriptions-subscription_id-notes-format
               type: endpoints
-            - _id: notes/list-notes-output
+            - _id: notes-list-notes-output
               type: schemas
             - type: endpoints
               _id: PUT_subscriptions-subscription_id-notes-note_id-format
-            - _id: notes/update-note-input
+            - _id: notes-update-note-input
               type: schemas
-            - _id: notes/update-note-output
+            - _id: notes-update-note-output
               type: schemas
             - _id: DELETE_subscriptions-subscription_id-notes-note_id-format
               type: endpoints
-            - _id: notes/delete-output
+            - _id: notes-delete-output
               type: schemas
           divider: false
           description: |-
@@ -47448,29 +47448,29 @@ x-stoplight:
               _id: intro-to-payment-profiles
             - _id: POST_payment_profiles-format
               type: endpoints
-            - _id: payment-profiles/create-payment-profile-input
+            - _id: payment-profiles-create-payment-profile-input
               type: schemas
-            - _id: payment-profile/create-payment-profile-output
+            - _id: payment-profile-create-payment-profile-output
               type: schemas
             - _id: POST_paymentprofilesjson
               type: endpoints
-            - _id: subscriptions/change-default-payment-profile-response
+            - _id: subscriptions-change-default-payment-profile-response
               type: schemas
             - _id: GET_payment_profiles-payment_profile_cc_id-format
               type: endpoints
-            - _id: payment-profiles/read-payment-output-cc
+            - _id: payment-profiles-read-payment-output-cc
               type: schemas
             - _id: GET_paymentprofiles-paymentprofileidjson
               type: endpoints
-            - _id: payment-profile/read-payment-output-bank-account
+            - _id: payment-profile-read-payment-output-bank-account
               type: schemas
             - _id: PUT_payment_profiles-payment_profile_id-format
               type: endpoints
-            - _id: payments/update-payment-profile
+            - _id: payments-update-payment-profile
               type: schemas
             - _id: GET_payment_profiles-format
               type: endpoints
-            - _id: payment-profiles/list-payment-profiles-for-a-site-outuput
+            - _id: payment-profiles-list-payment-profiles-for-a-site-outuput
               type: schemas
             - _id: DELETE_subscriptions-subscriptionid-paymentprofiles-paymentprofileidjson
               type: endpoints
@@ -47485,9 +47485,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_productfamilies-productfamilyid-productsjson
               type: endpoints
-            - _id: products/create-a-product-input
+            - _id: products-create-a-product-input
               type: schemas
-            - _id: products/create-a-product-output
+            - _id: products-create-a-product-output
               type: schemas
             - _id: GET_products-productidjson
               type: endpoints
@@ -47495,19 +47495,19 @@ x-stoplight:
               type: schemas
             - _id: GET_products-format
               type: endpoints
-            - _id: products/list-products-output
+            - _id: products-list-products-output
               type: schemas
             - _id: GET_products-handle-handle-format
               type: endpoints
             - _id: GET_products-id-format
               type: endpoints
-            - _id: products/read-the-product-via-chargify-id
+            - _id: products-read-the-product-via-chargify-id
               type: schemas
             - _id: PUT_products-productidjson
               type: endpoints
-            - _id: products/update-product-input
+            - _id: products-update-product-input
               type: schemas
-            - _id: products/update-product-output
+            - _id: products-update-product-output
               type: schemas
             - _id: DELETE_products-productidjson
               type: endpoints
@@ -47552,17 +47552,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_product_families-product_family_id-products-format
               type: endpoints
-            - _id: product-families/create-product-family-input
+            - _id: product-families-create-product-family-input
               type: schemas
-            - _id: product-families/create-product-family-output
+            - _id: product-families-create-product-family-output
               type: schemas
             - _id: POST_product_families-id-format
               type: endpoints
             - _id: POST_product_families-site
               type: endpoints
-            - _id: product-families/list-product-family-by-id
+            - _id: product-families-list-product-family-by-id
               type: schemas
-            - _id: product-families/read-product-families-for-a-site
+            - _id: product-families-read-product-families-for-a-site
               type: schemas
           divider: false
         - divider: false
@@ -47571,25 +47571,25 @@ x-stoplight:
               type: docTextSections
             - _id: POST_reasoncodesjson
               type: endpoints
-            - _id: /reason_codes/create_code_request
+            - _id: reason_codes-create_code_request
               type: schemas
-            - _id: reason_codes/create_code_response
+            - _id: reason_codes-create_code_response
               type: schemas
             - _id: GET_reasoncodesjson
               type: endpoints
-            - _id: reason_code/list_response
+            - _id: reason_code-list_response
               type: schemas
             - _id: GET_reasoncodes-reasoncodeidjson
               type: endpoints
-            - _id: reason_code/show_response
+            - _id: reason_code-show_response
               type: schemas
             - _id: PUT_reasoncodes-reasoncodeidjson
               type: endpoints
-            - _id: reason_code/update_response
+            - _id: reason_code-update_response
               type: schemas
             - _id: DELETE_reasoncodes-reasoncodeidjson
               type: endpoints
-            - _id: reason_codes/delete_response
+            - _id: reason_codes-delete_response
               type: schemas
           name: Reason Codes
           description: Reason Codes are the items that are presented when a user cancels their Chargify Subscription.   It allows you too get a granular view as to why a user is discontinuing your service or product.
@@ -47599,7 +47599,7 @@ x-stoplight:
               type: docTextSections
             - _id: GET_referralcodes-validatejson
               type: endpoints
-            - _id: referral/validate-response
+            - _id: referral-validate-response
               type: schemas
             - _id: referralCode
               type: traits
@@ -47633,11 +47633,11 @@ x-stoplight:
               type: docTextSections
             - _id: GET_salesreceiptsjson
               type: endpoints
-            - _id: sales-receipts/list-sales-receipts
+            - _id: sales-receipts-list-sales-receipts
               type: schemas
             - type: endpoints
               _id: GET_salesreceipts-idjson
-            - _id: sales-receipts/get-a-sales-receipt-output
+            - _id: sales-receipts-get-a-sales-receipt-output
               type: schemas
           divider: false
         - name: Sites
@@ -47658,27 +47658,27 @@ x-stoplight:
               type: docTextSections
             - _id: GET_subscriptions-subscription_id-statements-ids-format
               type: endpoints
-            - _id: statements/list-statement-ids-for-a-subscription-response
+            - _id: statements-list-statement-ids-for-a-subscription-response
               type: schemas
             - _id: GET_statements-ids-format
               type: endpoints
-            - _id: statements/list-statement-ids-for-a-site-response
+            - _id: statements-list-statement-ids-for-a-site-response
               type: schemas
             - _id: GET_subscriptions-subscriptionid-statementsjson
               type: endpoints
-            - _id: statements/list-statements-for-a-subscription-response
+            - _id: statements-list-statements-for-a-subscription-response
               type: schemas
             - _id: GET_statementsjson
               type: endpoints
-            - _id: statements/list-statements-for-a-site
+            - _id: statements-list-statements-for-a-site
               type: schemas
             - _id: GET_statements-statement_id-format
               type: endpoints
-            - _id: statements/read-show-by-chargify-id
+            - _id: statements-read-show-by-chargify-id
               type: schemas
             - _id: GET_statements_count-format
               type: endpoints
-            - _id: statements/count-statements-response
+            - _id: statements-count-statements-response
               type: schemas
             - _id: perPage10000
               type: traits
@@ -47694,7 +47694,7 @@ x-stoplight:
               type: docTextSections
             - _id: GET_stats-json
               type: endpoints
-            - _id: stats/read-stats-output
+            - _id: stats-read-stats-output
               type: schemas
           divider: false
         - divider: false
@@ -47765,9 +47765,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: subscriptions/create-subscription-request
+            - _id: subscriptions-create-subscription-request
               type: schemas
-            - _id: subscription/read-subscription
+            - _id: subscription-read-subscription
               type: schemas
             - _id: GET_subscriptions-subscription_id-format
               type: endpoints
@@ -47803,7 +47803,7 @@ x-stoplight:
           items:
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
-            - _id: subscriptions/update-subscription-billing-day-change-request
+            - _id: subscriptions-update-subscription-billing-day-change-request
               type: schemas
           name: 'Subscriptions: Date Changes / Calendar Billing'
         - divider: false
@@ -47812,7 +47812,7 @@ x-stoplight:
               type: endpoints
             - _id: DELETE_subscriptions-subscription_id-format
               type: endpoints
-            - _id: subscriptions/cancel-subscription-request
+            - _id: subscriptions-cancel-subscription-request
               type: schemas
             - _id: DELETE_subscriptions-subscriptionid-delayedcanceljson
               type: endpoints
@@ -47828,9 +47828,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-chargesjson
               type: endpoints
-            - _id: charges/create-a-charge-request-post
+            - _id: charges-create-a-charge-request-post
               type: schemas
-            - _id: charges/create-a-charge-response-post
+            - _id: charges-create-a-charge-response-post
               type: schemas
           divider: false
         - items:
@@ -47838,9 +47838,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: coupon/create-subscription-with-coupon-input
+            - _id: coupon-create-subscription-with-coupon-input
               type: schemas
-            - _id: coupon/create-subscription-with-coupon-output
+            - _id: coupon-create-subscription-with-coupon-output
               type: schemas
             - _id: POST_subscriptionsjson
               type: endpoints
@@ -47850,7 +47850,7 @@ x-stoplight:
               type: schemas
             - _id: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
               type: endpoints
-            - _id: coupon/add-coupon-to-subscription-output
+            - _id: coupon-add-coupon-to-subscription-output
               type: schemas
             - _id: DELETE_subscriptions-subscription_id-remove_coupon-format
               type: endpoints
@@ -47889,7 +47889,7 @@ x-stoplight:
               type: endpoints
             - _id: POST_subscriptions-subscriptionid-holdjson
               type: endpoints
-            - _id: subscriptions/hold-subscription-request
+            - _id: subscriptions-hold-subscription-request
               type: schemas
             - _id: PUT_subscriptions-subscriptionid-holdjson
               type: endpoints
@@ -47911,9 +47911,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
-            - _id: subscriptions/subscription-import-request
+            - _id: subscriptions-subscription-import-request
               type: schemas
-            - _id: subscriptions/subscription-import-response
+            - _id: subscriptions-subscription-import-response
               type: schemas
           name: 'Subscriptions: Import'
         - name: 'Subscriptions: Payments (Legacy)'
@@ -47922,9 +47922,9 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-paymentsjson
               type: endpoints
-            - _id: payments/create-payment-input
+            - _id: payments-create-payment-input
               type: schemas
-            - _id: payments/create-payment-output
+            - _id: payments-create-payment-output
               type: schemas
           divider: false
         - divider: false
@@ -47933,7 +47933,7 @@ x-stoplight:
               type: endpoints
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
-            - _id: subscriptions/update-subscription-payment-method-request
+            - _id: subscriptions-update-subscription-payment-method-request
               type: schemas
             - _id: PUT_subscriptions-subscription_id-reset_balance-xml
               type: endpoints
@@ -47957,7 +47957,7 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-preview-format
               type: endpoints
-            - _id: subscriptions/subscription-preview-request
+            - _id: subscriptions-subscription-preview-request
               type: schemas
             - _id: subscription-preview-response
               type: schemas
@@ -47988,17 +47988,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-migrationsjson
               type: endpoints
-            - _id: migrations/create-migration-input
+            - _id: migrations-create-migration-input
               type: schemas
-            - _id: migrations/create-migration-input-trial-output
+            - _id: migrations-create-migration-input-trial-output
               type: schemas
             - _id: POST_subscriptions-subscriptionid-migrations-previewjson
               type: endpoints
-            - _id: migrations/preview-migration-output
+            - _id: migrations-preview-migration-output
               type: schemas
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
-            - _id: subscriptions/update-subscription-product-change-request
+            - _id: subscriptions-update-subscription-product-change-request
               type: schemas
             - _id: update-subscription-product-change-request-id
               type: schemas
@@ -48034,7 +48034,7 @@ x-stoplight:
               type: docTextSections
             - _id: PUT_subscriptions-subscription_id-override-format
               type: endpoints
-            - _id: subscriptions/subscription-override-request
+            - _id: subscriptions-subscription-override-request
               type: schemas
           divider: false
         - divider: false
@@ -48077,17 +48077,17 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-refundsjson
               type: endpoints
-            - _id: refunds/create-a-refund-request
+            - _id: refunds-create-a-refund-request
               type: schemas
-            - _id: refunds/create-a-refund-response
+            - _id: refunds-create-a-refund-response
               type: schemas
             - _id: external-refunds-intro
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-refundsjson
               type: endpoints
-            - _id: refunds/external/create-an-external-refund-request
+            - _id: refunds-external-create-an-external-refund-request
               type: schemas
-            - _id: refunds/external/create-an-external-refund-response
+            - _id: refunds-external-create-an-external-refund-response
               type: schemas
           divider: false
         - name: 'Subscriptions: Renewal Preview'
@@ -48118,7 +48118,7 @@ x-stoplight:
               type: endpoints
             - _id: GET_transaction_id-format
               type: endpoints
-            - _id: transactions/transaction-response
+            - _id: transactions-transaction-response
               type: schemas
             - _id: GET_subscriptions-subscription_id-transactions-format
               type: endpoints
@@ -48146,15 +48146,15 @@ x-stoplight:
               type: docTextSections
             - _id: GET_webhooks-format
               type: endpoints
-            - _id: webhooks/list-webhook-output
+            - _id: webhooks-list-webhook-output
               type: schemas
             - _id: POST_webhooks-replay-format
               type: endpoints
-            - _id: webhooks/replay-webhooks-site
+            - _id: webhooks-replay-webhooks-site
               type: schemas
             - _id: POST_endpointsjson
               type: endpoints
-            - _id: endpoint/create-update-an-endpoint
+            - _id: endpoint-create-update-an-endpoint
               type: schemas
             - _id: GET_endpoints-endpointidjson
               type: endpoints
