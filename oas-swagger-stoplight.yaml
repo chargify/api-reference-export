@@ -5552,6 +5552,10 @@ paths:
         ## Metadata Data
 
         This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+
+        ### Metadata for multiple records
+
+        `https://acme.chargify.com/subscriptions/metadata.json?resource_ids[]=1&resource_ids[]=2`
       parameters:
         - name: 'resource_ids[]'
           in: query
@@ -5609,6 +5613,10 @@ paths:
         ## Metadata Data
 
         This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+
+        ### Metadata for multiple records
+
+        `https://acme.chargify.com/customers/metadata.json?resource_ids[]=1&resource_ids[]=2`
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
