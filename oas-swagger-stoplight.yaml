@@ -13539,7 +13539,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/sales/get-a-sale-output'
+            $ref: '#/definitions/get-a-sale-output'
           examples:
             application/json:
               id: f22b6080-4c28-11e5-93ee-000a27020040
@@ -19958,7 +19958,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/basics-subscription-api-response-exampe'
+            $ref: '#/definitions/basics-subscription-api-response-example'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -25969,7 +25969,7 @@ definitions:
       id: count-transactions
       name: Read the Count of Transactions for a Site Output
       public: true
-  basics-subscription-api-response-exampe:
+  basics-subscription-api-response-example:
     title: Subscription API Response Example
     type: array
     items:
@@ -26218,7 +26218,7 @@ definitions:
           state: canceled
           payer_id: 143068
     x-stoplight:
-      id: basics-subscription-api-response-exampe
+      id: basics-subscription-api-response-example
       name: Subscription API Response Example
       public: true
   allocation-create-response-post:
@@ -46796,7 +46796,7 @@ x-stoplight:
               type: docTextSections
             - _id: secure-applications
               type: docTextSections
-            - _id: basics-subscription-api-response-exampe
+            - _id: basics-subscription-api-response-example
               type: schemas
             - type: docTextSections
               _id: guidelines
