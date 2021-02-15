@@ -5511,6 +5511,12 @@ paths:
         https://acme.chargify.com/customers/99/metadata.json?name=weight
         ```
 
+        If you want to delete multiple metadata fields for a customer 99 named: `weight` and `age` you wrould request:
+        ```
+        https://acme.chargify.com/customers/99/metadata.json?names[]=weight&names[]=age
+        ```
+
+
         ## Successful Response
 
         For a success, there will be a code `200` and the plain text response `true`.
@@ -5522,6 +5528,11 @@ paths:
         - name: name
           in: query
           type: string
+        - name: 'names[]'
+          in: query
+          type: array
+          items:
+            type: string
       responses:
         default:
           description: ''
