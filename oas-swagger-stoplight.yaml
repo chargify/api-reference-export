@@ -20125,7 +20125,9 @@ paths:
         - 'Subscriptions: Cancellations'
       description: |-
         ## Remove Delayed Cancel
-        Removing the delayed cancellation on a subscription will ensure that it doesn't get canceled at the end of the period that it's on. The request will reset the `cancel_at_end_of_period` flag to `false`.
+        Removing the delayed cancellation on a subscription will ensure that it doesn't get canceled at the end of the period that it is in. The request will reset the `cancel_at_end_of_period` flag to `false`.
+
+        This endpoint is idempotent.  If the subscription was not set to cancel in the future, removing the delayed cancellation has no effect and the call will be successful.
       consumes:
         - application/xml
       responses:
