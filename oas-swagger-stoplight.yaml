@@ -7145,7 +7145,7 @@ paths:
       summary: Read All Invoices
       tags:
         - Relationship Invoicing
-      description: 'By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.'
+      description: 'By default, invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, `custom_fields`, or `refunds`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.'
       consumes:
         - application/xml
       produces:
@@ -7229,6 +7229,10 @@ paths:
           description: Include custom fields data - defaults to false for the index.
           type: boolean
           default: false
+        - name: refunds
+          in: query
+          description: Include refunds data - defaults to false for the index.
+          type: boolean
       responses:
         '200':
           description: ''
