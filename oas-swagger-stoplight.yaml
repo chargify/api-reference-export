@@ -20056,35 +20056,48 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/subscriptions/{subscription_id}/purge':
+  '/subscriptions/{subscription_id}/purge.json':
     parameters:
       - name: subscription_id
         in: path
         required: true
         type: integer
     post:
-      operationId: POST_subscriptions-subscription_id-purge
+      operationId: POST_subscriptions-subscription_id-purge-json
       summary: Purge Subscription
       tags:
         - Subscriptions
       description: |-
         For sites in test mode, you may purge individual subscriptions.
 
-        Provide the subscription id in the url.  To confirm, supply the customer id in the query string `ack` parameter.
+        Provide the subscription ID in the url.  To confirm, supply the customer ID in the query string `ack` parameter. You may also delete the customer record and/or payment profiles by passing `cascade` parameters. For example, to delete just the customer record, the query params would be: `?ack={customer_id}&cascade[]=customer`
 
         If you need to remove subscriptions from a live site, please contact support to discuss your use case.
+
+        ### Delete customer and payment profile
+
+        The query params will be: `?ack={customer_id}&cascade[]=customer&cascade[]=payment_profile`
       parameters:
         - name: ack
           in: query
           required: true
           type: integer
+        - name: cascade
+          in: query
+          description: Options are "customer" or "payment_profile"
+          required: false
+          type: array
+          items:
+            type: string
       responses:
         '200':
           description: ''
         '400':
           description: ''
+      security:
+        - <<api_key>>: []
       x-stoplight:
-        id: POST_subscriptions-subscriptionid-purge
+        id: POST_subscriptions-subscriptionid-purgejson
         beforeScript: null
         afterScript: null
         public: true
@@ -47814,7 +47827,7 @@ x-stoplight:
               type: endpoints
             - _id: POST_subscriptions-subscriptionid-paymentprofiles-paymentprofileid-changepaymentprofilejson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-purge
+            - _id: POST_subscriptions-subscriptionid-purgejson
               type: endpoints
         - divider: false
           items:
