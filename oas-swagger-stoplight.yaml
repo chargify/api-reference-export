@@ -11609,6 +11609,7 @@ paths:
         - name: include_archived
           in: query
           type: boolean
+          default: false
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
         - $ref: '#/parameters/trait:productQueryString:date_field'
