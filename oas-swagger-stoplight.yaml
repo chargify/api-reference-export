@@ -50529,6 +50529,7 @@ x-stoplight:
         | `resume` | Optional. Indicates whether or not Chargify should attempt to resume the subscription's current billing period. Valid values are `true`, `false`, or ` { require_resume: true }`. See [Resuming a subscription](#resuming-a-subscription) for more details.|
         | `resume[forgive_balance]`| Boolean, default `false`. Indicates whether or not Chargify should clear the subscription's _existing_ balance before attempting to resume the subscription. See [Resuming a subscription](#resuming-a-subscription) for more details. |
         | `calendar_billing[reactivation_charge]` | For calendar billing subscriptions only. String, default `prorated`. Determines how to handle the reactivation charge for the subscription, relative to it's snap day. See [Reactivating a calendar billing subscription](#reactivating_a_calendar_billing_subscription]) for more details. |
+        | `use_credits_and_prepayments` | Boolean, default `true`. If `true` is sent, Chargify will use service credits and prepayments upon reactivation. If `false` is sent, the service credits and prepayments will be ignored. |
 
         ## Resume the current billing period for a subscription
 
