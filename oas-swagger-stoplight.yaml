@@ -2074,6 +2074,31 @@ paths:
          }
         }
         ```
+
+        ## Importing a Canceled Subscription
+
+        To import a canceled subscription, a canceled_at date should be provided for the subscription. Optionally, you may pass in a cancellation_message and reason_code for the cancellation.
+
+        ```
+        {
+          "subscription": {
+            "product_handle": "product",
+            "canceled_at": "2021-02-25T12:00:00-04:00",
+            "cancellation_message": "Too expensive",
+            "reason_code": "expensive"
+            "customer_attributes": {
+              "first_name": "Joe",
+              "last_name": "Test",
+              "email": "joetest@example.com"
+            },
+            "bank_account_attributes": {
+              "bank_name": "My Bank",
+              "current_vault": "stripe",
+              "vault_token": "1234"
+            }
+          }
+        }
+        ```
       parameters:
         - name: body
           in: body
