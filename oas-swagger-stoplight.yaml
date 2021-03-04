@@ -32550,6 +32550,12 @@ definitions:
                 type: string
               last_four:
                 type: string
+          canceled_at:
+            type: string
+          cancellation_message:
+            type: string
+          reason_code:
+            type: string
     example:
       subscription:
         product_handle: basic
