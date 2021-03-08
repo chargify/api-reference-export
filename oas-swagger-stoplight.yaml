@@ -50106,10 +50106,13 @@ x-stoplight:
         | canceled_at          | Can be used to record an external cancellation date. Chargify sets this field automatically when a subscription is canceled, whether by request or via dunning.           |
         | cancellation_message | Can be used to record a reason for the original cancellation.                                                                                                             |
         | expires_at           | Can be used to record an external expiration date. Chargify sets this field automatically when a subscription expires (ceases billing) after a prescribed amount of time. |
-        | current_period_starts_at | Can only be used when a subscription is unbilled and the value passed must be before the current date and time. Allows you to set when the period started so mid period component allocations have the correct proration.
+        | current_period_starts_at | Can only be used when a subscription is unbilled, which happens when a future initial billing date is passed at subscription creation.  The value passed must be before the current date and time. Allows you to set when the period started so mid period component allocations have the correct proration.
+
         No other fields are currently available. Attempting to set any other fields will cause a `400 Bad Request` response. You only need to send the fields you would like to change.
 
         Note that changing these fields will not affect any other attributes. For example, adding an expiration date will not affect the next assessment date on the subscription.
+
+        Note that if you regularly need to override the current_period_starts at for new subscriptions, this can also be accomplished by setting both `previous_billing_at` and `next_billing_at` at subscription creation.  See the documentation on [Importing Subscriptions](https://reference.chargify.com/v1/subscriptions-import/importing-subscriptions) for more information.
 
         The fields should be nested beneath a `subscription` key – see the examples below for more information.
 
