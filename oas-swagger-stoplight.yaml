@@ -49072,6 +49072,7 @@ x-stoplight:
         | vat_number                     | (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out. |
         | parent_id                      | (Optional) The parent ID in Chargify if applicable. Parent is another Customer object. |
         | metafields | (Optional) pairs of metafield names and values |
+        | locale | (Optional) The locale for the customer to identify language-region |
       public: true
     adjustment-intro:
       id: adjustment-intro
