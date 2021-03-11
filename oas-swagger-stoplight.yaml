@@ -49472,7 +49472,7 @@ x-stoplight:
 
         ## Metafield Limitations
 
-        Each site is limited to 200 unique Metafields (i.e. keys, or names) per-resource.
+        Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource. This means you can have 100 Metafields for Subscription and another 100 for Customer.
 
         ## Metafields Scope
 
