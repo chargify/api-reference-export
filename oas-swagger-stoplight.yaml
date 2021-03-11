@@ -2083,7 +2083,7 @@ paths:
 
         ## Importing a Canceled Subscription
 
-        To import a canceled subscription, a canceled_at date should be provided for the subscription. Optionally, you may pass in a cancellation_message and reason_code for the cancellation.
+        To import a canceled subscription, a canceled_at date should be provided for the subscription. Optionally, you may pass in a cancellation_message and reason_code for the cancellation. You may also optionally pass in an activated_at date for the subscription's original activation date.
 
         ```
         {
@@ -2092,6 +2092,7 @@ paths:
             "canceled_at": "2021-02-25T12:00:00-04:00",
             "cancellation_message": "Too expensive",
             "reason_code": "expensive"
+            "activated_at": "2021-01-17T12:00:00-04:00",
             "customer_attributes": {
               "first_name": "Joe",
               "last_name": "Test",
@@ -32554,6 +32555,8 @@ definitions:
           cancellation_message:
             type: string
           reason_code:
+            type: string
+          activated_at:
             type: string
     example:
       subscription:
