@@ -46881,7 +46881,6 @@ definitions:
               - money_order
               - ach
               - paypal_account
-              - credit_card_on_file
               - other
     required:
       - prepayment
@@ -47004,6 +47003,8 @@ x-stoplight:
               type: docTextSections
             - _id: api-code-samples-and-libraries-1
               type: docTextSections
+            - _id: pagination10
+              type: traits
             - _id: pagination20
               type: traits
             - _id: pagination50
