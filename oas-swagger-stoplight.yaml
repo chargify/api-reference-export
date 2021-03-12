@@ -32558,6 +32558,8 @@ definitions:
             type: string
           activated_at:
             type: string
+          previous_billing_at:
+            type: string
     example:
       subscription:
         product_handle: basic
