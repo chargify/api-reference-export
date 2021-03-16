@@ -13025,6 +13025,14 @@ paths:
       summary: Create proforma invoice
       tags:
         - Proforma Invoices
+      description: |-
+        ## Overview
+
+        This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
+
+        ## Restrictions
+
+        Proforma invoices are only available on Relationship Invoicing sites.
       responses:
         '200':
           description: ''
@@ -13052,6 +13060,14 @@ paths:
       summary: Read proforma invoice
       tags:
         - Proforma Invoices
+      description: |-
+        ## Overview
+
+        Use this endpoint to read the details of an existing proforma invoice.
+
+        ## Restrictions
+
+        Proforma invoices are only available on Relationship Invoicing sites.
       responses:
         '200':
           description: ''
@@ -13079,6 +13095,18 @@ paths:
       summary: Void proforma invoice
       tags:
         - Proforma Invoices
+      description: |-
+        ## Overview
+
+        This endpoint will void a proforma invoice that has the status "draft".
+
+        ## Restrictions
+
+        Proforma invoices are only available on Relationship Invoicing sites.
+
+        Only proforma invoices that have the appropriate status may be reopened. If the invoice identified by {uid} does not have the appropriate status, the response will have HTTP status code 422 and an error message.
+
+        A reason for the void operation is required to be included in the request body. If one is not provided, the response will have HTTP status code 422 and an error message.
       parameters:
         - name: body
           in: body
@@ -13092,7 +13120,7 @@ paths:
                     type: string
             example:
               void:
-                reason: Because
+                reason: Base fee has changed
       responses:
         '200':
           description: ''
