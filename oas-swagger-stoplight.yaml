@@ -13140,6 +13140,10 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/proforma-invoice-response'
+        '403':
+          description: ''
+        '404':
+          description: ''
         '422':
           description: ''
           schema:
