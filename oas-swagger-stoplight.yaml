@@ -13030,14 +13030,24 @@ paths:
 
         This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
 
+        If you would like to preview the next billing amounts without generating a full proforma invoice, [please use the renewal preview endpoint](#endpoint:kzWeHKJ6nwB6jfScq).
+
         ## Restrictions
 
-        Proforma invoices are only available on Relationship Invoicing sites.
+        Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be in a group, must not be prepaid, and must be in a live state.
       responses:
         '200':
           description: ''
           schema:
             $ref: '#/definitions/proforma-invoice-response'
+        '403':
+          description: ''
+        '422':
+          description: ''
+          examples:
+            application/json:
+              errors:
+                - this subscription is not eligible to create proforma invoices
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -13073,6 +13083,10 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/proforma-invoice-response'
+        '403':
+          description: ''
+        '404':
+          description: ''
       security:
         - <<api_key>>: []
       x-stoplight:
