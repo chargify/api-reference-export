@@ -24640,7 +24640,7 @@ parameters:
     in: query
     description: Allow to fetch metadata for multiple records based on provided ids.
     type: array
-    maxItems: 200
+    maxItems: 50
     items:
       type: number
   'trait:eventsQueryString:date_field':
