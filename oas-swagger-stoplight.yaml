@@ -2033,7 +2033,7 @@ paths:
 
         ##  Stripe ACH Imports
 
-        The following JSON is useful when creating a subscription with a bank account that has already been verified with Stripe.
+        The following JSON is useful when creating a subscription with a Stripe bank account.
 
         ```
         {
@@ -2048,12 +2048,13 @@ paths:
            "bank_account_attributes": {
               "bank_name": "My Bank",
               "current_vault": "stripe_connect",
-              "verified": true,
               "vault_token": "cus_abc123"
             }
          }
         }
         ```
+
+        If the bank account has already been verified, currently you will need to create the customer, [create the payment profile](https://reference.chargify.com/v1/payment-profiles/create-a-payment-profile) setting verified=true, then create a subscription using the customer_id and payment_profile_id. 
 
         ## Importing a Canceled Subscription
 
