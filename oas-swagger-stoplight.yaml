@@ -26396,6 +26396,7 @@ definitions:
         properties:
           component_id:
             type: integer
+            description: ''
           subscription_id:
             type: integer
           quantity:
