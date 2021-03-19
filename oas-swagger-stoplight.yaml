@@ -2033,7 +2033,7 @@ paths:
 
         ##  Stripe ACH Imports
 
-        The following JSON is useful when creating a subscription with ACH in Stripe. Please note the omission of `customer_vault_token` as it is not necessary for Stripe. 
+        The following JSON is useful when creating a subscription with a bank account that has already been verified with Stripe.
 
         ```
         {
@@ -2047,8 +2047,9 @@ paths:
            },
            "bank_account_attributes": {
               "bank_name": "My Bank",
-              "current_vault": "stripe",
-              "vault_token": "1234"
+              "current_vault": "stripe_connect",
+              "verified": true,
+              "vault_token": "cus_abc123"
             }
          }
         }
