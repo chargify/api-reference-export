@@ -2569,6 +2569,8 @@ paths:
                         - 'null'
                     prepaid_dunning:
                       type: boolean
+                    '':
+                      type: string
           examples:
             application/json:
               - subscription:
@@ -6536,251 +6538,404 @@ paths:
         type: string
     get:
       operationId: GET_customers-customer_id-subscriptions-json
-      summary: Read Subscription by Customer ID
+      summary: Read Subscriptions by Customer ID
       tags:
         - Subscriptions
       description: |-
-        ## List by Customer
+        ## List Subscriptions by Customer
 
         This method will retreive a list of subscriptions associated with a Customer.
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/subscription-read-subscription'
+            type: array
+            items:
+              $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               - subscription:
-                  id: 15236915
-                  state: active
-                  balance_in_cents: 0
-                  total_revenue_in_cents: 14000
-                  product_price_in_cents: 1000
-                  product_version_number: 7
-                  current_period_ends_at: '2016-11-15T14:48:10-05:00'
-                  next_assessment_at: '2016-11-15T14:48:10-05:00'
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2016-11-14T14:48:12-05:00'
-                  expires_at: null
-                  created_at: '2016-11-14T14:48:10-05:00'
-                  updated_at: '2016-11-14T15:24:41-05:00'
-                  cancellation_message: null
-                  cancellation_method: null
-                  cancel_at_end_of_period: null
-                  canceled_at: null
-                  current_period_started_at: '2016-11-14T14:48:10-05:00'
-                  previous_state: active
-                  signup_payment_id: 162269766
-                  signup_revenue: '260.00'
-                  delayed_cancel_at: null
-                  coupon_code: 5SNN6HFK3GBH
-                  payment_collection_method: automatic
-                  snap_day: null
-                  reason_code: null
+                  id: -5036645
+                  state: cillum nisi Lorem
+                  balance_in_cents: -12845522
+                  total_revenue_in_cents: -58227781
+                  product_price_in_cents: 99783389
+                  product_version_number: 85309847
+                  current_period_ends_at: exercitation in sed
+                  next_assessment_at: et ex ipsum in amet
+                  activated_at: cupidatat pr
+                  created_at: ad quis pariatur au
+                  updated_at: velit Lorem pariatur ad sint
+                  current_period_started_at: et eu aliquip
+                  previous_state: 'dolore anim '
+                  signup_payment_id: 67457087
+                  signup_revenue: commodo
+                  coupon_code: consequat consectetur dolore
+                  payment_collection_method: irure nulla nisi dolor labore
                   receives_invoice_emails: false
+                  net_terms: 78749212
+                  reference: enim tempor amet Ut et
                   customer:
-                    first_name: Curtis
-                    last_name: Test
-                    email: curtis@example.com
-                    cc_emails: jeff@example.com
-                    organization: ''
-                    reference: null
-                    id: 14714298
-                    created_at: '2016-11-14T14:48:10-05:00'
-                    updated_at: '2016-11-14T14:48:13-05:00'
-                    address: 123 Anywhere Street
-                    address_2: ''
-                    city: Boulder
-                    state: CO
-                    zip: '80302'
-                    country: US
-                    phone: ''
+                    first_name: consequat nulla mollit
+                    last_name: dolor nulla occaecat velit
+                    email: ipsum ut non dolor
+                    cc_emails: anim cupi
+                    organization: r
+                    id: -53901759
+                    created_at: labore esse voluptate
+                    updated_at: ipsum
+                    address: exercitation id
+                    address_2: ut labore quis
+                    city: dolor quis Lorem ut
+                    state: sit laboris non Ut
+                    zip: ut et dolore
+                    country: ipsum sit
+                    phone: nulla in aute dolor consectetur
                     verified: false
-                    portal_customer_created_at: '2016-11-14T14:48:13-05:00'
-                    portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
-                    portal_invite_last_accepted_at: null
+                    portal_customer_created_at: fugiat aute eiusmod
+                    portal_invite_last_sent_at: amet sit magna
                     tax_exempt: false
-                    vat_number: 012345678
+                    vat_number: ea
                   product:
-                    id: 3792003
-                    name: $10 Basic Plan
-                    handle: basic
-                    description: lorem ipsum
-                    accounting_code: basic
-                    price_in_cents: 1000
-                    interval: 1
-                    interval_unit: day
-                    initial_charge_in_cents: null
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
-                    initial_charge_after_trial: false
-                    return_params: ''
-                    request_credit_card: false
+                    id: 94226223
+                    name: reprehenderit et dolore minim
+                    handle: nostrud magna pariatur culpa veniam
+                    description: labore
+                    accounting_code: tempor velit
+                    price_in_cents: -22883994
+                    interval: -8416398
+                    interval_unit: nostrud consequat Dui
+                    expiration_interval_unit: exercitation dolore officia labore irure
+                    trial_interval_unit: non minim eu commodo sed
+                    initial_charge_after_trial: true
+                    return_params: do reprehenderit labo
+                    request_credit_card: true
                     require_credit_card: false
-                    created_at: '2016-03-24T13:38:39-04:00'
-                    updated_at: '2016-11-03T13:03:05-04:00'
-                    archived_at: null
-                    update_return_url: ''
-                    update_return_params: ''
+                    created_at: nisi proident laboris
+                    updated_at: ipsum officia elit
+                    update_return_url: magna minim laboris
+                    update_return_params: incididunt est in
                     product_family:
-                      id: 527890
-                      name: Acme Projects
-                      handle: billing-plans
-                      accounting_code: null
-                      description: ''
+                      id: 81518830
+                      name: id labore dolor dolore culpa
+                      handle: officia incididunt ut
+                      description: dolore deserunt qui est occaecat
                     public_signup_pages:
-                      - id: 281054
-                        url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-                      - id: 281240
-                        url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-                      - id: 282694
-                        url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                      - url: pariatur ea mollit laborum
+                        id: -92545043
+                      - id: -65105436
+                        url: qui aute
+                      - url: ullamco voluptate mollit ex sunt
+                        id: 45186013
                     taxable: false
-                    version_number: 7
-                    product_price_point_name: Default
+                    version_number: -49216373
+                    product_price_point_name: Excepteur
                   credit_card:
-                    id: 10191713
-                    payment_type: credit_card
-                    first_name: Curtis
-                    last_name: Test
-                    masked_card_number: XXXX-XXXX-XXXX-1
-                    card_type: bogus
-                    expiration_month: 1
-                    expiration_year: 2026
-                    billing_address: 123 Anywhere Street
-                    billing_address_2: ''
-                    billing_city: Boulder
-                    billing_state: null
-                    billing_country: ''
-                    billing_zip: '80302'
-                    current_vault: bogus
-                    vault_token: '1'
-                    customer_vault_token: null
-                    customer_id: 14714298
-                  payment_type: credit_card
-                  referral_code: w7kjc9
-                  next_product_id: null
-                  coupon_use_count: 1
-                  coupon_uses_allowed: 1
-                  next_product_handle: null
-                  stored_credential_transaction_id: 166335589244288
-                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
+                    id: 82741443
+                    payment_type: nisi
+                    first_name: ut in
+                    last_name: ''
+                    masked_card_number: sunt voluptate exercitation
+                    card_type: deserunt
+                    expiration_month: 5144107
+                    expiration_year: -43910455
+                    billing_address: fugiat enim nulla laborum
+                    billing_address_2: sunt
+                    billing_city: aliquip Excepteur sunt
+                    billing_country: occaecat enim sed
+                    billing_zip: nostrud sed fugiat dolor
+                    current_vault: minim nostrud velit
+                    vault_token: in qui
+                    customer_id: 59381776
+                  payment_type: Lorem aliqua dolor ad laboris
+                  referral_code: est
+                  coupon_use_count: -55363685
+                  coupon_uses_allowed: -46531667
+                  stored_credential_transaction_id: -19176907
+                  scheduled_cancellation_at: nostrud qui
               - subscription:
-                  id: 15189649
-                  state: canceled
-                  balance_in_cents: 15000
-                  total_revenue_in_cents: 10000
-                  product_price_in_cents: 10000
-                  product_version_number: 1
-                  current_period_ends_at: '2017-11-10T13:14:00-05:00'
-                  next_assessment_at: '2017-11-10T13:14:00-05:00'
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2016-11-10T13:14:02-05:00'
-                  expires_at: null
-                  created_at: '2016-11-10T13:14:00-05:00'
-                  updated_at: '2016-11-14T11:14:01-05:00'
-                  cancellation_message: ''
-                  cancellation_method: merchant_ui
-                  cancel_at_end_of_period: false
-                  canceled_at: '2016-11-14T11:14:01-05:00'
-                  current_period_started_at: '2016-11-10T13:14:00-05:00'
-                  previous_state: canceled
-                  signup_payment_id: 161794022
-                  signup_revenue: '100.00'
-                  delayed_cancel_at: null
-                  coupon_code: null
-                  payment_collection_method: invoice
-                  snap_day: null
+                  id: -31348115
+                  state: enim
+                  balance_in_cents: 27921178
+                  total_revenue_in_cents: 58892960
+                  product_price_in_cents: -2370351
+                  product_version_number: 58050274
+                  current_period_ends_at: enim ad Duis sed tempor
+                  next_assessment_at: dolor
+                  activated_at: labore et
+                  created_at: laborum
+                  updated_at: id
+                  current_period_started_at: id
+                  previous_state: commodo quis nulla
+                  signup_payment_id: -12292202
+                  signup_revenue: veniam velit
+                  coupon_code: nulla Duis dolor ut ut
+                  payment_collection_method: sit
+                  receives_invoice_emails: true
+                  net_terms: -61518947
+                  reference: ut
                   customer:
-                    first_name: Frankie
-                    last_name: Bravo
-                    email: testfrankie11@test.com
-                    cc_emails: ''
-                    organization: ''
-                    reference: null
-                    id: 14543712
-                    created_at: '2016-11-02T10:16:17-04:00'
-                    updated_at: '2016-11-14T09:54:39-05:00'
-                    address: ''
-                    address_2: ''
-                    city: ''
-                    state: ''
-                    zip: ''
-                    country: ''
-                    phone: '5555551212'
-                    verified: true
-                    portal_customer_created_at: '2016-11-02T10:16:19-04:00'
-                    portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
-                    portal_invite_last_accepted_at: null
+                    first_name: anim
+                    last_name: dolor ut Duis
+                    email: nulla
+                    cc_emails: aliqua dolore non commodo
+                    organization: Lorem magna qui ad ullamco
+                    id: 34439181
+                    created_at: sint dolor culpa dolor
+                    updated_at: est nulla
+                    address: labore in aliqua ullamco dolor
+                    address_2: Excepteur
+                    city: dolor minim deserunt adipisicing
+                    state: proident exercitation
+                    zip: quis do sit est cillum
+                    country: sint
+                    phone: nostrud
+                    verified: false
+                    portal_customer_created_at: reprehenderit velit
+                    portal_invite_last_sent_at: sit ut qui eu
+                    tax_exempt: false
+                    vat_number: dolor aliquip ex non
                   product:
-                    id: 4038269
-                    name: Annual Product
-                    handle: annual-product
-                    description: ''
-                    accounting_code: ''
-                    price_in_cents: 10000
-                    interval: 12
-                    interval_unit: month
-                    initial_charge_in_cents: null
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
+                    id: 79244887
+                    name: officia non ut
+                    handle: sed fugiat id
+                    description: tempor ut fugiat esse
+                    accounting_code: nulla ma
+                    price_in_cents: -28904731
+                    interval: -12003983
+                    interval_unit: exercitation ut proident
+                    expiration_interval_unit: cillum proident ullamco
+                    trial_interval_unit: proident minim
                     initial_charge_after_trial: false
-                    return_params: ''
+                    return_params: occaecat aliqua
+                    request_credit_card: true
+                    require_credit_card: false
+                    created_at: veniam Ut voluptate
+                    updated_at: amet cupidatat
+                    update_return_url: eiusmod
+                    update_return_params: ex sit
+                    product_family:
+                      id: 79493145
+                      name: officia Ut do sed in
+                      handle: ipsum
+                      description: aute ad minim labore in
+                    public_signup_pages:
+                      - id: 7301323
+                        url: amet pariatur labore anim
+                      - id: 44384250
+                        url: sunt reprehenderit irure
+                    taxable: false
+                    version_number: 97813744
+                    product_price_point_name: ea in reprehenderit nostrud
+                  credit_card:
+                    id: 43625053
+                    payment_type: quis culpa
+                    first_name: proident
+                    last_name: cupidatat
+                    masked_card_number: quis
+                    card_type: culpa
+                    expiration_month: 85208986
+                    expiration_year: 24735711
+                    billing_address: non deserunt velit
+                    billing_address_2: dolore cillum et id eiusmod
+                    billing_city: ea irure
+                    billing_country: cup
+                    billing_zip: dolor laborum nostrud
+                    current_vault: veniam minim
+                    vault_token: veniam eiusmod ullamco
+                    customer_id: -67969572
+                  payment_type: in
+                  referral_code: do sint
+                  coupon_use_count: -94332497
+                  coupon_uses_allowed: -51699327
+                  stored_credential_transaction_id: -39021460
+                  scheduled_cancellation_at: nisi et
+              - subscription:
+                  id: -74308148
+                  state: incididunt in officia proident tempor
+                  balance_in_cents: 15912868
+                  total_revenue_in_cents: 2531160
+                  product_price_in_cents: 81639693
+                  product_version_number: -47143962
+                  current_period_ends_at: proident cillum sunt commodo ad
+                  next_assessment_at: esse magna
+                  activated_at: nulla Excepteur consequat reprehenderit in
+                  created_at: sint mollit amet
+                  updated_at: deserunt quis
+                  current_period_started_at: velit esse adipisicing dolor ad
+                  previous_state: dolore proident anim do enim
+                  signup_payment_id: 40810917
+                  signup_revenue: proident cupidatat
+                  coupon_code: aliquip
+                  payment_collection_method: cillum
+                  receives_invoice_emails: false
+                  net_terms: -1689610
+                  reference: laborum pariatur
+                  customer:
+                    first_name: dolore anim
+                    last_name: occaecat
+                    email: laborum amet incididunt commodo
+                    cc_emails: ullamco
+                    organization: ipsum
+                    id: -58422720
+                    created_at: esse ut in ea Lorem
+                    updated_at: cillum deserunt proide
+                    address: consequat
+                    address_2: in ullamco anim ad eu
+                    city: consequat
+                    state: tempor in velit
+                    zip: Lorem incididunt aute dolor
+                    country: aliquip sit fugiat qui
+                    phone: cupidatat occaecat qui ea
+                    verified: false
+                    portal_customer_created_at: in Ut est
+                    portal_invite_last_sent_at: exercitation
+                    tax_exempt: false
+                    vat_number: 'ex aliquip cillum '
+                  product:
+                    id: 41509053
+                    name: sit
+                    handle: sed ex Ut
+                    description: Lorem ut officia ullamco
+                    accounting_code: non fugiat
+                    price_in_cents: -81971287
+                    interval: 52753626
+                    interval_unit: ipsum do aliq
+                    expiration_interval_unit: ut voluptate
+                    trial_interval_unit: ullamco Lorem quis cupidatat
+                    initial_charge_after_trial: true
+                    return_params: Lorem ut minim
                     request_credit_card: true
                     require_credit_card: true
-                    created_at: '2016-09-28T09:54:05-04:00'
-                    updated_at: '2016-09-28T09:54:05-04:00'
-                    archived_at: null
-                    update_return_url: ''
-                    update_return_params: ''
+                    created_at: Duis ut aliquip sit
+                    updated_at: nulla id pariatur veniam tempor
+                    update_return_url: ex
+                    update_return_params: quis tempor Lorem
                     product_family:
-                      id: 527890
-                      name: Acme Projects
-                      handle: billing-plans
-                      accounting_code: null
-                      description: ''
+                      id: 29984673
+                      name: aute Duis dolor cillum
+                      handle: commodo eiusmod officia anim non
+                      description: quis
                     public_signup_pages:
-                      - id: 297032
-                        url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
+                      - url: nisi culpa exercitation cillum ullamco
                     taxable: false
-                    version_number: 1
-                    product_price_point_name: Default
+                    version_number: 77247097
+                    product_price_point_name: nostrud
                   credit_card:
-                    id: 10188522
-                    payment_type: credit_card
-                    first_name: Fran
-                    last_name: Becker
-                    masked_card_number: null
-                    card_type: null
-                    expiration_month: null
-                    expiration_year: null
-                    billing_address: 123 Montana Way
-                    billing_address_2: ''
-                    billing_city: Boulder
-                    billing_state: CO
-                    billing_country: US
-                    billing_zip: '90210'
-                    current_vault: bogus
-                    vault_token: '123456789'
-                    customer_vault_token: null
-                    customer_id: 14543712
-                  payment_type: bank_account
-                  referral_code: hspss6
-                  next_product_id: null
-                  coupon_use_count: null
-                  coupon_uses_allowed: null
-                  next_product_handle: null
-                  stored_credential_transaction_id: 165565533220288
-                  on_hold_at: null
-                  scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
+                    id: -35961042
+                    payment_type: nulla
+                    first_name: nisi deserunt voluptate sint incididunt
+                    last_name: aliquip exercitation pariatur ut
+                    masked_card_number: elit proident sunt officia laboris
+                    card_type: incididunt eiusmod fugiat
+                    expiration_month: -46773692
+                    expiration_year: 77906528
+                    billing_address: qui nisi fugiat
+                    billing_address_2: reprehenderit occaeca
+                    billing_city: deserunt dolore magna
+                    billing_country: dolor
+                    billing_zip: ipsum officia irure fugiat e
+                    current_vault: laboris minim incididunt Duis
+                    vault_token: exercitation
+                    customer_id: 14065716
+                  payment_type: deserunt ad dolor nisi
+                  referral_code: nulla ea proident enim
+                  coupon_use_count: 15123584
+                  coupon_uses_allowed: 94692877
+                  stored_credential_transaction_id: 10179886
+                  scheduled_cancellation_at: Ut
+              - subscription:
+                  id: -65381067
+                  state: pariatur
+                  balance_in_cents: -50262489
+                  total_revenue_in_cents: -38492357
+                  product_price_in_cents: 22676005
+                  product_version_number: -81239574
+                  current_period_ends_at: non sed nisi sint irure
+                  next_assessment_at: Lorem
+                  activated_at: occaecat tempor Lorem enim
+                  created_at: officia labor
+                  updated_at: Duis in pariatur
+                  current_period_started_at: ull
+                  previous_state: Lorem
+                  signup_payment_id: -20333140
+                  signup_revenue: occaecat ut adipisicing in
+                  coupon_code: reprehenderit
+                  payment_collection_method: deserunt
+                  receives_invoice_emails: false
+                  net_terms: 96643605
+                  reference: exercitation
+                  customer:
+                    first_name: pariatur
+                    last_name: ''
+                    email: Excepteur fugiat irure mollit
+                    cc_emails: voluptate ex ad
+                    organization: ipsum incididunt ut
+                    id: -20274125
+                    created_at: eu esse commodo consectetur officia
+                    updated_at: adipisicing nostrud commodo Duis ea
+                    address: adipisicing proident non
+                    address_2: in cupidatat
+                    city: ut nulla quis velit pariatur
+                    state: fugiat
+                    zip: velit
+                    country: ullamco occaecat
+                    phone: ipsum est quis
+                    verified: false
+                    portal_customer_created_at: incididunt id
+                    portal_invite_last_sent_at: nulla
+                    tax_exempt: true
+                    vat_number: eu reprehenderit ullamco
+                  product:
+                    id: 78619607
+                    name: nulla eiusmod ut reprehenderit dolore
+                    handle: incididunt mollit fugiat
+                    description: dolor
+                    accounting_code: consectetur enim ut
+                    price_in_cents: -86638215
+                    interval: 74759706
+                    interval_unit: consequat occaecat ut ipsum
+                    expiration_interval_unit: nulla ea
+                    trial_interval_unit: qui
+                    initial_charge_after_trial: false
+                    return_params: eiusmod proident minim nulla
+                    request_credit_card: true
+                    require_credit_card: true
+                    created_at: culpa Ut
+                    updated_at: ex dolor ullamco pa
+                    update_return_url: dolore laborum aliqua mollit
+                    update_return_params: elit
+                    product_family:
+                      id: -93009146
+                      name: in elit occaecat ex sed
+                      handle: sit ullamco
+                      description: culpa laborum tempor ea veniam
+                    taxable: false
+                    version_number: -85673168
+                    product_price_point_name: velit
+                  credit_card:
+                    id: 2406337
+                    payment_type: Lorem
+                    first_name: sint u
+                    last_name: volup
+                    masked_card_number: magna irure
+                    card_type: exercitation nisi ut nostrud
+                    expiration_month: 11667202
+                    expiration_year: -99935648
+                    billing_address: veniam
+                    billing_address_2: mollit quis nulla eu
+                    billing_city: proident aliquip ut
+                    billing_country: aliqua
+                    billing_zip: quis culpa reprehenderit nostrud do
+                    current_vault: ipsum
+                    vault_token: fugiat veniam adipisicing
+                    customer_id: -23724824
+                  payment_type: consequat
+                  referral_code: 'elit laboris '
+                  coupon_use_count: 31105460
+                  coupon_uses_allowed: -77841757
+                  stored_credential_transaction_id: 47318220
+                  scheduled_cancellation_at: dolore exercitatio
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -32855,416 +33010,375 @@ definitions:
       public: true
   subscription-read-subscription:
     title: Read Subscription MAIN
-    type: array
-    items:
-      type: object
-      properties:
-        subscription:
-          type: object
-          properties:
-            id:
-              type: integer
-            state:
-              type: string
-            balance_in_cents:
-              type: integer
-            total_revenue_in_cents:
-              type: integer
-            product_price_in_cents:
-              type: integer
-            product_version_number:
-              type: integer
-            current_period_ends_at:
-              type: string
-            next_assessment_at:
-              type: string
-            trial_started_at:
-              type: 'null'
-            trial_ended_at:
-              type: 'null'
-            activated_at:
-              type: string
-            expires_at:
-              type: 'null'
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            cancellation_message:
-              type:
-                - 'null'
-                - string
-            cancellation_method:
-              type:
-                - 'null'
-                - string
-            cancel_at_end_of_period:
-              type:
-                - boolean
-                - 'null'
-            canceled_at:
-              type:
-                - 'null'
-                - string
-            current_period_started_at:
-              type: string
-            previous_state:
-              type: string
-            signup_payment_id:
-              type: integer
-            signup_revenue:
-              type: string
-            delayed_cancel_at:
-              type: 'null'
-            coupon_code:
-              type:
-                - 'null'
-                - string
-            payment_collection_method:
-              type: string
-            snap_day:
-              type: 'null'
-            reason_code:
-              type: 'null'
-            receives_invoice_emails:
-              type: boolean
-            net_terms:
-              type: integer
-            customer:
-              type: object
-              properties:
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                email:
-                  type: string
-                cc_emails:
-                  type: string
-                organization:
-                  type: string
-                reference:
-                  type: 'null'
-                id:
-                  type: integer
-                created_at:
-                  type: string
-                updated_at:
-                  type: string
-                address:
-                  type: string
-                address_2:
-                  type: string
-                city:
-                  type: string
-                state:
-                  type: string
-                state_name:
-                  type: string
-                zip:
-                  type: string
-                country:
-                  type: string
-                country_name:
-                  type: string
-                phone:
-                  type: string
-                verified:
-                  type: boolean
-                portal_customer_created_at:
-                  type: string
-                portal_invite_last_sent_at:
-                  type: string
-                portal_invite_last_accepted_at:
-                  type: 'null'
-                tax_exempt:
-                  type: boolean
-                vat_number:
-                  type: string
-            product:
-              type: object
-              properties:
-                id:
-                  type: integer
-                name:
-                  type: string
-                handle:
-                  type: string
-                description:
-                  type: string
-                accounting_code:
-                  type: string
-                price_in_cents:
-                  type: integer
-                interval:
-                  type: integer
-                interval_unit:
-                  type: string
-                initial_charge_in_cents:
-                  type: 'null'
-                expiration_interval:
-                  type: 'null'
-                expiration_interval_unit:
-                  type: string
-                trial_price_in_cents:
-                  type: 'null'
-                trial_interval:
-                  type: 'null'
-                trial_interval_unit:
-                  type: string
-                initial_charge_after_trial:
-                  type: boolean
-                return_params:
-                  type: string
-                request_credit_card:
-                  type: boolean
-                require_credit_card:
-                  type: boolean
-                created_at:
-                  type: string
-                updated_at:
-                  type: string
-                archived_at:
-                  type: 'null'
-                update_return_url:
-                  type: string
-                update_return_params:
-                  type: string
-                product_family:
+    type: object
+    properties:
+      subscription:
+        type: object
+        properties:
+          id:
+            type: integer
+          state:
+            type: string
+          balance_in_cents:
+            type: integer
+          total_revenue_in_cents:
+            type: integer
+          product_price_in_cents:
+            type: integer
+          product_version_number:
+            type: integer
+          current_period_ends_at:
+            type: string
+          next_assessment_at:
+            type: string
+          trial_started_at:
+            type: 'null'
+          trial_ended_at:
+            type: 'null'
+          activated_at:
+            type: string
+          expires_at:
+            type: 'null'
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          cancellation_message:
+            type: 'null'
+          cancellation_method:
+            type: 'null'
+          cancel_at_end_of_period:
+            type: 'null'
+          canceled_at:
+            type: 'null'
+          current_period_started_at:
+            type: string
+          previous_state:
+            type: string
+          signup_payment_id:
+            type: integer
+          signup_revenue:
+            type: string
+          delayed_cancel_at:
+            type: 'null'
+          coupon_code:
+            type: string
+          payment_collection_method:
+            type: string
+          snap_day:
+            type: 'null'
+          reason_code:
+            type: 'null'
+          receives_invoice_emails:
+            type: boolean
+          net_terms:
+            type: integer
+          reference:
+            type: string
+          customer:
+            type: object
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+              cc_emails:
+                type: string
+              organization:
+                type: string
+              reference:
+                type: 'null'
+              id:
+                type: integer
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              address:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              country:
+                type: string
+              phone:
+                type: string
+              verified:
+                type: boolean
+              portal_customer_created_at:
+                type: string
+              portal_invite_last_sent_at:
+                type: string
+              portal_invite_last_accepted_at:
+                type: 'null'
+              tax_exempt:
+                type: boolean
+              vat_number:
+                type: string
+          product:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              handle:
+                type: string
+              description:
+                type: string
+              accounting_code:
+                type: string
+              price_in_cents:
+                type: integer
+              interval:
+                type: integer
+              interval_unit:
+                type: string
+              initial_charge_in_cents:
+                type: 'null'
+              expiration_interval:
+                type: 'null'
+              expiration_interval_unit:
+                type: string
+              trial_price_in_cents:
+                type: 'null'
+              trial_interval:
+                type: 'null'
+              trial_interval_unit:
+                type: string
+              initial_charge_after_trial:
+                type: boolean
+              return_params:
+                type: string
+              request_credit_card:
+                type: boolean
+              require_credit_card:
+                type: boolean
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              archived_at:
+                type: 'null'
+              update_return_url:
+                type: string
+              update_return_params:
+                type: string
+              product_family:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  handle:
+                    type: string
+                  accounting_code:
+                    type: 'null'
+                  description:
+                    type: string
+              public_signup_pages:
+                type: array
+                items:
                   type: object
                   properties:
                     id:
                       type: integer
-                    name:
+                    url:
                       type: string
-                    handle:
-                      type: string
-                    accounting_code:
-                      type: 'null'
-                    description:
-                      type: string
-                public_signup_pages:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      url:
-                        type: string
-                taxable:
-                  type: boolean
-                version_number:
-                  type: integer
-                product_price_point_name:
-                  type: string
-            credit_card:
-              type: object
-              properties:
-                id:
-                  type: integer
-                payment_type:
-                  type: string
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                masked_card_number:
-                  type:
-                    - 'null'
-                    - string
-                card_type:
-                  type:
-                    - 'null'
-                    - string
-                expiration_month:
-                  type:
-                    - integer
-                    - 'null'
-                expiration_year:
-                  type:
-                    - integer
-                    - 'null'
-                billing_address:
-                  type: string
-                billing_address_2:
-                  type: string
-                billing_city:
-                  type: string
-                billing_state:
-                  type:
-                    - 'null'
-                    - string
-                billing_country:
-                  type: string
-                billing_zip:
-                  type: string
-                current_vault:
-                  type: string
-                vault_token:
-                  type: string
-                customer_vault_token:
-                  type: 'null'
-                customer_id:
-                  type: integer
-            payment_type:
-              type: string
-            referral_code:
-              type: string
-            next_product_id:
-              type: 'null'
-            coupon_use_count:
-              type:
-                - integer
-                - 'null'
-            coupon_uses_allowed:
-              type:
-                - integer
-                - 'null'
-            stored_credential_transaction_id:
-              type:
-                - integer
-                - 'null'
-            next_product_handle:
-              type:
-                - string
-                - 'null'
-            currency:
-              type: string
-            on_hold_at:
-              type:
-                - string
-                - 'null'
-            scheduled_cancellation_at:
-              type:
-                - string
-                - 'null'
-            prepaid_dunning:
-              type: boolean
-              description: Only returned if the prepaid subscription feature is enabled
-    example:
-      - subscription:
-          id: 15236915
-          state: active
-          balance_in_cents: 0
-          total_revenue_in_cents: 14000
-          product_price_in_cents: 1000
-          product_version_number: 7
-          current_period_ends_at: '2016-11-15T14:48:10-05:00'
-          next_assessment_at: '2016-11-15T14:48:10-05:00'
-          trial_started_at: null
-          trial_ended_at: null
-          activated_at: '2016-11-14T14:48:12-05:00'
-          expires_at: null
-          created_at: '2016-11-14T14:48:10-05:00'
-          updated_at: '2016-11-14T15:24:41-05:00'
-          cancellation_message: null
-          cancellation_method: null
-          cancel_at_end_of_period: null
-          canceled_at: null
-          current_period_started_at: '2016-11-14T14:48:10-05:00'
-          previous_state: active
-          signup_payment_id: 162269766
-          signup_revenue: '260.00'
-          delayed_cancel_at: null
-          coupon_code: 5SNN6HFK3GBH
-          payment_collection_method: automatic
-          snap_day: null
-          reason_code: null
-          receives_invoice_emails: false
-          net_terms: 0
-          reference: my-ref-123
-          customer:
-            first_name: Curtis
-            last_name: Test
-            email: curtis@example.com
-            cc_emails: jeff@example.com
-            organization: ''
-            reference: null
-            id: 14714298
-            created_at: '2016-11-14T14:48:10-05:00'
-            updated_at: '2016-11-14T14:48:13-05:00'
-            address: 123 Anywhere Street
-            address_2: ''
-            city: Boulder
-            state: CO
-            zip: '80302'
-            country: US
-            phone: ''
-            verified: false
-            portal_customer_created_at: '2016-11-14T14:48:13-05:00'
-            portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
-            portal_invite_last_accepted_at: null
-            tax_exempt: false
-            vat_number: 012345678
-          product:
-            id: 3792003
-            name: $10 Basic Plan
-            handle: basic
-            description: lorem ipsum
-            accounting_code: basic
-            price_in_cents: 1000
-            interval: 1
-            interval_unit: day
-            initial_charge_in_cents: null
-            expiration_interval: null
-            expiration_interval_unit: never
-            trial_price_in_cents: null
-            trial_interval: null
-            trial_interval_unit: month
-            initial_charge_after_trial: false
-            return_params: ''
-            request_credit_card: false
-            require_credit_card: false
-            created_at: '2016-03-24T13:38:39-04:00'
-            updated_at: '2016-11-03T13:03:05-04:00'
-            archived_at: null
-            update_return_url: ''
-            update_return_params: ''
-            product_family:
-              id: 527890
-              name: Acme Projects
-              handle: billing-plans
-              accounting_code: null
-              description: ''
-            public_signup_pages:
-              - id: 281054
-                url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-              - id: 281240
-                url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-              - id: 282694
-                url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-            taxable: false
-            version_number: 7
-            product_price_point_name: Default
+              taxable:
+                type: boolean
+              version_number:
+                type: integer
+              product_price_point_name:
+                type: string
           credit_card:
-            id: 10191713
-            payment_type: credit_card
-            first_name: Curtis
-            last_name: Test
-            masked_card_number: XXXX-XXXX-XXXX-1
-            card_type: bogus
-            expiration_month: 1
-            expiration_year: 2026
-            billing_address: 123 Anywhere Street
-            billing_address_2: ''
-            billing_city: Boulder
-            billing_state: null
-            billing_country: ''
-            billing_zip: '80302'
-            current_vault: bogus
-            vault_token: '1'
-            customer_vault_token: null
-            customer_id: 14714298
+            type: object
+            properties:
+              id:
+                type: integer
+              payment_type:
+                type: string
+              first_name:
+                type: string
+              last_name:
+                type: string
+              masked_card_number:
+                type: string
+              card_type:
+                type: string
+              expiration_month:
+                type: integer
+              expiration_year:
+                type: integer
+              billing_address:
+                type: string
+              billing_address_2:
+                type: string
+              billing_city:
+                type: string
+              billing_state:
+                type: 'null'
+              billing_country:
+                type: string
+              billing_zip:
+                type: string
+              current_vault:
+                type: string
+              vault_token:
+                type: string
+              customer_vault_token:
+                type: 'null'
+              customer_id:
+                type: integer
+          payment_type:
+            type: string
+          referral_code:
+            type: string
+          next_product_id:
+            type: 'null'
+          coupon_use_count:
+            type: integer
+          coupon_uses_allowed:
+            type: integer
+          stored_credential_transaction_id:
+            type: integer
+          next_product_handle:
+            type: 'null'
+          on_hold_at:
+            type: 'null'
+          scheduled_cancellation_at:
+            type: string
+    example:
+      subscription:
+        id: 15236915
+        state: active
+        balance_in_cents: 0
+        total_revenue_in_cents: 14000
+        product_price_in_cents: 1000
+        product_version_number: 7
+        current_period_ends_at: '2016-11-15T14:48:10-05:00'
+        next_assessment_at: '2016-11-15T14:48:10-05:00'
+        trial_started_at: null
+        trial_ended_at: null
+        activated_at: '2016-11-14T14:48:12-05:00'
+        expires_at: null
+        created_at: '2016-11-14T14:48:10-05:00'
+        updated_at: '2016-11-14T15:24:41-05:00'
+        cancellation_message: null
+        cancellation_method: null
+        cancel_at_end_of_period: null
+        canceled_at: null
+        current_period_started_at: '2016-11-14T14:48:10-05:00'
+        previous_state: active
+        signup_payment_id: 162269766
+        signup_revenue: '260.00'
+        delayed_cancel_at: null
+        coupon_code: 5SNN6HFK3GBH
+        payment_collection_method: automatic
+        snap_day: null
+        reason_code: null
+        receives_invoice_emails: false
+        net_terms: 0
+        reference: my-ref-123
+        customer:
+          first_name: Curtis
+          last_name: Test
+          email: curtis@example.com
+          cc_emails: jeff@example.com
+          organization: ''
+          reference: null
+          id: 14714298
+          created_at: '2016-11-14T14:48:10-05:00'
+          updated_at: '2016-11-14T14:48:13-05:00'
+          address: 123 Anywhere Street
+          address_2: ''
+          city: Boulder
+          state: CO
+          zip: '80302'
+          country: US
+          phone: ''
+          verified: false
+          portal_customer_created_at: '2016-11-14T14:48:13-05:00'
+          portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
+          portal_invite_last_accepted_at: null
+          tax_exempt: false
+          vat_number: 012345678
+        product:
+          id: 3792003
+          name: $10 Basic Plan
+          handle: basic
+          description: lorem ipsum
+          accounting_code: basic
+          price_in_cents: 1000
+          interval: 1
+          interval_unit: day
+          initial_charge_in_cents: null
+          expiration_interval: null
+          expiration_interval_unit: never
+          trial_price_in_cents: null
+          trial_interval: null
+          trial_interval_unit: month
+          initial_charge_after_trial: false
+          return_params: ''
+          request_credit_card: false
+          require_credit_card: false
+          created_at: '2016-03-24T13:38:39-04:00'
+          updated_at: '2016-11-03T13:03:05-04:00'
+          archived_at: null
+          update_return_url: ''
+          update_return_params: ''
+          product_family:
+            id: 527890
+            name: Acme Projects
+            handle: billing-plans
+            accounting_code: null
+            description: ''
+          public_signup_pages:
+            - id: 281054
+              url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+            - id: 281240
+              url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+            - id: 282694
+              url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+          taxable: false
+          version_number: 7
+          product_price_point_name: Default
+        credit_card:
+          id: 10191713
           payment_type: credit_card
-          referral_code: w7kjc9
-          next_product_id: null
-          coupon_use_count: 1
-          coupon_uses_allowed: 1
-          stored_credential_transaction_id: 166115589220288
-          next_product_handle: null
-          on_hold_at: null
-          scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
+          first_name: Curtis
+          last_name: Test
+          masked_card_number: XXXX-XXXX-XXXX-1
+          card_type: bogus
+          expiration_month: 1
+          expiration_year: 2026
+          billing_address: 123 Anywhere Street
+          billing_address_2: ''
+          billing_city: Boulder
+          billing_state: null
+          billing_country: ''
+          billing_zip: '80302'
+          current_vault: bogus
+          vault_token: '1'
+          customer_vault_token: null
+          customer_id: 14714298
+        payment_type: credit_card
+        referral_code: w7kjc9
+        next_product_id: null
+        coupon_use_count: 1
+        coupon_uses_allowed: 1
+        stored_credential_transaction_id: 166115589220288
+        next_product_handle: null
+        on_hold_at: null
+        scheduled_cancellation_at: '2016-11-14T14:48:13-05:00'
     x-stoplight:
       id: subscription-read-subscription
       name: Read Subscription MAIN
