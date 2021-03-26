@@ -129,7 +129,7 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/allocation'
+            $ref: '#/definitions/allocation-response'
           examples:
             application/json:
               allocation:
@@ -149,12 +149,12 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-sub_id-components-comp_id-allocations-format
-      summary: List Allocations
+      summary: Read Allocations
       tags:
         - Allocation
         - Allocations
       description: |-
-        ## List Allocations
+        ## Read Allocations
 
         This endpoint returns the 50 most recent Allocations, ordered by most recent first.
 
@@ -188,7 +188,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/allocation'
+              $ref: '#/definitions/allocation-response'
           examples:
             application/json:
               - allocation:
@@ -269,7 +269,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/allocation'
+              $ref: '#/definitions/allocation-response'
           examples:
             application/json:
               - allocation:
@@ -646,11 +646,11 @@ paths:
           statusCode: 200
     delete:
       operationId: DELETE_subscriptions-subscription_id-components-component_id-allocations-allocation_id-json
-      summary: Destroy Prepaid Usage Allocation
+      summary: Delete Prepaid Usage Allocation
       tags:
         - Allocations
       description: |-
-        ## Destroying a Prepaid Usage Allocation
+        ## Delete Prepaid Usage Allocation
 
         Prepaid Usage components are unique in that their allocations are always additive. In order to reduce a subscription's allocated quantity for a prepaid usage component each allocation must be destroyed individually via this endpoint.
 
@@ -26378,8 +26378,8 @@ definitions:
       id: count-transactions
       name: Read the Count of Transactions for a Site Output
       public: true
-  allocation:
-    title: Allocation
+  allocation-response:
+    title: Allocation Response
     type: object
     properties:
       allocation:
@@ -26457,8 +26457,8 @@ definitions:
           success: false
           memo: aliqua
     x-stoplight:
-      id: allocation
-      name: Allocation
+      id: allocation-response
+      name: Allocation Response
       public: true
   enable-billing-portal-response:
     title: Enable Billing Portal Response
@@ -46678,10 +46678,12 @@ x-stoplight:
               type: endpoints
             - _id: create-allocation-request
               type: schemas
-            - _id: allocation
+            - _id: allocation-response
               type: schemas
             - _id: create-multiple-allocations
               type: schemas
+            - _id: TNKpG6SD9R6zdNytf
+              type: endpoints
         - name: Billing Portal
           items:
             - _id: POST_portal-customers-customerid-enablejson
