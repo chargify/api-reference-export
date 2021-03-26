@@ -75,6 +75,18 @@ paths:
           description: ''
         '422':
           description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                enum:
+                  - period_range_start must be a valid date.
+                  - period_range_end can't be greater than 20 years from now.
+                  - Performing this adjustment will take the balance negative.
+                description: The error about a negative balance is only applicable to Relationship Invoicing sites.
+                items:
+                  type: string
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -268,6 +280,106 @@ paths:
         mock:
           enabled: false
           dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/allocations.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: The Subscription ID.
+        required: true
+        type: integer
+    post:
+      operationId: POST_subscriptions-subscription_id-allocations-json
+      summary: Create Multiple Allocations
+      tags:
+        - Allocation
+        - Allocations
+      description: |-
+        ## Create Multiple Allocations
+
+        Creates multiple allocations, setting the current allocated quantity for each of the components and recording a memo. The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade. Be aware of the Order of Resolutions explained below in determining the proration scheme.
+
+        A `component_id` is required for each allocation.
+
+        This endpoint only responds to JSON. It is not available for XML.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/create-multiple-allocations'
+            example:
+              proration_upgrade_scheme: prorate-attempt-capture
+              proration_downgrade_scheme: no-prorate
+              allocations:
+                - component_id: 123
+                  quantity: 10
+                  memo: foo
+                - component_id: 456
+                  quantity: 5
+                  memo: bar
+      responses:
+        '201':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/allocation'
+          examples:
+            application/json:
+              - allocation:
+                  component_id: 193159
+                  subscription_id: 15540611
+                  quantity: 10
+                  previous_quantity: 0
+                  memo: foo
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+              - allocation:
+                  component_id: 277221
+                  subscription_id: 15540611
+                  quantity: 5
+                  previous_quantity: 0
+                  memo: bar
+                  timestamp: '2016-12-08T19:09:15Z'
+                  proration_upgrade_scheme: prorate-attempt-capture
+                  proration_downgrade_scheme: no-prorate
+                  payment:
+                    amount_in_cents: 1451
+                    success: true
+                    memo: 'Payment for: Prorated component allocation changes.'
+                    id: 165473487
+        '401':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Quantity: cannot be blank.'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-allocationsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
           statusCode: 200
   '/portal/customers/{customer_id}/management_link.json':
     parameters:
@@ -1699,56 +1811,29 @@ paths:
         type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Reading Current Quantity
+      summary: Reading the Current Status of On/Off Component
       tags:
         - 'Components: On/Off Toggling'
       description: |-
         ## Reading Current Quantity
 
         You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
-
-        ## Querying data via Chargify gem
-
-        You can also query the current quantity via the [official Chargify Gem.]( http://github.com/chargify/chargify_api_ares)
-
-        ```# First way
-        component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-        puts component.allocated_quantity
-        # => 23
-
-        # Second way
-        component = Chargify::Subscription.find(7).component(1)
-        puts component.allocated_quantity
-        # => 23
-        ```
-
-        ## Handle lookup support
-
-         You can now pass either an integer as the component_id or the component handle as a string prefixed by handle:
-         
-        ```
-        # Example 1
-        curl mysub.chargify.com/subscriptions/999/components/1.json
-
-        # Example 2
-        curl mysub.chargify.com/subscriptions/999/components/handle:myhandle
-        ```
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/components-quantity-reading-current-quantity-response'
+            $ref: '#/definitions/components-ononff-reading-the-current-status-response'
           examples:
             application/json:
               component:
-                component_id: 399850
+                component_id: 399853
                 subscription_id: 18342261
-                allocated_quantity: 29
-                name: Bronze Subscriptions 123
-                kind: quantity_based_component
-                unit_name: Bronze Subscriptions
-                pricing_scheme: per_unit
-                price_point_id: 121000
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1821,22 +1906,21 @@ paths:
         type: string
       - name: component_id
         in: path
-        description: 'either an integer or a string prefixed by "handle:"'
         required: true
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Create Usages for a Prepaid Usage Component
+      summary: Create Usage for Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Create Usage for Subscription with Prepaid Usage Component
+        ## Create Usage for Subscription
 
-        This endpoint allows you to record an instance of prepaid usage for a subscription. The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](https://reference.chargify.com/v1/component-line-items/component-line-items) for the subscription.
+        This endpoint allows you to record an instance of metered usage for a subscription. The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](https://reference.chargify.com/v1/component-line-items/component-line-items) for the subscription.
 
         ## Price Point ID usage
 
-        If you are using price points, for prepaid usage components, Chargify gives you the option to specify a price point in your request.
+        If you are using price points, for metered components, Chargify gives you the option to specify a price point in your request.
 
         You do not need to specify a price point ID. If a price point is not included, the default price point for the component will be used when the usage is recorded.
 
@@ -1873,58 +1957,38 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              usage:
-                type: object
-                properties:
-                  quantity:
-                    type: integer
-                  memo:
-                    type: string
+            $ref: '#/definitions/components-prepaid-usage-create'
             example:
               usage:
-                quantity: 5
-                memo: woot
+                quantity: 1000
+                price_point_id: '149416'
+                memo: My memo
       responses:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              usage:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  memo:
-                    type: string
-                  created_at:
-                    type: string
-                  price_point_id:
-                    type: integer
-                  quantity:
-                    type: integer
-                  overage_quantity:
-                    type: integer
-                  component_id:
-                    type: integer
-                  component_handle:
-                    type: 'null'
-                  subscription_id:
-                    type: integer
+            $ref: '#/definitions/components-metered-create-usage-output'
           examples:
             application/json:
               usage:
-                id: 1
-                memo: woot
-                created_at: '2020-04-27T18:27:37-04:00'
-                price_point_id: 1
-                quantity: 5
-                overage_quantity: 2
-                component_id: 1
-                component_handle: null
-                subscription_id: 1
+                id: 138522957
+                memo: My memo
+                created_at: '2017-11-13T10:05:32-06:00'
+                price_point_id: 149416
+                quantity: 1000
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Price point: could not be found.'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1996,48 +2060,52 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with Offer ID
+      summary: Create Usage When Creating a New Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Create a subscription with an offer ID
+        ## Create Usage When Creating a New Subscription
 
-        This method allows you to provide an offer ID to create a subscription. You may also use a handle ID, and use `offer_handle` to complete your request.
+        This example will show you how to create usage while creating a new subscription. Please be aware that this example POSTs to the `subscriptions.json` endpoint. This example does not post to the a
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/create-subscription-with-offer-request'
+            $ref: '#/definitions/components-metered-create-usage-when-creating-a-new-subscription-input'
             example:
               subscription:
-                offer_id: 123456789
+                product_handle: basic
                 customer_attributes:
-                  first_name: Alysa
-                  last_name: Test
-                  email: alysa@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe1049am@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
+                components:
+                  - component_id: 195268
+                    unit_balance: 20
+                    price_point_id: 12345
       responses:
-        '200':
+        '201':
           description: ''
           schema:
-            $ref: '#/definitions/create-offer-output'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
               subscription:
-                id: 22885645
+                id: 15569578
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2018-08-03T12:53:28-05:00'
-                created_at: '2018-08-03T12:53:28-05:00'
-                updated_at: '2018-08-03T12:53:28-05:00'
+                activated_at: '2016-12-09T11:49:23-05:00'
+                created_at: '2016-12-09T11:49:20-05:00'
+                updated_at: '2016-12-09T11:49:23-05:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2018-08-07T12:53:28-05:00'
-                next_assessment_at: '2018-08-07T12:53:28-05:00'
+                current_period_ends_at: '2016-12-10T11:49:20-05:00'
+                next_assessment_at: '2016-12-10T11:49:20-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -2045,94 +2113,95 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2018-08-03T12:53:28-05:00'
+                current_period_started_at: '2016-12-09T11:49:20-05:00'
                 previous_state: active
-                signup_payment_id: 254497876
-                signup_revenue: '100.00'
+                signup_payment_id: 165589525
+                signup_revenue: '30010.00'
                 delayed_cancel_at: null
-                coupon_code: POINTFIVE
-                total_revenue_in_cents: 10000
-                product_price_in_cents: 10000
-                product_version_number: 1
+                coupon_code: null
+                total_revenue_in_cents: 3001000
+                product_price_in_cents: 1000
+                product_version_number: 7
                 payment_type: credit_card
-                referral_code: c85dkg
-                coupon_use_count: 0
-                coupon_uses_allowed: 1
-                reason_code: null
-                automatically_resume_at: null
-                coupon_codes:
-                  - POINTFIVE
-                offer_id: 238
+                referral_code: zf6s86
+                coupon_use_count: null
+                coupon_uses_allowed: null
                 customer:
-                  id: 22575681
-                  first_name: Meg
-                  last_name: 'Whitney '
-                  organization: ''
-                  email: meg@example.com
-                  created_at: '2018-08-02T09:37:02-05:00'
-                  updated_at: '2018-08-02T09:37:03-05:00'
+                  id: 15029690
+                  first_name: Joe
+                  last_name: Blow
+                  organization: null
+                  email: joe@example.com
+                  created_at: '2016-12-09T11:49:20-05:00'
+                  updated_at: '2016-12-09T11:49:25-05:00'
                   reference: null
-                  address: 123 Anywhere Street
-                  address_2: ''
-                  city: '123'
-                  state: AL
-                  zip: '12345'
-                  country: US
-                  phone: ''
-                  portal_invite_last_sent_at: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
                   portal_invite_last_accepted_at: null
-                  verified: null
-                  portal_customer_created_at: '2018-08-02T09:37:03-05:00'
-                  vat_number: null
+                  verified: false
+                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
                   cc_emails: null
                   tax_exempt: false
                 product:
-                  id: 4671521
-                  name: 4 Day Product
-                  handle: null
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
+                  id: 3792003
+                  name: $10 Basic Plan
+                  handle: basic
+                  description: lorem ipsum
+                  accounting_code: basic
+                  request_credit_card: false
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2018-07-16T12:32:20-05:00'
-                  updated_at: '2018-07-16T12:32:20-05:00'
-                  price_in_cents: 10000
-                  interval: 4
+                  created_at: '2016-03-24T13:38:39-04:00'
+                  updated_at: '2016-11-03T13:03:05-04:00'
+                  price_in_cents: 1000
+                  interval: 1
                   interval_unit: day
                   initial_charge_in_cents: null
                   trial_price_in_cents: null
                   trial_interval: null
                   trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: true
+                  require_credit_card: false
                   return_params: ''
                   taxable: false
                   update_return_url: ''
-                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
+                  version_number: 7
                   update_return_params: ''
                   product_family:
-                    id: 1025629
-                    name: Products
-                    description: Invoice
-                    handle: test
+                    id: 527890
+                    name: Acme Projects
+                    description: ''
+                    handle: billing-plans
                     accounting_code: null
                   public_signup_pages:
-                    - id: 356487
-                      return_url: null
+                    - id: 281054
+                      return_url: 'http://www.example.com?successfulsignup'
                       return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/xj3ptd3gs7v6'
+                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                    - id: 281240
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                    - id: 282694
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
                 credit_card:
-                  id: 15869432
-                  first_name: Meg
-                  last_name: 'Whitney '
+                  id: 10405758
+                  first_name: Joe
+                  last_name: Blow
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 22575681
+                  customer_id: 15029690
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -2143,8 +2212,6 @@ paths:
                   customer_vault_token: null
                   billing_address_2: null
                   payment_type: credit_card
-      security:
-        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -3426,168 +3493,6 @@ paths:
         mock:
           enabled: false
           dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/allocations.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The Subscription ID.
-        required: true
-        type: integer
-    post:
-      operationId: POST_subscriptions-sub_id-allocations-json
-      summary: Create Multiple Allocations
-      tags:
-        - Allocation
-        - 'Components: Quantity Allocations'
-      description: |-
-        ## Create Multiple Allocations
-
-        Creates multiple allocations, setting the current allocated quantity for each of the components and recording a memo. The charges and/or credits that are created will be rolled up into a single total which is used to determine whether this is an upgrade or a downgrade. Be aware of the Order of Resolutions explained below in determining the proration scheme.
-
-        This endpoint only responds to JSON. It is not available for XML.
-
-        ## Input Fields
-
-        | Input Fields               | Description                                                                                                                                                                                                         |
-        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | allocations                | An array of allocations, each containing a `component_id`, `quantity`, and `memo`                                                                                                                                   |
-        | upgrade_charge             | (optional) The type of charge to be created if the change in cost is an upgrade. Defaults to the component and then site setting if one is not provided.                                                            |
-        | downgrade_credit           | (optional) The type of credit to be created if the change in cost is a downgrade. Defaults to the component and then site setting if one is not provided.                                                           |
-        | accrue_charge              | (optional) If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately. Defaults to the site setting if one is not provided. |
-        | proration_upgrade_scheme   | (deprecated) The scheme used if the proration is an upgrade. Defaults to the site setting if one is not provided.                                                                                                   |
-        | proration_downgrade_scheme | (deprecated) The scheme used if the proration is a downgrade. Defaults to the site setting if one is not provided.                                                                                                  |
-
-        ## Output Fields
-
-        An array of allocation objects with the following fields:
-
-        | Output Fields              | Description                                                                                                                                                                                                                           |
-        |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | component_id               | The integer component ID for the allocation. This references a component that you have created in your Product setup                                                                                                                  |
-        | subscription_id            | The integer subscription ID for the allocation. This references a unique subscription in your Site                                                                                                                                    |
-        | quantity                   | The allocated quantity set in to effect by the allocation.By default this should be an integer. If decimal allocations are enabled for the component, it will be a decimal number. For On/Off components, use 1 for on and 0 for off. |
-        | previous_quantity          | The allocated quantity that was in effect before this allocation was created                                                                                                                                                          |
-        | memo                       | The memo passed when the allocation was created                                                                                                                                                                                       |
-        | upgrade_charge             | The type of charge to be created if the change in cost is an upgrade.                                                                                                                                                                 |
-        | downgrade_credit           | The type of credit to be created if the change in cost is a downgrade.                                                                                                                                                                |
-        | accrue_charge              | If the change in cost is an upgrade, this determines if the charge should accrue to the next renewal or if capture should be attempted immediately.                                                                                   |
-        | proration_upgrade_scheme   | The scheme used if the proration was an upgrade. This is only present when the allocation was created mid-period.                                                                                                                     |
-        | proration_downgrade_scheme | The scheme used if the proration was a downgrade. This is only present when the allocation was created mid-period.                                                                                                                    |
-        | timestamp                  | The time that the allocation was recorded, in [ISO 8601](<http://en.wikipedia.org/wiki/ISO_8601>) format and UTC timezone, i.e. `2012-11-20T22:00:37Z`                                                                                  |
-        | payment                    | If capture was attempted for a mid-period allocation, includes `amount_in_cents`, `success`, `memo` and `id` attributes describing the payment, or null if no card was on file.                                                       |
-
-        ### Order of Resolution for upgrade_charge and downgrade_credit
-
-        1. Per allocation in API call (within a single allocation of the `allocations` array)
-        2. [Component-level default value](<https://help.chargify.com/products/product-components.html#component-proration>)
-        3. Allocation API call top level (outside of the `allocations` array)
-        4. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)
-
-        ### Order of Resolution for accrue_charge
-
-        1. Allocation API call top level (outside of the `allocations` array)
-        2. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)
-
-        ## JSON: Fetch second page (up to 50 more) of allocations
-
-        Response is an array, ordered most recent first. In this example, there are no results in page 2 (response is an empty array) indicating that all allocations for this component and subscription have already been fetched.
-
-        **Request**
-
-        ```json
-        curl -u <api_key>:X https://<subdomain>.chargify.com/subscriptions/2585595/components/11960/allocations.json
-        ```
-
-        **Response**
-
-        ```
-        []
-        ```
-
-        ## Response Status Codes
-
-        | 201 Created              | Allocation created successfully                                                         |
-        |--------------------------|-----------------------------------------------------------------------------------------|
-        | 422 Unprocessable Entity | Invalid inputs provided: inspect the errors in the response for details                 |
-        | 401 Unauthorized         | Authentication credentials were incorrect                                               |
-        | 404 Not Found            | Either no component with the given comp_id, or no subscription with given sub_id exists |
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/allocation-multiple-request-post'
-            example:
-              proration_upgrade_scheme: prorate-attempt-capture
-              proration_downgrade_scheme: no-prorate
-              allocations:
-                - component_id: 123
-                  quantity: 10
-                  memo: foo
-                - component_id: 456
-                  quantity: 5
-                  memo: bar
-      responses:
-        '201':
-          description: OK
-          schema:
-            $ref: '#/definitions/allocation-multiple-response-post'
-          examples:
-            application/json:
-              - allocation:
-                  component_id: 193159
-                  subscription_id: 15540611
-                  quantity: 10
-                  previous_quantity: 0
-                  memo: foo
-                  timestamp: '2016-12-08T19:09:15Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
-                  proration_downgrade_scheme: no-prorate
-                  payment:
-                    amount_in_cents: 1451
-                    success: true
-                    memo: 'Payment for: Prorated component allocation changes.'
-                    id: 165473487
-              - allocation:
-                  component_id: 277221
-                  subscription_id: 15540611
-                  quantity: 5
-                  previous_quantity: 0
-                  memo: bar
-                  timestamp: '2016-12-08T19:09:15Z'
-                  proration_upgrade_scheme: prorate-attempt-capture
-                  proration_downgrade_scheme: no-prorate
-                  payment:
-                    amount_in_cents: 1451
-                    success: true
-                    memo: 'Payment for: Prorated component allocation changes.'
-                    id: 165473487
-        '401':
-          description: ''
-        '404':
-          description: ''
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Quantity: cannot be blank.'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-sub_id-allocations-json
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
           statusCode: 200
   '/subscriptions/{subscription_id}/allocations/preview.json':
     parameters:
@@ -25917,6 +25822,9 @@ definitions:
           payment_collection_method:
             type: string
             description: '(deprecated, ignored) The payment_collection_method set on the subscription will be used. For subscriptions on invoice billing, when accrue_charge is false, a mid-period invoice will be created from any charges that are a result of the allocation change.'
+          component_id:
+            type: integer
+            description: (required for the multiple allocations endpoint) The id associated with the component for which the allocation is being made
         required:
           - quantity
     example:
@@ -26365,16 +26273,24 @@ definitions:
                 type: string
     example:
       allocation:
-        component_id: 11960
-        subscription_id: 2585595
-        quantity: 2
-        previous_quantity: 18
-        memo: Setting quantity to 2 at customer request
-        timestamp: '2019-11-20T23:00:08Z'
-        proration_upgrade_scheme: prorate-attempt-capture
-        proration_downgrade_scheme: no-prorate
-        price_point_id: 76
-        previous_price_point_id: 75
+        component_id: 4034995
+        subscription_id: 23737320
+        quantity: -96752223
+        previous_quantity: 3010509
+        memo: dolore cupidatat elit
+        timestamp: ex proident dolor i
+        proration_upgrade_scheme: laboris ipsum dolore
+        proration_downgrade_scheme: eiusmod dolore
+        price_point_id: -69720370
+        previous_price_point_id: -76493052
+        accrue_charge: true
+        upgrade_charge: ipsum consectetur
+        downgrade_credit: nulla Ut in do
+        payment:
+          id: -44566528
+          amout_in_cents: labore in minim ad
+          success: false
+          memo: aliqua
     x-stoplight:
       id: allocation
       name: Allocation
@@ -26465,84 +26381,6 @@ definitions:
     x-stoplight:
       id: billing-portal-simul-response-post
       name: Billing Portal Simul Response POST
-      public: true
-  allocation-multiple-response-post:
-    title: Allocation Multiple Response POST
-    type: array
-    items:
-      type: object
-      properties:
-        allocation:
-          type: object
-          properties:
-            component_id:
-              type: integer
-            subscription_id:
-              type: integer
-            quantity:
-              type:
-                - integer
-                - number
-              description: integer by default or decimal number if fractional quantities are enabled for the component
-            previous_quantity:
-              type: integer
-            memo:
-              type: string
-            timestamp:
-              type: string
-            proration_upgrade_scheme:
-              type: string
-            proration_downgrade_scheme:
-              type: string
-            payment:
-              type: object
-              properties:
-                amount_in_cents:
-                  type: integer
-                success:
-                  type: boolean
-                memo:
-                  type: string
-                id:
-                  type: integer
-            accrue_charge:
-              type: boolean
-            upgrade_charge:
-              type: string
-            downgrade_credit:
-              type: string
-    example:
-      - allocation:
-          component_id: 193159
-          subscription_id: 15540611
-          quantity: 10
-          previous_quantity: 0
-          memo: foo
-          timestamp: '2016-12-08T19:09:15Z'
-          proration_upgrade_scheme: prorate-attempt-capture
-          proration_downgrade_scheme: no-prorate
-          payment:
-            amount_in_cents: 1451
-            success: true
-            memo: 'Payment for: Prorated component allocation changes.'
-            id: 165473487
-      - allocation:
-          component_id: 277221
-          subscription_id: 15540611
-          quantity: 5
-          previous_quantity: 0
-          memo: bar
-          timestamp: '2016-12-08T19:09:15Z'
-          proration_upgrade_scheme: prorate-attempt-capture
-          proration_downgrade_scheme: no-prorate
-          payment:
-            amount_in_cents: 1451
-            success: true
-            memo: 'Payment for: Prorated component allocation changes.'
-            id: 165473487
-    x-stoplight:
-      id: allocation-multiple-response-post
-      name: Allocation Multiple Response POST
       public: true
   billing-portal-request:
     title: Billing Portal Request GET
@@ -26679,8 +26517,8 @@ definitions:
       id: billing-portal-response-enable
       name: Billing Portal Enable Response POST
       public: true
-  allocation-multiple-request-post:
-    title: Allocation Multiple Request POST
+  create-multiple-allocations:
+    title: Create Multiple Allocations
     type: object
     properties:
       proration_upgrade_scheme:
@@ -26694,22 +26532,7 @@ definitions:
       allocations:
         type: array
         items:
-          type: object
-          properties:
-            component_id:
-              type:
-                - integer
-                - string
-              description: 'is either an integer or a string prefixed with "handle:"'
-            quantity:
-              type: integer
-            memo:
-              type: string
-              maxLength: 255
-            upgrade_charge:
-              type: string
-            downgrade_credit:
-              type: string
+          $ref: '#/definitions/create-allocation-request'
       accrue_charge:
         type: boolean
       upgrade_charge:
@@ -26727,8 +26550,8 @@ definitions:
           quantity: 5
           memo: bar
     x-stoplight:
-      id: allocation-multiple-request-post
-      name: Allocation Multiple Request POST
+      id: create-multiple-allocations
+      name: Create Multiple Allocations
       public: true
   billing-portal-request-enable:
     title: Billing Portal Enable Request POST
@@ -47109,8 +46932,6 @@ x-stoplight:
           name: Basics
         - name: Adjustments
           items:
-            - _id: adjustment-intro
-              type: docTextSections
             - _id: POST_subscriptions-subscriptionid-adjustmentsjson
               type: endpoints
             - _id: create-adjustment-request
@@ -47119,16 +46940,20 @@ x-stoplight:
               _id: adjustment-response
         - name: Allocations
           items:
-            - _id: allocations-intro
+            - _id: Fupxh2M7fACmdwsDm
               type: docTextSections
             - _id: POST_subscriptions-sub_id-components-comp_id-allocations-format
               type: endpoints
+            - _id: POST_subscriptions-subscriptionid-allocationsjson
+              type: endpoints
+            - type: endpoints
+              _id: GET_subscriptions-sub_id-components-comp_id-allocations-format
             - _id: create-allocation-request
               type: schemas
             - _id: allocation
               type: schemas
-            - type: endpoints
-              _id: GET_subscriptions-sub_id-components-comp_id-allocations-format
+            - _id: create-multiple-allocations
+              type: schemas
         - name: Billing Portal
           items:
             - _id: billing-portal-intro
@@ -47282,12 +47107,6 @@ x-stoplight:
             - _id: POST_subscriptionsjson
               type: endpoints
             - _id: components-quantity-create-subscription-with-quantity-based-component
-              type: schemas
-            - _id: POST_subscriptions-sub_id-allocations-json
-              type: endpoints
-            - _id: allocation-multiple-request-post
-              type: schemas
-            - _id: allocation-multiple-response-post
               type: schemas
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
               type: endpoints
@@ -49158,29 +48977,6 @@ x-stoplight:
         | metafields | (Optional) pairs of metafield names and values |
         | locale | (Optional) The locale for the customer to identify language-region |
       public: true
-    adjustment-intro:
-      id: adjustment-intro
-      name: Adjustments Intro
-      content: |-
-        ## Response Codes
-
-        A response code is returned in the standard HTTP response to your API request.
-
-        | 201                      | Created is returned for the successfully created adjustment.                    |
-        |--------------------------|---------------------------------------------------------------------------------|
-        | 422 Unprocessable Entity | Returned when the adjustment could not be created (see below section on errors) |
-        | 404 Not Found            | Returned if the referenced subscription could not be found.                     |
-
-        ## Errors
-
-        Errors are returned either as an array of error explanation strings and formatted as either an XML or JSON array, depending on your Accept headers. The listing of currently possible error messages is listed below:
-
-        + Memo: cannot be blank.
-        + Amount: is not a number.
-        + Amount: must be greater than or equal to 0.
-        + This subscription is not eligible to accept adjustments.
-        + [Gateway response if a gateway fail] ([Your original memo])
-      public: true
     coupon-intro:
       id: coupon-intro
       name: Subscriptions & Coupons Intro
@@ -49509,11 +49305,6 @@ x-stoplight:
         | amount_in_cents | The amount represented as a string of the payment in cents. E.g. if the payment was for $14.50, you would pass `1450` |
         | memo            | Typically the description of why the payment occured                                                                  |
       public: true
-    allocations-intro:
-      id: allocations-intro
-      name: Allocations Intro
-      content: "## Allocations Intro\n\nAllocations describe a change to the allocated quantity for a particular Component (either Quantity-Based or On/Off) for a particular Subscription.\n\nWorking with this resource, you can:\n\n+ [List Allocations](#endpoint:zaqiBGkGM6nbLjxB3) : View the history of the allocated quantity for the component over time\n+ [Create an Allocation](#endpoint:3stsG5oibfdivng9j) : Set a new allocated quantity for the line-item (as an alternative to setting the allocated quantity directly on the Component Line-Item resource)\n+ [Create multiple Allocations](#endpoint:JfQwagtttbwDcsh9Q): Change the allocated quantity of multiple components at once\n\n## Allocations Documentation\n\nFull documentation on how to record Allocations in the Chargify UI can be located [here](http://help.chargify.com/subscriptions/setting-component-allocations.html). \n\nThis documentation is focused on how allocations operate within the Chargify UI. It goes into greater detail on how the user interface will react when recording allocations.\n\nThis documentation also goes into greater detail on how proration is taken into consideration when applying component allocations.\n\n\n## Proration Schemes\n\nChanging the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.\n\nFor background information on prorated components and upgrade/downgrade schemes, see: API: [Setting Component Allocations.](<https://help.chargify.com/subscriptions/setting-component-allocations.html>). See the tables below for valid values.\n\n| upgrade_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|----------------|-------------------------------------------------------------------|\n| `full` \_ \_ \_ \_ |\_A charge is added for the full price of the component. \_\_\_ \_ \_ \_ \_|\n| `prorated` \_ \_ |\_A charge is added for the prorated price of the component change. |\n| `none` \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| downgrade_credit | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_|\n|------------------|---------------------------------------------------|\n| `full` \_ \_ \_ \_ \_ |\_A full price credit is added for the amount owed. |\n| `prorated` \_ \_ \_ |\_A prorated credit is added for the amount owed. \_ |\n| `none` \_ \_ \_ \_ \_ |\_No charge is added. \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ |\n\n| accrue_charge | Definition \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_   |\n|---------------|------------------------------------------------------------------------------------------------------------|\n| `true` \_ \_ \_ \_| Attempt to charge the customer at next renewal.                                                            |\n| `false` \_ \_ \_ |\_Attempt to charge the customer right away.\_If it fails, the charge will be accrued until the next renewal. |\n\n### Order of Resolution for upgrade_charge and downgrade_credit\n\n1. Per allocation in API call (within a single allocation of the `allocations` array)\n2. [Component-level default value](<https://help.chargify.com/products/product-components.html#component-proration>)\n3. Allocation API call top level (outside of the `allocations` array)\n4. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n### Order of Resolution for accrue_charge\n\n1. Allocation API call top level (outside of the `allocations` array)\n2. [Site-level default value](<https://help.chargify.com/subscriptions/setting-component-allocations.html#proration-schemes>)\n\n**NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**"
-      public: false
     metafields-intro:
       id: metafields-intro
       name: 'Custom Fields: Metafields Intro'
