@@ -236,7 +236,7 @@ paths:
         type: integer
     post:
       operationId: POST_subscriptions-subscription_id-allocations-json
-      summary: Create Multiple Allocations
+      summary: Create Allocations
       tags:
         - Allocation
         - Allocations
@@ -252,7 +252,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/create-multiple-allocations'
+            $ref: '#/definitions/create-allocations-request'
             example:
               proration_upgrade_scheme: prorate-attempt-capture
               proration_downgrade_scheme: no-prorate
@@ -981,6 +981,148 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/product_families/{product_family_id}/{plural_kind}.json':
+    parameters:
+      - name: product_family_id
+        in: path
+        required: true
+        type: integer
+      - name: plural_kind
+        in: path
+        required: true
+        type: string
+        enum:
+          - metered_components
+          - quantity_based_components
+          - on_off_components
+          - prepaid_usage_components
+    post:
+      operationId: POST_product_families-product_family_id-plural_kind-json
+      summary: Create Component within a Product Family
+      tags:
+        - Component
+        - Components
+      description: "## Create Component within a Product Family\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n### Component Documentation\n\nFor more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n+ prepaid_usage_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Component\",\n    \"description\": \"Example of JSON per-unit component example\",\n    \"pricing_scheme\": \"per_unit\",\n    \"unit_price\": \"10\",\n    \"taxable\": \"1\"\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON stairstep example\",\n    \"pricing_scheme\": \"stairstep\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": \n      [\n        {\n          \"starting_quantity\": \"1\",\n          \"ending_quantity\": \"100\",\n          \"unit_price\": \"50\"\n        },\n        {\n          \"starting_quantity\": \"101\",\n          \"ending_quantity\": \"200\",\n          \"unit_price\": \"10\"\n        }\n      ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Volume Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON volume component example\",\n    \"pricing_scheme\": \"volume\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"10\",\n        \"unit_price\": \"10\"\n      },\n      {\n        \"starting_quantity\": \"11\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"5\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Tiered Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON for tiered quantity based component\",\n    \"taxable\": \"1\",\n    \"pricing_scheme\": \"tiered\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"50\"\n      },\n      {\n        \"starting_quantity\": \"21\",\n        \"ending_quantity\": \"40\",\n        \"unit_price\": \"25\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n\n## On/Off Component\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"]\n}\n```\n\n## Create a Component with Default Proration Schemes\n\nThis endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.\n\n### On/Off Component with Default Proration Schemes\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"],\n    \"upgrade_charge\": \"full\",\n    \"downgrade_credit\": \"prorated\",\n  }\n}\n```\n\n### Prepaid Usage Component Example\n\n```\n{\n   \"prepaid_usage_component\":{\n      \"name\":\"Minutes\",\n      \"unit_name\":\"minutes\",\n      \"unit_price\":2.0,\n      \"pricing_scheme\":\"per_unit\",\n      \"rollover_prepaid_remainder\": true,\n      \"renew_prepaid_allocation\": true,\n      \"expiration_interval\": 15,\n      \"expiration_interval_unit\": \"day\",\n      \"overage_pricing\":{\n         \"pricing_scheme\":\"stairstep\",\n         \"prices\":[\n            {\n               \"starting_quantity\":1,\n               \"ending_quantity\":100,\n               \"unit_price\":3.0,\n               \"formatted_unit_price\":\"$3.00\"\n            },\n            {\n               \"starting_quantity\":101,\n               \"unit_price\":5.0,\n               \"formatted_unit_price\":\"$5.00\"\n            }\n         ]\n      }\n   }\n}\n```\n\n\n## On/Off Component with Price Points\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"],\n\t\t\"price_points\": [{\n\t\t\t\"name\": \"Wholesale\",\n\t\t\t\"handle\": \"wholesale-handle\",\n\t\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\t\"prices\": [{\n\t\t\t\t\"starting_quantity\": \"0\",\n\t\t\t\t\"unit_price\": \"89.00\"\n\t\t\t}]\n\t\t}]\n\t}\n}\n```"
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/component-create'
+            example:
+              metered_component:
+                name: Text messages
+                unit_name: text message
+                taxable: false
+                pricing_scheme: stairstep
+                prices:
+                  - starting_quantity: 1
+                    unit_price: 1
+                    component: null
+      responses:
+        '201':
+          description: ''
+          schema:
+            type: object
+            properties:
+              component:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pricing_scheme:
+                    type: string
+                  unit_name:
+                    type: string
+                  unit_price:
+                    type: 'null'
+                  product_family_id:
+                    type: integer
+                  price_per_unit_in_cents:
+                    type: 'null'
+                  kind:
+                    type: string
+                  archived:
+                    type: boolean
+                  taxable:
+                    type: boolean
+                  description:
+                    type: 'null'
+                  prices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        starting_quantity:
+                          type: integer
+                        ending_quantity:
+                          type: 'null'
+                        unit_price:
+                          type: string
+                        id:
+                          type: integer
+                        component_id:
+                          type: integer
+                        price_point_id:
+                          type: integer
+                        formatted_unit_price:
+                          type: string
+                  created_at:
+                    type: string
+                  default_price_point_name:
+                    type: string
+          examples:
+            application/json:
+              component:
+                id: 292609
+                name: Text messages
+                pricing_scheme: stairstep
+                unit_name: text message
+                unit_price: null
+                product_family_id: 528484
+                price_per_unit_in_cents: null
+                kind: metered_component
+                archived: false
+                taxable: false
+                description: null
+                created_at: '2019-08-02T05:54:53-04:00'
+                prices:
+                  - id: 47
+                    component_id: 292609
+                    starting_quantity: 1
+                    ending_quantity: null
+                    unit_price: '1.0'
+                    price_point_id: 173
+                    formatted_unit_price: $1.00
+                default_price_point_name: Original
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - 'Name: cannot be blank.'
+                - 'Unit name: cannot be blank.'
+                - 'Pricing scheme: cannot be blank.'
+                - At least 1 price bracket must be defined
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_productfamilies-productfamilyid-pluralkindjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /components/lookup.json:
     get:
       operationId: GET_components-lookup-json
@@ -1183,264 +1325,218 @@ paths:
           enabled: true
           dynamic: false
           statusCode: 200
-  '/product_families/{product_family_id}/{plural_kind}.json':
+  /components.json:
+    get:
+      operationId: GET_components-json
+      summary: Read Components for Site
+      tags:
+        - incomplete
+        - Component
+        - Components
+      description: |-
+        ## Read Components for a Site
+
+        This request will return a list of components for a site.
+      parameters:
+        - $ref: '#/parameters/trait:componentQueryString:date_field'
+        - $ref: '#/parameters/trait:componentQueryString:start_date'
+        - $ref: '#/parameters/trait:componentQueryString:end_date'
+        - $ref: '#/parameters/trait:componentQueryString:start_datetime'
+        - $ref: '#/parameters/trait:componentQueryString:end_datetime'
+        - $ref: '#/parameters/trait:includesArchive:include_archived'
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                component:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    pricing_scheme:
+                      type:
+                        - 'null'
+                        - string
+                    unit_name:
+                      type: string
+                    unit_price:
+                      type: string
+                    product_family_id:
+                      type: integer
+                    price_per_unit_in_cents:
+                      type: 'null'
+                    kind:
+                      type: string
+                    archived:
+                      type: boolean
+                    taxable:
+                      type: boolean
+                    description:
+                      type: string
+                    default_price_point_id:
+                      type: integer
+                    prices:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          component_id:
+                            type: integer
+                          starting_quantity:
+                            type: integer
+                          ending_quantity:
+                            type: 'null'
+                          unit_price:
+                            type: string
+                          price_point_id:
+                            type: integer
+                          formatted_unit_price:
+                            type: string
+                    price_point_count:
+                      type: integer
+                    price_points_url:
+                      type: string
+                    tax_code:
+                      type:
+                        - 'null'
+                        - string
+                    recurring:
+                      type: boolean
+                    upgrade_charge:
+                      type:
+                        - 'null'
+                        - string
+                    downgrade_credit:
+                      type:
+                        - 'null'
+                        - string
+                    created_at:
+                      type: string
+                    default_price_point_name:
+                      type: string
+                    product_family_name:
+                      type: string
+          examples:
+            application/json:
+              - component:
+                  id: 399850
+                  name: $1.00 component
+                  pricing_scheme: per_unit
+                  unit_name: Component
+                  unit_price: '1.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: quantity_based_component
+                  archived: false
+                  taxable: false
+                  description: Component
+                  default_price_point_id: 121000
+                  prices:
+                    - id: 630687
+                      component_id: 399850
+                      starting_quantity: 1
+                      ending_quantity: null
+                      unit_price: '1.0'
+                      price_point_id: 121000
+                      formatted_unit_price: $1.00
+                  price_point_count: 2
+                  price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
+                  tax_code: null
+                  recurring: true
+                  upgrade_charge: null
+                  downgrade_credit: null
+                  created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
+                  product_family_name: Chargify
+              - component:
+                  id: 399853
+                  name: Annual Support Services
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '100.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: on_off_component
+                  archived: false
+                  taxable: true
+                  description: Prepay for support services
+                  default_price_point_id: 121003
+                  price_point_count: 4
+                  price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
+                  tax_code: D0000000
+                  recurring: true
+                  upgrade_charge: null
+                  downgrade_credit: null
+                  created_at: '2019-08-01T09:35:37-04:00'
+                  default_price_point_name: Original
+                  product_family_name: Chargify
+              - component:
+                  id: 386937
+                  name: Cancellation fee
+                  pricing_scheme: null
+                  unit_name: on/off
+                  unit_price: '35.0'
+                  product_family_id: 997233
+                  price_per_unit_in_cents: null
+                  kind: on_off_component
+                  archived: false
+                  taxable: false
+                  description: ''
+                  default_price_point_id: 108307
+                  price_point_count: 1
+                  price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
+                  tax_code: null
+                  recurring: true
+                  upgrade_charge: null
+                  downgrade_credit: null
+                  created_at: '2019-08-01T09:35:38-04:00'
+                  default_price_point_name: Original
+                  product_family_name: Chargify
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_componentsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/product_families/{product_family_id}/components/{component_id}.json':
     parameters:
       - name: product_family_id
         in: path
         required: true
         type: integer
-      - name: plural_kind
+      - name: component_id
         in: path
+        description: 'A component identifier.  Either a Chargify ID or the handle you have attached to the component, prefixed with "handle:"'
         required: true
-        type: string
-        enum:
-          - metered_components
-          - quantity_based_components
-          - on_off_components
-    post:
-      operationId: POST_product_families-product_family_id-plural_kind-json
-      summary: Create Component within a Product Family
+        type: integer
+        pattern: '\Ahandle:[a-z0-9][a-z0-9\-_:]*\z/'
+    get:
+      operationId: GET_product_families-product_family_id-components-component_id-json
+      summary: Read Component by Id
       tags:
         - Component
         - Components
       description: |-
-        ## Create Component within a Product Family
+        ## Read a Specific Component for a Product Family
 
-        This request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.
-
-        ### Component Documentation
-
-        For more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)
-
-        ## Plural Kind  
-
-        In order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.
-
-        Use one of the following:
-
-        + metered_components
-        + quantity_based_components
-        + on_off_components
-        + prepaid_usage_components
-
-        ## Metered Component Example
-
-        ```
-        {
-          "metered_component": {
-            "name": "Text messages",
-            "unit_name": "text message",
-            "taxable": false,
-            "pricing_scheme": "stairstep",
-            "prices": [
-              {
-                "starting_quantity": 1,
-                "unit_price": 1,
-                "component": null
-              }
-            ]
-          }
-        }
-        ```
-
-        ## Quantity Based Example
-
-        **Per Unit Example**
-
-        ```
-        {
-          "quantity_based_component": {
-            "name": "Quantity Based Component",
-            "unit_name": "Component",
-            "description": "Example of JSON per-unit component example",
-            "pricing_scheme": "per_unit",
-            "unit_price": "10",
-            "taxable": "1"
-            "display_on_hosted_page": "1",
-            "allow_fractional_quantities": "1",
-            "public_signup_page_ids": ["323397"]
-        }
-        ```
-
-        **Stairstep Example**
-
-        ```
-        {
-          "quantity_based_component": {
-            "name": "Quantity Based Component",
-            "unit_name": "Quantity Based Component",
-            "description": "Example of JSON stairstep example",
-            "pricing_scheme": "stairstep",
-            "taxable": "1",
-            "prices_attributes": 
-              [
-                {
-                  "starting_quantity": "1",
-                  "ending_quantity": "100",
-                  "unit_price": "50"
-                },
-                {
-                  "starting_quantity": "101",
-                  "ending_quantity": "200",
-                  "unit_price": "10"
-                }
-              ],
-            "display_on_hosted_page": "1",
-            "allow_fractional_quantities": "1",
-            "public_signup_page_ids": ["323397"]
-          }
-        }
-        ```
-
-        **Volume Example**
-
-        ```
-        {
-          "quantity_based_component": {
-            "name": "Quantity Based Component",
-            "unit_name": "Quantity Based Component",
-            "description": "Example of JSON volume component example",
-            "pricing_scheme": "volume",
-            "taxable": "1",
-            "prices_attributes": [
-              {
-                "starting_quantity": "1",
-                "ending_quantity": "10",
-                "unit_price": "10"
-              },
-              {
-                "starting_quantity": "11",
-                "ending_quantity": "20",
-                "unit_price": "5"
-              }
-            ],
-            "display_on_hosted_page": "1",
-            "allow_fractional_quantities": "1",
-            "public_signup_page_ids": ["323397"]
-          }
-        }
-        ```
-
-        **Tiered Example**
-
-        ```
-        {
-          "quantity_based_component": {
-            "name": "Quantity Based Component",
-            "unit_name": "Quantity Based Component",
-            "description": "Example of JSON for tiered quantity based component",
-            "taxable": "1",
-            "pricing_scheme": "tiered",
-            "prices_attributes": [
-              {
-                "starting_quantity": "1",
-                "ending_quantity": "20",
-                "unit_price": "50"
-              },
-              {
-                "starting_quantity": "21",
-                "ending_quantity": "40",
-                "unit_price": "25"
-              }
-            ],
-            "display_on_hosted_page": "1",
-            "allow_fractional_quantities": "1",
-            "public_signup_page_ids": ["323397"]
-          }
-        }
-        ```
-
-
-        ## On/Off Component
-
-        ```
-        {
-          "on_off_component": {
-            "name": "Annual Support Services",
-            "description": "Prepay for support services",
-            "taxable": "1",
-            "price_attributes": {
-              "unit_price": "100.00",
-              "starting_quantity": "0"
-            },
-            "display_on_hosted_page": "1",
-            "public_signup_page_ids": ["320495"]
-        }
-        ```
-
-        ## Create a Component with Default Proration Schemes
-
-        This endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.
-
-        ### On/Off Component with Default Proration Schemes
-
-        ```
-        {
-          "on_off_component": {
-            "name": "Annual Support Services",
-            "description": "Prepay for support services",
-            "taxable": "1",
-            "price_attributes": {
-              "unit_price": "100.00",
-              "starting_quantity": "0"
-            },
-            "display_on_hosted_page": "1",
-            "public_signup_page_ids": ["320495"],
-            "upgrade_charge": "full",
-            "downgrade_credit": "prorated",
-          }
-        }
-        ```
-
-        ### Prepaid Usage Component Example
-
-        ```
-        {
-           "prepaid_usage_component":{
-              "name":"Minutes",
-              "unit_name":"minutes",
-              "unit_price":2.0,
-              "pricing_scheme":"per_unit",
-              "rollover_prepaid_remainder": true,
-              "renew_prepaid_allocation": true,
-              "expiration_interval": 15,
-              "expiration_interval_unit": "day",
-              "overage_pricing":{
-                 "pricing_scheme":"stairstep",
-                 "prices":[
-                    {
-                       "starting_quantity":1,
-                       "ending_quantity":100,
-                       "unit_price":3.0,
-                       "formatted_unit_price":"$3.00"
-                    },
-                    {
-                       "starting_quantity":101,
-                       "unit_price":5.0,
-                       "formatted_unit_price":"$5.00"
-                    }
-                 ]
-              }
-           }
-        }
-        ```
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/component-create'
-            example:
-              metered_component:
-                name: Text messages
-                unit_name: text message
-                taxable: false
-                pricing_scheme: stairstep
-                prices:
-                  - starting_quantity: 1
-                    unit_price: 1
-                    component: null
+        This request will return information regarding a component from a specific product family.
       responses:
-        '201':
+        '200':
           description: ''
           schema:
             type: object
@@ -1453,11 +1549,11 @@ paths:
                   name:
                     type: string
                   pricing_scheme:
-                    type: string
+                    type: 'null'
                   unit_name:
                     type: string
                   unit_price:
-                    type: 'null'
+                    type: string
                   product_family_id:
                     type: integer
                   price_per_unit_in_cents:
@@ -1469,74 +1565,83 @@ paths:
                   taxable:
                     type: boolean
                   description:
-                    type: 'null'
+                    type: string
+                  default_price_point_id:
+                    type: integer
+                  price_point_count:
+                    type: integer
+                  price_points_url:
+                    type: string
+                  tax_code:
+                    type: string
+                  recurring:
+                    type: boolean
+                  upgrade_charge:
+                    type:
+                      - 'null'
+                      - string
+                  downgrade_credit:
+                    type:
+                      - 'null'
+                      - string
+                  created_at:
+                    type: string
                   prices:
-                    type: array
+                    type:
+                      - 'null'
+                      - array
                     items:
                       type: object
                       properties:
+                        id:
+                          type: integer
+                        component_id:
+                          type: integer
                         starting_quantity:
                           type: integer
                         ending_quantity:
                           type: 'null'
                         unit_price:
                           type: string
-                        id:
-                          type: integer
-                        component_id:
-                          type: integer
                         price_point_id:
                           type: integer
                         formatted_unit_price:
                           type: string
-                  created_at:
-                    type: string
                   default_price_point_name:
                     type: string
+                  product_family_name:
+                    type: string
           examples:
-            application/json:
-              component:
-                id: 292609
-                name: Text messages
-                pricing_scheme: stairstep
-                unit_name: text message
-                unit_price: null
-                product_family_id: 528484
-                price_per_unit_in_cents: null
-                kind: metered_component
-                archived: false
-                taxable: false
-                description: null
-                created_at: '2019-08-02T05:54:53-04:00'
-                prices:
-                  - id: 47
-                    component_id: 292609
-                    starting_quantity: 1
-                    ending_quantity: null
-                    unit_price: '1.0'
-                    price_point_id: 173
-                    formatted_unit_price: $1.00
-                default_price_point_name: Original
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: string
-          examples:
-            application/json:
-              errors:
-                - 'Name: cannot be blank.'
-                - 'Unit name: cannot be blank.'
-                - 'Pricing scheme: cannot be blank.'
-                - At least 1 price bracket must be defined
+            application/json: |-
+              {
+                  "component": {
+                      "id": 399853,
+                      "name": "Annual Support Services",
+                      "pricing_scheme": null,
+                      "unit_name": "on/off",
+                      "unit_price": "100.0",
+                      "product_family_id": 997233,
+                      "price_per_unit_in_cents": null,
+                      "kind": "on_off_component",
+                      "archived": false,
+                      "taxable": true,
+                      "description": "Prepay for support services",
+                      "default_price_point_id": 121003,
+                      "price_point_count": 4,
+                      "price_points_url": "https://general-goods.chargify.com/components/399853/price_points",
+                      "tax_code": "D0000000",
+                      "recurring": true,
+                      "upgrade_charge": null,
+                      "downgrade_credit": null,
+                      "created_at": "2019-08-02T05:54:53-04:00",
+                      "default_price_point_name": "Original",
+                      "product_family_name": "Chargify
+                  }
+              }
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_productfamilies-productfamilyid-pluralkindjson
+        id: GET_productfamilies-productfamilyid-components-componentidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -1723,414 +1828,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_productfamilies-productfamilyid-componentsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/product_families/{product_family_id}/components/{component_id}.json':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: integer
-      - name: component_id
-        in: path
-        description: 'A component identifier.  Either a Chargify ID or the handle you have attached to the component, prefixed with "handle:"'
-        required: true
-        type: integer
-        pattern: '\Ahandle:[a-z0-9][a-z0-9\-_:]*\z/'
-    get:
-      operationId: GET_product_families-product_family_id-components-component_id-json
-      summary: Read Component by Id
-      tags:
-        - Component
-        - Components
-      description: |-
-        ## Read a Specific Component for a Product Family
-
-        This request will return information regarding a component from a specific product family.
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: object
-            properties:
-              component:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  pricing_scheme:
-                    type: 'null'
-                  unit_name:
-                    type: string
-                  unit_price:
-                    type: string
-                  product_family_id:
-                    type: integer
-                  price_per_unit_in_cents:
-                    type: 'null'
-                  kind:
-                    type: string
-                  archived:
-                    type: boolean
-                  taxable:
-                    type: boolean
-                  description:
-                    type: string
-                  default_price_point_id:
-                    type: integer
-                  price_point_count:
-                    type: integer
-                  price_points_url:
-                    type: string
-                  tax_code:
-                    type: string
-                  recurring:
-                    type: boolean
-                  upgrade_charge:
-                    type:
-                      - 'null'
-                      - string
-                  downgrade_credit:
-                    type:
-                      - 'null'
-                      - string
-                  created_at:
-                    type: string
-                  prices:
-                    type:
-                      - 'null'
-                      - array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        component_id:
-                          type: integer
-                        starting_quantity:
-                          type: integer
-                        ending_quantity:
-                          type: 'null'
-                        unit_price:
-                          type: string
-                        price_point_id:
-                          type: integer
-                        formatted_unit_price:
-                          type: string
-                  default_price_point_name:
-                    type: string
-                  product_family_name:
-                    type: string
-          examples:
-            application/json: |-
-              {
-                  "component": {
-                      "id": 399853,
-                      "name": "Annual Support Services",
-                      "pricing_scheme": null,
-                      "unit_name": "on/off",
-                      "unit_price": "100.0",
-                      "product_family_id": 997233,
-                      "price_per_unit_in_cents": null,
-                      "kind": "on_off_component",
-                      "archived": false,
-                      "taxable": true,
-                      "description": "Prepay for support services",
-                      "default_price_point_id": 121003,
-                      "price_point_count": 4,
-                      "price_points_url": "https://general-goods.chargify.com/components/399853/price_points",
-                      "tax_code": "D0000000",
-                      "recurring": true,
-                      "upgrade_charge": null,
-                      "downgrade_credit": null,
-                      "created_at": "2019-08-02T05:54:53-04:00",
-                      "default_price_point_name": "Original",
-                      "product_family_name": "Chargify
-                  }
-              }
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_productfamilies-productfamilyid-components-componentidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/product_families/{product_family_id}/quantity_based_components.{format}':
-    parameters:
-      - name: product_family_id
-        in: path
-        required: true
-        type: string
-      - name: format
-        in: path
-        required: true
-        type: string
-    post:
-      operationId: POST_product_families-product_family_id-quantity_based_components-format
-      summary: Create Component with Price Points
-      tags:
-        - Components
-      description: "## Create a Component with Price Points\n\nThis endpoint will allow you to create a componenent within Chargify that has multiple price points. The example in the definition will allow you to create a component for a quantity-based component.\n\n## Component Documentation\n\nFor more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)\n\n\n## On/Off Component with Price Points\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"],\n\t\t\"price_points\": [{\n\t\t\t\"name\": \"Wholesale\",\n\t\t\t\"handle\": \"wholesale-handle\",\n\t\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\t\"prices\": [{\n\t\t\t\t\"starting_quantity\": \"0\",\n\t\t\t\t\"unit_price\": \"89.00\"\n\t\t\t}]\n\t\t}]\n\t}\n}\n```"
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/components-create-component-with-price-points-request'
-            example:
-              quantity_based_component:
-                name: Widget
-                description: widget
-                unit_name: widget
-                pricing_scheme: volume
-                default_price_point_name: Initial
-                default_price_point_handle: initial-handle
-                prices:
-                  - starting_quantity: '1'
-                    ending_quantity: '100'
-                    unit_price: '5.00'
-                  - starting_quantity: '101'
-                    unit_price: '4.00'
-                price_points:
-                  - name: Wholesale
-                    handle: wholesale-handle
-                    pricing_scheme: tiered
-                    prices:
-                      - starting_quantity: '1'
-                        ending_quantity: '2'
-                        unit_price: '1'
-                public_signup_page_ids:
-                  - '1'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/components-create-response-post'
-          examples:
-            application/json:
-              component:
-                id: 292609
-                name: Text messages
-                pricing_scheme: stairstep
-                unit_name: text message
-                unit_price: null
-                product_family_id: 528484
-                price_per_unit_in_cents: null
-                kind: metered_component
-                archived: false
-                taxable: false
-                description: null
-                default_price_point_id: 75
-                prices:
-                  - starting_quantity: 1
-                    ending_quantity: null
-                    unit_price: '1.0'
-                price_point_count: 2
-                price_points_url: /components/292609/price_points
-                default_price_point_name: Original
-                product_family_name: Chargify
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  /components.json:
-    get:
-      operationId: GET_components-json
-      summary: Read Components for Site
-      tags:
-        - incomplete
-        - Component
-        - Components
-      description: |-
-        ## Read Components for a Site
-
-        This request will return a list of components for a site.
-      parameters:
-        - $ref: '#/parameters/trait:componentQueryString:date_field'
-        - $ref: '#/parameters/trait:componentQueryString:start_date'
-        - $ref: '#/parameters/trait:componentQueryString:end_date'
-        - $ref: '#/parameters/trait:componentQueryString:start_datetime'
-        - $ref: '#/parameters/trait:componentQueryString:end_datetime'
-        - $ref: '#/parameters/trait:includesArchive:include_archived'
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                component:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    pricing_scheme:
-                      type:
-                        - 'null'
-                        - string
-                    unit_name:
-                      type: string
-                    unit_price:
-                      type: string
-                    product_family_id:
-                      type: integer
-                    price_per_unit_in_cents:
-                      type: 'null'
-                    kind:
-                      type: string
-                    archived:
-                      type: boolean
-                    taxable:
-                      type: boolean
-                    description:
-                      type: string
-                    default_price_point_id:
-                      type: integer
-                    prices:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          component_id:
-                            type: integer
-                          starting_quantity:
-                            type: integer
-                          ending_quantity:
-                            type: 'null'
-                          unit_price:
-                            type: string
-                          price_point_id:
-                            type: integer
-                          formatted_unit_price:
-                            type: string
-                    price_point_count:
-                      type: integer
-                    price_points_url:
-                      type: string
-                    tax_code:
-                      type:
-                        - 'null'
-                        - string
-                    recurring:
-                      type: boolean
-                    upgrade_charge:
-                      type:
-                        - 'null'
-                        - string
-                    downgrade_credit:
-                      type:
-                        - 'null'
-                        - string
-                    created_at:
-                      type: string
-                    default_price_point_name:
-                      type: string
-                    product_family_name:
-                      type: string
-          examples:
-            application/json:
-              - component:
-                  id: 399850
-                  name: $1.00 component
-                  pricing_scheme: per_unit
-                  unit_name: Component
-                  unit_price: '1.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: quantity_based_component
-                  archived: false
-                  taxable: false
-                  description: Component
-                  default_price_point_id: 121000
-                  prices:
-                    - id: 630687
-                      component_id: 399850
-                      starting_quantity: 1
-                      ending_quantity: null
-                      unit_price: '1.0'
-                      price_point_id: 121000
-                      formatted_unit_price: $1.00
-                  price_point_count: 2
-                  price_points_url: 'https://general-goods.chargify.com/components/399850/price_points'
-                  tax_code: null
-                  recurring: true
-                  upgrade_charge: null
-                  downgrade_credit: null
-                  created_at: '2019-08-01T09:35:38-04:00'
-                  default_price_point_name: Original
-                  product_family_name: Chargify
-              - component:
-                  id: 399853
-                  name: Annual Support Services
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '100.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: on_off_component
-                  archived: false
-                  taxable: true
-                  description: Prepay for support services
-                  default_price_point_id: 121003
-                  price_point_count: 4
-                  price_points_url: 'https://general-goods.chargify.com/components/399853/price_points'
-                  tax_code: D0000000
-                  recurring: true
-                  upgrade_charge: null
-                  downgrade_credit: null
-                  created_at: '2019-08-01T09:35:37-04:00'
-                  default_price_point_name: Original
-                  product_family_name: Chargify
-              - component:
-                  id: 386937
-                  name: Cancellation fee
-                  pricing_scheme: null
-                  unit_name: on/off
-                  unit_price: '35.0'
-                  product_family_id: 997233
-                  price_per_unit_in_cents: null
-                  kind: on_off_component
-                  archived: false
-                  taxable: false
-                  description: ''
-                  default_price_point_id: 108307
-                  price_point_count: 1
-                  price_points_url: 'https://general-goods.chargify.com/components/386937/price_points'
-                  tax_code: null
-                  recurring: true
-                  upgrade_charge: null
-                  downgrade_credit: null
-                  created_at: '2019-08-01T09:35:38-04:00'
-                  default_price_point_name: Original
-                  product_family_name: Chargify
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_componentsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -2343,13 +2040,15 @@ paths:
           statusCode: 200
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Read Usage for a Prepaid Usage Component
+      summary: Read Usage by Component for a Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Read Usage for a Prepaid Usage Component
+        ## Read Usage by Component
 
-        This request will return a list of the usages associated with a subscription for a particular prepaid usage component. This will display the previously recorded components for a subscription.
+        This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
+
+        This endpoint is not compatible with quantity-based components.
 
         ## Since Date and Until Date Usage 
 
@@ -2362,9 +2061,18 @@ paths:
         ## Read Usage by Handle
 
         Use this endpoint to read the previously recorded components for a subscription.  You can now specify either the component id (integer) or the component handle prefixed by "handle:" to specify the unique identifier for the component you are working with.
+      parameters:
+        - $ref: '#/parameters/trait:componentParameters:since_id'
+        - $ref: '#/parameters/trait:componentParameters:max_id'
+        - $ref: '#/parameters/trait:componentParameters:since_date'
+        - $ref: '#/parameters/trait:componentParameters:until_date'
+        - $ref: '#/parameters/trait:componentParameters:page'
+        - $ref: '#/parameters/trait:componentParameters:per_page'
       responses:
         '200':
           description: ''
+          schema:
+            $ref: '#/definitions/components-metered-read-usage-output-subscription'
           examples:
             application/json:
               - usage:
@@ -2373,7 +2081,6 @@ paths:
                   created_at: '2018-08-03T11:58:42-05:00'
                   price_point_id: 242632
                   quantity: '20.0'
-                  overage_quantity: '0.0'
                   component_id: 500093
                   component_handle: handle
                   subscription_id: 22824464
@@ -2383,7 +2090,6 @@ paths:
                   created_at: '2018-08-03T11:58:29-05:00'
                   price_point_id: 242632
                   quantity: '10.0'
-                  overage_quantity: '0.0'
                   component_id: 500093
                   component_handle: handle
                   subscription_id: 22824464
@@ -2401,253 +2107,31 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription Import
+      summary: Create a Prepaid Subscription
       tags:
         - 'Components: Metered Usage'
       description: |-
-        ## Subscription Import
+        A prepaid subscription can be created with the usual subscription creation parameters, specifying `"prepaid"` as the `payment_collection_method` and including a nested `prepaid_subscription_configuration`.
 
-        This method is similar in function as the [Create Subscription](#endpoint:uw4BjXCFjTzSYYSaA) endpoint. However, used in a bulk capacity, many subscriptions can be created at one time. 
+        ### Prepaid Configuration Attributes
 
-        ## Important Notices and Disclaimers
+        | initial_funding_amount_in_cents |The initial amount of prepayment to be collected|
+        |-|-|
+        | replenish_to_amount_in_cents |(Optional) The amount to automatically be replenished to when the minimum balance is reached|
+        | auto_replenish |(Optional, default false) A flag indicating whether or not to automatically replenish the balance|
+        | replenish_threshold_amount_in_cents |(Optional) The minimum balance to trigger automatic replenishment|
 
-        Before performing a bulk import of subscriptions via the API, we suggest reading the [Subscriptions Import](http://help.chargify.com/subscriptions/subscriptions-import.html#important-notices-and-disclaimers) instructions to understand the repurcussions of a large import.
-
-        ## Required Country Format
-
-        Chargify requires that you use the ISO Standard Country codes when formatting country attribute of the subscription.
-
-        Countries should be formatted as 2 characters. For more information, please see the following wikipedia article on [ISO_3166-1.](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes)
-
-        ## Required State Format
-
-        Chargify requires that you use the ISO Standard State codes when formatting state attribute of the subscription.
-
-        + US States (2 characters): [ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
-
-        + States Outside the US (2-3 characters): To find the correct state codes outside of the US, please go to [ISO_3166-1](http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes) and click on the link in the “ISO 3166-2 codes” column next to country you wish to populate.
-         
-        ##  Authorize.Net ACH Imports
-
-        The following JSON is useful when creating a subscription with ACH in Authorize.Net. Please note the inclusion of `customer_vault_token` as it is necessary for Authorize.Net. 
-
-        ```
-        {
-         "subscription": {
-           "product_handle": "product",
-           "next_billing_at": "2020-08-29",
-           "customer_attributes": {
-             "first_name": "John",
-             "last_name": "Doe",
-             "email": "john.doe@example.com"
-           },
-           "bank_account_attributes": {
-              "bank_name": "My Bank",
-              "current_vault": "authorizenet",
-              "vault_token": "1234",
-              "customer_vault_token": "5678"
-            }
-         }
-        }
-        ```
-
-        ##  Stripe ACH Imports
-
-        The following JSON is useful when creating a subscription with a Stripe bank account.
-
-        ```
-        {
-         "subscription": {
-           "product_handle": "product",
-           "next_billing_at": "2020-08-29",
-           "customer_attributes": {
-             "first_name": "John",
-             "last_name": "Doe",
-             "email": "john.doe@example.com"
-           },
-           "bank_account_attributes": {
-              "bank_name": "My Bank",
-              "current_vault": "stripe_connect",
-              "vault_token": "cus_abc123"
-            }
-         }
-        }
-        ```
-
-        If the bank account has already been verified, currently you will need to create the customer, [create the payment profile](https://reference.chargify.com/v1/payment-profiles/create-a-payment-profile) setting verified=true, then create a subscription using the customer_id and payment_profile_id. 
-
-        ## Importing a Canceled Subscription
-
-        To import a canceled subscription, a canceled_at date should be provided for the subscription. Optionally, you may pass in a cancellation_message and reason_code for the cancellation. You may also optionally pass in an activated_at date for the subscription's original activation date.
-
-        ```
-        {
-          "subscription": {
-            "product_handle": "product",
-            "canceled_at": "2021-02-25T12:00:00-04:00",
-            "cancellation_message": "Too expensive",
-            "reason_code": "expensive"
-            "activated_at": "2021-01-17T12:00:00-04:00",
-            "customer_attributes": {
-              "first_name": "Joe",
-              "last_name": "Test",
-              "email": "joetest@example.com"
-            },
-            "bank_account_attributes": {
-              "bank_name": "My Bank",
-              "current_vault": "stripe",
-              "vault_token": "1234"
-            }
-          }
-        }
-        ```
+        After a prepaid subscription has been created, additional funds can be manually added to the prepayment account through the [Create Prepayment endpoint](https://reference.chargify.com/v1/subscriptions-prepayments/create-prepayment).
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions-subscription-import-request'
-            example:
-              subscription:
-                product_handle: basic
-                next_billing_at: '2010-08-29T12:00:00-04:00'
-                customer_attributes:
-                  first_name: John
-                  last_name: Doe
-                  email: john.doe@example.com
-                  reference: '123'
-                  organization: Acme Widgets
-                payment_profile_attributes:
-                  vault_token: '12345'
-                  customer_vault_token: '67890'
-                  current_vault: authorizenet
-                  expiration_year: '2020'
-                  expiration_month: '12'
-                  card_type: visa
-                  last_four: '1111'
+            $ref: '#/definitions/subscription-create-prepaid-request'
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/subscriptions-subscription-import-request'
-          examples:
-            application/json:
-              subscription:
-                id: 15254809
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
-                activated_at: '2016-11-15T15:33:44-05:00'
-                created_at: '2016-11-15T15:33:44-05:00'
-                updated_at: '2016-11-15T15:33:44-05:00'
-                expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-08-29T12:00:00-04:00'
-                next_assessment_at: '2017-08-29T12:00:00-04:00'
-                canceled_at: null
-                cancellation_message: null
-                next_product_id: null
-                cancel_at_end_of_period: null
-                payment_collection_method: automatic
-                snap_day: null
-                cancellation_method: null
-                current_period_started_at: '2016-11-15T15:33:44-05:00'
-                previous_state: active
-                signup_payment_id: 0
-                signup_revenue: '0.00'
-                delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 1000
-                product_version_number: 7
-                payment_type: credit_card
-                referral_code: tg8qbq
-                coupon_use_count: null
-                coupon_uses_allowed: null
-                customer:
-                  id: 14731081
-                  first_name: John
-                  last_name: Doe
-                  organization: Acme Widgets
-                  email: john.doe@example.com
-                  created_at: '2016-11-15T15:33:44-05:00'
-                  updated_at: '2016-11-15T15:33:45-05:00'
-                  reference: '123'
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_accepted_at: null
-                  verified: false
-                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-                  cc_emails: null
-                product:
-                  id: 3792003
-                  name: $10 Basic Plan
-                  handle: basic
-                  description: lorem ipsum
-                  accounting_code: basic
-                  request_credit_card: false
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-03-24T13:38:39-04:00'
-                  updated_at: '2016-11-03T13:03:05-04:00'
-                  price_in_cents: 1000
-                  interval: 1
-                  interval_unit: day
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 7
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 281054
-                      return_url: 'http://www.example.com?successfulsignup'
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-                    - id: 281240
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-                    - id: 282694
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-                credit_card:
-                  id: 10202898
-                  first_name: John
-                  last_name: Doe
-                  masked_card_number: XXXX-XXXX-XXXX-1111
-                  card_type: visa
-                  expiration_month: 12
-                  expiration_year: 2020
-                  customer_id: 14731081
-                  current_vault: authorizenet
-                  vault_token: '12345'
-                  billing_address: null
-                  billing_city: null
-                  billing_state: null
-                  billing_zip: null
-                  billing_country: null
-                  customer_vault_token: '67890'
-                  billing_address_2: null
-                  payment_type: credit_card
+            $ref: '#/definitions/subscription-read-subscription'
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6206,21 +5690,25 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Read Customers for a Site
+      summary: Search for Customer
       tags:
         - Customers
       description: |-
-        ## Read Customers for a Site
+        ## Search for Customer
 
-        This request will list all customers associated with your Site.
+        Use the search feature to retrieve a single or group of customers. 
+
+        Common use cases are:
+
+        + Search by email
+        + Search by Chargify ID
+        + Search by Reference (Your App)
+        + Search by Organization
+
+        If multiple customers meet the criteria for the search string, please expect an array.
       parameters:
-        - $ref: '#/parameters/trait:direction:direction'
+        - $ref: '#/parameters/trait:searchString:q'
         - $ref: '#/parameters/trait:pagination50:page'
-        - $ref: '#/parameters/trait:customerQueryString:date_field'
-        - $ref: '#/parameters/trait:customerQueryString:start_date'
-        - $ref: '#/parameters/trait:customerQueryString:end_date'
-        - $ref: '#/parameters/trait:customerQueryString:start_datetime'
-        - $ref: '#/parameters/trait:customerQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -6230,90 +5718,43 @@ paths:
               type: object
               properties:
                 customer:
-                  type: object
-                  properties:
-                    first_name:
-                      type: string
-                    last_name:
-                      type: string
-                    email:
-                      type: string
-                    cc_emails:
-                      type: string
-                    organization:
-                      type: string
-                    reference:
-                      type: 'null'
-                    id:
-                      type: integer
-                    created_at:
-                      type: string
-                    updated_at:
-                      type: string
-                    address:
-                      type: string
-                    address_2:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    state_name:
-                      type: string
-                    zip:
-                      type: string
-                    country:
-                      type: string
-                    country_name:
-                      type: string
-                    phone:
-                      type: string
-                    verified:
-                      type: 'null'
-                    portal_customer_created_at:
-                      type: string
-                    portal_invite_last_sent_at:
-                      type: string
-                    portal_invite_last_accepted_at:
-                      type: 'null'
-                    tax_exempt:
-                      type: boolean
-                    parent_id:
-                      type: integer
+                  $ref: '#/definitions/customer-customer-output'
           examples:
             application/json:
               - customer:
-                  first_name: Kayla
-                  last_name: Test
-                  email: kayla@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14126091
-                  created_at: '2016-10-04T15:22:27-04:00'
-                  updated_at: '2016-10-04T15:22:30-04:00'
-                  address: ''
+                  first_name: Amelia
+                  last_name: Example
+                  email: amelia@example.com
+                  cc_emails: 'john@example.com, joe@example.com'
+                  organization: Acme
+                  reference: JQPUBLIC
+                  id: 14399371
+                  created_at: '2016-10-24T16:20:12-04:00'
+                  updated_at: '2016-10-26T13:25:33-04:00'
+                  address: 123 Anywhere Street
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+                  city: Anywhere
+                  state: MA
+                  zip: '02120'
+                  country: US
+                  phone: 555-555-1212
+                  verified: false
+                  portal_customer_created_at: null
+                  portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: 14585723
               - customer:
-                  first_name: 'Nick '
-                  last_name: Test
-                  email: nick@example.com
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14254093
-                  created_at: '2016-10-13T16:52:51-04:00'
-                  updated_at: '2016-10-13T16:52:54-04:00'
+                  organization: Acme
+                  reference: '1234'
+                  id: 14585723
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-12-02T18:03:36-05:00'
                   address: ''
                   address_2: ''
                   city: ''
@@ -6321,34 +5762,60 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: null
+              - customer:
+                  first_name: John
+                  last_name: Doe
+                  email: john.doe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme Widgets
+                  reference: '123'
+                  id: 14731081
+                  created_at: '2016-11-15T15:33:44-05:00'
+                  updated_at: '2016-11-15T15:33:45-05:00'
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+                  vat_number: 012345678
                   parent_id: 123
               - customer:
-                  first_name: Don
-                  last_name: Test
-                  email: don@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14332342
-                  created_at: '2016-10-19T10:49:13-04:00'
-                  updated_at: '2016-10-19T10:49:19-04:00'
-                  address: 1737 15th St
+                  organization: Acme
+                  reference: ABC123
+                  id: 14943291
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T18:03:17-05:00'
+                  address: ''
                   address_2: ''
-                  city: Boulder
-                  state: CO
-                  zip: '80302'
-                  country: US
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
                   parent_id: null
       security:
         - <<api_key>>: []
@@ -11017,94 +10484,46 @@ paths:
   /payment_profiles.json:
     post:
       operationId: POST_payment_profiles-json
-      summary: Create GoCardless Payment Profile
+      summary: Create Stripe SEPA Direct Debit Payment Profile
       tags:
         - Payment Profiles
       description: |-
-        ## Using GoCardless with Chargify
+        ## Using Stripe SEPA Direct Debit with Chargify
 
-        For more information on GoCardless, please view the following resources:
+        For more information on Stripe SEPA Direct Debit, please view the following resources:
 
-        + [Payment Profiles via API for GoCardless](#endpoint:CaR3rApsyniuZtoEH)
-        + [Full documentation on GoCardless](https://help.chargify.com/payment-gateways/gocardless.html)
+        + [Full documentation on Stripe SEPA Direct Debit](https://help.chargify.com/payment-gateways/stripe-direct-debit.html)
 
-        + [Using Chargify.js with GoCardless - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-direct-debit-stripe-gateway)
 
-        + [Using Chargify.js with GoCardless - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-direct-debit-stripe-gateway)
 
-        ## GoCardless Payment Profiles
 
-        The following table depicts what are the elements that are used when creating GoCardless Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a GoCardless payment profile. 
+        ## Stripe SEPA Direct Debit Payment Profiles
 
-        | bank_name           | (Required when creating a subscription with ACH or GoCardless). The name of the bank where the customerʼs account resides                                                                      |
+        The following table depicts what are the elements that are used when creating Stripe Direct Debit Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a Stripe Direct Debit payment profile. 
+
+        | bank_name           | (Optional when creating a subscription with Stripe Direct Debit). The name of the bank where the customerʼs account resides                                                                      |
         |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | bank_iban           | (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided                                                  |
-        | bank_routing_number | (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API |
-        | bank_account_number | (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number                              |
-        | bank_branch_code    | (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided                                                                                    |
+        | bank_iban           | (Required when creating a subscription with Stripe Direct Debit). International Bank Account Number.                |
 
 
-        ## GoCardless with Local Bank Details
 
-        Following examples create customer, bank account and mandate in GoCardless:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "Valid-Customer-ID",
-            "bank_name": "Royal Bank of France",
-            "bank_account_number": "0000000",
-            "bank_routing_number": "0003",
-            "bank_branch_code": "00006",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## GoCardless with IBAN
-
-        The following examples creates a customer, bank account and mandate in GoCardless:
+        The following example creates a customer, bank account and mandate in Stripe:
 
 
         ```
         {
           "payment_profile": {
             "customer_id": "24907598",
-            "bank_name": "French Bank",
-            "bank_iban": "FR1420041010050500013M02606",
+            "bank_name": "Deutsche bank",
+            "bank_iban": "DE89370400440532013000",
             "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## Importing GoCardless
-
-        If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "24907598",
-            "customer_vault_token": [Existing GoCardless Customer ID]
-            "vault_token": [Existing GoCardless Mandate ID],
-            "current_vault": "gocardless",
-            "bank_name": "French Bank",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
+            "billing_address": "Test",
+            "billing_city": "Berlin",
+            "billing_state": "Brandenburg",
+            "billing_zip": "12345",
+            "billing_country": "DE"
           }
         }
         ```
@@ -11138,14 +10557,14 @@ paths:
             example:
               payment_profile:
                 customer_id: '24907598'
-                bank_name: French Bank
-                bank_iban: FR1420041010050500013M02606
+                bank_name: Deutsche bank
+                bank_iban: DE89370400440532013000
                 payment_type: bank_account
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
       responses:
         '201':
           description: ''
@@ -11178,7 +10597,9 @@ paths:
                   billing_country:
                     type: string
                   customer_vault_token:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                   billing_address_2:
                     type: 'null'
                   bank_name:
@@ -11202,18 +10623,18 @@ paths:
                 first_name: Chester
                 last_name: Tester
                 customer_id: 24907598
-                current_vault: gocardless
-                vault_token: MD00058FVXGX9E
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
-                customer_vault_token: CU0005GP6E2F80
+                current_vault: stripe_connect
+                vault_token: cus_J0iV6HHEeYiAX4
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
+                customer_vault_token: null
                 billing_address_2: null
-                bank_name: French Bank
+                bank_name: Deutsche bank
                 masked_bank_routing_number: null
-                masked_bank_account_number: XXXX2606
+                masked_bank_account_number: XXXX3000
                 bank_account_type: checking
                 bank_account_holder_type: personal
                 payment_type: bank_account
@@ -26548,8 +25969,8 @@ definitions:
       id: enable-billing-portal-response
       name: Enable Billing Portal Response
       public: true
-  create-multiple-allocations:
-    title: Create Multiple Allocations
+  create-allocations-request:
+    title: Create Allocations Request
     type: object
     properties:
       proration_upgrade_scheme:
@@ -26581,104 +26002,8 @@ definitions:
           quantity: 5
           memo: bar
     x-stoplight:
-      id: create-multiple-allocations
-      name: Create Multiple Allocations
-      public: true
-  components-create-response-post:
-    title: Create a Component Response POST
-    type: object
-    properties:
-      component:
-        type: object
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          handle:
-            type: string
-          pricing_scheme:
-            type: string
-          unit_name:
-            type: string
-          unit_price:
-            type: 'null'
-          product_family_id:
-            type: integer
-          price_per_unit_in_cents:
-            type: 'null'
-          kind:
-            type: string
-          archived:
-            type: boolean
-          taxable:
-            type: boolean
-          description:
-            type: 'null'
-          default_price_point_id:
-            type: integer
-          prices:
-            type: array
-            items:
-              type: object
-              properties:
-                starting_quantity:
-                  type: integer
-                ending_quantity:
-                  type: 'null'
-                unit_price:
-                  type: string
-                id:
-                  type: integer
-                component_id:
-                  type: integer
-                price_point_id:
-                  type: integer
-                formatted_unit_price:
-                  type: string
-          price_point_count:
-            type: integer
-          price_points_url:
-            type: string
-          upgrade_charge:
-            type: string
-          downgrade_credit:
-            type: string
-          created_at:
-            type: string
-          default_price_point_name:
-            type: string
-          product_family_name:
-            type: string
-    example:
-      component:
-        id: 292609
-        name: Text messages
-        pricing_scheme: stairstep
-        unit_name: text message
-        unit_price: null
-        product_family_id: 528484
-        price_per_unit_in_cents: null
-        kind: metered_component
-        archived: false
-        taxable: false
-        description: null
-        default_price_point_id: 75
-        prices:
-          - id: 75
-            component_id: 292609
-            starting_quantity: 1
-            ending_quantity: null
-            unit_price: '1.0'
-            formatted_unit_price: $0.00
-        price_point_count: 2
-        price_points_url: /components/292609/price_points
-        created_at: '2019-08-06T02:53:43-04:00'
-        default_price_point_name: Original
-        product_family_name: Chargify
-    x-stoplight:
-      id: components-create-response-post
-      name: Create a Component Response POST
+      id: create-allocations-request
+      name: Create Allocations Request
       public: true
   component-read-components-for-a-product-family-output:
     title: Read Components for a Product Family Output
@@ -26828,7 +26153,7 @@ definitions:
       name: Read Components for a Product Family Output
       public: true
   component-list-specific-component-product-family-get:
-    title: Read Specific Component Product Family GET
+    title: Component by Product Family Response
     type: object
     properties:
       component:
@@ -26899,7 +26224,7 @@ definitions:
         created_at: '2019-08-02T05:54:53-04:00'
     x-stoplight:
       id: component-list-specific-component-product-family-get
-      name: Read Specific Component Product Family GET
+      name: Component by Product Family Response
       public: true
   component-create:
     title: Create a Component Request POST
@@ -26943,6 +26268,26 @@ definitions:
             type: string
           downgrade_credit:
             type: string
+          price_points:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                handle:
+                  type: string
+                pricing_scheme:
+                  type: string
+                prices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      starting_quantity:
+                        type: string
+                      unit_price:
+                        type: string
     required:
       - metered_component
     example:
@@ -37529,112 +36874,6 @@ definitions:
       id: payments-update-payment-profile
       name: Update Payment Profile
       public: true
-  components-create-component-with-price-points-request:
-    title: Create Component with Price Points Request
-    type: object
-    properties:
-      quantity_based_component:
-        type: object
-        required:
-          - name
-          - description
-          - unit_name
-          - pricing_scheme
-          - default_price_point_name
-          - default_price_point_handle
-          - prices
-          - price_points
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          unit_name:
-            type: string
-          pricing_scheme:
-            type: string
-          default_price_point_name:
-            type: string
-          default_price_point_handle:
-            type: string
-          prices:
-            type: array
-            items:
-              type: object
-              properties:
-                starting_quantity:
-                  type: string
-                ending_quantity:
-                  type: string
-                unit_price:
-                  type: string
-          price_points:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                handle:
-                  type: string
-                pricing_scheme:
-                  type: string
-                prices:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      starting_quantity:
-                        type: string
-                      ending_quantity:
-                        type: string
-                      unit_price:
-                        type:
-                          - string
-                          - number
-                    required:
-                      - starting_quantity
-                      - ending_quantity
-                      - unit_price
-              required:
-                - name
-                - handle
-                - pricing_scheme
-                - prices
-          public_signup_page_ids:
-            type: array
-            items:
-              type: string
-    required:
-      - quantity_based_component
-    example:
-      quantity_based_component:
-        name: Widget
-        description: widget
-        unit_name: widget
-        pricing_scheme: volume
-        default_price_point_name: Initial
-        default_price_point_handle: initial-handle
-        prices:
-          - starting_quantity: '1'
-            ending_quantity: '100'
-            unit_price: '5.00'
-          - starting_quantity: '101'
-            unit_price: '4.00'
-        price_points:
-          - name: Wholesale
-            handle: wholesale-handle
-            pricing_scheme: tiered
-            prices:
-              - starting_quantity: '1'
-                ending_quantity: '2'
-                unit_price: '1'
-        public_signup_page_ids:
-          - '1'
-    x-stoplight:
-      id: components-create-component-with-price-points-request
-      name: Create Component with Price Points Request
-      public: true
   components-price-points-create-price-point-request:
     title: Create Price Point Request
     type: object
@@ -46680,7 +45919,7 @@ x-stoplight:
               type: schemas
             - _id: allocation-response
               type: schemas
-            - _id: create-multiple-allocations
+            - _id: create-allocations-request
               type: schemas
             - _id: TNKpG6SD9R6zdNytf
               type: endpoints
@@ -46703,9 +45942,17 @@ x-stoplight:
           items:
             - _id: components-intro
               type: docTextSections
+            - _id: POST_productfamilies-productfamilyid-pluralkindjson
+              type: endpoints
             - _id: GET_components-lookupjson
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-components-handlecomponenthandlejson
+              type: endpoints
+            - _id: GET_componentsjson
+              type: endpoints
+            - _id: GET_productfamilies-productfamilyid-components-componentidjson
+              type: endpoints
+            - _id: GET_productfamilies-productfamilyid-componentsjson
               type: endpoints
             - _id: component-list-specific-component-product-family-get
               type: schemas
@@ -46713,26 +45960,14 @@ x-stoplight:
               type: schemas
             - _id: includesArchive
               type: traits
-            - _id: POST_productfamilies-productfamilyid-pluralkindjson
-              type: endpoints
             - _id: component-create
               type: schemas
-            - _id: components-create-response-post
+            - _id: PuPuYQeg7oWX4XPxC
               type: schemas
-            - _id: GET_productfamilies-productfamilyid-componentsjson
-              type: endpoints
             - _id: component-read-components-for-a-product-family-output
-              type: schemas
-            - _id: GET_productfamilies-productfamilyid-components-componentidjson
-              type: endpoints
-            - _id: POST_productfamilies-productfamilyid-quantitybasedcomponentsformat
-              type: endpoints
-            - _id: components-create-component-with-price-points-request
               type: schemas
             - _id: componentQueryString
               type: traits
-            - _id: GET_componentsjson
-              type: endpoints
         - divider: false
           items:
             - _id: component-line-items
