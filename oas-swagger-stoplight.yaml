@@ -45863,130 +45863,148 @@ definitions:
     title: Customer
     type: object
     properties:
-      first_name:
-        type: string
-        description: The first name of the customer
-      last_name:
-        type: string
-        description: The last name of the customer
-      cc_emails:
-        description: Any cc emails associated with the subscription
-        type: string
-      organization:
-        type:
-          - string
-          - 'null'
-        description: The organization of the customer
-      reference:
-        type:
-          - 'null'
-          - integer
-        description: The reference information associated with the customer
-      id:
-        type: integer
-        description: The ID of the customer
-      created_at:
-        type: string
-        format: date-time
-        description: The timestamp when the customer was created
-      updated_at:
-        type: string
-        format: date-time
-        description: The timestamp when the customer was last edited
-      address:
-        type:
-          - string
-          - 'null'
-        description: The address of the customer
-      address_2:
-        type:
-          - string
-          - 'null'
-        description: An additional address line item for the customer
-      city:
-        type:
-          - string
-          - 'null'
-        description: The customer's city
-      state:
-        type:
-          - string
-          - 'null'
-        description: The customer's state
-      state_name:
-        type:
-          - string
-          - 'null'
-        description: The customer's full name of state
-      zip:
-        type:
-          - string
-          - 'null'
-        description: The customer's zip
-      country:
-        type:
-          - string
-          - 'null'
-        description: The customer's county
-      country_name:
-        type:
-          - string
-          - 'null'
-        description: The customer's full name of country
-      phone:
-        type:
-          - string
-          - 'null'
-        description: The customer's phone number
-      verified:
-        type:
-          - 'null'
-          - boolean
-        description: |-
-          Is the customer verified to use ACH as a payment 
-          method. Compatible with Authorize.Net or when testing with the bogus gateway)
-      portal_customer_created_at:
-        type:
-          - string
-          - 'null'
-        format: date-time
-        description: Timestamp when the Billing Portal was created for the customer
-      portal_invite_last_sent_at:
-        type:
-          - string
-          - 'null'
-        format: date-time
-        description: Timestamp of when the last Billing Portal invite was sent
-      portal_invite_last_accepted_at:
-        type:
-          - 'null'
-          - string
-        format: date-time
-        description: Timestamp in which the last Billing Portal invitation was accepted at
-      tax_exempt:
-        type: boolean
-        description: Is the customer entry tax exempt
-      vat_number:
-        type: string
-        default: nil
-        description: The customer VAT number
-      parent_id:
-        type: integer
+      customer:
+        type: object
+        properties:
+          first_name:
+            type: string
+            description: |
+              The first name of the customer
+          last_name:
+            type: string
+            description: |
+              The last name of the customer
+          email:
+            type: string
+            description: |
+              The email address of the customer
+          cc_emails:
+            type:
+              - string
+              - 'null'
+            description: |
+              (Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)
+          organization:
+            type: string
+            description: |
+              The organization of the customer
+          reference:
+            type:
+              - string
+              - 'null'
+            description: |
+              The unique identifier used within your own application for this customer
+          id:
+            type: integer
+            description: |
+              The customer ID in Chargify
+          created_at:
+            type: string
+            description: |
+              The timestamp in which the customer object was created in Chargify
+          updated_at:
+            type: string
+            description: |
+              The timestamp in which the customer object was last edited
+          address:
+            type: string
+            description: |
+              The customer’s shipping street address (i.e. “123 Main St.”)
+          address_2:
+            type: string
+            description: |
+              Second line of the customer’s shipping address i.e. “Apt. 100”
+          city:
+            type: string
+            description: |
+              The customer’s shipping address city (i.e. “Boston”)
+          state:
+            type: string
+            description: |
+              The customer’s shipping address state (i.e. “MA”)
+          state_name:
+            type: string
+          zip:
+            type: string
+            description: |
+              The customer’s shipping address zip code (i.e. “12345”)
+          country:
+            type: string
+            description: "\tThe customer shipping address country"
+          country_name:
+            type: string
+          phone:
+            type: string
+            description: |
+              The phone number of the customer
+          verified:
+            type: boolean
+            description: |
+              Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
+          portal_customer_created_at:
+            type:
+              - string
+              - 'null'
+            description: |
+              The timestamp of when the Billing Portal entry was created at for the customer
+          portal_invite_last_sent_at:
+            type:
+              - string
+              - 'null'
+            description: |
+              The timestamp of when the Billing Portal invite was last sent at
+          portal_invite_last_accepted_at:
+            description: |
+              The timestamp of when the Billing Portal invite was last accepted
+            type:
+              - string
+              - 'null'
+          tax_exempt:
+            type: boolean
+            description: |
+              (Optional) The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
+          vat_number:
+            type:
+              - string
+              - 'null'
+            description: |
+              (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.
+          parent_id:
+            description: |
+              (Optional) The parent ID in Chargify if applicable. Parent is another Customer object.
+            type:
+              - integer
+              - 'null'
+          locale:
+            type: string
     example:
-      first_name: est Excepteur pariatur in ex
-      last_name: dolor
-      cc_emails: enim consequat
-      organization: in
-      reference: -43170950
-      id: -40491642
-      created_at: '4306-02-12T18:00:26.728Z'
-      updated_at: '5034-09-17T14:44:26.558Z'
-      verified: true
-      portal_customer_created_at: '2279-03-29T16:54:58.098Z'
-      portal_invite_last_sent_at: '4832-01-30T19:15:13.510Z'
-      tax_exempt: true
-      vat_number: mollit nisi irure in qui
-      parent_id: -31451050
+      customer:
+        first_name: Cathryn
+        last_name: Parisian
+        email: Stella.McLaughlin6@example.net
+        cc_emails: null
+        organization: Greenholt - Oberbrunner
+        reference: null
+        id: 76
+        created_at: '2021-03-29T07:47:00-04:00'
+        updated_at: '2021-03-29T07:47:00-04:00'
+        address: 739 Stephon Bypass
+        address_2: Apt. 386
+        city: Sedrickchester
+        state: KY
+        state_name: Kentucky
+        zip: 46979-7719
+        country: US
+        country_name: United States
+        phone: 230-934-3685
+        verified: false
+        portal_customer_created_at: null
+        portal_invite_last_sent_at: null
+        portal_invite_last_accepted_at: null
+        tax_exempt: false
+        vat_number: null
+        parent_id: null
+        locale: en-US
     x-stoplight:
       id: customer
       name: Customer
