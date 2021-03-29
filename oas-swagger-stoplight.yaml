@@ -5637,32 +5637,36 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/customer-customer-output'
+            $ref: '#/definitions/customer'
           examples:
             application/json:
               customer:
-                first_name: Martha
-                last_name: Washington
-                email: martha@example.com
-                cc_emails: 'john@example.com, sue@example.com'
-                organization: null
+                first_name: Cathryn
+                last_name: Parisian
+                email: Stella.McLaughlin6@example.net
+                cc_emails: null
+                organization: Greenholt - Oberbrunner
                 reference: null
-                id: 14967442
-                created_at: '2016-12-05T10:33:07-05:00'
-                updated_at: '2016-12-05T10:33:07-05:00'
-                address: null
-                address_2: null
-                city: null
-                state: null
-                zip: null
-                country: null
-                phone: null
+                id: 76
+                created_at: '2021-03-29T07:47:00-04:00'
+                updated_at: '2021-03-29T07:47:00-04:00'
+                address: 739 Stephon Bypass
+                address_2: Apt. 386
+                city: Sedrickchester
+                state: KY
+                state_name: Kentucky
+                zip: 46979-7719
+                country: US
+                country_name: United States
+                phone: 230-934-3685
                 verified: false
                 portal_customer_created_at: null
                 portal_invite_last_sent_at: null
                 portal_invite_last_accepted_at: null
                 tax_exempt: false
-                vat_number: 012345678
+                vat_number: null
+                parent_id: null
+                locale: en-US
         '422':
           description: ''
           schema:
@@ -5718,7 +5722,7 @@ paths:
               type: object
               properties:
                 customer:
-                  $ref: '#/definitions/customer-customer-output'
+                  $ref: '#/definitions/customer'
           examples:
             application/json:
               - customer:
@@ -5853,7 +5857,7 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/customer-customer-output'
+                $ref: '#/definitions/customer'
           examples:
             application/json:
               customer:
@@ -5917,7 +5921,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/customer-customer-output'
+            $ref: '#/definitions/customer'
           examples:
             application/json:
               customer:
@@ -6015,7 +6019,7 @@ paths:
             type: object
             properties:
               customer:
-                $ref: '#/definitions/customer-customer-output'
+                $ref: '#/definitions/customer'
           examples:
             application/json:
               customer:
@@ -45868,110 +45872,110 @@ definitions:
         properties:
           first_name:
             type: string
-            description: |
-              The first name of the customer
+            description: The first name of the customer
           last_name:
             type: string
-            description: |
-              The last name of the customer
+            description: The last name of the customer
           email:
             type: string
-            description: |
-              The email address of the customer
+            description: The email address of the customer
           cc_emails:
             type:
               - string
               - 'null'
-            description: |
-              (Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)
+            description: '(Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)'
           organization:
-            type: string
-            description: |
-              The organization of the customer
+            type:
+              - string
+              - 'null'
+            description: The organization of the customer
           reference:
             type:
               - string
               - 'null'
-            description: |
-              The unique identifier used within your own application for this customer
+            description: The unique identifier used within your own application for this customer
           id:
             type: integer
-            description: |
-              The customer ID in Chargify
+            description: The customer ID in Chargify
           created_at:
             type: string
-            description: |
-              The timestamp in which the customer object was created in Chargify
+            description: The timestamp in which the customer object was created in Chargify
           updated_at:
             type: string
-            description: |
-              The timestamp in which the customer object was last edited
+            description: The timestamp in which the customer object was last edited
           address:
-            type: string
-            description: |
-              The customer’s shipping street address (i.e. “123 Main St.”)
+            type:
+              - string
+              - 'null'
+            description: The customer’s shipping street address (i.e. “123 Main St.”)
           address_2:
-            type: string
-            description: |
-              Second line of the customer’s shipping address i.e. “Apt. 100”
+            type:
+              - string
+              - 'null'
+            description: Second line of the customer’s shipping address i.e. “Apt. 100”
           city:
-            type: string
-            description: |
-              The customer’s shipping address city (i.e. “Boston”)
+            type:
+              - string
+              - 'null'
+            description: The customer’s shipping address city (i.e. “Boston”)
           state:
-            type: string
-            description: |
-              The customer’s shipping address state (i.e. “MA”)
+            type:
+              - string
+              - 'null'
+            description: The customer’s shipping address state (i.e. “MA”)
           state_name:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: The customer's full name of state
           zip:
-            type: string
-            description: |
-              The customer’s shipping address zip code (i.e. “12345”)
+            type:
+              - string
+              - 'null'
+            description: The customer’s shipping address zip code (i.e. “12345”)
           country:
-            type: string
+            type:
+              - string
+              - 'null'
             description: "\tThe customer shipping address country"
           country_name:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: The customer's full name of country
           phone:
-            type: string
-            description: |
-              The phone number of the customer
+            type:
+              - string
+              - 'null'
+            description: The phone number of the customer
           verified:
             type: boolean
-            description: |
-              Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
+            description: Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
           portal_customer_created_at:
             type:
               - string
               - 'null'
-            description: |
-              The timestamp of when the Billing Portal entry was created at for the customer
+            description: The timestamp of when the Billing Portal entry was created at for the customer
           portal_invite_last_sent_at:
             type:
               - string
               - 'null'
-            description: |
-              The timestamp of when the Billing Portal invite was last sent at
+            description: The timestamp of when the Billing Portal invite was last sent at
           portal_invite_last_accepted_at:
-            description: |
-              The timestamp of when the Billing Portal invite was last accepted
+            description: The timestamp of when the Billing Portal invite was last accepted
             type:
               - string
               - 'null'
           tax_exempt:
             type: boolean
-            description: |
-              (Optional) The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
+            description: (Optional) The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
           vat_number:
             type:
               - string
               - 'null'
-            description: |
-              (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.
+            description: '(Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.'
           parent_id:
-            description: |
-              (Optional) The parent ID in Chargify if applicable. Parent is another Customer object.
+            description: (Optional) The parent ID in Chargify if applicable. Parent is another Customer object.
             type:
               - integer
               - 'null'
