@@ -1613,8 +1613,17 @@ paths:
       operationId: POST_subscriptions-subscription_id-components-component_id-usages-json
       summary: Create Usage for Subscription
       tags:
-        - 'Components: Metered Usage'
+        - Component Usage
       description: |-
+        ## Metered Components Documentation
+
+        Full documentation on how to create Components in the Chargify UI can be located [here](https://help.chargify.com/products/product-components.html). Additionally, for information on how to record component usage against a subscription, please see the following resources:
+
+        + [Recording Metered Component Usage](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-metered-component-usage)
+        + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
+
+        You may choose to report metered usage to Chargify as often as you wish. You may report usage as it happens. You may also report usage periodically, such as each night or once per billing period. If usage events occur in your system very frequently (on the order of thousands of times an hour), it is best to accumulate usage into batches on your side, and then report those batches less frequently, such as daily. This will ensure you remain below any API throttling limits. If your use case requires higher rates of usage reporting, we recommend utilizing Events Based Components.
+
         ## Create Usage for Subscription
 
         This endpoint allows you to record an instance of metered usage for a subscription. The `quantity` from usage for each component is accumulated to the `unit_balance` on the [Component Line Item](https://reference.chargify.com/v1/component-line-items/component-line-items) for the subscription.
@@ -1654,6 +1663,12 @@ paths:
         ```
 
         The `unit_balance` has a floor of `0`; negative unit balances are never allowed. For example, if the usage balance is 100 and you deduct 200 units, the unit balance would then be `0`, not `-100`.
+
+        ## FAQ
+
+        Q. Is it possible to record metered usage for more than one component at a time?
+
+        A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
       parameters:
         - name: body
           in: body
@@ -1705,7 +1720,7 @@ paths:
       operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
       summary: Read Usage for a Prepaid Usage Component
       tags:
-        - 'Components: Metered Usage'
+        - Component Usage
       description: |-
         ## Read Usage for a Prepaid Usage Component
 
@@ -1763,7 +1778,7 @@ paths:
       operationId: POST_subscriptions-json
       summary: Create Subscription with a Customer Hierarchy
       tags:
-        - 'Components: Metered Usage'
+        - Component Usage
       description: |-
         ## Subscription in a Customer Hierarchy
 
@@ -45398,13 +45413,15 @@ x-stoplight:
             - _id: GET_subscriptions-subscription_id-components-format
               type: endpoints
           name: Component Line Items
-        - name: 'Components: Metered Usage'
+        - name: Component Usage
           items:
-            - _id: metered-usage-intro
-              type: docTextSections
             - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
             - _id: POST_subscriptionsjson
+              type: endpoints
+            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
+              type: endpoints
+            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
             - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
@@ -45447,17 +45464,6 @@ x-stoplight:
             - _id: components-ononff-reading-the-current-status-response
               type: schemas
           name: 'Components: On/Off Toggling'
-        - divider: false
-          items:
-            - _id: s42BEZjmrA5vEBoww
-              type: docTextSections
-            - _id: DjMZhEwNhHhb8tCyF
-              type: endpoints
-            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-          name: 'Components: Prepaid Usage'
         - divider: false
           items:
             - _id: components-price-point-intro
@@ -47256,40 +47262,6 @@ x-stoplight:
         ## Subscriptions - Coupons
 
         In addition to the normal CRUD actions on coupons, you can also create Subscriptions using a Coupon, add a Coupon to an existing Subscription, and validate a Coupon via the API.
-      public: true
-    metered-usage-intro:
-      id: metered-usage-intro
-      name: Metered Usage Intro
-      content: |-
-        ## Components: Metered Usage Intro
-
-        The Chargify API allows you to record metered component usage by posting JSON or XML that includes:
-
-        + `quantity`: The amount of usage being reported
-        + `memo`: An optional description of the usage
-
-        Metered usage is cumulative over the billing period. You may choose to report usage as often as you wish, and Chargify sums and accumulates the quantity of each usage into a running balance (see `unit_balance` on [Component Line Items](https://reference.chargify.com/v1/component-line-items/component-line-items). Charges for metered usage balance are assessed on the `next_billing_date` of the subscription. In other words, metered usage is tallied and charged at the end of the subscriber's current recurring period.
-
-        You may choose to report metered usage to Chargify as often as you wish. You may report usage as it happens. You may also report usage periodically, such as each night or once per billing period. If usage events occur in your system very frequently (on the order of thousands of times an hour), it is best to accumulate usage into batches on your side, and then report those batches less frequently, such as daily. This will ensure you remain below any API throttling limits.
-
-        ## Metered Components versus Quantity-based Components
-
-        Metered components allow you to record "usage" of a component, such as text messages. These types of components reset to 0 at the beginning of each billing period.
-
-        On the other hand, for quantity-based components, you would record an allocation. Quantity-based components do not reset every month. They will charge the same quantity of components one billing period to the next.
-
-        ## Metered Components Documentation
-
-        Full documentation on how to create Components in the Chargify UI can be located [here](https://help.chargify.com/products/product-components.html). Additionally, for information on how to record component usage against a subscription, please see the following resources:
-
-        + [Recording Metered Component Usage](https://help.chargify.com/subscriptions/setting-component-allocations.html#reporting-metered-component-usage)
-        + [Recording component usage against a subscription](https://help.chargify.com/subscriptions/subscription-summary.html#components-line-items)
-
-        ## FAQ
-
-        Q. Is it possible to record metered usage for more than one component at a time?
-
-        A. No. Usage should be reported as one API call per component on a single subscription. For example, to record that a subscriber has sent both an SMS Message and an Email, send an API call for each.
       public: true
     charges-intro:
       id: charges-intro
