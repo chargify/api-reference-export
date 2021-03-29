@@ -998,11 +998,11 @@ paths:
           - prepaid_usage_components
     post:
       operationId: POST_product_families-product_family_id-plural_kind-json
-      summary: Create Component within a Product Family
+      summary: Create Component
       tags:
         - Component
         - Components
-      description: "## Create Component within a Product Family\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n### Component Documentation\n\nFor more information on components, please see our documentation [here.](https://help.chargify.com/products/product-components.html)\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n+ prepaid_usage_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Component\",\n    \"description\": \"Example of JSON per-unit component example\",\n    \"pricing_scheme\": \"per_unit\",\n    \"unit_price\": \"10\",\n    \"taxable\": \"1\"\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON stairstep example\",\n    \"pricing_scheme\": \"stairstep\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": \n      [\n        {\n          \"starting_quantity\": \"1\",\n          \"ending_quantity\": \"100\",\n          \"unit_price\": \"50\"\n        },\n        {\n          \"starting_quantity\": \"101\",\n          \"ending_quantity\": \"200\",\n          \"unit_price\": \"10\"\n        }\n      ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Volume Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON volume component example\",\n    \"pricing_scheme\": \"volume\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"10\",\n        \"unit_price\": \"10\"\n      },\n      {\n        \"starting_quantity\": \"11\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"5\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Tiered Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON for tiered quantity based component\",\n    \"taxable\": \"1\",\n    \"pricing_scheme\": \"tiered\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"50\"\n      },\n      {\n        \"starting_quantity\": \"21\",\n        \"ending_quantity\": \"40\",\n        \"unit_price\": \"25\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n\n## On/Off Component\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"]\n}\n```\n\n## Create a Component with Default Proration Schemes\n\nThis endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.\n\n### On/Off Component with Default Proration Schemes\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"],\n    \"upgrade_charge\": \"full\",\n    \"downgrade_credit\": \"prorated\",\n  }\n}\n```\n\n### Prepaid Usage Component Example\n\n```\n{\n   \"prepaid_usage_component\":{\n      \"name\":\"Minutes\",\n      \"unit_name\":\"minutes\",\n      \"unit_price\":2.0,\n      \"pricing_scheme\":\"per_unit\",\n      \"rollover_prepaid_remainder\": true,\n      \"renew_prepaid_allocation\": true,\n      \"expiration_interval\": 15,\n      \"expiration_interval_unit\": \"day\",\n      \"overage_pricing\":{\n         \"pricing_scheme\":\"stairstep\",\n         \"prices\":[\n            {\n               \"starting_quantity\":1,\n               \"ending_quantity\":100,\n               \"unit_price\":3.0,\n               \"formatted_unit_price\":\"$3.00\"\n            },\n            {\n               \"starting_quantity\":101,\n               \"unit_price\":5.0,\n               \"formatted_unit_price\":\"$5.00\"\n            }\n         ]\n      }\n   }\n}\n```\n\n\n## On/Off Component with Price Points\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"],\n\t\t\"price_points\": [{\n\t\t\t\"name\": \"Wholesale\",\n\t\t\t\"handle\": \"wholesale-handle\",\n\t\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\t\"prices\": [{\n\t\t\t\t\"starting_quantity\": \"0\",\n\t\t\t\t\"unit_price\": \"89.00\"\n\t\t\t}]\n\t\t}]\n\t}\n}\n```"
+      description: "## Create Component\n\nThis request will create a component under the specified product family. Please note that you may not edit components via API. To do so, please log into the application.\n\n### Component Documentation\n\nFor more information on components, please see our documentation [here](https://help.chargify.com/products/product-components.html).\n\n## Plural Kind  \n\nIn order to create a component via API, a `plural_kind` is required. Plural kind is defined as the endpoint for the type of component you wish to create.\n\nUse one of the following:\n\n+ metered_components\n+ quantity_based_components\n+ on_off_components\n+ prepaid_usage_components\n\n## Metered Component Example\n\n```\n{\n  \"metered_component\": {\n    \"name\": \"Text messages\",\n    \"unit_name\": \"text message\",\n    \"taxable\": false,\n    \"pricing_scheme\": \"stairstep\",\n    \"prices\": [\n      {\n        \"starting_quantity\": 1,\n        \"unit_price\": 1,\n        \"component\": null\n      }\n    ]\n  }\n}\n```\n\n## Quantity Based Example\n\n**Per Unit Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Component\",\n    \"description\": \"Example of JSON per-unit component example\",\n    \"pricing_scheme\": \"per_unit\",\n    \"unit_price\": \"10\",\n    \"taxable\": \"1\"\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n}\n```\n\n**Stairstep Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON stairstep example\",\n    \"pricing_scheme\": \"stairstep\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": \n      [\n        {\n          \"starting_quantity\": \"1\",\n          \"ending_quantity\": \"100\",\n          \"unit_price\": \"50\"\n        },\n        {\n          \"starting_quantity\": \"101\",\n          \"ending_quantity\": \"200\",\n          \"unit_price\": \"10\"\n        }\n      ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Volume Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON volume component example\",\n    \"pricing_scheme\": \"volume\",\n    \"taxable\": \"1\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"10\",\n        \"unit_price\": \"10\"\n      },\n      {\n        \"starting_quantity\": \"11\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"5\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n**Tiered Example**\n\n```\n{\n  \"quantity_based_component\": {\n    \"name\": \"Quantity Based Component\",\n    \"unit_name\": \"Quantity Based Component\",\n    \"description\": \"Example of JSON for tiered quantity based component\",\n    \"taxable\": \"1\",\n    \"pricing_scheme\": \"tiered\",\n    \"prices_attributes\": [\n      {\n        \"starting_quantity\": \"1\",\n        \"ending_quantity\": \"20\",\n        \"unit_price\": \"50\"\n      },\n      {\n        \"starting_quantity\": \"21\",\n        \"ending_quantity\": \"40\",\n        \"unit_price\": \"25\"\n      }\n    ],\n    \"display_on_hosted_page\": \"1\",\n    \"allow_fractional_quantities\": \"1\",\n    \"public_signup_page_ids\": [\"323397\"]\n  }\n}\n```\n\n\n## On/Off Component\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"]\n}\n```\n\n## Create a Component with Default Proration Schemes\n\nThis endpoint will allow you to create a component within Chargify with default proration schemes. The example in the definition will allow you to create a component for a quantity-based component.\n\n### On/Off Component with Default Proration Schemes\n\n```\n{\n  \"on_off_component\": {\n    \"name\": \"Annual Support Services\",\n    \"description\": \"Prepay for support services\",\n    \"taxable\": \"1\",\n    \"price_attributes\": {\n      \"unit_price\": \"100.00\",\n      \"starting_quantity\": \"0\"\n    },\n    \"display_on_hosted_page\": \"1\",\n    \"public_signup_page_ids\": [\"320495\"],\n    \"upgrade_charge\": \"full\",\n    \"downgrade_credit\": \"prorated\",\n  }\n}\n```\n\n### Prepaid Usage Component Example\n\n```\n{\n   \"prepaid_usage_component\":{\n      \"name\":\"Minutes\",\n      \"unit_name\":\"minutes\",\n      \"unit_price\":2.0,\n      \"pricing_scheme\":\"per_unit\",\n      \"rollover_prepaid_remainder\": true,\n      \"renew_prepaid_allocation\": true,\n      \"expiration_interval\": 15,\n      \"expiration_interval_unit\": \"day\",\n      \"overage_pricing\":{\n         \"pricing_scheme\":\"stairstep\",\n         \"prices\":[\n            {\n               \"starting_quantity\":1,\n               \"ending_quantity\":100,\n               \"unit_price\":3.0,\n               \"formatted_unit_price\":\"$3.00\"\n            },\n            {\n               \"starting_quantity\":101,\n               \"unit_price\":5.0,\n               \"formatted_unit_price\":\"$5.00\"\n            }\n         ]\n      }\n   }\n}\n```\n\n\n## On/Off Component with Price Points\n\n```\n{\n\t\"on_off_component\": {\n\t\t\"name\": \"Annual Support Services\",\n\t\t\"description\": \"Prepay for support services\",\n\t\t\"taxable\": \"1\",\n\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\"price_attributes\": {\n\t\t\t\"unit_price\": \"100.00\",\n\t\t\t\"starting_quantity\": \"0\"\n\t\t},\n\t\t\"display_on_hosted_page\": \"1\",\n\t\t\"public_signup_page_ids\": [\"320495\"],\n\t\t\"price_points\": [{\n\t\t\t\"name\": \"Wholesale\",\n\t\t\t\"handle\": \"wholesale-handle\",\n\t\t\t\"pricing_scheme\": \"per_unit\",\n\t\t\t\"prices\": [{\n\t\t\t\t\"starting_quantity\": \"0\",\n\t\t\t\t\"unit_price\": \"89.00\"\n\t\t\t}]\n\t\t}]\n\t}\n}\n```"
       parameters:
         - name: body
           in: body
@@ -5637,7 +5637,10 @@ paths:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/customer'
+            type: object
+            properties:
+              customer:
+                $ref: '#/definitions/customer'
           examples:
             application/json:
               customer:
@@ -5721,7 +5724,7 @@ paths:
             items:
               type: object
               properties:
-                customer:
+                customers:
                   $ref: '#/definitions/customer'
           examples:
             application/json:
@@ -45865,122 +45868,118 @@ definitions:
       public: true
   customer:
     title: Customer
-    type: object
     properties:
-      customer:
-        type: object
-        properties:
-          first_name:
-            type: string
-            description: The first name of the customer
-          last_name:
-            type: string
-            description: The last name of the customer
-          email:
-            type: string
-            description: The email address of the customer
-          cc_emails:
-            type:
-              - string
-              - 'null'
-            description: '(Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)'
-          organization:
-            type:
-              - string
-              - 'null'
-            description: The organization of the customer
-          reference:
-            type:
-              - string
-              - 'null'
-            description: The unique identifier used within your own application for this customer
-          id:
-            type: integer
-            description: The customer ID in Chargify
-          created_at:
-            type: string
-            description: The timestamp in which the customer object was created in Chargify
-          updated_at:
-            type: string
-            description: The timestamp in which the customer object was last edited
-          address:
-            type:
-              - string
-              - 'null'
-            description: The customer’s shipping street address (i.e. “123 Main St.”)
-          address_2:
-            type:
-              - string
-              - 'null'
-            description: Second line of the customer’s shipping address i.e. “Apt. 100”
-          city:
-            type:
-              - string
-              - 'null'
-            description: The customer’s shipping address city (i.e. “Boston”)
-          state:
-            type:
-              - string
-              - 'null'
-            description: The customer’s shipping address state (i.e. “MA”)
-          state_name:
-            type:
-              - string
-              - 'null'
-            description: The customer's full name of state
-          zip:
-            type:
-              - string
-              - 'null'
-            description: The customer’s shipping address zip code (i.e. “12345”)
-          country:
-            type:
-              - string
-              - 'null'
-            description: "\tThe customer shipping address country"
-          country_name:
-            type:
-              - string
-              - 'null'
-            description: The customer's full name of country
-          phone:
-            type:
-              - string
-              - 'null'
-            description: The phone number of the customer
-          verified:
-            type: boolean
-            description: Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
-          portal_customer_created_at:
-            type:
-              - string
-              - 'null'
-            description: The timestamp of when the Billing Portal entry was created at for the customer
-          portal_invite_last_sent_at:
-            type:
-              - string
-              - 'null'
-            description: The timestamp of when the Billing Portal invite was last sent at
-          portal_invite_last_accepted_at:
-            description: The timestamp of when the Billing Portal invite was last accepted
-            type:
-              - string
-              - 'null'
-          tax_exempt:
-            type: boolean
-            description: (Optional) The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
-          vat_number:
-            type:
-              - string
-              - 'null'
-            description: '(Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.'
-          parent_id:
-            description: (Optional) The parent ID in Chargify if applicable. Parent is another Customer object.
-            type:
-              - integer
-              - 'null'
-          locale:
-            type: string
+      first_name:
+        type: string
+        description: The first name of the customer
+      last_name:
+        type: string
+        description: The last name of the customer
+      email:
+        type: string
+        description: The email address of the customer
+      cc_emails:
+        type:
+          - string
+          - 'null'
+        description: '(Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)'
+      organization:
+        type:
+          - string
+          - 'null'
+        description: The organization of the customer
+      reference:
+        type:
+          - string
+          - 'null'
+        description: The unique identifier used within your own application for this customer
+      id:
+        type: integer
+        description: The customer ID in Chargify
+      created_at:
+        type: string
+        description: The timestamp in which the customer object was created in Chargify
+      updated_at:
+        type: string
+        description: The timestamp in which the customer object was last edited
+      address:
+        type:
+          - string
+          - 'null'
+        description: The customer’s shipping street address (i.e. “123 Main St.”)
+      address_2:
+        type:
+          - string
+          - 'null'
+        description: Second line of the customer’s shipping address i.e. “Apt. 100”
+      city:
+        type:
+          - string
+          - 'null'
+        description: The customer’s shipping address city (i.e. “Boston”)
+      state:
+        type:
+          - string
+          - 'null'
+        description: The customer’s shipping address state (i.e. “MA”)
+      state_name:
+        type:
+          - string
+          - 'null'
+        description: The customer's full name of state
+      zip:
+        type:
+          - string
+          - 'null'
+        description: The customer’s shipping address zip code (i.e. “12345”)
+      country:
+        type:
+          - string
+          - 'null'
+        description: "\tThe customer shipping address country"
+      country_name:
+        type:
+          - string
+          - 'null'
+        description: The customer's full name of country
+      phone:
+        type:
+          - string
+          - 'null'
+        description: The phone number of the customer
+      verified:
+        type: boolean
+        description: Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway
+      portal_customer_created_at:
+        type:
+          - string
+          - 'null'
+        description: The timestamp of when the Billing Portal entry was created at for the customer
+      portal_invite_last_sent_at:
+        type:
+          - string
+          - 'null'
+        description: The timestamp of when the Billing Portal invite was last sent at
+      portal_invite_last_accepted_at:
+        description: The timestamp of when the Billing Portal invite was last accepted
+        type:
+          - string
+          - 'null'
+      tax_exempt:
+        type: boolean
+        description: (Optional) The tax exempt status for the customer. Acceptable values are true or 1 for true and false or 0 for false.
+      vat_number:
+        type:
+          - string
+          - 'null'
+        description: '(Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out.'
+      parent_id:
+        description: (Optional) The parent ID in Chargify if applicable. Parent is another Customer object.
+        type:
+          - integer
+          - 'null'
+      locale:
+        type: string
     example:
       customer:
         first_name: Cathryn
