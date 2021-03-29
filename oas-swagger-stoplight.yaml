@@ -45859,6 +45859,138 @@ definitions:
       id: proforma-invoice-response
       name: Proforma invoice response
       public: true
+  customer:
+    title: Customer
+    type: object
+    properties:
+      first_name:
+        type: string
+        description: The first name of the customer
+      last_name:
+        type: string
+        description: The last name of the customer
+      cc_emails:
+        description: Any cc emails associated with the subscription
+        type: string
+      organization:
+        type:
+          - string
+          - 'null'
+        description: The organization of the customer
+      reference:
+        type:
+          - 'null'
+          - integer
+        description: The reference information associated with the customer
+      id:
+        type: integer
+        description: The ID of the customer
+      created_at:
+        type: string
+        format: date-time
+        description: The timestamp when the customer was created
+      updated_at:
+        type: string
+        format: date-time
+        description: The timestamp when the customer was last edited
+      address:
+        type:
+          - string
+          - 'null'
+        description: The address of the customer
+      address_2:
+        type:
+          - string
+          - 'null'
+        description: An additional address line item for the customer
+      city:
+        type:
+          - string
+          - 'null'
+        description: The customer's city
+      state:
+        type:
+          - string
+          - 'null'
+        description: The customer's state
+      state_name:
+        type:
+          - string
+          - 'null'
+        description: The customer's full name of state
+      zip:
+        type:
+          - string
+          - 'null'
+        description: The customer's zip
+      country:
+        type:
+          - string
+          - 'null'
+        description: The customer's county
+      country_name:
+        type:
+          - string
+          - 'null'
+        description: The customer's full name of country
+      phone:
+        type:
+          - string
+          - 'null'
+        description: The customer's phone number
+      verified:
+        type:
+          - 'null'
+          - boolean
+        description: |-
+          Is the customer verified to use ACH as a payment 
+          method. Compatible with Authorize.Net or when testing with the bogus gateway)
+      portal_customer_created_at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: Timestamp when the Billing Portal was created for the customer
+      portal_invite_last_sent_at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: Timestamp of when the last Billing Portal invite was sent
+      portal_invite_last_accepted_at:
+        type:
+          - 'null'
+          - string
+        format: date-time
+        description: Timestamp in which the last Billing Portal invitation was accepted at
+      tax_exempt:
+        type: boolean
+        description: Is the customer entry tax exempt
+      vat_number:
+        type: string
+        default: nil
+        description: The customer VAT number
+      parent_id:
+        type: integer
+    example:
+      first_name: est Excepteur pariatur in ex
+      last_name: dolor
+      cc_emails: enim consequat
+      organization: in
+      reference: -43170950
+      id: -40491642
+      created_at: '4306-02-12T18:00:26.728Z'
+      updated_at: '5034-09-17T14:44:26.558Z'
+      verified: true
+      portal_customer_created_at: '2279-03-29T16:54:58.098Z'
+      portal_invite_last_sent_at: '4832-01-30T19:15:13.510Z'
+      tax_exempt: true
+      vat_number: mollit nisi irure in qui
+      parent_id: -31451050
+    x-stoplight:
+      id: customer
+      name: Customer
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -45866,6 +45998,11 @@ x-stoplight:
   version:
     groups:
       docs:
+        - divider: false
+          items:
+            - _id: customer
+              type: schemas
+          name: Models
         - items:
             - _id: introduction
               type: docTextSections
