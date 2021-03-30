@@ -5902,13 +5902,13 @@ paths:
         type: string
     get:
       operationId: list-events
-      summary: Read Events for a Subscription
+      summary: List Events for Subscription
       tags:
         - Event
         - incomplete
         - Events
       description: |-
-        ## Read Events for a Subscription
+        ## List Events for a Subscription
 
         The following request will return a list of events for a subscription.
 
@@ -5929,7 +5929,9 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/events-list-events-for-subscription'
+            type: array
+            items:
+              $ref: '#/definitions/event'
           examples:
             application/json:
               - event:
@@ -5968,15 +5970,74 @@ paths:
   /events.json:
     get:
       operationId: list-events
-      summary: Read Events for a Site
+      summary: List Events
       tags:
         - Event
         - incomplete
         - Events
       description: |-
+        ## Events Intro
+
+        Chargify Events include various activity that happens around a Site. This information is **especially** useful to track down issues that arise when subscriptions are not created due to errors.
+
+        Within the Chargify UI, "Events" are referred to as "Site Activity".  Full documentation on how to record view Events / Site Activty in the Chargify UI can be located [here](https://help.chargify.com/sites/site-activity.html).
+
         ## List Events for a Site
 
         This method will retrieve a list of events for a site. Use query string filters to narrow down results. You may use the `key` filter as part of your query string to narrow down results.
+
+        ### Legacy Filters
+
+        The following keys are no longer supported.
+
+        + `payment_failure_recreated`
+        + `payment_success_recreated`
+        + `renewal_failure_recreated`
+        + `renewal_success_recreated`
+        + `zferral_revenue_post_failure` - [Specific to the Zferral integration](https://help.chargify.com/integrations/zferral.html)
+        + `zferral_revenue_post_success` - [Specific to the Zferral integration](https://help.chargify.com/integrations/zferral.html)
+
+        ## Event Specific Data
+
+        Event Specific Data
+
+        Each event type has its own `event_specific_data` specified.
+
+        Here’s an example event for the `subscription_product_change` event:
+
+        ```
+        {
+            "event": {
+                "id": 351,
+                "key": "subscription_product_change",
+                "message": "Product changed on Marky Mark's subscription from 'Basic' to 'Pro'",
+                "subscription_id": 205,
+                "event_specific_data": {
+                    "new_product_id": 3,
+                    "previous_product_id": 2
+                },
+                "created_at": "2012-01-30T10:43:31-05:00"
+            }
+        }
+        ```
+
+        Here’s an example event for the `subscription_state_change` event:
+
+        ```
+         {
+             "event": {
+                 "id": 353,
+                 "key": "subscription_state_change",
+                 "message": "State changed on Marky Mark's subscription to Pro from trialing to active",
+                 "subscription_id": 205,
+                 "event_specific_data": {
+                     "new_subscription_state": "active",
+                     "previous_subscription_state": "trialing"
+                 },
+                 "created_at": "2012-01-30T10:43:33-05:00"
+             }
+         }
+        ```
       parameters:
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
@@ -5995,7 +6056,9 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/events-list-site-event-output'
+            type: array
+            items:
+              $ref: '#/definitions/event'
           examples:
             application/json:
               - event:
@@ -6034,20 +6097,20 @@ paths:
   /events/count.json:
     get:
       operationId: GET_events_count-format
-      summary: Read the Count of Events for a Site
+      summary: Total Event Count
       tags:
         - Event
         - incomplete
         - Events
       description: |-
-        ## Read the Count of Events for a Site
+        ## Read the Total Event Count for a Site
 
         Obtain a count of the entire events for a given site by using this method.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/event-counts'
+            $ref: '#/definitions/event-count'
         - $ref: '#/parameters/trait:eventsBasicFilters:page'
         - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
         - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
@@ -24250,60 +24313,6 @@ definitions:
       id: webhooks-list-webhook-output
       name: List Webhook Output
       public: true
-  events-list-events-for-subscription:
-    title: Read Events for Subscription
-    type: array
-    items:
-      type: object
-      properties:
-        event:
-          type: object
-          properties:
-            id:
-              type: integer
-            key:
-              type: string
-            message:
-              type: string
-            subscription_id:
-              type: integer
-            customer_id:
-              type: integer
-            created_at:
-              type: string
-            event_specific_data:
-              type: 'null'
-    example:
-      - event:
-          id: 344799837
-          key: statement_settled
-          message: Statement 79702531 settled successfully for Amelia Example's subscription to Basic Plan
-          subscription_id: 14900541
-          customer_id: 234328343
-          created_at: '2016-11-01T12:41:29-04:00'
-          event_specific_data: null
-      - event:
-          id: 344799815
-          key: renewal_success
-          message: Successful renewal for Amelia Example's subscription to Basic Plan
-          subscription_id: 14900541
-          customer_id: 234328343
-          created_at: '2016-11-01T12:41:28-04:00'
-          event_specific_data:
-            product_id: 3792003
-            account_transaction_id: null
-      - event:
-          id: 344799705
-          key: billing_date_change
-          message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
-          subscription_id: 14900541
-          customer_id: 234328343
-          created_at: '2016-11-01T12:41:25-04:00'
-          event_specific_data: null
-    x-stoplight:
-      id: events-list-events-for-subscription
-      name: Read Events for Subscription
-      public: true
   notes-create-note-output:
     title: Create Note Output
     type: object
@@ -24335,66 +24344,48 @@ definitions:
       id: notes-create-note-output
       name: Create Note Output
       public: true
-  events-list-site-event-output:
-    title: Read Site Event Output
-    type: array
-    items:
-      type: object
-      properties:
-        event:
-          type: object
-          properties:
-            id:
-              type: integer
-            key:
-              type: string
-            message:
-              type: string
-            subscription_id:
-              type: integer
-            customer_id:
-              type: integer
-            created_at:
-              type: string
-            event_specific_data:
-              type:
-                - 'null'
-                - object
-              properties:
-                previous_subscription_state:
-                  type: string
-                new_subscription_state:
-                  type: string
-    example:
-      - event:
-          id: 343087780
-          key: subscription_state_change
-          message: State changed on Test subscription to Monthly Product from active to past_due
-          subscription_id: 14950962
-          customer_id: 234328343
-          created_at: '2016-10-27T16:42:22-04:00'
+  event:
+    title: Event
+    type: object
+    properties:
+      event:
+        type: object
+        properties:
+          id:
+            type: integer
+          key:
+            type: string
+          message:
+            type: string
+          subscription_id:
+            type: integer
+          customer_id:
+            type: integer
+          created_at:
+            type: string
           event_specific_data:
-            previous_subscription_state: active
-            new_subscription_state: past_due
-      - event:
-          id: 343087742
-          key: billing_date_change
-          message: Billing date changed on Test's subscription to Monthly Product from 11/27/2016 to 10/27/2016
-          subscription_id: 14950962
-          customer_id: 234328343
-          created_at: '2016-10-27T16:42:19-04:00'
-          event_specific_data: null
-      - event:
-          id: 343085267
-          key: statement_closed
-          message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
-          subscription_id: 14950975
-          customer_id: 1234567
-          created_at: '2016-10-27T16:40:40-04:00'
-          event_specific_data: null
+            type:
+              - 'null'
+              - object
+            properties:
+              previous_subscription_state:
+                type: string
+              new_subscription_state:
+                type: string
+    example:
+      event:
+        id: 343087780
+        key: subscription_state_change
+        message: State changed on Test subscription to Monthly Product from active to past_due
+        subscription_id: 14950962
+        customer_id: 234328343
+        created_at: '2016-10-27T16:42:22-04:00'
+        event_specific_data:
+          previous_subscription_state: active
+          new_subscription_state: past_due
     x-stoplight:
-      id: events-list-site-event-output
-      name: Read Site Event Output
+      id: event
+      name: Event
       public: true
   sales-receipts-list-sales-receipts:
     title: List Sales Receipt Output
@@ -26197,8 +26188,8 @@ definitions:
       id: invoices-list-all-invoices-query-response
       name: List All Invoices (Multiple Query)
       public: true
-  event-counts:
-    title: Count Events for a Site
+  event-count:
+    title: Event Count
     type: object
     properties:
       count:
@@ -26206,8 +26197,8 @@ definitions:
     example:
       count: 144
     x-stoplight:
-      id: event-counts
-      name: Count Events for a Site
+      id: event-count
+      name: Event Count
       public: true
   invoices-charges-create-invoice-charge-output:
     title: Create Invoice Charge Output
@@ -44198,6 +44189,10 @@ x-stoplight:
       docs:
         - divider: false
           items:
+            - _id: event-count
+              type: schemas
+            - _id: event
+              type: schemas
             - _id: customer-subscriptions
               type: schemas
             - _id: metadata
@@ -44285,6 +44280,16 @@ x-stoplight:
           name: Models
         - divider: false
           items:
+            - _id: eventsQueryString
+              type: traits
+            - _id: legacyFilters
+              type: traits
+            - _id: filterByEventName
+              type: traits
+            - _id: sinceId
+              type: traits
+            - _id: eventsBasicFilters
+              type: traits
             - _id: customerQueryString
               type: traits
             - _id: searchString
@@ -44530,30 +44535,12 @@ x-stoplight:
               type: schemas
         - name: Events
           items:
-            - _id: events-intro
-              type: docTextSections
             - _id: list-events
               type: endpoints
-            - _id: events-list-events-for-subscription
-              type: schemas
             - _id: list-events
               type: endpoints
-            - _id: events-list-site-event-output
-              type: schemas
             - _id: GET_events_count-format
               type: endpoints
-            - _id: event-counts
-              type: schemas
-            - type: traits
-              _id: eventsBasicFilters
-            - _id: sinceId
-              type: traits
-            - _id: filterByEventName
-              type: traits
-            - _id: legacyFilters
-              type: traits
-            - _id: eventsQueryString
-              type: traits
           divider: false
         - divider: false
           items:
@@ -46105,112 +46092,6 @@ x-stoplight:
         + Amount: must be greater than or equal to 0.
         + This subscription is not eligible to accept charges.
         + [Gateway response if a gateway fail] ([Your original memo])
-      public: true
-    events-intro:
-      id: events-intro
-      name: Events Intro
-      content: |-
-        ## Events Intro
-
-        Chargify Events include various activity that happens around a Site. This information is **especially** useful to track down issues that arise when subscriptions are not created due to errors.
-
-        ## Events Documentation
-
-        Within the Chargify UI, "Events" are referred to as "Site Activity".  Full documentation on how to record view Events / Site Activty in the Chargify UI can be located [here](https://help.chargify.com/sites/site-activity.html).
-
-        ## Events Fields and Event Type
-
-        The following fields are returned from GET (read) operations. Note, all events are read only.
-
-        + `id`
-        + `key`
-        + `message`
-        + `subscription_id`
-        + `event_specific_data`
-        + `created_at`
-
-        The following are different types of events you may see in the `key` field. You can also use these as a method to filter in the query string:
-
-        + `account_transaction_changed`
-        + `billing_date_change`
-        + `component_allocation_change`
-        + `customer_create`
-        + `customer_update`
-        + `dunning_step_reached`
-        + `expiration_date_change`
-        + `expiring_card`
-        + `metered_usage`
-        + `payment_failure`
-        + `payment_success`
-        + `refund_failure`
-        + `refund_success`
-        + `renewal_failure`
-        + `renewal_success`
-        + `signup_failure`
-        + `signup_success`
-        + `statement_closed`
-        + `statement_settled`
-        + `subscription_bank_account_update`
-        + `subscription_card_update`
-        + `subscription_deletion`
-        + `subscription_paypal_account_update`
-        + `subscription_product_change`
-        + `subscription_state_change`
-        + `trial_end_notice`
-        + `upcoming_renewal_notice`
-        + `upgrade_downgrade_failure`
-        + `upgrade_downgrade_success`
-
-        ### Legacy Filters
-
-        + `payment_failure_recreated`
-        + `payment_success_recreated`
-        + `renewal_failure_recreated`
-        + `renewal_success_recreated`
-        + `zferral_revenue_post_failure` - [Specific to the Zferral integration](https://help.chargify.com/integrations/zferral.html)
-        + `zferral_revenue_post_success` - [Specific to the Zferral integration](https://help.chargify.com/integrations/zferral.html)
-
-        ## Event Specific Data
-
-        Event Specific Data
-
-        Each event type has its own `event_specific_data` specified.
-
-        Here’s an example event for the `subscription_product_change` event:
-
-        ```
-        {
-            "event": {
-                "id": 351,
-                "key": "subscription_product_change",
-                "message": "Product changed on Marky Mark's subscription from 'Basic' to 'Pro'",
-                "subscription_id": 205,
-                "event_specific_data": {
-                    "new_product_id": 3,
-                    "previous_product_id": 2
-                },
-                "created_at": "2012-01-30T10:43:31-05:00"
-            }
-        }
-        ```
-
-        Here’s an example event for the `subscription_state_change` event:
-
-        ```
-         {
-             "event": {
-                 "id": 353,
-                 "key": "subscription_state_change",
-                 "message": "State changed on Marky Mark's subscription to Pro from trialing to active",
-                 "subscription_id": 205,
-                 "event_specific_data": {
-                     "new_subscription_state": "active",
-                     "previous_subscription_state": "trialing"
-                 },
-                 "created_at": "2012-01-30T10:43:33-05:00"
-             }
-         }
-        ```
       public: true
     intro-to-payment-profiles:
       id: intro-to-payment-profiles
