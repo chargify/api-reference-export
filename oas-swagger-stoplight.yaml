@@ -4962,7 +4962,15 @@ paths:
         - Customer
         - Customers
       description: |-
-        ## Create a Customer
+        ## Customers Intro
+
+        You may create a new Customer at any time, or you may create a Customer at the same time you create a Subscription. The only validation restriction is that you may only create one customer for a given reference value. 
+
+        If provided, the `reference` value must be unique. It represents a unique identifier for the customer from your own app, i.e. the customer’s ID. This allows you to retrieve a given customer via a piece of shared information. Alternatively, you may choose to leave `reference` blank, and store Chargify’s unique ID for the customer, which is in the `id` attribute.
+
+        Full documentation on how to locate, create and edit Customers in the Chargify UI can be located [here](https://help.chargify.com/customers/customers-intro.html).
+
+        ## Create Customer
 
         You can create a new Customer at any time, or you may create a Customer at the same time you create a Subscription. The only validation restriction is that you may only create one Customer for a given `reference` value. If provided, the `reference` value must be unique. It represents a unique identifier for the Customer from your own app, i.e. the Customer’s ID. This allows you to retrieve a given Customer via a piece of shared information. Alternatively, you may choose to leave `reference` blank, and store Chargify’s unique ID for the Customer, which is in the `id` attribute.
 
@@ -5105,7 +5113,7 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Search for Customer
+      summary: Find Customer
       tags:
         - Customers
       description: |-
@@ -5252,7 +5260,7 @@ paths:
         type: number
     get:
       operationId: GET_customers-id-format
-      summary: Read Customer Data
+      summary: Read Customer
       tags:
         - Customer
         - incomplete
@@ -5307,13 +5315,13 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_customers-id-format
-      summary: Update the Customer
+      summary: Update Customer
       tags:
         - Customer
         - incomplete
         - Customers
       description: |-
-        ## Update the Customer
+        ## Update Customer
 
         This method allows to update the Customer.
 
@@ -5385,13 +5393,13 @@ paths:
           statusCode: 200
     delete:
       operationId: DELETE_customers-id-format
-      summary: Delete the Customer
+      summary: Delete Customer
       tags:
         - Customer
         - incomplete
         - Customers
       description: |-
-        ## Delete the Customer
+        ## Delete Customer
 
         This method allows to delete the Customer.   When a delete response is received, the response status will be `204`. There will be no content sent with the status.
       responses:
@@ -5410,7 +5418,7 @@ paths:
   /customers/lookup.json:
     get:
       operationId: GET_customers-lookup-json
-      summary: Read the Customer by Reference Value
+      summary: Read Customer by Reference Value
       tags:
         - Customers
       description: |-
@@ -24388,150 +24396,6 @@ definitions:
       id: events-list-site-event-output
       name: Read Site Event Output
       public: true
-  customer-customer-output:
-    title: Customer Output
-    type: object
-    properties:
-      customer:
-        type: object
-        properties:
-          first_name:
-            type: string
-            description: The first name of the customer
-          last_name:
-            type: string
-            description: The last name of the customer
-          cc_emails:
-            description: Any cc emails associated with the subscription
-            type: string
-          organization:
-            type:
-              - string
-              - 'null'
-            description: The organization of the customer
-          reference:
-            type:
-              - 'null'
-              - integer
-            description: The reference information associated with the customer
-          id:
-            type: integer
-            description: The ID of the customer
-          created_at:
-            type: string
-            format: date-time
-            description: The timestamp when the customer was created
-          updated_at:
-            type: string
-            format: date-time
-            description: The timestamp when the customer was last edited
-          address:
-            type:
-              - string
-              - 'null'
-            description: The address of the customer
-          address_2:
-            type:
-              - string
-              - 'null'
-            description: An additional address line item for the customer
-          city:
-            type:
-              - string
-              - 'null'
-            description: The customer's city
-          state:
-            type:
-              - string
-              - 'null'
-            description: The customer's state
-          state_name:
-            type:
-              - string
-              - 'null'
-            description: The customer's full name of state
-          zip:
-            type:
-              - string
-              - 'null'
-            description: The customer's zip
-          country:
-            type:
-              - string
-              - 'null'
-            description: The customer's county
-          country_name:
-            type:
-              - string
-              - 'null'
-            description: The customer's full name of country
-          phone:
-            type:
-              - string
-              - 'null'
-            description: The customer's phone number
-          verified:
-            type:
-              - 'null'
-              - boolean
-            description: |-
-              Is the customer verified to use ACH as a payment 
-              method. Compatible with Authorize.Net or when testing with the bogus gateway)
-          portal_customer_created_at:
-            type:
-              - string
-              - 'null'
-            format: date-time
-            description: Timestamp when the Billing Portal was created for the customer
-          portal_invite_last_sent_at:
-            type:
-              - string
-              - 'null'
-            format: date-time
-            description: Timestamp of when the last Billing Portal invite was sent
-          portal_invite_last_accepted_at:
-            type:
-              - 'null'
-              - string
-            format: date-time
-            description: Timestamp in which the last Billing Portal invitation was accepted at
-          tax_exempt:
-            type: boolean
-            description: Is the customer entry tax exempt
-          vat_number:
-            type: string
-            default: nil
-            description: The customer VAT number
-          parent_id:
-            type: integer
-    example:
-      customer:
-        first_name: Martha
-        last_name: Washington
-        email: martha@example.com
-        cc_emails: 'john@example.com, sue@example.com'
-        organization: null
-        reference: null
-        id: 14967442
-        created_at: '2016-12-05T10:33:07-05:00'
-        updated_at: '2016-12-05T10:33:07-05:00'
-        address: null
-        address_2: null
-        city: null
-        state: null
-        zip: null
-        country: null
-        phone: null
-        verified: false
-        portal_customer_created_at: null
-        portal_invite_last_sent_at: null
-        portal_invite_last_accepted_at: null
-        tax_exempt: false
-        vat_number: 012345678
-    x-stoplight:
-      id: customer-customer-output
-      name: Customer Output
-      public: true
   sales-receipts-list-sales-receipts:
     title: List Sales Receipt Output
     type: object
@@ -32594,130 +32458,6 @@ definitions:
       id: coupons-list-coupons-for-a-site-output
       name: List Coupons for a Site Output
       public: true
-  customers-list-customers-for-a-site-output:
-    title: Read Customers for a Site Output
-    type: array
-    items:
-      type: object
-      properties:
-        customer:
-          type: object
-          properties:
-            first_name:
-              type: string
-            last_name:
-              type: string
-            email:
-              type: string
-            cc_emails:
-              type: string
-            organization:
-              type: string
-            reference:
-              type: 'null'
-            id:
-              type: integer
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            address:
-              type: string
-            address_2:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            country:
-              type: string
-            phone:
-              type: string
-            verified:
-              type: 'null'
-            portal_customer_created_at:
-              type: string
-            portal_invite_last_sent_at:
-              type: string
-            portal_invite_last_accepted_at:
-              type: 'null'
-            tax_exempt:
-              type: boolean
-            parent_id:
-              type: integer
-    example:
-      - customer:
-          first_name: Kayla
-          last_name: Test
-          email: kayla@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14126091
-          created_at: '2016-10-04T15:22:27-04:00'
-          updated_at: '2016-10-04T15:22:30-04:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-          portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: 'Nick '
-          last_name: Test
-          email: nick@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14254093
-          created_at: '2016-10-13T16:52:51-04:00'
-          updated_at: '2016-10-13T16:52:54-04:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-          portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: Don
-          last_name: Test
-          email: don@example.com
-          cc_emails: 'john@example.com, sue@example.com'
-          organization: ''
-          reference: null
-          id: 14332342
-          created_at: '2016-10-19T10:49:13-04:00'
-          updated_at: '2016-10-19T10:49:19-04:00'
-          address: 1737 15th St
-          address_2: ''
-          city: Boulder
-          state: CO
-          zip: '80302'
-          country: US
-          phone: ''
-          verified: null
-          portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-          portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-    x-stoplight:
-      id: customers-list-customers-for-a-site-output
-      name: Read Customers for a Site Output
-      public: true
   coupon-subcodes-create-a-coupon-subcode:
     title: Create Coupon Subcode
     type: object
@@ -32795,172 +32535,6 @@ definitions:
     x-stoplight:
       id: coupons-subcodes-retrieve-coupon-subcodes-output
       name: Coupon Subcodes Response
-      public: true
-  customers-search-for-customer-output:
-    title: Search for Customer Output
-    type: array
-    items:
-      type: object
-      properties:
-        customer:
-          type: object
-          properties:
-            first_name:
-              type: string
-            last_name:
-              type: string
-            email:
-              type: string
-            cc_emails:
-              type:
-                - 'null'
-                - string
-            organization:
-              type: string
-            reference:
-              type: string
-            id:
-              type: integer
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            address:
-              type:
-                - 'null'
-                - string
-            address_2:
-              type:
-                - 'null'
-                - string
-            city:
-              type:
-                - 'null'
-                - string
-            state:
-              type:
-                - 'null'
-                - string
-            zip:
-              type:
-                - 'null'
-                - string
-            country:
-              type:
-                - 'null'
-                - string
-            phone:
-              type:
-                - 'null'
-                - string
-            verified:
-              type: boolean
-            portal_customer_created_at:
-              type:
-                - 'null'
-                - string
-            portal_invite_last_sent_at:
-              type:
-                - 'null'
-                - string
-            portal_invite_last_accepted_at:
-              type: 'null'
-            tax_exempt:
-              type: boolean
-            parent_id:
-              type: integer
-    example:
-      - customer:
-          first_name: Amelia
-          last_name: Example
-          email: amelia@example.com
-          cc_emails: 'john@example.com, joe@example.com'
-          organization: Acme
-          reference: JQPUBLIC
-          id: 14399371
-          created_at: '2016-10-24T16:20:12-04:00'
-          updated_at: '2016-10-26T13:25:33-04:00'
-          address: 123 Anywhere Street
-          address_2: ''
-          city: Anywhere
-          state: MA
-          zip: '02120'
-          country: US
-          phone: 555-555-1212
-          verified: false
-          portal_customer_created_at: null
-          portal_invite_last_sent_at: null
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: Matt
-          last_name: Example
-          email: matt@example.com
-          cc_emails: ''
-          organization: Acme
-          reference: '1234'
-          id: 14585723
-          created_at: '2016-11-04T17:08:31-04:00'
-          updated_at: '2016-12-02T18:03:36-05:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: false
-          portal_customer_created_at: '2016-11-04T17:08:34-04:00'
-          portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: John
-          last_name: Doe
-          email: john.doe@example.com
-          cc_emails: null
-          organization: Acme Widgets
-          reference: '123'
-          id: 14731081
-          created_at: '2016-11-15T15:33:44-05:00'
-          updated_at: '2016-11-15T15:33:45-05:00'
-          address: null
-          address_2: null
-          city: null
-          state: null
-          zip: null
-          country: null
-          phone: null
-          verified: false
-          portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-          portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-      - customer:
-          first_name: Joe
-          last_name: Blow
-          email: joe@example.com
-          cc_emails: ''
-          organization: Acme
-          reference: ABC123
-          id: 14943291
-          created_at: '2016-12-02T15:59:06-05:00'
-          updated_at: '2016-12-02T18:03:17-05:00'
-          address: ''
-          address_2: ''
-          city: ''
-          state: ''
-          zip: ''
-          country: ''
-          phone: ''
-          verified: false
-          portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-          portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
-          portal_invite_last_accepted_at: null
-          tax_exempt: false
-    x-stoplight:
-      id: customers-search-for-customer-output
-      name: Search for Customer Output
       public: true
   invoices-payments-create-payment-output:
     title: Create Payment Output
@@ -33047,88 +32621,6 @@ definitions:
       id: invoices-payments-create-payment-output
       name: Create Payment Output
       public: true
-  customer-create-a-customer-output:
-    title: Create a Customer Output
-    type: object
-    properties:
-      customer:
-        type: object
-        properties:
-          first_name:
-            type: string
-          last_name:
-            type: string
-          email:
-            type: string
-          cc_emails:
-            type: string
-          organization:
-            type: 'null'
-          reference:
-            type: 'null'
-          id:
-            type: integer
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          address:
-            type: 'null'
-          address_2:
-            type: 'null'
-          city:
-            type: 'null'
-          state:
-            type: 'null'
-          zip:
-            type: 'null'
-          country:
-            type: 'null'
-          phone:
-            type: 'null'
-          verified:
-            type: boolean
-          portal_customer_created_at:
-            type: 'null'
-          portal_invite_last_sent_at:
-            type: 'null'
-          portal_invite_last_accepted_at:
-            type: 'null'
-          tax_exempt:
-            type: boolean
-          vat_number:
-            type: string
-          parent_id:
-            type: integer
-    example:
-      customer:
-        first_name: Martha
-        last_name: Washington
-        email: martha@example.com
-        cc_emails: 'john@example.com, sue@example.com'
-        organization: null
-        reference: null
-        id: 14967442
-        created_at: '2016-12-05T10:33:07-05:00'
-        updated_at: '2016-12-05T10:33:07-05:00'
-        address: null
-        address_2: null
-        city: null
-        state: null
-        zip: null
-        country: null
-        phone: null
-        verified: false
-        portal_customer_created_at: null
-        portal_invite_last_sent_at: null
-        portal_invite_last_accepted_at: null
-        tax_exempt: false
-        vat_number: '123456789'
-        parent_id: 2158
-    x-stoplight:
-      id: customer-create-a-customer-output
-      name: Create a Customer Output
-      public: true
   paginated-metadata:
     title: Paginated Metadata
     type: object
@@ -33161,8 +32653,8 @@ definitions:
       id: paginated-metadata
       name: Paginated Metadata
       public: true
-  customers-list-customers-subscriptions-array-output:
-    title: Read Customers Subscriptions Array Output
+  customer-subscriptions:
+    title: Customer Subscriptions
     type: array
     items:
       type: object
@@ -33617,72 +33109,8 @@ definitions:
           coupon_use_count: null
           coupon_uses_allowed: null
     x-stoplight:
-      id: customers-list-customers-subscriptions-array-output
-      name: Read Customers Subscriptions Array Output
-      public: true
-  customer-create-a-customer-input:
-    title: Create a Customer Input
-    type: object
-    properties:
-      customer:
-        type: object
-        properties:
-          first_name:
-            type: string
-          last_name:
-            type: string
-          email:
-            type: string
-          cc_emails:
-            type: string
-          organization:
-            type: string
-          reference:
-            type: string
-          address:
-            type: string
-          address_2:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          zip:
-            type: string
-          country:
-            type: string
-          phone:
-            type: string
-          vat_number:
-            type: string
-          parent_id:
-            type: integer
-        required:
-          - first_name
-          - last_name
-          - email
-    example:
-      customer:
-        first_name: Martha
-        last_name: Washington
-        email: martha@example.com
-        cc_emails: george@example.com
-        organization: 'ABC, Inc.'
-        reference: '1234567890'
-        address: 123 Main Street
-        address2: Unit 10
-        city: Anytown
-        state: MA
-        zip: '02120'
-        country: US
-        phone: 555-555-1212
-        vat_number: '123456789'
-        parent_id: 4321
-        metafields:
-          metafield_name: blue
-    x-stoplight:
-      id: customer-create-a-customer-input
-      name: Create a Customer Input
+      id: customer-subscriptions
+      name: Customer Subscriptions
       public: true
   payment-profiles-list-payment-profiles-for-a-site-outuput:
     title: List Payment Profiles for a Site Output
@@ -44770,6 +44198,8 @@ x-stoplight:
       docs:
         - divider: false
           items:
+            - _id: customer-subscriptions
+              type: schemas
             - _id: metadata
               type: schemas
             - _id: paginated-metadata
@@ -44855,6 +44285,12 @@ x-stoplight:
           name: Models
         - divider: false
           items:
+            - _id: customerQueryString
+              type: traits
+            - _id: searchString
+              type: traits
+            - _id: direction
+              type: traits
             - _id: metadataValue
               type: traits
             - _id: metadataQueryString
@@ -45074,42 +44510,24 @@ x-stoplight:
           divider: false
         - name: Customers
           items:
-            - _id: customers-intro
-              type: docTextSections
             - _id: POST_customers-format
               type: endpoints
-            - _id: customer-create-a-customer-input
-              type: schemas
-            - _id: customer-create-a-customer-output
-              type: schemas
             - _id: GET_customers-id-format
               type: endpoints
-            - _id: GET_customersjson
-              type: endpoints
-            - _id: customers-list-customers-for-a-site-output
-              type: schemas
             - _id: GET_customers-lookupjson
               type: endpoints
-            - _id: GET_customers-customer_id-subscriptions-format
-              type: endpoints
-            - _id: customers-list-customers-subscriptions-array-output
-              type: schemas
             - _id: GET_customersjson
               type: endpoints
-            - _id: customers-search-for-customer-output
-              type: schemas
+            - _id: GET_customersjson
+              type: endpoints
             - _id: PUT_customers-id-format
               type: endpoints
             - _id: DELETE_customers-id-format
               type: endpoints
-            - _id: customer-customer-output
+            - _id: GET_customers-customer_id-subscriptions-format
+              type: endpoints
+            - _id: 3axzGNKhbnnkfYbLH
               type: schemas
-            - _id: direction
-              type: traits
-            - _id: searchString
-              type: traits
-            - _id: customerQueryString
-              type: traits
         - name: Events
           items:
             - _id: events-intro
@@ -46617,54 +46035,6 @@ x-stoplight:
         | memo            | Typically the description of why the payment occurred                                                |
         | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
         | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-      public: true
-    customers-intro:
-      id: customers-intro
-      name: Customers Intro
-      content: |-
-        ## Customers Intro
-
-        You may create a new Customer at any time, or you may create a Customer at the same time you create a Subscription. The only validation restriction is that you may only create one customer for a given reference value. 
-
-        If provided, the `reference` value must be unique. It represents a unique identifier for the customer from your own app, i.e. the customer’s ID. This allows you to retrieve a given customer via a piece of shared information. Alternatively, you may choose to leave `reference` blank, and store Chargify’s unique ID for the customer, which is in the `id` attribute.
-
-        ## Customers Documentation
-
-        Full documentation on how to locate, create and edit Customers in the Chargify UI can be located [here](https://help.chargify.com/customers/customers-intro.html).
-
-        ## Customer Object Attributes
-
-        All of the customer attribute fields are returned from GET (read) operations. 
-
-
-
-        | Field Name                     | Description                                                                                                                                   |
-        |--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-        | first_name                     | The first name of the customer                                                                                                                |
-        | last_name                      | The last name of the customer                                                                                                                 |
-        | email                          | The email address of the customer                                                                                                             |
-        | cc_emails                      | (Optional) A comma-separated list of emails that should be cc’d on all customer communications (i.e. “joe@example.com, sue@example.com”)      |
-        | organization                   | The organization of the customer                                                                                                              |
-        | reference                      | The unique identifier used within your own application for this customer                                                                      |
-        | id                             | The customer ID in Chargify                                                                                                                   |
-        | created_at                     | The timestamp in which the customer object was created in Chargify                                                                            |
-        | updated_at                     | The timestamp in which the customer object was last edited                                                                                    |
-        | address                        | The customer’s shipping street address (i.e. “123 Main St.”)                                                                                  |
-        | address_2                      | Second line of the customer’s shipping address i.e. “Apt. 100”                                                                                |
-        | city                           | The customer’s shipping address city (i.e. “Boston”)                                                                                          |
-        | state                          | The customer’s shipping address state (i.e. “MA”)                                                                                             |
-        | zip                            | The customer’s shipping address zip code (i.e. “12345”)                                                                                       |
-        | country                        | The customer shipping address country, perferably in [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”) |
-        | phone                          | The phone number of the customer                                                                                                              |
-        | verified                       | Is the customer verified to use ACH as a payment method. Available only on Authorize.Net gateway                                              |
-        | portal_customer_created_at     | The timestamp of when the Billing Portal entry was created at for the customer                                                                |
-        | portal_invite_last_sent_at     | The timestamp of when the Billing Portal invite was last sent at                                                                              |
-        | portal_invite_last_accepted_at | The timestamp of when the Billing Portal invite was last accepted                                                                             |
-        | tax_exempt                     | (Optional) The tax exempt status for the customer.  Acceptable values are true or 1 for true and false or 0 for false.                        |
-        | vat_number                     | (Optional) The VAT business identification number for the customer. This number is used to determine VAT tax opt out rules. It is not validated when added or updated on a customer record. Instead, it is validated via VIES before calculating taxes. Only valid business identification numbers will allow for VAT opt out. |
-        | parent_id                      | (Optional) The parent ID in Chargify if applicable. Parent is another Customer object. |
-        | metafields | (Optional) pairs of metafield names and values |
-        | locale | (Optional) The locale for the customer to identify language-region |
       public: true
     coupon-intro:
       id: coupon-intro
