@@ -1502,40 +1502,39 @@ paths:
     parameters:
       - name: subscription_id
         in: path
+        description: The ID of the Subscription from which you want to get a listing of applied Components.
         required: true
-        type: string
+        type: integer
       - name: component_id
         in: path
-        description: 'either an integer or a string prefixed by "handle:"'
+        description: The ID of the Component you want to retrieve information about.
         required: true
-        type: string
+        type: integer
     get:
       operationId: GET_subscriptions-subscription_id-components-component_id-json
-      summary: Read Component for Subscription
+      summary: Reading the Current Status of On/Off Component
       tags:
-        - Component
-        - Component Line Items
+        - Subscriptions Components
       description: |-
-        ## Read Specific Component for Subscription
+        ## Reading Current Quantity
 
-        This request will list information regarding a specific component owned by a subscription.
+        You can query the API to receive the current quantity for a Quantity Component by sending a GET request.
       responses:
         '200':
-          description: OK
+          description: ''
           schema:
-            $ref: '#/definitions/subscriptions-component'
+            $ref: '#/definitions/components-ononff-reading-the-current-status-response'
           examples:
             application/json:
               component:
-                component_id: 193028
-                subscription_id: 14593192
-                allocated_quantity: 1
-                pricing_scheme: per_unit
-                name: Users
-                kind: quantity_based_component
-                unit_name: Users
-        '404':
-          description: Not Found
+                component_id: 399853
+                subscription_id: 18342261
+                enabled: false
+                allocated_quantity: 0
+                name: Annual Support Services
+                kind: on_off_component
+                unit_name: on/off
+                price_point_id: 121003
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -1545,59 +1544,7 @@ paths:
         public: true
         mock:
           enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/components.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        description: The ID of the Subscription from which you want to get a listing of applied Components.
-        required: true
-        type: integer
-    get:
-      operationId: GET_subscriptions-subscription_id-components-format
-      summary: List Components for a Subscription
-      tags:
-        - Component
-        - Component Line Items
-      description: |-
-        ## Read Components for a Subscription
-
-        This request will list a subscription's applied components.
-
-        ## Archived Components
-
-        When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/list-subscriptions-components'
-          examples:
-            application/json:
-              - {}
-              - component:
-                  unit_name: Text messages
-                  name: text_messages
-                  kind: metered_component
-                  component_id: 98322708341
-                  subscription_id: 38855254509
-                  allocated_quantity: 1500
-                  unit_balance: 5000
-              - component:
-                  enabled: true
-                  subscription_id: 30336331837
-                  unit_balance: 5000
-                  name: text messages
-              - {}
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscription_id-components-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: true
+          dynamic: false
           statusCode: 200
   '/subscriptions/{subscription_id}/components/{component_id}/usages.json':
     parameters:
@@ -1609,11 +1556,77 @@ paths:
         in: path
         required: true
         type: string
+    get:
+      operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
+      summary: Read Usage by Component for a Subscription
+      tags:
+        - Subscriptions Components
+      description: |-
+        ## Read Usage by Component
+
+        This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
+
+        This endpoint is not compatible with quantity-based components.
+
+        ## Since Date and Until Date Usage 
+
+        Note: The `since_date` and `until_date` attributes each default to midnight on the date specified. For example, in order to list usages for January 20th, you would need to append the following to the URL. 
+
+        ```
+        ?since_date=2016-01-20&until_date=2016-01-21
+        ```
+
+        ## Read Usage by Handle
+
+        Use this endpoint to read the previously recorded components for a subscription.  You can now specify either the component id (integer) or the component handle prefixed by "handle:" to specify the unique identifier for the component you are working with.
+      parameters:
+        - $ref: '#/parameters/trait:componentParameters:since_id'
+        - $ref: '#/parameters/trait:componentParameters:max_id'
+        - $ref: '#/parameters/trait:componentParameters:since_date'
+        - $ref: '#/parameters/trait:componentParameters:until_date'
+        - $ref: '#/parameters/trait:componentParameters:page'
+        - $ref: '#/parameters/trait:componentParameters:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/components-metered-read-usage-output-subscription'
+          examples:
+            application/json:
+              - usage:
+                  id: 178534642
+                  memo: '20'
+                  created_at: '2018-08-03T11:58:42-05:00'
+                  price_point_id: 242632
+                  quantity: '20.0'
+                  component_id: 500093
+                  component_handle: handle
+                  subscription_id: 22824464
+              - usage:
+                  id: 178534591
+                  memo: '10'
+                  created_at: '2018-08-03T11:58:29-05:00'
+                  price_point_id: 242632
+                  quantity: '10.0'
+                  component_id: 500093
+                  component_handle: handle
+                  subscription_id: 22824464
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
     post:
       operationId: POST_subscriptions-subscription_id-components-component_id-usages-json
       summary: Create Usage for Subscription
       tags:
-        - Component Usage
+        - Subscriptions Components
       description: |-
         ## Metered Components Documentation
 
@@ -1716,142 +1729,36 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-    get:
-      operationId: GET_subscriptions-subscription_id-components-component_id-usages-json
-      summary: Read Usage for a Prepaid Usage Component
-      tags:
-        - Component Usage
-      description: |-
-        ## Read Usage for a Prepaid Usage Component
-
-        This request will return a list of the usages associated with a subscription for a particular prepaid usage component. This will display the previously recorded components for a subscription.
-
-        ## Since Date and Until Date Usage 
-
-        Note: The `since_date` and `until_date` attributes each default to midnight on the date specified. For example, in order to list usages for January 20th, you would need to append the following to the URL. 
-
-        ```
-        ?since_date=2016-01-20&until_date=2016-01-21
-        ```
-
-        ## Read Usage by Handle
-
-        Use this endpoint to read the previously recorded components for a subscription.  You can now specify either the component id (integer) or the component handle prefixed by "handle:" to specify the unique identifier for the component you are working with.
-      responses:
-        '200':
-          description: ''
-          examples:
-            application/json:
-              - usage:
-                  id: 178534642
-                  memo: '20'
-                  created_at: '2018-08-03T11:58:42-05:00'
-                  price_point_id: 242632
-                  quantity: '20.0'
-                  overage_quantity: '0.0'
-                  component_id: 500093
-                  component_handle: handle
-                  subscription_id: 22824464
-              - usage:
-                  id: 178534591
-                  memo: '10'
-                  created_at: '2018-08-03T11:58:29-05:00'
-                  price_point_id: 242632
-                  quantity: '10.0'
-                  overage_quantity: '0.0'
-                  component_id: 500093
-                  component_handle: handle
-                  subscription_id: 22824464
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with a Customer Hierarchy
+      summary: Create Usage When Creating a New Subscription
       tags:
-        - Component Usage
+        - Subscriptions Components
       description: |-
-        ## Subscription in a Customer Hierarchy
+        ## Create Usage When Creating a New Subscription
 
-        For sites making use of the [Relationship Billing](https://help.chargify.com/invoices/index.html) and [Customer Hierarchy] features, it is possible to create subscriptions within a customer hierarchy.  This can be achieved through the API by passing group parameters in the **Create Subscription** request.  
-
-        + The `group` parameters are optional and consist of the required `target` and optional `billing` parameters.
-
-        When the `target` parameter specifies a customer that is already part of a hierarchy, the new subscription will become a member of the customer hierarchy as well.  If the target customer is not part of a hierarchy, a new customer hierarchy will be created and both the target customer and the new subscription will become part of the hierarchy with the specified target customer set as the responsible payer for the hierarchy's subscriptions.
-
-        Rather than specifying a customer, the `target` parameter could instead simply have a value of `self` which indicates the subscription will be paid for not by some other customer, but by the subscribing customer.  This will be true whether the customer is being created new, is already part of a hierarchy, or already exists outside a hierarchy.  A valid payment method must also be specified in the subscription parameters. 
-
-        Note that when creating subscriptions in a customer hierarchy, if the customer hierarchy does not already have a payment method, passing valid credit card attributes in the subscription parameters will also result in the payment method being established as the default payment method for the customer hierarchy irrespective of the responsible payer.
-
-        The optional `billing` parameters specify how some aspects of the billing for the new subscription should be handled.  Rather than capturing payment immediately, the `accrue` parameter can be included so that the new subscription charges accrue until the next assessment date.  Regarding the date, the `align_date` parameter can be included so that the billing date of the new subscription matches up with the default subscription group in the customer hierarchy.  When choosing to align the dates, the `prorate` parameter can also be specified so that the new subscription charges are prorated based on the billing period of the default subscription group in the customer hierarchy also.
-
-        ### Create Subscription Without Group
-
-        + Within the group object, pass `group: false`
-        + This will create a subscription that is not attached to a group
-        + The customer will still be added to a hierarchy
-
-        Here’s an example to illustrate:
-
-        ```{"subscription": {
-                "product_handle": "test_product",
-                "customer_attributes":{
-                  "first_name":"Child who pays for self",
-                  "last_name":"(No subscription group)",
-                  "email":"joe@example.com",
-                  "parent_id":"23554144"
-                },
-                "group": false
-              }
-            }
-        ```
-
-        ### Group Attributes
-
-        | target  | Attributes of the target customer who will be the responsible payer of the created subscription.  Required. |
-        |---------|-------------------------------------------------------------------------------------------------------------|
-        | billing | Optional attributes related to billing date and accrual.                                                    |
-
-        #### Group Target Attributes
-
-        | type | When target is `"customer"`the subscription is created in a group with the customer indicated by the `id` attribute.  When target is `"self"`, `"parent"`, or `"eldest"`the subscription is created in the hierarchy of that target customer in relation to the subscribing customer. Required. |
-        |------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | id   | The id of the target customer to group the new subscription with.  Ignored but should  be included if type is `"customer"`                                     |
-
-        #### Group Billing Attributes
-        | accrue     | (Optional, default false) A flag indicating whether or not to accrue charges on the new subscription.                                                                                                                                                            |
-        |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | align_date | (Optional, default false) A flag indicating whether or not to align the billing date of the new subscription with the billing date of the primary subscription of the hierarchy's default subscription group. Required to be `true` if `prorate` is also `true`. |
-        | prorate    | (Optional, default false) A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of `true` is ignored unless `align_date` is also `true`.                                                                   |
-
-        ---------
+        This example will show you how to create usage while creating a new subscription. Please be aware that this example POSTs to the `subscriptions.json` endpoint. This example does not post to the a
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscription-create-hierarchy-request'
+            $ref: '#/definitions/components-metered-create-usage-when-creating-a-new-subscription-input'
             example:
               subscription:
-                product_handle: product-xyz
-                customer_id: 43693465
-                payment_profile_id: -74404848
-                group:
-                  target:
-                    type: customer
-                    id: 43693465
-                  billing:
-                    align_date: true
-                    prorate: false
-                    accrue: false
+                product_handle: basic
+                customer_attributes:
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe1049am@example.com
+                credit_card_attributes:
+                  full_number: '1'
+                  expiration_month: '10'
+                  expiration_year: '2020'
+                components:
+                  - component_id: 195268
+                    unit_balance: 20
+                    price_point_id: 12345
       responses:
         '201':
           description: ''
@@ -1859,231 +1766,124 @@ paths:
             $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
-              - subscription:
-                  id: 15236915
-                  state: active
-                  balance_in_cents: 0
-                  total_revenue_in_cents: 14000
-                  product_price_in_cents: 1000
-                  product_version_number: 7
-                  current_period_ends_at: '2016-11-15T14:48:10-05:00'
-                  next_assessment_at: '2016-11-15T14:48:10-05:00'
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2016-11-14T14:48:12-05:00'
-                  expires_at: null
-                  created_at: '2016-11-14T14:48:10-05:00'
-                  updated_at: '2016-11-14T15:24:41-05:00'
-                  cancellation_message: null
-                  cancellation_method: null
-                  cancel_at_end_of_period: null
-                  canceled_at: null
-                  current_period_started_at: '2016-11-14T14:48:10-05:00'
-                  previous_state: active
-                  signup_payment_id: 162269766
-                  signup_revenue: '260.00'
-                  delayed_cancel_at: null
-                  coupon_code: 5SNN6HFK3GBH
-                  payment_collection_method: automatic
-                  snap_day: null
-                  reason_code: null
-                  customer:
-                    first_name: Curtis
-                    last_name: Test
-                    email: curtis@example.com
-                    cc_emails: jeff@example.com
-                    organization: ''
-                    reference: null
-                    id: 14714298
-                    created_at: '2016-11-14T14:48:10-05:00'
-                    updated_at: '2016-11-14T14:48:13-05:00'
-                    address: 123 Anywhere Street
-                    address_2: ''
-                    city: Boulder
-                    state: CO
-                    zip: '80302'
-                    country: US
-                    phone: ''
-                    verified: false
-                    portal_customer_created_at: '2016-11-14T14:48:13-05:00'
-                    portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
-                    portal_invite_last_accepted_at: null
-                    tax_exempt: false
-                    vat_number: 012345678
-                  product:
-                    id: 3792003
-                    name: $10 Basic Plan
-                    handle: basic
-                    description: lorem ipsum
-                    accounting_code: basic
-                    price_in_cents: 1000
-                    interval: 1
-                    interval_unit: day
-                    initial_charge_in_cents: null
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
-                    initial_charge_after_trial: false
-                    return_params: ''
-                    request_credit_card: false
-                    require_credit_card: false
-                    created_at: '2016-03-24T13:38:39-04:00'
-                    updated_at: '2016-11-03T13:03:05-04:00'
-                    archived_at: null
-                    update_return_url: ''
-                    update_return_params: ''
-                    product_family:
-                      id: 527890
-                      name: Acme Projects
-                      handle: billing-plans
-                      accounting_code: null
-                      description: ''
-                    public_signup_pages:
-                      - id: 281054
-                        url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-                      - id: 281240
-                        url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-                      - id: 282694
-                        url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-                    taxable: false
-                    version_number: 7
-                  credit_card:
-                    id: 10191713
-                    payment_type: credit_card
-                    first_name: Curtis
-                    last_name: Test
-                    masked_card_number: XXXX-XXXX-XXXX-1
-                    card_type: bogus
-                    expiration_month: 1
-                    expiration_year: 2026
-                    billing_address: 123 Anywhere Street
-                    billing_address_2: ''
-                    billing_city: Boulder
-                    billing_state: null
-                    billing_country: ''
-                    billing_zip: '80302'
-                    current_vault: bogus
-                    vault_token: '1'
-                    customer_vault_token: null
-                    customer_id: 14714298
-                  payment_type: credit_card
-                  referral_code: w7kjc9
-                  next_product_id: null
-                  coupon_use_count: 1
-                  coupon_uses_allowed: 1
-              - subscription:
-                  id: 15189649
-                  state: canceled
-                  balance_in_cents: 15000
-                  total_revenue_in_cents: 10000
-                  product_price_in_cents: 10000
-                  product_version_number: 1
-                  current_period_ends_at: '2017-11-10T13:14:00-05:00'
-                  next_assessment_at: '2017-11-10T13:14:00-05:00'
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2016-11-10T13:14:02-05:00'
-                  expires_at: null
-                  created_at: '2016-11-10T13:14:00-05:00'
-                  updated_at: '2016-11-14T11:14:01-05:00'
-                  cancellation_message: ''
-                  cancellation_method: ''
-                  cancel_at_end_of_period: false
-                  canceled_at: '2016-11-14T11:14:01-05:00'
-                  current_period_started_at: '2016-11-10T13:14:00-05:00'
-                  previous_state: canceled
-                  signup_payment_id: 161794022
-                  signup_revenue: '100.00'
-                  delayed_cancel_at: null
-                  coupon_code: null
-                  payment_collection_method: invoice
-                  snap_day: null
-                  customer:
-                    first_name: Frankie
-                    last_name: Bravo
-                    email: testfrankie11@test.com
-                    cc_emails: ''
-                    organization: ''
-                    reference: null
-                    id: 14543712
-                    created_at: '2016-11-02T10:16:17-04:00'
-                    updated_at: '2016-11-14T09:54:39-05:00'
-                    address: ''
-                    address_2: ''
-                    city: ''
-                    state: ''
-                    zip: ''
-                    country: ''
-                    phone: '5555551212'
-                    verified: true
-                    portal_customer_created_at: '2016-11-02T10:16:19-04:00'
-                    portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
-                    portal_invite_last_accepted_at: null
-                    tax_exempt: false
-                    vat_number: 012345678
-                  product:
-                    id: 4038269
-                    name: Annual Product
-                    handle: annual-product
+              subscription:
+                id: 15569578
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2016-12-09T11:49:23-05:00'
+                created_at: '2016-12-09T11:49:20-05:00'
+                updated_at: '2016-12-09T11:49:23-05:00'
+                expires_at: null
+                balance_in_cents: 0
+                current_period_ends_at: '2016-12-10T11:49:20-05:00'
+                next_assessment_at: '2016-12-10T11:49:20-05:00'
+                canceled_at: null
+                cancellation_message: null
+                next_product_id: null
+                cancel_at_end_of_period: false
+                payment_collection_method: automatic
+                snap_day: null
+                cancellation_method: null
+                current_period_started_at: '2016-12-09T11:49:20-05:00'
+                previous_state: active
+                signup_payment_id: 165589525
+                signup_revenue: '30010.00'
+                delayed_cancel_at: null
+                coupon_code: null
+                total_revenue_in_cents: 3001000
+                product_price_in_cents: 1000
+                product_version_number: 7
+                payment_type: credit_card
+                referral_code: zf6s86
+                coupon_use_count: null
+                coupon_uses_allowed: null
+                customer:
+                  id: 15029690
+                  first_name: Joe
+                  last_name: Blow
+                  organization: null
+                  email: joe@example.com
+                  created_at: '2016-12-09T11:49:20-05:00'
+                  updated_at: '2016-12-09T11:49:25-05:00'
+                  reference: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2016-12-09T11:49:25-05:00'
+                  portal_invite_last_accepted_at: null
+                  verified: false
+                  portal_customer_created_at: '2016-12-09T11:49:25-05:00'
+                  cc_emails: null
+                  tax_exempt: false
+                product:
+                  id: 3792003
+                  name: $10 Basic Plan
+                  handle: basic
+                  description: lorem ipsum
+                  accounting_code: basic
+                  request_credit_card: false
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2016-03-24T13:38:39-04:00'
+                  updated_at: '2016-11-03T13:03:05-04:00'
+                  price_in_cents: 1000
+                  interval: 1
+                  interval_unit: day
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: false
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  initial_charge_after_trial: false
+                  version_number: 7
+                  update_return_params: ''
+                  product_family:
+                    id: 527890
+                    name: Acme Projects
                     description: ''
-                    accounting_code: ''
-                    price_in_cents: 10000
-                    interval: 12
-                    interval_unit: month
-                    initial_charge_in_cents: null
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
-                    initial_charge_after_trial: false
-                    return_params: ''
-                    request_credit_card: true
-                    require_credit_card: true
-                    created_at: '2016-09-28T09:54:05-04:00'
-                    updated_at: '2016-09-28T09:54:05-04:00'
-                    archived_at: null
-                    update_return_url: ''
-                    update_return_params: ''
-                    product_family:
-                      id: 527890
-                      name: Acme Projects
-                      handle: billing-plans
-                      accounting_code: null
-                      description: ''
-                    public_signup_pages:
-                      - id: 297032
-                        url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
-                    taxable: false
-                    version_number: 1
-                  credit_card:
-                    id: 10188522
-                    payment_type: credit_card
-                    first_name: Fran
-                    last_name: Becker
-                    masked_card_number: null
-                    card_type: null
-                    expiration_month: null
-                    expiration_year: null
-                    billing_address: 123 Montana Way
-                    billing_address_2: ''
-                    billing_city: Boulder
-                    billing_state: CO
-                    billing_country: US
-                    billing_zip: '90210'
-                    current_vault: bogus
-                    vault_token: '123456789'
-                    customer_vault_token: null
-                    customer_id: 14543712
-                  payment_type: bank_account
-                  referral_code: hspss6
-                  next_product_id: null
-                  coupon_use_count: null
-                  coupon_uses_allowed: null
-      security:
-        - <<api_key>>: []
+                    handle: billing-plans
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 281054
+                      return_url: 'http://www.example.com?successfulsignup'
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                    - id: 281240
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                    - id: 282694
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                credit_card:
+                  id: 10405758
+                  first_name: Joe
+                  last_name: Blow
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                  card_type: bogus
+                  expiration_month: 10
+                  expiration_year: 2020
+                  customer_id: 15029690
+                  current_vault: bogus
+                  vault_token: '1'
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: null
+                  billing_country: null
+                  customer_vault_token: null
+                  billing_address_2: null
+                  payment_type: credit_card
       x-stoplight:
         id: POST_subscriptionsjson
         beforeScript: null
@@ -2544,6 +2344,40 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/event_based_billing/subscriptions/{subscription_id}/components/{component_id}/deactivate.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        description: Subscription ID
+        required: true
+        type: string
+      - name: component_id
+        in: path
+        description: Component ID
+        required: true
+        type: string
+    post:
+      operationId: POST_event_based_billing-subscriptions-subscription_id-components-component_id-deactivate-json
+      summary: Deactivate Event-Based Component for Subscription
+      tags:
+        - Subscriptions Components
+      description: Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Chargify to ignore related events at subscription renewal.
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_eventbasedbilling-subscriptions-subscriptionid-components-componentid-deactivatejson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/event_based_billing/subscriptions/{subscription_id}/components/{component_id}/activate.json':
     parameters:
       - name: subscription_id
@@ -2558,10 +2392,14 @@ paths:
         type: string
     post:
       operationId: POST_event_based_billing-subscriptions-subscription_id-components-component_id-activate-json
-      summary: Activation
+      summary: Activate Event-Based Component for Subscription
       tags:
-        - 'Components: Events-Based'
+        - Subscriptions Components
       description: |-
+        In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
+
+        Learn more about the role of activation in the [Events-Based Billing docs](https://help.chargify.com/events/billing-guide.html#activating-components-for-subscribers).
+
         Use this endpoint to activate an event-based component for a single subscription. Activating an event-based component causes Chargify to bill for events when the subscription is renewed.
 
         *Note: it is possible to stream events for a subscription at any time, regardless of component activation status. The activation status only determines if the subscription should be billed for event-based component usage at renewal.*
@@ -2581,39 +2419,58 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/event_based_billing/subscriptions/{subscription_id}/components/{component_id}/deactivate.json':
+  '/subscriptions/{subscription_id}/components.json':
     parameters:
       - name: subscription_id
         in: path
-        description: Subscription ID
+        description: The ID of the Subscription from which you want to get a listing of applied Components.
         required: true
-        type: string
-      - name: component_id
-        in: path
-        description: Component ID
-        required: true
-        type: string
-    post:
-      operationId: POST_event_based_billing-subscriptions-subscription_id-components-component_id-deactivate-json
-      summary: Deactivation
+        type: integer
+    get:
+      operationId: GET_subscriptions-subscription_id-components-format
+      summary: List Components for a Subscription
       tags:
-        - 'Components: Events-Based'
-      description: Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Chargify to ignore related events at subscription renewal.
+        - Component
+        - Subscriptions Components
+      description: |-
+        ## Read Components for a Subscription
+
+        This request will list a subscription's applied components.
+
+        ## Archived Components
+
+        When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
       responses:
         '200':
-          description: ''
+          description: OK
           schema:
-            type: object
+            $ref: '#/definitions/list-subscriptions-components'
+          examples:
+            application/json:
+              - {}
+              - component:
+                  unit_name: Text messages
+                  name: text_messages
+                  kind: metered_component
+                  component_id: 98322708341
+                  subscription_id: 38855254509
+                  allocated_quantity: 1500
+                  unit_balance: 5000
+              - component:
+                  enabled: true
+                  subscription_id: 30336331837
+                  unit_balance: 5000
+                  name: text messages
+              - {}
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_eventbasedbilling-subscriptions-subscriptionid-components-componentid-deactivatejson
+        id: GET_subscriptions-subscription_id-components-format
         beforeScript: null
         afterScript: null
         public: true
         mock:
-          enabled: false
-          dynamic: false
+          enabled: true
           statusCode: 200
   '/components/{component_id}/price_points.json':
     parameters:
@@ -45410,41 +45267,33 @@ x-stoplight:
           items:
             - _id: GET_subscriptions-subscriptionid-components-componentidjson
               type: endpoints
-            - _id: GET_subscriptions-subscription_id-components-format
-              type: endpoints
-          name: Component Line Items
-        - name: Component Usage
-          items:
-            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: POST_subscriptionsjson
-              type: endpoints
-            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
-              type: endpoints
-            - _id: components-metered-create-usage-when-creating-a-new-subscription-input
-              type: schemas
-            - _id: components-metered-create-usage-input
+            - _id: componentParameters
+              type: traits
+            - _id: components-metered-read-usage-output-subscription
               type: schemas
             - _id: components-metered-create-usage-output
               type: schemas
-            - _id: components-metered-read-usage-output-subscription
+            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
+              type: endpoints
+            - _id: components-metered-create-usage-input
               type: schemas
-            - _id: componentParameters
-              type: traits
-          divider: false
-        - divider: false
-          items:
-            - _id: events-based-component-intro
-              type: docTextSections
-            - _id: POST_eventbasedbilling-subscriptions-subscriptionid-components-componentid-activatejson
+            - _id: components-metered-create-usage-when-creating-a-new-subscription-input
+              type: schemas
+            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
+              type: endpoints
+            - _id: GET_subscriptions-subscriptionid-components-componentid-usagesjson
+              type: endpoints
+            - _id: POST_subscriptionsjson
+              type: endpoints
+            - _id: POST_subscriptions-subscriptionid-components-componentid-usagesjson
               type: endpoints
             - _id: POST_eventbasedbilling-subscriptions-subscriptionid-components-componentid-deactivatejson
               type: endpoints
-          name: 'Components: Events-Based'
+            - _id: POST_eventbasedbilling-subscriptions-subscriptionid-components-componentid-activatejson
+              type: endpoints
+            - _id: GET_subscriptions-subscription_id-components-format
+              type: endpoints
+          name: Subscriptions Components
         - divider: false
           items:
             - _id: components-on-off-intro
@@ -48928,14 +48777,6 @@ x-stoplight:
         This API allows you to stream events into the Chargify data ingestion engine.
 
         Learn more about the feature in general in the [Events-Based Billing help docs](https://help.chargify.com/events/).
-      public: true
-    events-based-component-intro:
-      id: events-based-component-intro
-      name: Introduction
-      content: |-
-        In order to bill your subscribers on your Events data under the Events-Based Billing feature, the components must be activated for the subscriber.
-
-        Learn more about the role of activation in the [Events-Based Billing docs](https://help.chargify.com/events/billing-guide.html#activating-components-for-subscribers).
       public: true
     migration-3d-secure-stripe:
       id: migration-3d-secure-stripe
