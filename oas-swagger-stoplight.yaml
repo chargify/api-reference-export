@@ -2679,155 +2679,283 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with Multiple Coupon Codes
+      summary: Create Subscription with a Subscription Group
       tags:
         - Subscriptions Components
       description: |-
-        ## Create Subscription Multiple Coupon Codes
+        ## Subscription in a Subscription Group 
 
-        This method allows you to create a Subscription within Chargify with multiple coupon codes applied at signup.
+        For sites making use of [Relationship Billing](https://help.chargify.com/invoices/index.html) it may be desireable to create a subscription as part of a [subscription group](https://help.chargify.com/invoices/consolidation.html) in order to rely on [invoice consolidation](https://help.chargify.com/invoices/consolidation.html).  This can be achieved through the API by passing group parameters in the Create Subscription request.  The `group` parameters are optional and consist of the required `target` and optional `billing` parameters.   
+
+        The `target` parameters specify an existing subscription with which the newly created subscription should be grouped.  If the target subscription is already part of a group, the new subscription will become a member of the group as well.  If the target subscription is not part of a group, a new group will be created and both the target and the new subscription will become part of the group with the target as the group's primary subscription.
+
+        The optional `billing` parameters specify how some aspects of the billing for the new subscription should be handled.  Rather than capturing payment immediately, the `accrue` parameter can be included so that the new subscription charges accrue until the next assessment date.  Regarding the date, the `align_date` parameter can be included so that the billing date of the new subscription matches up with the target subscription.  When choosing to align the dates, the `prorate` parameter can also be specified so that the new subscription charges are prorated based on the billing period of the target subscription also.
+
+        ### Group Attributes
+
+        | target  | Attributes of the target subscription with which to group the newly created subscription.  Required. |
+        |---------|------------------------------------------------------------------------------------------------------|
+        | billing | Optional attributes related to billing date and accrual.                                             |
+        #### Group Target Attributes
+        | type | The type of object indicated by the `id` attribute.  A value of `"subscription"` will create a subscription grouped with the subscription identified by the value of the `"id"` attribute.  Required. |
+        |------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | id   | The id of the subscription with which to group the new subscription.                                                                                                                                  |
+
+        #### Group Billing Attributes
+        | accrue     | (Optional, default false) A flag indicating whether or not to accrue charges on the new subscription.                                                                                                             |
+        |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | align_date | (Optional, default false) A flag indicating whether or not to align the billing date of the new subscription with the billing date of the target subscription. Required to be `true` if `prorate` is also `true`. |
+        | prorate    | (Optional, default false) A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of `true` is ignored unless `align_date` is also `true`.                    |
+
+        ---------
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/create-subscription-with-multiple-coupon-input'
+            $ref: '#/definitions/create-subscription-group-request'
             example:
               subscription:
-                product_handle: basic
-                customer_attributes:
-                  first_name: Joe
-                  last_name: Example
-                  email: joe@example.com
-                credit_card_attributes:
-                  full_number: '1'
-                  expiration_month: '10'
-                  expiration_year: '2020'
-                coupon_codes:
-                  - STACK_COMP_100_DOLLAR
-                  - STACK_COMP_75_PERCENT
+                product_handle: product-xyz
+                customer_id: 17346006
+                payment_profile_id: 11991557
+                group:
+                  target:
+                    type: subscription
+                    id: 12345
+                  billing:
+                    align_date: true
+                    prorate: true
+                    accrue: true
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/create-subscription-with-multiple-coupon-input'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
-              subscription:
-                id: 19730041
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
-                activated_at: '2017-11-13T12:51:27-06:00'
-                created_at: '2017-11-13T12:51:26-06:00'
-                updated_at: '2017-11-13T12:51:27-06:00'
-                expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-12-13T12:51:26-06:00'
-                next_assessment_at: '2017-12-13T12:51:26-06:00'
-                canceled_at: null
-                cancellation_message: null
-                next_product_id: null
-                cancel_at_end_of_period: null
-                payment_collection_method: automatic
-                snap_day: null
-                cancellation_method: null
-                current_period_started_at: '2017-11-13T12:51:26-06:00'
-                previous_state: active
-                signup_payment_id: 211813093
-                signup_revenue: '225.00'
-                delayed_cancel_at: null
-                coupon_code: STACK_COMP_100_DOLLAR
-                total_revenue_in_cents: 22500
-                product_price_in_cents: 100000
-                product_version_number: 1
-                payment_type: credit_card
-                referral_code: null
-                coupon_use_count: 1
-                coupon_uses_allowed: 1
-                reason_code: null
-                automatically_resume_at: null
-                coupon_codes:
-                  - STACK_COMP_100_DOLLAR
-                  - STACK_COMP_75_PERCENT
-                customer:
-                  id: 19311096
-                  first_name: Joe
-                  last_name: Example
-                  organization: null
-                  email: joe@example.com
-                  created_at: '2017-11-13T12:51:26-06:00'
-                  updated_at: '2017-11-13T12:51:28-06:00'
-                  reference: null
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  portal_invite_last_sent_at: '2017-11-13T12:51:28-06:00'
-                  portal_invite_last_accepted_at: null
-                  verified: false
-                  portal_customer_created_at: '2017-11-13T12:51:28-06:00'
-                  cc_emails: null
-                  tax_exempt: false
-                product:
-                  id: 4581816
-                  name: Basic
-                  handle: basic
-                  description: ''
-                  accounting_code: ''
-                  request_credit_card: true
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2017-11-02T15:00:11-05:00'
-                  updated_at: '2017-11-07T09:20:12-06:00'
-                  price_in_cents: 100000
-                  interval: 1
-                  interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: true
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  tax_code: ''
-                  initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: ''
-                  product_family:
-                    id: 1025627
-                    name: Acme Products
-                    description: ''
-                    handle: acme-products
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 333589
-                      return_url: null
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/hbwtd98j3hk2/basic'
-                credit_card:
-                  id: 13380483
-                  first_name: Joe
-                  last_name: Example
-                  masked_card_number: XXXX-XXXX-XXXX-1
-                  card_type: bogus
-                  expiration_month: 10
-                  expiration_year: 2020
-                  customer_id: 19311096
-                  current_vault: bogus
-                  vault_token: '1'
-                  billing_address: null
-                  billing_city: null
-                  billing_state: null
-                  billing_zip: null
-                  billing_country: null
-                  customer_vault_token: null
-                  billing_address_2: null
+              - subscription:
+                  id: 15236915
+                  state: active
+                  balance_in_cents: 0
+                  total_revenue_in_cents: 14000
+                  product_price_in_cents: 1000
+                  product_version_number: 7
+                  current_period_ends_at: '2016-11-15T14:48:10-05:00'
+                  next_assessment_at: '2016-11-15T14:48:10-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-14T14:48:12-05:00'
+                  expires_at: null
+                  created_at: '2016-11-14T14:48:10-05:00'
+                  updated_at: '2016-11-14T15:24:41-05:00'
+                  cancellation_message: null
+                  cancellation_method: null
+                  cancel_at_end_of_period: null
+                  canceled_at: null
+                  current_period_started_at: '2016-11-14T14:48:10-05:00'
+                  previous_state: active
+                  signup_payment_id: 162269766
+                  signup_revenue: '260.00'
+                  delayed_cancel_at: null
+                  coupon_code: 5SNN6HFK3GBH
+                  payment_collection_method: automatic
+                  snap_day: null
+                  reason_code: null
+                  customer:
+                    first_name: Curtis
+                    last_name: Test
+                    email: curtis@example.com
+                    cc_emails: jeff@example.com
+                    organization: ''
+                    reference: null
+                    id: 14714298
+                    created_at: '2016-11-14T14:48:10-05:00'
+                    updated_at: '2016-11-14T14:48:13-05:00'
+                    address: 123 Anywhere Street
+                    address_2: ''
+                    city: Boulder
+                    state: CO
+                    zip: '80302'
+                    country: US
+                    phone: ''
+                    verified: false
+                    portal_customer_created_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_accepted_at: null
+                    tax_exempt: false
+                    vat_number: 012345678
+                  product:
+                    id: 3792003
+                    name: $10 Basic Plan
+                    handle: basic
+                    description: lorem ipsum
+                    accounting_code: basic
+                    price_in_cents: 1000
+                    interval: 1
+                    interval_unit: day
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: false
+                    require_credit_card: false
+                    created_at: '2016-03-24T13:38:39-04:00'
+                    updated_at: '2016-11-03T13:03:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 281054
+                        url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                      - id: 281240
+                        url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                      - id: 282694
+                        url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                    taxable: false
+                    version_number: 7
+                  credit_card:
+                    id: 10191713
+                    payment_type: credit_card
+                    first_name: Curtis
+                    last_name: Test
+                    masked_card_number: XXXX-XXXX-XXXX-1
+                    card_type: bogus
+                    expiration_month: 1
+                    expiration_year: 2026
+                    billing_address: 123 Anywhere Street
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: null
+                    billing_country: ''
+                    billing_zip: '80302'
+                    current_vault: bogus
+                    vault_token: '1'
+                    customer_vault_token: null
+                    customer_id: 14714298
                   payment_type: credit_card
+                  referral_code: w7kjc9
+                  next_product_id: null
+                  coupon_use_count: 1
+                  coupon_uses_allowed: 1
+              - subscription:
+                  id: 15189649
+                  state: canceled
+                  balance_in_cents: 15000
+                  total_revenue_in_cents: 10000
+                  product_price_in_cents: 10000
+                  product_version_number: 1
+                  current_period_ends_at: '2017-11-10T13:14:00-05:00'
+                  next_assessment_at: '2017-11-10T13:14:00-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-10T13:14:02-05:00'
+                  expires_at: null
+                  created_at: '2016-11-10T13:14:00-05:00'
+                  updated_at: '2016-11-14T11:14:01-05:00'
+                  cancellation_message: ''
+                  cancellation_method: ''
+                  cancel_at_end_of_period: false
+                  canceled_at: '2016-11-14T11:14:01-05:00'
+                  current_period_started_at: '2016-11-10T13:14:00-05:00'
+                  previous_state: canceled
+                  signup_payment_id: 161794022
+                  signup_revenue: '100.00'
+                  delayed_cancel_at: null
+                  coupon_code: null
+                  payment_collection_method: invoice
+                  snap_day: null
+                  customer:
+                    first_name: Frankie
+                    last_name: Bravo
+                    email: testfrankie11@test.com
+                    cc_emails: ''
+                    organization: ''
+                    reference: null
+                    id: 14543712
+                    created_at: '2016-11-02T10:16:17-04:00'
+                    updated_at: '2016-11-14T09:54:39-05:00'
+                    address: ''
+                    address_2: ''
+                    city: ''
+                    state: ''
+                    zip: ''
+                    country: ''
+                    phone: '5555551212'
+                    verified: true
+                    portal_customer_created_at: '2016-11-02T10:16:19-04:00'
+                    portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
+                    portal_invite_last_accepted_at: null
+                    tax_exempt: false
+                    vat_number: 012345678
+                  product:
+                    id: 4038269
+                    name: Annual Product
+                    handle: annual-product
+                    description: ''
+                    accounting_code: ''
+                    price_in_cents: 10000
+                    interval: 12
+                    interval_unit: month
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: true
+                    require_credit_card: true
+                    created_at: '2016-09-28T09:54:05-04:00'
+                    updated_at: '2016-09-28T09:54:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 297032
+                        url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
+                    taxable: false
+                    version_number: 1
+                  credit_card:
+                    id: 10188522
+                    payment_type: credit_card
+                    first_name: Fran
+                    last_name: Becker
+                    masked_card_number: null
+                    card_type: null
+                    expiration_month: null
+                    expiration_year: null
+                    billing_address: 123 Montana Way
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: CO
+                    billing_country: US
+                    billing_zip: '90210'
+                    current_vault: bogus
+                    vault_token: '123456789'
+                    customer_vault_token: null
+                    customer_id: 14543712
+                  payment_type: bank_account
+                  referral_code: hspss6
+                  next_product_id: null
+                  coupon_use_count: null
+                  coupon_uses_allowed: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4450,7 +4578,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/metafields-create-metafields-input'
+            $ref: '#/definitions/create-metafields'
             example:
               metafields:
                 name: Color
@@ -4469,7 +4597,9 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields-create-metafields-output'
+            type: array
+            items:
+              $ref: '#/definitions/metafield'
           examples:
             application/json:
               - name: Color
@@ -4505,17 +4635,13 @@ paths:
           statusCode: 200
     get:
       operationId: GET_resource-metafields-json
-      summary: Read Metafields Stats for Site
+      summary: List Metafields
       tags:
         - Custom Fields
       description: |-
         ## Read Metafields
 
-        This endpoint lists associated with a Site. The metafield description and usage is contained in the response. 
-
-        ## Data Count 
-
-        When `data_count` is encountered in the response for metafields, this indicates the amount of subscriptions this metafield has been applied to in Chargify.
+        This endpoint lists metafields associated with a Site. The metafield description and usage is contained in the response.
       parameters:
         - $ref: '#/parameters/trait:metafieldsNameOptional:name'
         - $ref: '#/parameters/trait:pagination20:page'
@@ -4524,7 +4650,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields-list-metafields-output'
+            $ref: '#/definitions/paginated-metafields'
           examples:
             application/json:
               total_count: 1
@@ -4585,7 +4711,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metafields-update-metafields-output'
+            $ref: '#/definitions/metafield'
           examples:
             application/json:
               - name: Shirts
@@ -4621,10 +4747,6 @@ paths:
 
         Additionally, this will remove the metafield and associated metadata with all Subscriptions on the Site.
 
-        ## Server Response
-
-        The server will response with code `200` for successful, and `404` for unsuccessful.
-
         ## Example
 
         If you wanted to delete the metafield for customers named strength you would request:
@@ -4633,9 +4755,10 @@ paths:
       parameters:
         - $ref: '#/parameters/trait:metafieldsNameRequired:name'
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+        '404':
+          description: ''
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -4662,7 +4785,7 @@ paths:
         type: string
     post:
       operationId: POST_resource-resource_id-metadata-json
-      summary: Create Metadata for Metafield
+      summary: Add Metadata to Metafield
       tags:
         - Custom Fields
       description: |-
@@ -4693,16 +4816,6 @@ paths:
 
         Metadata values are limited to 2kB in size. Additonally, there are limits on the number of unique “names” available per resource. See [Metafields documentation](#docTextSection:BDXuRKX5n8K4T6Jsh).
 
-        ## Server Response
-
-        The following fields are returned from GET (read) operations.
-
-        | name        | The name of the attribute that is added to the resource, i.e. the name of the metafield/custom field.  |
-        |-------------|-----------------------------------------------------------|
-        | id          | The unique ID of this particular metadata record. |
-        | value       | The value of the attribute that was added to the resource. |
-        | resource_id | The resource ID that the metadata belongs to, i.e. a subscription or customer ID.              |
-
         ## Create Metadata
 
         This method will create a metafield for the site on the fly if it does not already exist, and populate the metadata value.
@@ -4719,12 +4832,7 @@ paths:
               metadata:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    value:
-                      type: string
+                  $ref: '#/definitions/metadata'
             example:
               metadata:
                 - name: Color
@@ -4740,6 +4848,73 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_resource-resourceid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    put:
+      operationId: PUT_resource-resource_id-metadata-json
+      summary: Update Metadata
+      tags:
+        - Custom Fields
+      description: |-
+        ## Update Metadata
+
+        This method allows you to update the existing metadata associated with a subscription or customer. 
+
+        ## URL Construction
+
+        Please note that as you replace the `resource` portion of the URL, use one of the following formations
+
+        ```
+        /subscriptions/{subscription_id}/metadata.{format}
+        ```
+
+        OR
+
+        ```
+        /customers/{customer_id}/metadata.{format}
+        ```
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              metadata:
+                type: object
+                properties:
+                  current_name:
+                    type: string
+                  name:
+                    type: string
+                  value:
+                    type: string
+            example:
+              metadata:
+                current_name: Color
+                name: Shirt Color
+                value: Blue
+        - $ref: '#/parameters/trait:metadataValue:value'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/metadata'
+          examples:
+            application/json:
+              - value: Blue
+                resource_id: 15479934
+                name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_resource-resourceid-metadatajson
         beforeScript: null
         afterScript: null
         public: true
@@ -4802,75 +4977,10 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-    put:
-      operationId: PUT_resource-resource_id-metadata-json
-      summary: Update Metadata
-      tags:
-        - Custom Fields
-      description: |-
-        ## Update Metadata
-
-        This method allows you to update the existing metadata associated with a subscription or customer. 
-
-        ## URL Construction
-
-        Please note that as you replace the `resource` portion of the URL, use one of the following formations
-
-        ```
-        /subscriptions/{subscription_id}/metadata.{format}
-        ```
-
-        OR
-
-        ```
-        /customers/{customer_id}/metadata.{format}
-        ```
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              metadata:
-                type: object
-                properties:
-                  current_name:
-                    type: string
-                  name:
-                    type: string
-                  value:
-                    type: string
-            example:
-              metadata:
-                current_name: Color
-                name: Shirt Color
-                value: Blue
-        - $ref: '#/parameters/trait:metadataValue:value'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/metadata-update-metadata-output'
-          examples:
-            application/json:
-              - value: Blue
-                resource_id: 15479934
-                name: Shirt Color
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_resource-resourceid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   /subscriptions/metadata.json:
     get:
       operationId: GET_subscriptions-metadata-json
-      summary: Read Metadata for Subscribers
+      summary: List Metadata for Subscribers
       tags:
         - Custom Fields
       description: |-
@@ -4903,7 +5013,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metadata-read-metadata-subscribers-output'
+            $ref: '#/definitions/paginated-metadata'
           examples:
             application/json:
               total_count: 2
@@ -4928,10 +5038,61 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/subscriptions/{subscription_id}/metadata.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_subscriptions-subscription_id-metadata-json
+      summary: List Metadata for Subscriber
+      tags:
+        - Custom Fields
+      description: |-
+        ## Read Metadata for a Subscriber
+
+        This request will list all of the metadata belonging to a particular subscription.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/paginated-metadata'
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: The quick brown fox
+                  resource_id: 15479934
+                  name: Comments
+                - value: L
+                  resource_id: 15479934
+                  name: T-Shirt Size
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   /customers/metadata.json:
     get:
       operationId: GET_customers-metadata-json
-      summary: Read Metadata for Customers
+      summary: List Metadata for Customers
       tags:
         - Custom Fields
       description: |-
@@ -4960,29 +5121,7 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              total_count:
-                type: integer
-              current_page:
-                type: integer
-              total_pages:
-                type: integer
-              per_page:
-                type: integer
-              metadata:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                    resource_id:
-                      type: integer
-                    name:
-                      type: string
-                    id:
-                      type: integer
+            $ref: '#/definitions/paginated-metadata'
           examples:
             application/json:
               total_count: 2
@@ -5015,7 +5154,7 @@ paths:
         type: string
     get:
       operationId: GET_customers-customer_id-metadata-json
-      summary: Read Metadata for a Customer
+      summary: List Metadata for Customer
       tags:
         - Custom Fields
       description: |-
@@ -5033,7 +5172,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/metadata-read-metadata-for-a-site'
+            $ref: '#/definitions/paginated-metadata'
           examples:
             application/json:
               total_count: 1
@@ -5048,57 +5187,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_customers-customerid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/metadata.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_subscriptions-subscription_id-metadata-json
-      summary: Read Metadata for a Subscriber
-      tags:
-        - Custom Fields
-      description: |-
-        ## Read Metadata for a Subscriber
-
-        This request will list all of the metadata belonging to a particular subscription.
-
-        ## Metadata Data
-
-        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/list-metadata-for-a-subscriber-output'
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: The quick brown fox
-                  resource_id: 15479934
-                  name: Comments
-                - value: L
-                  resource_id: 15479934
-                  name: T-Shirt Size
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-metadatajson
         beforeScript: null
         afterScript: null
         public: true
@@ -5258,25 +5346,21 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Search for Customer
+      summary: Read Customers for a Site
       tags:
         - Customers
       description: |-
-        ## Search for Customer
+        ## Read Customers for a Site
 
-        Use the search feature to retrieve a single or group of customers. 
-
-        Common use cases are:
-
-        + Search by email
-        + Search by Chargify ID
-        + Search by Reference (Your App)
-        + Search by Organization
-
-        If multiple customers meet the criteria for the search string, please expect an array.
+        This request will list all customers associated with your Site.
       parameters:
-        - $ref: '#/parameters/trait:searchString:q'
+        - $ref: '#/parameters/trait:direction:direction'
         - $ref: '#/parameters/trait:pagination50:page'
+        - $ref: '#/parameters/trait:customerQueryString:date_field'
+        - $ref: '#/parameters/trait:customerQueryString:start_date'
+        - $ref: '#/parameters/trait:customerQueryString:end_date'
+        - $ref: '#/parameters/trait:customerQueryString:start_datetime'
+        - $ref: '#/parameters/trait:customerQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -5290,39 +5374,15 @@ paths:
           examples:
             application/json:
               - customer:
-                  first_name: Amelia
-                  last_name: Example
-                  email: amelia@example.com
-                  cc_emails: 'john@example.com, joe@example.com'
-                  organization: Acme
-                  reference: JQPUBLIC
-                  id: 14399371
-                  created_at: '2016-10-24T16:20:12-04:00'
-                  updated_at: '2016-10-26T13:25:33-04:00'
-                  address: 123 Anywhere Street
-                  address_2: ''
-                  city: Anywhere
-                  state: MA
-                  zip: '02120'
-                  country: US
-                  phone: 555-555-1212
-                  verified: false
-                  portal_customer_created_at: null
-                  portal_invite_last_sent_at: null
-                  portal_invite_last_accepted_at: null
-                  tax_exempt: false
-                  vat_number: 012345678
-                  parent_id: 14585723
-              - customer:
-                  first_name: Matt
-                  last_name: Example
-                  email: matt@example.com
+                  first_name: Kayla
+                  last_name: Test
+                  email: kayla@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: '1234'
-                  id: 14585723
-                  created_at: '2016-11-04T17:08:31-04:00'
-                  updated_at: '2016-12-02T18:03:36-05:00'
+                  organization: ''
+                  reference: null
+                  id: 14126091
+                  created_at: '2016-10-04T15:22:27-04:00'
+                  updated_at: '2016-10-04T15:22:30-04:00'
                   address: ''
                   address_2: ''
                   city: ''
@@ -5330,60 +5390,56 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
-                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
+                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
-                  parent_id: null
               - customer:
-                  first_name: John
-                  last_name: Doe
-                  email: john.doe@example.com
+                  first_name: 'Nick '
+                  last_name: Test
+                  email: nick@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme Widgets
-                  reference: '123'
-                  id: 14731081
-                  created_at: '2016-11-15T15:33:44-05:00'
-                  updated_at: '2016-11-15T15:33:45-05:00'
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  verified: false
-                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
-                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  organization: ''
+                  reference: null
+                  id: 14254093
+                  created_at: '2016-10-13T16:52:51-04:00'
+                  updated_at: '2016-10-13T16:52:54-04:00'
+                  address: ''
+                  address_2: ''
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
+                  phone: ''
+                  verified: null
+                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
+                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
                   parent_id: 123
               - customer:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe@example.com
+                  first_name: Don
+                  last_name: Test
+                  email: don@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: Acme
-                  reference: ABC123
-                  id: 14943291
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T18:03:17-05:00'
-                  address: ''
+                  organization: ''
+                  reference: null
+                  id: 14332342
+                  created_at: '2016-10-19T10:49:13-04:00'
+                  updated_at: '2016-10-19T10:49:19-04:00'
+                  address: 1737 15th St
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
+                  city: Boulder
+                  state: CO
+                  zip: '80302'
+                  country: US
                   phone: ''
-                  verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
+                  verified: null
+                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
+                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
-                  vat_number: 012345678
                   parent_id: null
       security:
         - <<api_key>>: []
@@ -8632,90 +8688,54 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-payments-json
-      summary: Create Bulk Payment
+      summary: Create a Payment
       tags:
         - Relationship Invoicing
       description: |-
-        <h2> Create Bulk Payment </h2>
+        ## Create a Payment
 
-        Only available for accounts on Relationship Invoicing.
-
-        Record an external payment made against a subscription that will pay partially or in full one or more invoices.
-
-        Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
-
-        Excess payment will result in the creation of a prepayment on the Invoice Account.
-
-        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
+        This method will allow you to record an external payment on a subscription.
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              payment:
-                type: object
-                required:
-                  - amount
-                  - memo
-                  - payment_details
-                  - payment_method
-                properties:
-                  amount:
-                    type: string
-                  memo:
-                    type: string
-                  payment_details:
-                    type: string
-                  payment_method:
-                    type: string
-            required:
-              - payment
+            $ref: '#/definitions/payments-create-payment-input'
             example:
               payment:
-                amount: '10.0'
-                memo: to pay the bills
-                payment_details: check number 8675309
-                payment_method: check
+                amount: 10
+                memo: Client x paid with $10.00 of nickles
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/create-bulk-payment-response'
+            $ref: '#/definitions/payments-create-payment-output'
           examples:
             application/json:
-              paid_invoices:
-                - invoice_uid: xyz_012345678
-                  status: paid
-                  due_amount: '0.0'
-                  paid_amount: '50.0'
-                - invoice_uid: xyz_012345678
-                  status: paid
-                  due_amount: '0.0'
-                  paid_amount: '50.0'
-              prepayment:
-                subscription_id: '123456'
-                amount_in_cents: '5000'
-                ending_balance_in_cents: '5000'
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type:
-                  - string
-                  - array
-                description: |-
-                  Unproccessable Entity Possible Errors:  
-                  "Payment amount, details, method, and memo must be present"
-
-                   "Payment amount, details, method, and memo must valid"
-
-                  "Payment amount must be greater than zero"
-
-                  "If in a group, the Subscription must be the primary"
-                items: {}
+              payment:
+                id: 160873334
+                subscription_id: 15054201
+                type: Payment
+                kind: manual
+                transaction_type: payment
+                success: true
+                amount_in_cents: 1000
+                memo: Client x paid with $10.00 of nickles
+                created_at: '2016-11-03T14:58:30-04:00'
+                starting_balance_in_cents: -13989
+                ending_balance_in_cents: -14989
+                gateway_used: null
+                gateway_transaction_id: null
+                gateway_order_id: null
+                payment_id: null
+                product_id: 3861800
+                tax_id: null
+                component_id: null
+                statement_id: 79870822
+                customer_id: 14543792
+                card_number: null
+                card_expiration: null
+                card_type: null
+                refunded_amount_in_cents: 0
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -26714,33 +26734,8 @@ definitions:
       id: invoices-credits-create-invoice-credit-output
       name: Create Invoice Credit Output
       public: true
-  metadata-create-output:
-    title: Create Metadata Output
-    type: array
-    items:
-      type: object
-      properties:
-        name:
-          type: string
-        resource_id:
-          type: integer
-        value:
-          type: string
-        id:
-          type: integer
-    example:
-      - name: Color
-        resource_id: 100000
-        value: Blue
-      - name: Something
-        resource_id: 100000
-        value: Useful
-    x-stoplight:
-      id: metadata-create-output
-      name: Create Metadata Output
-      public: true
-  metadata-update-metadata-input:
-    title: Update Metadata Input
+  update-metadata:
+    title: Update Metadata
     type: object
     properties:
       metadata:
@@ -26758,11 +26753,11 @@ definitions:
         name: Shirt Color
         value: Blue
     x-stoplight:
-      id: metadata-update-metadata-input
-      name: Update Metadata Input
+      id: update-metadata
+      name: Update Metadata
       public: true
-  metafields-list-metafields-output:
-    title: List Metafields Output
+  paginated-metafields:
+    title: Paginated Metafields
     type: object
     properties:
       total_count:
@@ -26776,33 +26771,7 @@ definitions:
       metafields:
         type: array
         items:
-          type: object
-          properties:
-            name:
-              type: string
-            scope:
-              type: object
-              properties:
-                hosted:
-                  type: array
-                  items:
-                    type: object
-                csv:
-                  type: string
-                statements:
-                  type: string
-                invoices:
-                  type: string
-                portal:
-                  type: string
-            data_count:
-              type: integer
-            input_type:
-              type: string
-            enum:
-              type: 'null'
-            id:
-              type: integer
+          $ref: '#/definitions/metafield'
     example:
       total_count: 1
       current_page: 1
@@ -26820,11 +26789,11 @@ definitions:
           input_type: text
           enum: null
     x-stoplight:
-      id: metafields-list-metafields-output
-      name: List Metafields Output
+      id: paginated-metafields
+      name: Paginated Metafields
       public: true
-  metadata-create-metadata-input:
-    title: Create Metadata Input
+  create-metadata:
+    title: Create Metadata
     type: object
     properties:
       metadata:
@@ -26843,8 +26812,8 @@ definitions:
         - name: Something
           value: Useful
     x-stoplight:
-      id: metadata-create-metadata-input
-      name: Create Metadata Input
+      id: create-metadata
+      name: Create Metadata
       public: true
   metafields-create-metafields-output:
     title: Create Metafields Output
@@ -27048,8 +27017,8 @@ definitions:
       id: usage
       name: Usage
       public: true
-  metafields-create-metafields-input:
-    title: Create Metafields Input
+  create-metafields:
+    title: Create Metafields
     type: object
     properties:
       metafields:
@@ -27087,8 +27056,8 @@ definitions:
           - option 1
           - option 2
     x-stoplight:
-      id: metafields-create-metafields-input
-      name: Create Metafields Input
+      id: create-metafields
+      name: Create Metafields
       public: true
   notes-update-note-output:
     title: Update Note Output
@@ -32283,6 +32252,7 @@ definitions:
         properties:
           name:
             type: string
+            description: the name of the coupon
           code:
             type: string
           description:
@@ -33299,47 +33269,6 @@ definitions:
       id: customers-search-for-customer-output
       name: Search for Customer Output
       public: true
-  metadata-read-metadata-for-a-site:
-    title: Read Metadata Data for Site Output
-    type: object
-    properties:
-      total_count:
-        type: integer
-      current_page:
-        type: integer
-      total_pages:
-        type: integer
-      per_page:
-        type: integer
-      metadata:
-        type: array
-        items:
-          type: object
-          properties:
-            value:
-              type: string
-            resource_id:
-              type: integer
-            name:
-              type: string
-            id:
-              type: integer
-    example:
-      total_count: 2
-      current_page: 1
-      total_pages: 1
-      per_page: 20
-      metadata:
-        - value: Red
-          resource_id: 19186044
-          name: Shirt Color
-        - value: Blue
-          resource_id: 19186076
-          name: Shirt Color
-    x-stoplight:
-      id: metadata-read-metadata-for-a-site
-      name: Read Metadata Data for Site Output
-      public: true
   invoices-payments-create-payment-output:
     title: Create Payment Output
     type: object
@@ -33507,8 +33436,8 @@ definitions:
       id: customer-create-a-customer-output
       name: Create a Customer Output
       public: true
-  metadata-read-metadata-subscribers-output:
-    title: Read Metadata for Subscribers Output
+  paginated-metadata:
+    title: Paginated Metadata
     type: object
     properties:
       total_count:
@@ -33522,16 +33451,7 @@ definitions:
       metadata:
         type: array
         items:
-          type: object
-          properties:
-            value:
-              type: string
-            resource_id:
-              type: integer
-            name:
-              type: string
-            id:
-              type: integer
+          $ref: '#/definitions/metadata'
     example:
       total_count: 2
       current_page: 1
@@ -33545,8 +33465,8 @@ definitions:
           resource_id: 15479934
           name: T-Shirt Size
     x-stoplight:
-      id: metadata-read-metadata-subscribers-output
-      name: Read Metadata for Subscribers Output
+      id: paginated-metadata
+      name: Paginated Metadata
       public: true
   customers-list-customers-subscriptions-array-output:
     title: Read Customers Subscriptions Array Output
@@ -34483,69 +34403,6 @@ definitions:
     x-stoplight:
       id: sales-receipts-get-a-sales-receipt-output
       name: Get a Sales Receipt Output
-      public: true
-  list-metadata-for-a-subscriber-output:
-    title: Read Metadata for a Subscriber Output
-    type: object
-    properties:
-      total_count:
-        type: integer
-      current_page:
-        type: integer
-      total_pages:
-        type: integer
-      per_page:
-        type: integer
-      metadata:
-        type: array
-        items:
-          type: object
-          properties:
-            value:
-              type: string
-            resource_id:
-              type: integer
-            name:
-              type: string
-            id:
-              type: integer
-    example:
-      total_count: 2
-      current_page: 1
-      total_pages: 1
-      per_page: 20
-      metadata:
-        - value: The quick brown fox
-          resource_id: 15479934
-          name: Comments
-        - value: L
-          resource_id: 15479934
-          name: T-Shirt Size
-    x-stoplight:
-      id: list-metadata-for-a-subscriber-output
-      name: Read Metadata for a Subscriber Output
-      public: true
-  metadata-update-metadata-output:
-    title: Update Metadata Output
-    type: array
-    items:
-      type: object
-      properties:
-        value:
-          type: string
-        resource_id:
-          type: integer
-        name:
-          type: string
-        id:
-          type: integer
-    example:
-      - value: Blue
-        resource_id: 15479934
-        name: Shirt Color
-    x-stoplight:
-      id: metadata-update-metadata-output
-      name: Update Metadata Output
       public: true
   components-metered-create-usage-when-creating-a-new-subscription-input:
     title: Create Usage When Creating a New Subscription Input
@@ -37009,44 +36866,6 @@ definitions:
     x-stoplight:
       id: components-price-points-bulk-reset-a-subscriptions-components-price-points
       name: Bulk Reset a Subscription's Component's Price Points
-      public: true
-  customfields-metadata-list-metadata-for-a-customer-output:
-    title: Read Metadata Data for a Customer Output
-    type: object
-    properties:
-      total_count:
-        type: integer
-      current_page:
-        type: integer
-      total_pages:
-        type: integer
-      per_page:
-        type: integer
-      metadata:
-        type: array
-        items:
-          type: object
-          properties:
-            value:
-              type: string
-            resource_id:
-              type: integer
-            name:
-              type: string
-            id:
-              type: integer
-    example:
-      total_count: 1
-      current_page: 1
-      total_pages: 1
-      per_page: 20
-      metadata:
-        - value: Red
-          resource_id: 19186044
-          name: Shirt Color
-    x-stoplight:
-      id: customfields-metadata-list-metadata-for-a-customer-output
-      name: Read Metadata Data for a Customer Output
       public: true
   coupon-add-coupon-to-subscription-output:
     title: Add the Coupon to Subscription Output
@@ -45194,6 +45013,56 @@ definitions:
       id: overage-pricing
       name: Overage Pricing
       public: true
+  metadata:
+    title: Metadata
+    type: object
+    properties:
+      value:
+        type: string
+      resource_id:
+        type: integer
+      name:
+        type: string
+      id:
+        type: integer
+    x-stoplight:
+      id: metadata
+      name: Metadata
+      public: true
+  metafield:
+    title: Metafield
+    type: object
+    properties:
+      name:
+        type: string
+      scope:
+        type: object
+        properties:
+          hosted:
+            type: array
+            items:
+              type: object
+          csv:
+            type: string
+          statements:
+            type: string
+          invoices:
+            type: string
+          portal:
+            type: string
+      data_count:
+        type: integer
+        description: |+
+          the amount of subscriptions this metafield has been applied to in Chargify
+
+      input_type:
+        type: string
+      enum:
+        type: 'null'
+    x-stoplight:
+      id: metafield
+      name: Metafield
+      public: true
 basePath: '%3C%3Csubdomain%3E%3E.chargify.com/'
 x-stoplight:
   beforeScript: ''
@@ -45235,6 +45104,8 @@ x-stoplight:
             - _id: pagination10
               type: traits
             - _id: pagination20
+              type: traits
+            - _id: pagination30
               type: traits
             - _id: pagination50
               type: traits
@@ -45459,6 +45330,8 @@ x-stoplight:
               type: endpoints
             - _id: GET_subscriptions-metadatajson
               type: endpoints
+            - _id: GET_subscriptions-subscriptionid-metadatajson
+              type: endpoints
             - _id: GET_customers-metadatajson
               type: endpoints
             - _id: GET_customers-customerid-metadatajson
@@ -45467,49 +45340,43 @@ x-stoplight:
               type: schemas
             - _id: yedAoRMah82wSpFpm
               type: schemas
-            - _id: GET_subscriptions-subscriptionid-metadatajson
+            - _id: PUT_resource-resourceid-metadatajson
               type: endpoints
             - _id: DELETE_resource-resourceid-metadatajson
               type: endpoints
-            - _id: PUT_resource-resourceid-metadatajson
-              type: endpoints
+            - _id: metafield
+              type: schemas
+            - _id: paginated-metafields
+              type: schemas
             - _id: metafields-update-metafields-input
               type: schemas
-            - _id: metafieldResource
-              type: traits
-            - _id: metadata-update-metadata-input
-              type: schemas
-            - _id: metafieldsNameOptional
-              type: traits
-            - _id: metafields-create-metafields-input
-              type: schemas
-            - _id: metafields-list-metafields-output
-              type: schemas
-            - _id: customfields-metadata-list-metadata-for-a-customer-output
+            - _id: create-metafields
               type: schemas
             - _id: metafields-create-metafields-output
               type: schemas
             - _id: metafields-update-metafields-output
               type: schemas
-            - _id: list-metadata-for-a-subscriber-output
+            - _id: metafieldsNameOptional
+              type: traits
+            - _id: metafieldResource
+              type: traits
+            - _id: QnAGrv9N5DEqEcoMK
               type: schemas
             - _id: metafieldsNameRequiredCurrentNameOptional
               type: traits
-            - _id: metadata-create-metadata-input
-              type: schemas
             - _id: metafieldsNameRequired
               type: traits
-            - _id: metadata-create-output
+            - _id: update-metadata
               type: schemas
-            - _id: metadata-update-metadata-output
+            - _id: create-metadata
               type: schemas
-            - _id: metadata-read-metadata-subscribers-output
+            - _id: BpAC96qBPBbuKar7A
+              type: schemas
+            - _id: paginated-metadata
+              type: schemas
+            - _id: metadata
               type: schemas
             - _id: metadataQueryString
-              type: traits
-            - _id: metadata-read-metadata-for-a-site
-              type: schemas
-            - _id: pagination30
               type: traits
             - _id: metadataValue
               type: traits
