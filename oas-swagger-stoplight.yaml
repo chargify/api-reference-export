@@ -2679,110 +2679,112 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with Offer ID
+      summary: Create Subscription with Multiple Coupon Codes
       tags:
         - Subscriptions Components
       description: |-
-        ## Create a subscription with an offer ID
+        ## Create Subscription Multiple Coupon Codes
 
-        This method allows you to provide an offer ID to create a subscription. You may also use a handle ID, and use `offer_handle` to complete your request.
+        This method allows you to create a Subscription within Chargify with multiple coupon codes applied at signup.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/create-subscription-with-offer-request'
+            $ref: '#/definitions/create-subscription-with-multiple-coupon-input'
             example:
               subscription:
-                offer_id: 123456789
+                product_handle: basic
                 customer_attributes:
-                  first_name: Alysa
-                  last_name: Test
-                  email: alysa@example.com
+                  first_name: Joe
+                  last_name: Example
+                  email: joe@example.com
                 credit_card_attributes:
                   full_number: '1'
                   expiration_month: '10'
                   expiration_year: '2020'
+                coupon_codes:
+                  - STACK_COMP_100_DOLLAR
+                  - STACK_COMP_75_PERCENT
       responses:
-        '200':
+        '201':
           description: ''
           schema:
-            $ref: '#/definitions/create-offer-output'
+            $ref: '#/definitions/create-subscription-with-multiple-coupon-input'
           examples:
             application/json:
               subscription:
-                id: 22885645
+                id: 19730041
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2018-08-03T12:53:28-05:00'
-                created_at: '2018-08-03T12:53:28-05:00'
-                updated_at: '2018-08-03T12:53:28-05:00'
+                activated_at: '2017-11-13T12:51:27-06:00'
+                created_at: '2017-11-13T12:51:26-06:00'
+                updated_at: '2017-11-13T12:51:27-06:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2018-08-07T12:53:28-05:00'
-                next_assessment_at: '2018-08-07T12:53:28-05:00'
+                current_period_ends_at: '2017-12-13T12:51:26-06:00'
+                next_assessment_at: '2017-12-13T12:51:26-06:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
-                cancel_at_end_of_period: false
+                cancel_at_end_of_period: null
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2018-08-03T12:53:28-05:00'
+                current_period_started_at: '2017-11-13T12:51:26-06:00'
                 previous_state: active
-                signup_payment_id: 254497876
-                signup_revenue: '100.00'
+                signup_payment_id: 211813093
+                signup_revenue: '225.00'
                 delayed_cancel_at: null
-                coupon_code: POINTFIVE
-                total_revenue_in_cents: 10000
-                product_price_in_cents: 10000
+                coupon_code: STACK_COMP_100_DOLLAR
+                total_revenue_in_cents: 22500
+                product_price_in_cents: 100000
                 product_version_number: 1
                 payment_type: credit_card
-                referral_code: c85dkg
-                coupon_use_count: 0
+                referral_code: null
+                coupon_use_count: 1
                 coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
                 coupon_codes:
-                  - POINTFIVE
-                offer_id: 238
+                  - STACK_COMP_100_DOLLAR
+                  - STACK_COMP_75_PERCENT
                 customer:
-                  id: 22575681
-                  first_name: Meg
-                  last_name: 'Whitney '
-                  organization: ''
-                  email: meg@example.com
-                  created_at: '2018-08-02T09:37:02-05:00'
-                  updated_at: '2018-08-02T09:37:03-05:00'
+                  id: 19311096
+                  first_name: Joe
+                  last_name: Example
+                  organization: null
+                  email: joe@example.com
+                  created_at: '2017-11-13T12:51:26-06:00'
+                  updated_at: '2017-11-13T12:51:28-06:00'
                   reference: null
-                  address: 123 Anywhere Street
-                  address_2: ''
-                  city: '123'
-                  state: AL
-                  zip: '12345'
-                  country: US
-                  phone: ''
-                  portal_invite_last_sent_at: null
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  portal_invite_last_sent_at: '2017-11-13T12:51:28-06:00'
                   portal_invite_last_accepted_at: null
-                  verified: null
-                  portal_customer_created_at: '2018-08-02T09:37:03-05:00'
-                  vat_number: null
+                  verified: false
+                  portal_customer_created_at: '2017-11-13T12:51:28-06:00'
                   cc_emails: null
                   tax_exempt: false
                 product:
-                  id: 4671521
-                  name: 4 Day Product
-                  handle: null
+                  id: 4581816
+                  name: Basic
+                  handle: basic
                   description: ''
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2018-07-16T12:32:20-05:00'
-                  updated_at: '2018-07-16T12:32:20-05:00'
-                  price_in_cents: 10000
-                  interval: 4
-                  interval_unit: day
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2017-11-07T09:20:12-06:00'
+                  price_in_cents: 100000
+                  interval: 1
+                  interval_unit: month
                   initial_charge_in_cents: null
                   trial_price_in_cents: null
                   trial_interval: null
@@ -2797,25 +2799,25 @@ paths:
                   version_number: 1
                   update_return_params: ''
                   product_family:
-                    id: 1025629
-                    name: Products
-                    description: Invoice
-                    handle: test
+                    id: 1025627
+                    name: Acme Products
+                    description: ''
+                    handle: acme-products
                     accounting_code: null
                   public_signup_pages:
-                    - id: 356487
+                    - id: 333589
                       return_url: null
                       return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/xj3ptd3gs7v6'
+                      url: 'https://general-goods.chargify.com/subscribe/hbwtd98j3hk2/basic'
                 credit_card:
-                  id: 15869432
-                  first_name: Meg
-                  last_name: 'Whitney '
+                  id: 13380483
+                  first_name: Joe
+                  last_name: Example
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 22575681
+                  customer_id: 19311096
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -3281,257 +3283,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptionsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/coupons/{coupon_id}/codes/{subcode}.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        description: The Coupon ID.
-        required: true
-        type: number
-      - name: subcode
-        in: path
-        description: The Subcode.
-        required: true
-        type: number
-    delete:
-      operationId: DELETE_coupons-coupon_id-codes-subcode-format
-      summary: Delete Coupon Subcode
-      tags:
-        - Coupon Subcode
-        - incomplete
-        - Coupons
-      description: |-
-        ## Delete the Coupon Subcode
-
-        If the Coupon subcode is successfully removed, a "200" response code will be returned. Otherwise, a "404" error will be returned.
-
-        ## Example
-
-        Given a coupon with an ID of 567, and a coupon subcode of 20OFF, the URL to `DELETE` this coupon subcode would be: 
-
-        ```
-        http://subdomain.chargify.com/coupons/567/codes/20OFF.<format>
-        ```
-
-        Note: If you are using any of the allowed special characters (“%”, “@”, “+”, “-”, “_”, and “.”), you must encode them for use in the URL.
-
-        | Special character | Encoding |
-        |-------------------|----------|
-        | %                 | %25      |
-        | @                 | %40      |
-        | +                 | %2B      |
-        | –                 | %2D      |
-        | _                 | %5F      |
-        | .                 | %2E      |
-
-        ## Percent Encoding Example
-
-        Or if the coupon subcode is 20%OFF, the URL to delete this coupon subcode would be: @https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>
-      responses:
-        '404':
-          description: Not Found
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: DELETE_coupons-coupon_id-codes-subcode-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          statusCode: 200
-          enabled: false
-  '/coupons/{coupon_id}/codes.json':
-    parameters:
-      - name: coupon_id
-        in: path
-        description: The Coupon ID.
-        required: true
-        type: number
-    put:
-      operationId: PUT_coupons-coupon_id-codes-format
-      summary: Update Coupon Subcodes
-      tags:
-        - Coupon Subcode
-        - incomplete
-        - Coupons
-      description: |-
-        ## Update Coupon Subcodes
-
-        You can update the subcodes for the given Coupon via the API with a PUT request to the resource endpoint.
-        Send an array of new coupon subcodes.
-
-        **Note**: All current subcodes for that Coupon will be deleted first, and replaced with the list of subcodes sent to this endpoint.
-        The response will contain:
-
-        + The created subcodes,
-
-        + Subcodes that were not created because they already exist,
-
-        + Any subcodes not created because they are invalid.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/coupon-subcodes-create-a-coupon-subcode'
-            example:
-              codes:
-                - AAAA
-                - BBBB
-                - CCCC
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons-subcodes-create-a-coupon-subcode-output'
-          examples:
-            application/json:
-              codes:
-                - AAAA
-                - BBBB
-                - CCCC
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_coupons-coupon_id-codes-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-    get:
-      operationId: GET_coupons-coupon_id-codes-json
-      summary: List Coupon Subcodes
-      tags:
-        - Coupons
-      description: |-
-        ## List Coupon Subcodes for a Site
-
-        This request allows you to request the subcodes that are attached to a coupon.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons-subcodes-retrieve-coupon-subcodes-output'
-          examples:
-            application/json:
-              codes:
-                - 3JU6PR
-                - 9RO6MP
-                - 8OG1VV
-                - 5FL7VV
-                - 2SV8XK
-                - 4LW8LH
-                - 3VL4GZ
-                - 9UI9XO
-                - 0LZ0CC
-                - 8XI9JV
-                - 9UV5YE
-                - 3UI4GX
-                - 6SL5ST
-                - 9WC8IJ
-                - 2KA3PZ
-                - 7WR1VR
-                - 3VY7MN
-                - 6KC3KB
-                - 7DF7YT
-                - 9FH1ED
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-couponid-codesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    post:
-      operationId: POST_coupons-coupon_id-codes-json
-      summary: Create Coupon Subcode
-      tags:
-        - Coupons
-      description: |-
-        ## Coupon Subcodes Intro
-
-        Coupon Subcodes allow you to create a set of unique codes that allow you to expand the use of one coupon.
-
-        For example:
-
-        Master Coupon Code: 
-
-        + SPRING2020
-
-        Coupon Subcodes: 
-
-        + SPRING90210
-        + DP80302
-        + SPRINGBALTIMORE
-
-        Coupon subcodes can be administered in the Admin Interface or via the API.
-
-        When creating a coupon subcode, you must specify a coupon to attach it to using the coupon_id. Valid coupon subcodes are all capital letters, contain only letters and numbers, and do not have any spaces. Lowercase letters will be capitalized before the subcode is created.
-
-        ## Coupon Subcodes Documentation
-
-        Full documentation on how to create coupon subcodes in the Chargify UI can be located [here](https://help.chargify.com/products/product-coupons.html#coupon-codes).
-
-        Additionally, for documentation on how to apply a coupon to a Subscription within the Chargify UI, please see our documentation [here](https://help.chargify.com/subscriptions/subscription-summary.html#coupon).
-
-        ## Create Coupon Subcode
-
-        This request allows you to create specific subcodes underneath an existing coupon code.
-
-        *Note*: If you are using any of the allowed special characters ("%", "@", "+", "-", "_", and "."), you must encode them for use in the URL.
-
-            % to %25
-            @ to %40
-            + to %2B
-            - to %2D
-            _ to %5F
-            . to %2E
-            
-        So, if the coupon subcode is `20%OFF`, the URL to delete this coupon subcode would be: `https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>`
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/coupon-subcodes-create-a-coupon-subcode'
-            example:
-              codes:
-                - BALTIMOREFALL
-                - ORLANDOFALL
-                - DETROITFALL
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/coupons-subcodes-create-a-coupon-subcode-output'
-          examples:
-            application/json:
-              created_codes:
-                - BALTIMOREFALL
-                - ORLANDOFALL
-                - DETROITFALL
-              duplicate_codes: []
-              invalid_codes: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_coupons-couponid-codesjson
         beforeScript: null
         afterScript: null
         public: true
@@ -4007,6 +3758,115 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+  /coupons.json:
+    get:
+      operationId: GET_coupons-format
+      summary: List Coupons in Default Product Family
+      tags:
+        - Coupon
+        - incomplete
+        - Coupons
+      description: |-
+        ## Read Coupons for the Default Product Family
+
+        You can retrieve a list of coupons that belong to the default product family for a site via this method.
+
+        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
+
+        When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
+
+        If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
+      parameters:
+        - $ref: '#/parameters/trait:pagination30:page'
+        - $ref: '#/parameters/trait:pagination30:per_page'
+        - $ref: '#/parameters/trait:couponQueryString:date_field'
+        - $ref: '#/parameters/trait:couponQueryString:start_date'
+        - $ref: '#/parameters/trait:couponQueryString:end_date'
+        - $ref: '#/parameters/trait:couponQueryString:start_datetime'
+        - $ref: '#/parameters/trait:couponQueryString:end_datetime'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/coupons-list-coupons-for-a-site-output'
+          examples:
+            application/json:
+              - coupon:
+                  id: 999999
+                  name: 50% coupon
+                  code: 50PERCENT
+                  description: 50 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 123456
+                  name: 100% coupon
+                  code: 100PERCENT
+                  description: 100 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 50
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+              - coupon:
+                  id: 888888
+                  name: 25% coupon
+                  code: 25PERCENT
+                  description: 25 PERCENT OFF
+                  amount_in_cents: null
+                  product_family_id: 527890
+                  created_at: '2016-10-21T17:02:08-04:00'
+                  updated_at: '2016-10-21T17:06:11-04:00'
+                  start_date: '2016-10-21T17:02:08-04:00'
+                  end_date: null
+                  percentage: 25
+                  recurring: true
+                  duration_period_count: null
+                  duration_interval: 1
+                  duration_interval_unit: day
+                  allow_negative_balance: true
+                  archived_at: null
+                  conversion_limit: 100
+                  stackable: false
+                  compounding_strategy: compound
+                  coupon_restrictions: []
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-format
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   '/product_families/{product_family_id}/coupons/{coupon_id}/usage.json':
     parameters:
       - name: product_family_id
@@ -4150,115 +4010,6 @@ paths:
         mock:
           enabled: false
           statusCode: 200
-  /coupons.json:
-    get:
-      operationId: GET_coupons-format
-      summary: List Coupons in Default Product Family
-      tags:
-        - Coupon
-        - incomplete
-        - Coupons
-      description: |-
-        ## Read Coupons for the Default Product Family
-
-        You can retrieve a list of coupons that belong to the default product family for a site via this method.
-
-        The default product family is the one that was created first for the site, (with the lowest ID number,) that has not been archived.
-
-        When fetching coupons, if you have defined multiple currencies at the site level, you can optionally pass the `?currency_prices=true` query param to include an array of currency price data in the response.
-
-        If the coupon is set to `use_site_exchange_rate: true`, it will return pricing based on the current exchange rate. If the flag is set to false, it will return all of the defined prices for each currency.
-      parameters:
-        - $ref: '#/parameters/trait:pagination30:page'
-        - $ref: '#/parameters/trait:pagination30:per_page'
-        - $ref: '#/parameters/trait:couponQueryString:date_field'
-        - $ref: '#/parameters/trait:couponQueryString:start_date'
-        - $ref: '#/parameters/trait:couponQueryString:end_date'
-        - $ref: '#/parameters/trait:couponQueryString:start_datetime'
-        - $ref: '#/parameters/trait:couponQueryString:end_datetime'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/coupons-list-coupons-for-a-site-output'
-          examples:
-            application/json:
-              - coupon:
-                  id: 999999
-                  name: 50% coupon
-                  code: 50PERCENT
-                  description: 50 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 50
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-              - coupon:
-                  id: 123456
-                  name: 100% coupon
-                  code: 100PERCENT
-                  description: 100 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 50
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-              - coupon:
-                  id: 888888
-                  name: 25% coupon
-                  code: 25PERCENT
-                  description: 25 PERCENT OFF
-                  amount_in_cents: null
-                  product_family_id: 527890
-                  created_at: '2016-10-21T17:02:08-04:00'
-                  updated_at: '2016-10-21T17:06:11-04:00'
-                  start_date: '2016-10-21T17:02:08-04:00'
-                  end_date: null
-                  percentage: 25
-                  recurring: true
-                  duration_period_count: null
-                  duration_interval: 1
-                  duration_interval_unit: day
-                  allow_negative_balance: true
-                  archived_at: null
-                  conversion_limit: 100
-                  stackable: false
-                  compounding_strategy: compound
-                  coupon_restrictions: []
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_coupons-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
   '/coupon/{coupon_id}/currency_prices.json':
     parameters:
       - name: coupon_id
@@ -4320,62 +4071,136 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/{resource}/{resource_id}/metadata.json':
+  '/coupons/{coupon_id}/codes.json':
     parameters:
-      - name: resource
-        in: path
-        required: true
-        type: string
-        enum:
-          - customers
-          - subscriptions
-      - name: resource_id
+      - name: coupon_id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_resource-resource_id-metadata-json
-      summary: Create Metadata
+      operationId: POST_coupons-coupon_id-codes-json
+      summary: Create Coupon Subcodes
       tags:
-        - 'Custom Fields: Metadata'
+        - Coupons
       description: |-
-        ## Create Metadata
+        ## Coupon Subcodes Intro
 
-        This method will create a metafield for the site on the fly if it does not already exist, and populate the metadata value.
+        Coupon Subcodes allow you to create a set of unique codes that allow you to expand the use of one coupon.
 
-        ### Subscription or Customer Resource
+        For example:
 
-        Please pay special attention to the resource  you use when creating metadata.
+        Master Coupon Code: 
+
+        + SPRING2020
+
+        Coupon Subcodes: 
+
+        + SPRING90210
+        + DP80302
+        + SPRINGBALTIMORE
+
+        Coupon subcodes can be administered in the Admin Interface or via the API.
+
+        When creating a coupon subcode, you must specify a coupon to attach it to using the coupon_id. Valid coupon subcodes are all capital letters, contain only letters and numbers, and do not have any spaces. Lowercase letters will be capitalized before the subcode is created.
+
+        ## Coupon Subcodes Documentation
+
+        Full documentation on how to create coupon subcodes in the Chargify UI can be located [here](https://help.chargify.com/products/product-coupons.html#coupon-codes).
+
+        Additionally, for documentation on how to apply a coupon to a Subscription within the Chargify UI, please see our documentation [here](https://help.chargify.com/subscriptions/subscription-summary.html#coupon).
+
+        ## Create Coupon Subcode
+
+        This request allows you to create specific subcodes underneath an existing coupon code.
+
+        *Note*: If you are using any of the allowed special characters ("%", "@", "+", "-", "_", and "."), you must encode them for use in the URL.
+
+            % to %25
+            @ to %40
+            + to %2B
+            - to %2D
+            _ to %5F
+            . to %2E
+            
+        So, if the coupon subcode is `20%OFF`, the URL to delete this coupon subcode would be: `https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>`
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              metadata:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    value:
-                      type: string
+            $ref: '#/definitions/coupon-subcodes-create-a-coupon-subcode'
             example:
-              metadata:
-                - name: Color
-                  value: Blue
-                - name: Something
-                  value: Useful
-        - $ref: '#/parameters/trait:metadataValue:value'
+              codes:
+                - BALTIMOREFALL
+                - ORLANDOFALL
+                - DETROITFALL
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/coupons-subcodes-create-a-coupon-subcode-output'
+          examples:
+            application/json:
+              created_codes:
+                - BALTIMOREFALL
+                - ORLANDOFALL
+                - DETROITFALL
+              duplicate_codes: []
+              invalid_codes: []
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_resource-resourceid-metadatajson
+        id: POST_coupons-couponid-codesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_coupons-coupon_id-codes-json
+      summary: List Coupon Subcodes
+      tags:
+        - Coupons
+      description: |-
+        ## List Coupon Subcodes for a Site
+
+        This request allows you to request the subcodes that are attached to a coupon.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/coupons-subcodes-retrieve-coupon-subcodes-output'
+          examples:
+            application/json:
+              codes:
+                - 3JU6PR
+                - 9RO6MP
+                - 8OG1VV
+                - 5FL7VV
+                - 2SV8XK
+                - 4LW8LH
+                - 3VL4GZ
+                - 9UI9XO
+                - 0LZ0CC
+                - 8XI9JV
+                - 9UV5YE
+                - 3UI4GX
+                - 6SL5ST
+                - 9WC8IJ
+                - 2KA3PZ
+                - 7WR1VR
+                - 3VY7MN
+                - 6KC3KB
+                - 7DF7YT
+                - 9FH1ED
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_coupons-couponid-codesjson
         beforeScript: null
         afterScript: null
         public: true
@@ -4384,364 +4209,118 @@ paths:
           dynamic: false
           statusCode: 200
     put:
-      operationId: PUT_resource-resource_id-metadata-json
-      summary: Update Metadata
+      operationId: PUT_coupons-coupon_id-codes-format
+      summary: Update Coupon Subcodes
       tags:
-        - 'Custom Fields: Metadata'
+        - Coupon Subcode
+        - incomplete
+        - Coupons
       description: |-
-        ## Update Metadata
+        ## Update Coupon Subcodes
 
-        This method allows you to update the existing metadata associated with a subscription or customer. 
+        You can update the subcodes for the given Coupon via the API with a PUT request to the resource endpoint.
+        Send an array of new coupon subcodes.
 
-        ## URL Construction
+        **Note**: All current subcodes for that Coupon will be deleted first, and replaced with the list of subcodes sent to this endpoint.
+        The response will contain:
 
-        Please note that as you replace the `resource` portion of the URL, use one of the following formations
+        + The created subcodes,
 
-        ```
-        /subscriptions/{subscription_id}/metadata.{format}
-        ```
+        + Subcodes that were not created because they already exist,
 
-        OR
-
-        ```
-        /customers/{customer_id}/metadata.{format}
-        ```
+        + Any subcodes not created because they are invalid.
       parameters:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              metadata:
-                type: object
-                properties:
-                  current_name:
-                    type: string
-                  name:
-                    type: string
-                  value:
-                    type: string
+            $ref: '#/definitions/coupon-subcodes-create-a-coupon-subcode'
             example:
-              metadata:
-                current_name: Color
-                name: Shirt Color
-                value: Blue
-        - $ref: '#/parameters/trait:metadataValue:value'
+              codes:
+                - AAAA
+                - BBBB
+                - CCCC
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
       responses:
         '200':
-          description: ''
+          description: OK
           schema:
-            $ref: '#/definitions/metadata-update-metadata-output'
+            $ref: '#/definitions/coupons-subcodes-create-a-coupon-subcode-output'
           examples:
             application/json:
-              - value: Blue
-                resource_id: 15479934
-                name: Shirt Color
+              codes:
+                - AAAA
+                - BBBB
+                - CCCC
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: PUT_resource-resourceid-metadatajson
+        id: PUT_coupons-coupon_id-codes-format
         beforeScript: null
         afterScript: null
         public: true
         mock:
           enabled: false
-          dynamic: false
           statusCode: 200
+  '/coupons/{coupon_id}/codes/{subcode}.json':
+    parameters:
+      - name: coupon_id
+        in: path
+        description: The Coupon ID.
+        required: true
+        type: number
+      - name: subcode
+        in: path
+        description: The Subcode.
+        required: true
+        type: number
     delete:
-      operationId: DELETE_resource-resource_id-metadata-json
-      summary: Delete Metadata
+      operationId: DELETE_coupons-coupon_id-codes-subcode-format
+      summary: Delete Coupon Subcode
       tags:
-        - 'Custom Fields: Metadata'
+        - Coupon Subcode
+        - incomplete
+        - Coupons
       description: |-
-        ## Delete Metadata
+        ## Delete the Coupon Subcode
 
-        This method removes the metadata from the subscriber/customer cited.
+        If the Coupon subcode is successfully removed, a "200" response code will be returned. Otherwise, a "404" error will be returned.
 
-        ## Query String Usage
+        ## Example
 
-        For instance if you wanted to delete the metadata for customer 99 named weight you would request:
+        Given a coupon with an ID of 567, and a coupon subcode of 20OFF, the URL to `DELETE` this coupon subcode would be: 
 
         ```
-        https://acme.chargify.com/customers/99/metadata.json?name=weight
+        http://subdomain.chargify.com/coupons/567/codes/20OFF.<format>
         ```
 
-        If you want to delete multiple metadata fields for a customer 99 named: `weight` and `age` you wrould request:
-        ```
-        https://acme.chargify.com/customers/99/metadata.json?names[]=weight&names[]=age
-        ```
+        Note: If you are using any of the allowed special characters (“%”, “@”, “+”, “-”, “_”, and “.”), you must encode them for use in the URL.
 
+        | Special character | Encoding |
+        |-------------------|----------|
+        | %                 | %25      |
+        | @                 | %40      |
+        | +                 | %2B      |
+        | –                 | %2D      |
+        | _                 | %5F      |
+        | .                 | %2E      |
 
-        ## Successful Response
+        ## Percent Encoding Example
 
-        For a success, there will be a code `200` and the plain text response `true`.
-
-        ## Unsuccessful Response
-
-        When a failed response is encountered, you will receive a `404` response and the plain text response of `true`.
-      parameters:
-        - name: name
-          in: query
-          type: string
-        - name: 'names[]'
-          in: query
-          type: array
-          items:
-            type: string
+        Or if the coupon subcode is 20%OFF, the URL to delete this coupon subcode would be: @https://<subdomain>.chargify.com/coupons/567/codes/20%25OFF.<format>
       responses:
-        default:
-          description: ''
-          schema: {}
+        '404':
+          description: Not Found
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: DELETE_resource-resourceid-metadatajson
+        id: DELETE_coupons-coupon_id-codes-subcode-format
         beforeScript: null
         afterScript: null
         public: true
         mock:
-          enabled: false
-          dynamic: false
           statusCode: 200
-  /subscriptions/metadata.json:
-    get:
-      operationId: GET_subscriptions-metadata-json
-      summary: Read Metadata for Subscribers
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## Read Metadata by Subscription
-
-        This method will provide you information on usage of metadata across your subscribers. 
-
-        ## Metadata Data
-
-        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-
-        ### Metadata for multiple records
-
-        `https://acme.chargify.com/subscriptions/metadata.json?resource_ids[]=1&resource_ids[]=2`
-      parameters:
-        - name: 'resource_ids[]'
-          in: query
-          type: array
-          items:
-            type: string
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:metadataQueryString:date_field'
-        - $ref: '#/parameters/trait:metadataQueryString:start_date'
-        - $ref: '#/parameters/trait:metadataQueryString:end_date'
-        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
-        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
-        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/metadata-read-metadata-subscribers-output'
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: The quick brown fox
-                  resource_id: 15479934
-                  name: Comments
-                - value: L
-                  resource_id: 15479934
-                  name: T-Shirt Size
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
           enabled: false
-          dynamic: false
-          statusCode: 200
-  /customers/metadata.json:
-    get:
-      operationId: GET_customers-metadata-json
-      summary: Read Metadata for Customers
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## Read Metadata for a Site 
-
-        This endpoint will list the number of pages of metadata information that are contained within a site.
-
-        ## Metadata Data
-
-        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-
-        ### Metadata for multiple records
-
-        `https://acme.chargify.com/customers/metadata.json?resource_ids[]=1&resource_ids[]=2`
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:metadataQueryString:date_field'
-        - $ref: '#/parameters/trait:metadataQueryString:start_date'
-        - $ref: '#/parameters/trait:metadataQueryString:end_date'
-        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
-        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
-        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
-        - $ref: '#/parameters/trait:metadataQueryString:resource_ids[]'
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: object
-            properties:
-              total_count:
-                type: integer
-              current_page:
-                type: integer
-              total_pages:
-                type: integer
-              per_page:
-                type: integer
-              metadata:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                    resource_id:
-                      type: integer
-                    name:
-                      type: string
-                    id:
-                      type: integer
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: Red
-                  resource_id: 19186044
-                  name: Shirt Color
-                - value: Blue
-                  resource_id: 19186076
-                  name: Shirt Color
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_customers-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/customers/{customer_id}/metadata.json':
-    parameters:
-      - name: customer_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_customers-customer_id-metadata-json
-      summary: Read Metadata for a Customer
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## Read Metadata for a Customer
-
-        This endpoint will list the metadata associated with a customer. Additionally, the endpoint will return the number of pages of metadata information that are contained within a site.
-
-        ## Metadata Data
-
-        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/metadata-read-metadata-for-a-site'
-          examples:
-            application/json:
-              total_count: 1
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: Red
-                  resource_id: 19186044
-                  name: Shirt Color
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_customers-customerid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/metadata.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_subscriptions-subscription_id-metadata-json
-      summary: Read Metadata for a Subscriber
-      tags:
-        - 'Custom Fields: Metadata'
-      description: |-
-        ## Read Metadata for a Subscriber
-
-        This request will list all of the metadata belonging to a particular subscription.
-
-        ## Metadata Data
-
-        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
-      parameters:
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/list-metadata-for-a-subscriber-output'
-          examples:
-            application/json:
-              total_count: 2
-              current_page: 1
-              total_pages: 1
-              per_page: 20
-              metadata:
-                - value: The quick brown fox
-                  resource_id: 15479934
-                  name: Comments
-                - value: L
-                  resource_id: 15479934
-                  name: T-Shirt Size
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-metadatajson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/{resource}/metafields.json':
     parameters:
       - name: resource
@@ -4756,8 +4335,84 @@ paths:
       operationId: POST_resource-metafields-json
       summary: Create Metafields
       tags:
-        - 'Custom Fields: Metafields'
+        - Custom Fields
       description: |-
+        ## Custom Fields: Metafields Intro
+
+        **Chargify refers to Custom Fields in the API documentation as metafields and metadata.**
+
+        + **Metafield is the custom field**
+        + **Metadata is the data populating the custom field.**
+
+        Chargify Metafields are used to add meaningful attributes to subscription and customer resources.
+
+        Metafield are the place where you will set up your resource to accept additional data. It is scoped to the site instead of a specific customer or subscription. Think of it as the key, and Metadata as the value on every record.
+
+        ## Metafields Documentation
+
+        Within the Chargify UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata. 
+
+        Full documentation on how to create Custom Fields in the Chargify UI can be located [here](https://help.chargify.com/custom-fields/custom-fields-intro.html).
+
+        For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here.](https://help.chargify.com/subscriptions/subscription-summary.html#custom-fields)
+
+        ## Metafields vs Metadata 
+
+        Metadata is the information that populates the metafield.
+
+        ## Metafields "On-the-Fly"
+
+        It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existant name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
+
+        ## Metafield Limitations
+
+        Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource. This means you can have 100 Metafields for Subscription and another 100 for Customer.
+
+        ## Metafields Scope
+
+        The scope field has four acceptable attributes, which dictate where metafields will appear:
+
+        + portal
+        + csv
+        + invoices
+        + statements
+         
+        If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – if a partial update is sent it will overwrite the current configuration.
+
+        ## CSV Metafields
+
+        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude in csv exports.
+
+        ```“csv”: “1”```
+
+        ## Statement Metafields
+
+        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude in statments.
+
+        ```“statements”: “1”```
+
+        ### Invoice Metafields
+
+        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude on invoices.
+
+        ```“invoices”: “1”```
+
+        ### Billing Portal Metafields
+
+        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude on invoices.
+
+        ```"portal": "1"```
+
+        ## Metafield Types
+
+        Metafields can have three different types defined by the `input_type` attribute:
+
+        + text (the default)
+        + dropdown
+        + radio
+
+        The `input_type` indicates how data should be added to the metafield. For example, a `text` type is just a string, so a given metafield of this type can have any value attached. On the other hand, `dropdown` and `radio` have a set of allowed values that can be input, and appear differently on a Public Signup Page.
+
         ## Create Metafields
 
         Use the following method to create metafields for your Site. Metafields can be populated with metadata after the fact.
@@ -4852,7 +4507,7 @@ paths:
       operationId: GET_resource-metafields-json
       summary: Read Metafields Stats for Site
       tags:
-        - 'Custom Fields: Metafields'
+        - Custom Fields
       description: |-
         ## Read Metafields
 
@@ -4902,7 +4557,7 @@ paths:
       operationId: PUT_resource-metafields-json
       summary: Update Metafields
       tags:
-        - 'Custom Fields: Metafields'
+        - Custom Fields
       description: |-
         ## Update Metafields
 
@@ -4958,7 +4613,7 @@ paths:
       operationId: DELETE_resource-metafields-json
       summary: Delete Metafields
       tags:
-        - 'Custom Fields: Metafields'
+        - Custom Fields
       description: |-
         ## Delete Metafields
 
@@ -4985,6 +4640,465 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: DELETE_resource-metafieldsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/{resource}/{resource_id}/metadata.json':
+    parameters:
+      - name: resource
+        in: path
+        required: true
+        type: string
+        enum:
+          - customers
+          - subscriptions
+      - name: resource_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_resource-resource_id-metadata-json
+      summary: Create Metadata for Metafield
+      tags:
+        - Custom Fields
+      description: |-
+        ## Custom Fields: Metadata Intro
+
+        **Chargify refers to Custom Fields in the API documentation as metafields and metadata.**
+
+        + **Metafield is the custom field**
+        + **Metadata is the data populating the custom field.**
+
+
+        Chargify Metadata is used to add your own meaningful values to subscription or customer records.
+        Metadata is associated to a customer or subscription, and corresponds to a Metafield. When creating a new metadata object for a given record, if the metafield is not present it will be created.
+
+        ## Metadata Documentation
+
+        Within the Chargify UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata. 
+
+        Full documentation on how to create Custom Fields in the Chargify UI can be located [here](https://help.chargify.com/custom-fields/custom-fields-intro.html).
+
+        For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here.](https://help.chargify.com/subscriptions/subscription-summary.html#custom-fields)
+
+        ## Metadata versus Metafields
+
+        Metadata is the information that populates the metafield.
+
+        ## Metadata limits
+
+        Metadata values are limited to 2kB in size. Additonally, there are limits on the number of unique “names” available per resource. See [Metafields documentation](#docTextSection:BDXuRKX5n8K4T6Jsh).
+
+        ## Server Response
+
+        The following fields are returned from GET (read) operations.
+
+        | name        | The name of the attribute that is added to the resource, i.e. the name of the metafield/custom field.  |
+        |-------------|-----------------------------------------------------------|
+        | id          | The unique ID of this particular metadata record. |
+        | value       | The value of the attribute that was added to the resource. |
+        | resource_id | The resource ID that the metadata belongs to, i.e. a subscription or customer ID.              |
+
+        ## Create Metadata
+
+        This method will create a metafield for the site on the fly if it does not already exist, and populate the metadata value.
+
+        ### Subscription or Customer Resource
+
+        Please pay special attention to the resource  you use when creating metadata.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              metadata:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+            example:
+              metadata:
+                - name: Color
+                  value: Blue
+                - name: Something
+                  value: Useful
+        - $ref: '#/parameters/trait:metadataValue:value'
+      responses:
+        default:
+          description: ''
+          schema: {}
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_resource-resourceid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    delete:
+      operationId: DELETE_resource-resource_id-metadata-json
+      summary: Delete Metadata
+      tags:
+        - Custom Fields
+      description: |-
+        ## Delete Metadata
+
+        This method removes the metadata from the subscriber/customer cited.
+
+        ## Query String Usage
+
+        For instance if you wanted to delete the metadata for customer 99 named weight you would request:
+
+        ```
+        https://acme.chargify.com/customers/99/metadata.json?name=weight
+        ```
+
+        If you want to delete multiple metadata fields for a customer 99 named: `weight` and `age` you wrould request:
+        ```
+        https://acme.chargify.com/customers/99/metadata.json?names[]=weight&names[]=age
+        ```
+
+
+        ## Successful Response
+
+        For a success, there will be a code `200` and the plain text response `true`.
+
+        ## Unsuccessful Response
+
+        When a failed response is encountered, you will receive a `404` response and the plain text response of `true`.
+      parameters:
+        - name: name
+          in: query
+          type: string
+        - name: 'names[]'
+          in: query
+          type: array
+          items:
+            type: string
+      responses:
+        default:
+          description: ''
+          schema: {}
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_resource-resourceid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    put:
+      operationId: PUT_resource-resource_id-metadata-json
+      summary: Update Metadata
+      tags:
+        - Custom Fields
+      description: |-
+        ## Update Metadata
+
+        This method allows you to update the existing metadata associated with a subscription or customer. 
+
+        ## URL Construction
+
+        Please note that as you replace the `resource` portion of the URL, use one of the following formations
+
+        ```
+        /subscriptions/{subscription_id}/metadata.{format}
+        ```
+
+        OR
+
+        ```
+        /customers/{customer_id}/metadata.{format}
+        ```
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              metadata:
+                type: object
+                properties:
+                  current_name:
+                    type: string
+                  name:
+                    type: string
+                  value:
+                    type: string
+            example:
+              metadata:
+                current_name: Color
+                name: Shirt Color
+                value: Blue
+        - $ref: '#/parameters/trait:metadataValue:value'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/metadata-update-metadata-output'
+          examples:
+            application/json:
+              - value: Blue
+                resource_id: 15479934
+                name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_resource-resourceid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /subscriptions/metadata.json:
+    get:
+      operationId: GET_subscriptions-metadata-json
+      summary: Read Metadata for Subscribers
+      tags:
+        - Custom Fields
+      description: |-
+        ## Read Metadata by Subscription
+
+        This method will provide you information on usage of metadata across your subscribers. 
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+
+        ### Metadata for multiple records
+
+        `https://acme.chargify.com/subscriptions/metadata.json?resource_ids[]=1&resource_ids[]=2`
+      parameters:
+        - name: 'resource_ids[]'
+          in: query
+          type: array
+          items:
+            type: string
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:metadataQueryString:date_field'
+        - $ref: '#/parameters/trait:metadataQueryString:start_date'
+        - $ref: '#/parameters/trait:metadataQueryString:end_date'
+        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/metadata-read-metadata-subscribers-output'
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: The quick brown fox
+                  resource_id: 15479934
+                  name: Comments
+                - value: L
+                  resource_id: 15479934
+                  name: T-Shirt Size
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  /customers/metadata.json:
+    get:
+      operationId: GET_customers-metadata-json
+      summary: Read Metadata for Customers
+      tags:
+        - Custom Fields
+      description: |-
+        ## Read Metadata for a Site 
+
+        This endpoint will list the number of pages of metadata information that are contained within a site.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+
+        ### Metadata for multiple records
+
+        `https://acme.chargify.com/customers/metadata.json?resource_ids[]=1&resource_ids[]=2`
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:metadataQueryString:date_field'
+        - $ref: '#/parameters/trait:metadataQueryString:start_date'
+        - $ref: '#/parameters/trait:metadataQueryString:end_date'
+        - $ref: '#/parameters/trait:metadataQueryString:start_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:end_datetime'
+        - $ref: '#/parameters/trait:metadataQueryString:with_deleted'
+        - $ref: '#/parameters/trait:metadataQueryString:resource_ids[]'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              total_count:
+                type: integer
+              current_page:
+                type: integer
+              total_pages:
+                type: integer
+              per_page:
+                type: integer
+              metadata:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                    resource_id:
+                      type: integer
+                    name:
+                      type: string
+                    id:
+                      type: integer
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: Red
+                  resource_id: 19186044
+                  name: Shirt Color
+                - value: Blue
+                  resource_id: 19186076
+                  name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_customers-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/customers/{customer_id}/metadata.json':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_customers-customer_id-metadata-json
+      summary: Read Metadata for a Customer
+      tags:
+        - Custom Fields
+      description: |-
+        ## Read Metadata for a Customer
+
+        This endpoint will list the metadata associated with a customer. Additionally, the endpoint will return the number of pages of metadata information that are contained within a site.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/metadata-read-metadata-for-a-site'
+          examples:
+            application/json:
+              total_count: 1
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: Red
+                  resource_id: 19186044
+                  name: Shirt Color
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_customers-customerid-metadatajson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/subscriptions/{subscription_id}/metadata.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_subscriptions-subscription_id-metadata-json
+      summary: Read Metadata for a Subscriber
+      tags:
+        - Custom Fields
+      description: |-
+        ## Read Metadata for a Subscriber
+
+        This request will list all of the metadata belonging to a particular subscription.
+
+        ## Metadata Data
+
+        This endpoint will also display the current stats of your metadata to use as a tool for pagination.
+      parameters:
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/list-metadata-for-a-subscriber-output'
+          examples:
+            application/json:
+              total_count: 2
+              current_page: 1
+              total_pages: 1
+              per_page: 20
+              metadata:
+                - value: The quick brown fox
+                  resource_id: 15479934
+                  name: Comments
+                - value: L
+                  resource_id: 15479934
+                  name: T-Shirt Size
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-metadatajson
         beforeScript: null
         afterScript: null
         public: true
@@ -5144,21 +5258,25 @@ paths:
           statusCode: 200
     get:
       operationId: GET_customers-json
-      summary: Read Customers for a Site
+      summary: Search for Customer
       tags:
         - Customers
       description: |-
-        ## Read Customers for a Site
+        ## Search for Customer
 
-        This request will list all customers associated with your Site.
+        Use the search feature to retrieve a single or group of customers. 
+
+        Common use cases are:
+
+        + Search by email
+        + Search by Chargify ID
+        + Search by Reference (Your App)
+        + Search by Organization
+
+        If multiple customers meet the criteria for the search string, please expect an array.
       parameters:
-        - $ref: '#/parameters/trait:direction:direction'
+        - $ref: '#/parameters/trait:searchString:q'
         - $ref: '#/parameters/trait:pagination50:page'
-        - $ref: '#/parameters/trait:customerQueryString:date_field'
-        - $ref: '#/parameters/trait:customerQueryString:start_date'
-        - $ref: '#/parameters/trait:customerQueryString:end_date'
-        - $ref: '#/parameters/trait:customerQueryString:start_datetime'
-        - $ref: '#/parameters/trait:customerQueryString:end_datetime'
       responses:
         '200':
           description: ''
@@ -5172,37 +5290,39 @@ paths:
           examples:
             application/json:
               - customer:
-                  first_name: Kayla
-                  last_name: Test
-                  email: kayla@example.com
-                  cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14126091
-                  created_at: '2016-10-04T15:22:27-04:00'
-                  updated_at: '2016-10-04T15:22:30-04:00'
-                  address: ''
+                  first_name: Amelia
+                  last_name: Example
+                  email: amelia@example.com
+                  cc_emails: 'john@example.com, joe@example.com'
+                  organization: Acme
+                  reference: JQPUBLIC
+                  id: 14399371
+                  created_at: '2016-10-24T16:20:12-04:00'
+                  updated_at: '2016-10-26T13:25:33-04:00'
+                  address: 123 Anywhere Street
                   address_2: ''
-                  city: ''
-                  state: ''
-                  zip: ''
-                  country: ''
-                  phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-04T15:22:29-04:00'
-                  portal_invite_last_sent_at: '2016-10-04T15:22:30-04:00'
+                  city: Anywhere
+                  state: MA
+                  zip: '02120'
+                  country: US
+                  phone: 555-555-1212
+                  verified: false
+                  portal_customer_created_at: null
+                  portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: 14585723
               - customer:
-                  first_name: 'Nick '
-                  last_name: Test
-                  email: nick@example.com
+                  first_name: Matt
+                  last_name: Example
+                  email: matt@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14254093
-                  created_at: '2016-10-13T16:52:51-04:00'
-                  updated_at: '2016-10-13T16:52:54-04:00'
+                  organization: Acme
+                  reference: '1234'
+                  id: 14585723
+                  created_at: '2016-11-04T17:08:31-04:00'
+                  updated_at: '2016-12-02T18:03:36-05:00'
                   address: ''
                   address_2: ''
                   city: ''
@@ -5210,34 +5330,60 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-13T16:52:54-04:00'
-                  portal_invite_last_sent_at: '2016-10-13T16:52:54-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-11-04T17:08:34-04:00'
+                  portal_invite_last_sent_at: '2016-11-04T17:08:34-04:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
+                  parent_id: null
+              - customer:
+                  first_name: John
+                  last_name: Doe
+                  email: john.doe@example.com
+                  cc_emails: 'john@example.com, sue@example.com'
+                  organization: Acme Widgets
+                  reference: '123'
+                  id: 14731081
+                  created_at: '2016-11-15T15:33:44-05:00'
+                  updated_at: '2016-11-15T15:33:45-05:00'
+                  address: null
+                  address_2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  verified: false
+                  portal_customer_created_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_sent_at: '2016-11-15T15:33:45-05:00'
+                  portal_invite_last_accepted_at: null
+                  tax_exempt: false
+                  vat_number: 012345678
                   parent_id: 123
               - customer:
-                  first_name: Don
-                  last_name: Test
-                  email: don@example.com
+                  first_name: Joe
+                  last_name: Blow
+                  email: joe@example.com
                   cc_emails: 'john@example.com, sue@example.com'
-                  organization: ''
-                  reference: null
-                  id: 14332342
-                  created_at: '2016-10-19T10:49:13-04:00'
-                  updated_at: '2016-10-19T10:49:19-04:00'
-                  address: 1737 15th St
+                  organization: Acme
+                  reference: ABC123
+                  id: 14943291
+                  created_at: '2016-12-02T15:59:06-05:00'
+                  updated_at: '2016-12-02T18:03:17-05:00'
+                  address: ''
                   address_2: ''
-                  city: Boulder
-                  state: CO
-                  zip: '80302'
-                  country: US
+                  city: ''
+                  state: ''
+                  zip: ''
+                  country: ''
                   phone: ''
-                  verified: null
-                  portal_customer_created_at: '2016-10-19T10:49:19-04:00'
-                  portal_invite_last_sent_at: '2016-10-19T10:49:19-04:00'
+                  verified: false
+                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
+                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
                   portal_invite_last_accepted_at: null
                   tax_exempt: false
+                  vat_number: 012345678
                   parent_id: null
       security:
         - <<api_key>>: []
@@ -7308,10 +7454,16 @@ paths:
         type: string
     post:
       operationId: POST_invoices-uid-refunds-json
-      summary: Refund Single Invoice
+      summary: Refund Consolidated Invoice
       tags:
         - Relationship Invoicing
-      description: 'This relates to refunding either a non-consolidated invoice, or a segment of a consoldiated invoice (see below for docs on refunding a consolidated invoice). This endpoint accepts an `amount`, `memo`, and the `payment_id` of the payment that is being refunded. The `amount` is a dollar amount, not in cents, and cannot exceed to remaining refundable balance of the payment.'
+      description: |-
+        This relates to refunding a consolidated invoice (see above for docs on refunding a non-consolidated or segment invoice). This endpoint accepts an `amount`, `memo`, `payment_id`, and array of `segment_uids`, which are the segments of the consolidated invoice that you would like to be refunded or `segment_uids: 'all'` to indicate that the entire invoice should be refunded.
+
+        If you would like to refund the invoice in full, you may omit the `amount`, otherwise the amount passed in will be split evenly across each of the segments.
+
+        **Partial Refund Example**:
+        For a $50.00 refund on a $100.00 consolidated invoice with one $60.00 and one $40.00 segment, the refunded amount will be applied as 50% of each ($30.00 and $20.00 respectively).
       consumes:
         - application/xml
       produces:
@@ -7325,35 +7477,41 @@ paths:
               refund:
                 type: object
                 required:
-                  - amount
                   - memo
                   - payment_id
+                  - segment_uids
                 properties:
-                  amount:
-                    type: string
-                    description: A string of the dollar amount to be refunded (eg. "10.50" => $10.50)
                   memo:
                     type: string
-                    description: A description that will be attached to the refund
+                    description: A description for the refund
                   payment_id:
                     type: integer
                     description: The ID of the payment to be refunded
+                  segment_uids:
+                    type:
+                      - array
+                      - string
+                    description: An array of segment uids to refund or the string 'all' to indicate that all segments should be refunded
+                    items:
+                      type: string
                   external:
                     type: boolean
                     description: Flag that marks refund as external (no money is returned to the customer). Defaults to `false`.
                   apply_credit:
                     type: boolean
                     description: 'If set to true, creates credit and applies it to an invoice. Defaults to `false`.'
-                  void_invoice:
-                    type: boolean
-                    description: 'If `apply_credit` set to false and refunding full amount, if `void_invoice` set to true, invoice will be voided after refund. Defaults to `false`.'
+                  amount:
+                    type: number
+                    description: The amount of payment to be refunded. This will default to the full amount of the payment if not provided.
             required:
               - refund
             example:
               refund:
-                amount: '10.00'
                 memo: Refund for basic plan renewal
                 payment_id: 101
+                segment_uids:
+                  - inv_123
+                  - inv_789
       responses:
         '200':
           description: ''
@@ -8474,54 +8632,90 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-payments-json
-      summary: Create a Payment
+      summary: Create Bulk Payment
       tags:
         - Relationship Invoicing
       description: |-
-        ## Create a Payment
+        <h2> Create Bulk Payment </h2>
 
-        This method will allow you to record an external payment on a subscription.
+        Only available for accounts on Relationship Invoicing.
+
+        Record an external payment made against a subscription that will pay partially or in full one or more invoices.
+
+        Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
+
+        Excess payment will result in the creation of a prepayment on the Invoice Account.
+
+        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payments-create-payment-input'
+            type: object
+            properties:
+              payment:
+                type: object
+                required:
+                  - amount
+                  - memo
+                  - payment_details
+                  - payment_method
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
+                  payment_details:
+                    type: string
+                  payment_method:
+                    type: string
+            required:
+              - payment
             example:
               payment:
-                amount: 10
-                memo: Client x paid with $10.00 of nickles
+                amount: '10.0'
+                memo: to pay the bills
+                payment_details: check number 8675309
+                payment_method: check
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payments-create-payment-output'
+            $ref: '#/definitions/create-bulk-payment-response'
           examples:
             application/json:
-              payment:
-                id: 160873334
-                subscription_id: 15054201
-                type: Payment
-                kind: manual
-                transaction_type: payment
-                success: true
-                amount_in_cents: 1000
-                memo: Client x paid with $10.00 of nickles
-                created_at: '2016-11-03T14:58:30-04:00'
-                starting_balance_in_cents: -13989
-                ending_balance_in_cents: -14989
-                gateway_used: null
-                gateway_transaction_id: null
-                gateway_order_id: null
-                payment_id: null
-                product_id: 3861800
-                tax_id: null
-                component_id: null
-                statement_id: 79870822
-                customer_id: 14543792
-                card_number: null
-                card_expiration: null
-                card_type: null
-                refunded_amount_in_cents: 0
+              paid_invoices:
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+              prepayment:
+                subscription_id: '123456'
+                amount_in_cents: '5000'
+                ending_balance_in_cents: '5000'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type:
+                  - string
+                  - array
+                description: |-
+                  Unproccessable Entity Possible Errors:  
+                  "Payment amount, details, method, and memo must be present"
+
+                   "Payment amount, details, method, and memo must valid"
+
+                  "Payment amount must be greater than zero"
+
+                  "If in a group, the Subscription must be the primary"
+                items: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -9870,94 +10064,46 @@ paths:
   /payment_profiles.json:
     post:
       operationId: POST_payment_profiles-json
-      summary: Create GoCardless Payment Profile
+      summary: Create Stripe SEPA Direct Debit Payment Profile
       tags:
         - Payment Profiles
       description: |-
-        ## Using GoCardless with Chargify
+        ## Using Stripe SEPA Direct Debit with Chargify
 
-        For more information on GoCardless, please view the following resources:
+        For more information on Stripe SEPA Direct Debit, please view the following resources:
 
-        + [Payment Profiles via API for GoCardless](#endpoint:CaR3rApsyniuZtoEH)
-        + [Full documentation on GoCardless](https://help.chargify.com/payment-gateways/gocardless.html)
+        + [Full documentation on Stripe SEPA Direct Debit](https://help.chargify.com/payment-gateways/stripe-direct-debit.html)
 
-        + [Using Chargify.js with GoCardless - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-direct-debit-stripe-gateway)
 
-        + [Using Chargify.js with GoCardless - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-direct-debit-stripe-gateway)
 
-        ## GoCardless Payment Profiles
 
-        The following table depicts what are the elements that are used when creating GoCardless Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a GoCardless payment profile. 
+        ## Stripe SEPA Direct Debit Payment Profiles
 
-        | bank_name           | (Required when creating a subscription with ACH or GoCardless). The name of the bank where the customerʼs account resides                                                                      |
+        The following table depicts what are the elements that are used when creating Stripe Direct Debit Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a Stripe Direct Debit payment profile. 
+
+        | bank_name           | (Optional when creating a subscription with Stripe Direct Debit). The name of the bank where the customerʼs account resides                                                                      |
         |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | bank_iban           | (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided                                                  |
-        | bank_routing_number | (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API |
-        | bank_account_number | (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number                              |
-        | bank_branch_code    | (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided                                                                                    |
+        | bank_iban           | (Required when creating a subscription with Stripe Direct Debit). International Bank Account Number.                |
 
 
-        ## GoCardless with Local Bank Details
 
-        Following examples create customer, bank account and mandate in GoCardless:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "Valid-Customer-ID",
-            "bank_name": "Royal Bank of France",
-            "bank_account_number": "0000000",
-            "bank_routing_number": "0003",
-            "bank_branch_code": "00006",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## GoCardless with IBAN
-
-        The following examples creates a customer, bank account and mandate in GoCardless:
+        The following example creates a customer, bank account and mandate in Stripe:
 
 
         ```
         {
           "payment_profile": {
             "customer_id": "24907598",
-            "bank_name": "French Bank",
-            "bank_iban": "FR1420041010050500013M02606",
+            "bank_name": "Deutsche bank",
+            "bank_iban": "DE89370400440532013000",
             "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## Importing GoCardless
-
-        If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "24907598",
-            "customer_vault_token": [Existing GoCardless Customer ID]
-            "vault_token": [Existing GoCardless Mandate ID],
-            "current_vault": "gocardless",
-            "bank_name": "French Bank",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
+            "billing_address": "Test",
+            "billing_city": "Berlin",
+            "billing_state": "Brandenburg",
+            "billing_zip": "12345",
+            "billing_country": "DE"
           }
         }
         ```
@@ -9991,14 +10137,14 @@ paths:
             example:
               payment_profile:
                 customer_id: '24907598'
-                bank_name: French Bank
-                bank_iban: FR1420041010050500013M02606
+                bank_name: Deutsche bank
+                bank_iban: DE89370400440532013000
                 payment_type: bank_account
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
       responses:
         '201':
           description: ''
@@ -10031,7 +10177,9 @@ paths:
                   billing_country:
                     type: string
                   customer_vault_token:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                   billing_address_2:
                     type: 'null'
                   bank_name:
@@ -10055,18 +10203,18 @@ paths:
                 first_name: Chester
                 last_name: Tester
                 customer_id: 24907598
-                current_vault: gocardless
-                vault_token: MD00058FVXGX9E
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
-                customer_vault_token: CU0005GP6E2F80
+                current_vault: stripe_connect
+                vault_token: cus_J0iV6HHEeYiAX4
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
+                customer_vault_token: null
                 billing_address_2: null
-                bank_name: French Bank
+                bank_name: Deutsche bank
                 masked_bank_routing_number: null
-                masked_bank_account_number: XXXX2606
+                masked_bank_account_number: XXXX3000
                 bank_account_type: checking
                 bank_account_holder_type: personal
                 payment_type: bank_account
@@ -13648,30 +13796,40 @@ paths:
   /sites/clear_data.json:
     post:
       operationId: POST_sites-clear_data-json
-      summary: 'Clear all Site data:  (Default)'
+      summary: 'Clear all Site data:  (Customers)'
       tags:
         - Sites
       description: |-
-        ## Clear all Site data:  (Default)
+        ## Clear all Site data:  (Customers)
 
-        All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Example
 
         Method: POST
 
         ```
-        https://<subdomain>.chargify.com/sites/clear_data.json
+        https://<subdomain>.chargify.com/sites/clear_data.json?cleanup_scope=customers
         ```
 
-        Result: All product families, products, coupons, components, customers, and related subscriptions will be removed from the site.
+        Required Parameter: cleanup_scope
+
+        Result: Only customers and related subscriptions (leaving the products untouched) for the site. Revenue will also be reset to 0.
 
         ## Response
 
         The response will be a string value of `200 OK`.
+      parameters:
+        - name: cleanup_scope
+          in: query
+          required: true
+          type: string
+          enum:
+            - customers
       responses:
-        '200':
+        default:
           description: ''
+          schema: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -18935,65 +19093,41 @@ paths:
           statusCode: 200
     put:
       operationId: PUT_subscriptions-subscription_id-format
-      summary: 'Update Subscription: Calendar Billing Day Change'
+      summary: 'Update Subscription: Product Change'
       tags:
         - Subscription
         - incomplete
         - 'Subscriptions: Date Changes / Calendar Billing'
       description: |-
-        ## Update Subscription: Regular Billing Day Change
+        ## Update Subscription: Product Change
 
-        This payload will change the billing date to the specified date in your request. This will not set a new calendar billing (snap_day) date. This example below outlines the JSON payload to set a subscription's new billing date. After this billing date occurs, the next billing date for the subscription is relative to the recurring time period of the product subscribed to in Chargify.
+        This method changes the product and/or the price point, and the new payment amount is calculated and charged at the normal start of the next period. If you desire prorated upgrades and downgrades instead, please see the docs on upgrades/downgrades and the [migrations API](#docTextSection:HRFQ33cF69MpBa5dE).
 
-        To update just the date of the next billing, pass the following payload:
+        To perform a product change, simply set the `product_handle` attribute with the `handle` of a different product from the same site as the subscription. Note that no proration or period reset is initiated when you change the product using this method.
 
-        ```
-        {
-          "subscription": {
-            "next_billing_at": "2010-08-06T15:34:00Z"
-          }
-        }
-        ```
+        You can also change the price point by passing in either `product_price_point_id` or `product_price_point_handle`
 
-        Note that if you pass an invalid date, we will automatically interpret and set the correct date. For example, when February 30 is entered, the next billing will be set to March 2nd in a non-leap year.
+        ## Use of Product ID 
 
-        ## Update Subscription: Snap Day / Calendar Billing Day Change
-
-        Use this method to change the snap day value for Calendar Billing. You can use this method to change the subscription to a different snap day by setting a new value for `snap_day`. The following example will set a `snap_day` for the 15th of the month
+        You may use the `product_id` and the corresponding integer associated with the `product_id` to update the subscription.
 
         ```
         {
-          "subscription": {
-            "snap_day": "15"
-          }
+            "subscription": {
+                "product_id": 123456789
+            }
         }
         ```
-
-        The value of the snap day, can be a value between 1 - 28 or `end`.
-
-        ## Snap Day Limitations
-
-        Snap days can only be applied to subscriptions to monthly products. Snap days are not available at this time for annual products.
-
-        If you change the snap day on an existing subscription, you can expect that the current `next_billing` date will remain unchanged. After the `next_billing` timestamp arrives, the subscription will then "snap" to the new `snap_date.`
-
-        ## Server Response
-
-        When you update the `next_billing` timestamp through the `PUT` method, the server response will not return data under the key/value pair of `next_billing`. 
-
-        Please view the key/value pair of `current_period_ends_at` to verify that the `next_billing` date has been changed successfully.
-
-        ## Snap Day and Product Changes & Upgrade/Downgrades
-
-        If you change the product associated with a subscription that contains a `snap_date`, if you immediately `READ/GET` the subscription data, it will still contain evidence of the existing `snap_date`. This is due to the fact that a product change is instantanous and only affects the product associated with a subscription. After the `next_billing` date arrives, the `snap_day` associated with the subscription will return to `null.` Another way of looking at this is that you willl have to wait for the next billing cycle to arrive before the `snap_date` will reset to `null.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscriptions-update-subscription-billing-day-change-request'
+            anyOf:
+              - $ref: '#/definitions/subscriptions-update-subscription-product-change-request'
+              - $ref: '#/definitions/update-subscription-product-change-request-id'
             example:
               subscription:
-                next_billing_at: '2028-12-15'
+                product_handle: gold
       responses:
         '200':
           description: OK
@@ -19001,120 +19135,114 @@ paths:
             $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
-              - subscription:
-                  id: 16474328
-                  state: active
-                  trial_started_at: null
-                  trial_ended_at: null
-                  activated_at: '2017-02-20T18:28:48-05:00'
-                  created_at: '2017-02-20T18:28:47-05:00'
-                  updated_at: '2017-02-22T09:58:07-05:00'
-                  expires_at: null
-                  balance_in_cents: 0
-                  current_period_ends_at: '2017-03-20T19:28:47-04:00'
-                  next_assessment_at: '2017-03-20T19:28:47-04:00'
-                  canceled_at: null
-                  cancellation_message: null
-                  next_product_id: 4442358
-                  cancel_at_end_of_period: false
-                  payment_collection_method: automatic
-                  snap_day: end
-                  cancellation_method: null
-                  current_period_started_at: '2017-02-20T18:28:47-05:00'
-                  previous_state: active
-                  signup_payment_id: 174876340
-                  signup_revenue: '0.00'
-                  delayed_cancel_at: null
-                  coupon_code: null
-                  total_revenue_in_cents: 0
-                  product_price_in_cents: 0
-                  product_version_number: 1
-                  payment_type: credit_card
-                  referral_code: ww6mq5
-                  coupon_use_count: null
-                  coupon_uses_allowed: null
-                  receives_invoice_emails: false
-                  customer:
-                    id: 15102905
-                    first_name: Amelia
-                    last_name: Example
-                    organization: ''
-                    email: joe.blow@example.com
-                    created_at: '2016-12-15T09:33:15-05:00'
-                    updated_at: '2016-12-15T09:34:09-05:00'
-                    reference: null
-                    address: ''
-                    address_2: ''
-                    city: ''
-                    state: ''
-                    zip: ''
-                    country: ''
-                    phone: ''
-                    portal_invite_last_sent_at: null
-                    portal_invite_last_accepted_at: null
-                    verified: null
-                    portal_customer_created_at: '2016-12-15T09:33:21-05:00'
-                    cc_emails: null
-                    tax_exempt: false
-                    vat_number: 012345678
-                  product:
-                    id: 4461042
-                    name: Zero Dollar Product
-                    handle: zero-dollar-product
+              subscription:
+                id: 18220670
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2017-06-27T13:45:15-05:00'
+                created_at: '2017-06-27T13:45:13-05:00'
+                updated_at: '2017-06-30T09:26:50-05:00'
+                expires_at: null
+                balance_in_cents: 10000
+                current_period_ends_at: '2017-06-30T12:00:00-05:00'
+                next_assessment_at: '2017-06-30T12:00:00-05:00'
+                canceled_at: null
+                cancellation_message: null
+                next_product_id: null
+                cancel_at_end_of_period: false
+                payment_collection_method: automatic
+                snap_day: end
+                cancellation_method: null
+                current_period_started_at: '2017-06-27T13:45:13-05:00'
+                previous_state: active
+                signup_payment_id: 191819284
+                signup_revenue: '0.00'
+                delayed_cancel_at: null
+                coupon_code: null
+                total_revenue_in_cents: 0
+                product_price_in_cents: 0
+                product_version_number: 1
+                payment_type: null
+                referral_code: d3pw7f
+                coupon_use_count: null
+                coupon_uses_allowed: null
+                reason_code: null
+                automatically_resume_at: null
+                current_billing_amount_in_cents: 10000
+                customer:
+                  id: 17780587
+                  first_name: Catie
+                  last_name: Test
+                  organization: 'Acme, Inc.'
+                  email: catie@example.com
+                  created_at: '2017-06-27T13:01:05-05:00'
+                  updated_at: '2017-06-30T09:23:10-05:00'
+                  reference: 123ABC
+                  address: 123 Anywhere Street
+                  address_2: 'Apartment #10'
+                  city: Los Angeles
+                  state: CA
+                  zip: '90210'
+                  country: US
+                  phone: 555-555-5555
+                  portal_invite_last_sent_at: '2017-06-27T13:45:16-05:00'
+                  portal_invite_last_accepted_at: null
+                  verified: true
+                  portal_customer_created_at: '2017-06-27T13:01:08-05:00'
+                  cc_emails: support@example.com
+                  tax_exempt: true
+                product:
+                  id: 4470347
+                  name: Zero Dollar Product
+                  handle: zero-dollar-product
+                  description: ''
+                  accounting_code: ''
+                  request_credit_card: true
+                  expiration_interval: null
+                  expiration_interval_unit: never
+                  created_at: '2017-03-23T10:54:12-05:00'
+                  updated_at: '2017-04-20T15:18:46-05:00'
+                  price_in_cents: 0
+                  interval: 1
+                  interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
+                  archived_at: null
+                  require_credit_card: false
+                  return_params: ''
+                  taxable: false
+                  update_return_url: ''
+                  tax_code: ''
+                  initial_charge_after_trial: false
+                  version_number: 1
+                  update_return_params: ''
+                  product_family:
+                    id: 997233
+                    name: Acme Products
                     description: ''
-                    accounting_code: ''
-                    request_credit_card: true
-                    expiration_interval: null
-                    expiration_interval_unit: never
-                    created_at: '2017-02-20T18:28:18-05:00'
-                    updated_at: '2017-02-20T18:28:18-05:00'
-                    price_in_cents: 0
-                    interval: 1
-                    interval_unit: month
-                    initial_charge_in_cents: null
-                    trial_price_in_cents: null
-                    trial_interval: null
-                    trial_interval_unit: month
-                    archived_at: null
-                    require_credit_card: true
-                    return_params: ''
-                    taxable: false
-                    update_return_url: ''
-                    initial_charge_after_trial: false
-                    version_number: 1
-                    update_return_params: ''
-                    product_family:
-                      id: 986840
-                      name: Acme Products
-                      description: ''
-                      handle: acme-products
-                      accounting_code: null
-                    public_signup_pages:
-                      - id: 312984
-                        return_url: null
-                        return_params: ''
-                        url: 'https://general-goods.chargify.com/subscribe/yt4ybcgk7998/zero-dollar-product'
-                  credit_card:
-                    id: 10548239
-                    first_name: Amelia
-                    last_name: Example
-                    masked_card_number: XXXX-XXXX-XXXX-2
-                    card_type: bogus
-                    expiration_month: 2
-                    expiration_year: 2017
-                    customer_id: 15102905
-                    current_vault: bogus
-                    vault_token: '2'
-                    billing_address: ''
-                    billing_city: ''
-                    billing_state: ''
-                    billing_zip: ''
-                    billing_country: ''
-                    customer_vault_token: null
-                    billing_address_2: ''
-                    payment_type: credit_card
+                    handle: acme-products
+                    accounting_code: null
+                  public_signup_pages:
+                    - id: 316810
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargify.com/subscribe/69x825m78v3d/zero-dollar-product'
         '422':
           description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - Product with API Handle 'gold' does not exist for this site.
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -19763,76 +19891,78 @@ paths:
         type: number
     post:
       operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-      summary: Add Multiple Coupons to Existing Subscription
+      summary: Add the Coupon to an Existing Subscription
       tags:
         - Coupon
         - incomplete
         - 'Subscriptions: Coupons'
       description: |-
-        ## Add Multiple Coupons to Existing Subscription
+        ## Add the Coupon to an existing Subscription
 
-        An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our [coupon documentation.](https://help.chargify.com/products/product-coupons.html#stackable-coupons)
+        If the coupon is successfully applied, the subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
+        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
+
+        ## Coupon Application Warning
+
+        Sending this request will overwrite all (single and multiple) coupons previously applied to the subscription.  
+
+        If you want to apply stackable coupons, **remove** any coupons you have and use [request with 'codes' parameter](#endpoint:DbA9MDLykDkNbYCaJ).
       parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
-            example:
-              codes:
-                - COUPON_1
-                - COUPON_2
+        - name: code
+          in: query
+          required: true
+          type: string
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
+            $ref: '#/definitions/coupon-add-coupon-to-subscription-output'
           examples:
             application/json:
               subscription:
-                id: 21607180
+                id: 50
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2018-04-20T14:20:57-05:00'
-                created_at: '2018-04-20T14:20:57-05:00'
-                updated_at: '2018-05-11T13:53:44-05:00'
+                activated_at: '2017-11-01T04:17:47-04:00'
+                created_at: '2017-11-01T04:17:46-04:00'
+                updated_at: '2017-11-08T09:17:44-05:00'
                 expires_at: null
-                balance_in_cents: 49000
-                current_period_ends_at: '2018-05-12T11:33:03-05:00'
-                next_assessment_at: '2018-05-12T11:33:03-05:00'
+                balance_in_cents: 0
+                current_period_ends_at: '2017-12-01T03:17:46-05:00'
+                next_assessment_at: '2017-12-01T03:17:46-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
-                payment_collection_method: invoice
+                payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2018-05-11T11:33:03-05:00'
+                current_period_started_at: '2017-11-01T04:17:46-04:00'
                 previous_state: active
-                signup_payment_id: 237154761
-                signup_revenue: '0.00'
+                signup_payment_id: 109
+                signup_revenue: '10.00'
                 delayed_cancel_at: null
-                coupon_code: COUPONA
-                total_revenue_in_cents: 52762
-                product_price_in_cents: 100000
-                product_version_number: 2
+                coupon_code: ABC123
+                total_revenue_in_cents: 1000
+                product_price_in_cents: 1000
+                product_version_number: 1
                 payment_type: credit_card
-                referral_code: x45nc8
+                referral_code: null
                 coupon_use_count: 0
                 coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
                 coupon_codes:
-                  - COUPONA
-                  - COUPONB
+                  - ABC123
                 customer:
-                  id: 21259051
-                  first_name: K
-                  last_name: C
+                  id: 50
+                  first_name: Fred
+                  last_name: Jones
                   organization: ''
-                  email: example@chargify.com
-                  created_at: '2018-04-20T14:20:57-05:00'
-                  updated_at: '2018-04-23T15:29:28-05:00'
+                  email: fred@jones.com
+                  created_at: '2017-11-01T04:17:46-04:00'
+                  updated_at: '2017-11-01T04:17:46-04:00'
                   reference: null
                   address: ''
                   address_2: ''
@@ -19841,98 +19971,71 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  portal_invite_last_sent_at: '2018-04-20T14:20:59-05:00'
+                  portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: '2018-04-20T14:20:59-05:00'
-                  cc_emails: ''
+                  portal_customer_created_at: null
+                  cc_emails: null
                   tax_exempt: false
                 product:
-                  id: 4581816
-                  name: Basic
-                  handle: basic
-                  description: ''
-                  accounting_code: ''
+                  id: 97
+                  name: User-friendly systemic matrices
+                  handle: handle_1d382acd0
+                  description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
+                  accounting_code: null
                   request_credit_card: true
                   expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2017-11-02T15:00:11-05:00'
-                  updated_at: '2018-04-10T09:02:59-05:00'
-                  price_in_cents: 100000
+                  expiration_interval_unit: null
+                  created_at: '2017-09-13T12:45:35-04:00'
+                  updated_at: '2017-09-13T12:45:35-04:00'
+                  price_in_cents: 1000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: 100000
-                  trial_price_in_cents: 1000
-                  trial_interval: 10
-                  trial_interval_unit: month
+                  initial_charge_in_cents: null
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: null
                   archived_at: null
                   require_credit_card: true
-                  return_params: ''
+                  return_params: null
                   taxable: false
-                  update_return_url: ''
-                  tax_code: ''
+                  update_return_url: null
+                  tax_code: null
                   initial_charge_after_trial: false
-                  version_number: 2
-                  update_return_params: ''
+                  version_number: 1
+                  update_return_params: null
                   product_family:
-                    id: 1025627
-                    name: My Product Family
-                    description: ''
-                    handle: acme-products
+                    id: 4
+                    name: Acme Online
+                    description: null
+                    handle: acme-online
                     accounting_code: null
-                  public_signup_pages:
-                    - id: 333589
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
-                    - id: 335926
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
-                    - id: 345555
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/txqyyqk7d8rz/basic'
-                    - id: 345556
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargifypay.com/subscribe/2zss3qpf4249/basic'
+                  public_signup_pages: []
                 credit_card:
-                  id: 14839830
-                  first_name: John
-                  last_name: Doe
+                  id: 36
+                  first_name: Fred
+                  last_name: Jones
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 1
-                  expiration_year: 2028
-                  customer_id: 21259051
+                  expiration_year: 2025
+                  customer_id: 50
                   current_vault: bogus
                   vault_token: '1'
-                  billing_address: null
-                  billing_city: null
-                  billing_state: null
-                  billing_zip: '99999'
-                  billing_country: null
+                  billing_address: ''
+                  billing_city: ''
+                  billing_state: AL
+                  billing_zip: ''
+                  billing_country: US
                   customer_vault_token: null
-                  billing_address_2: null
+                  billing_address_2: ''
                   payment_type: credit_card
         '422':
           description: ''
-          schema:
-            type: object
-            properties:
-              codes:
-                type: array
-                items:
-                  type: string
-              subscription:
-                type: array
-                items:
-                  type: string
           examples:
             application/json:
               codes:
-                - 'Coupon Codes: Subscription already has at least one non-stackable coupon.'
+                - 'Coupon Codes: Subscription already has a non-stackable coupon.'
               subscription:
                 - Coupon is invalid.
       security:
@@ -21975,25 +22078,29 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Resuming Subscription Which Was Trialing
+      summary: Canceled Subscription With Coupon
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Resuming Subscription Which Was Trialing
+        ## Reactivating a Canceled Subscription With Coupon
 
-        + Given you have a `trial_ended` subscription, and it is resumable
-        + And the subscription was canceled in the middle of a trial
-        + And there is still time left on the trial
-        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume=true`
+        + Given you have a canceled subscription
+        + It has no current period defined
+        + You have a coupon code "EARLYBIRD"
+        + The coupon is set to recur for 6 periods
 
-        ### Results 
+        PUT request sent to:
+        `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?coupon_code=EARLYBIRD`
 
-        + The subscription will transition to trialing
-        + The next billing date should not have changed
+        ### Results
+
+        + The subscription will transition to active
+        + The subscription should have applied a coupon with code "EARLYBIRD"
       responses:
-        default:
+        '200':
           description: ''
-          schema: {}
+          schema:
+            $ref: '#/definitions/subscription-read-subscription'
       x-stoplight:
         id: PUT_subscriptions-subscriptionid-reactivatejson
         beforeScript: null
@@ -32951,6 +33058,11 @@ definitions:
   coupon-subcodes-create-a-coupon-subcode:
     title: Create Coupon Subcode
     type: object
+    properties:
+      codes:
+        type: array
+        items:
+          type: string
     example:
       codes:
         - 15OFF
@@ -45271,35 +45383,33 @@ x-stoplight:
           name: Subscriptions Components
         - divider: false
           items:
-            - _id: DELETE_coupons-coupon_id-codes-subcode-format
-              type: endpoints
-            - _id: PUT_coupons-coupon_id-codes-format
-              type: endpoints
-            - _id: GET_coupons-couponid-codesjson
-              type: endpoints
-            - _id: POST_coupons-coupon_id-codes-format
-              type: endpoints
-            - _id: POST_coupons-couponid-codesjson
-              type: endpoints
             - _id: POST_coupons-format
               type: endpoints
             - _id: GET_coupons-findjson
               type: endpoints
             - _id: GET_coupons-coupon_id-format
               type: endpoints
-            - _id: GET_productfamilies-productfamilyid-coupons-couponid-usagejson
-              type: endpoints
-            - _id: GET_coupons-validate-format
+            - _id: GET_coupons-format
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-couponsjson
               type: endpoints
-            - _id: GET_coupons-format
+            - _id: GET_productfamilies-productfamilyid-coupons-couponid-usagejson
               type: endpoints
             - _id: PUT_coupons-coupon_id-format
+              type: endpoints
+            - _id: GET_coupons-validate-format
               type: endpoints
             - _id: PUT_coupon-couponid-currencypricesjson
               type: endpoints
             - _id: DELETE_coupons-coupon_id-format
+              type: endpoints
+            - _id: POST_coupons-couponid-codesjson
+              type: endpoints
+            - _id: GET_coupons-couponid-codesjson
+              type: endpoints
+            - _id: PUT_coupons-coupon_id-codes-format
+              type: endpoints
+            - _id: DELETE_coupons-coupon_id-codes-subcode-format
               type: endpoints
             - _id: couponQueryString
               type: traits
@@ -45324,14 +45434,15 @@ x-stoplight:
             - _id: coupon-currency-price
               type: schemas
           name: Coupons
-        - name: 'Coupons: Subcodes'
-          items: []
-          divider: false
         - items:
-            - _id: metadataQueryString
-              type: traits
-            - _id: metadata-intro
-              type: docTextSections
+            - _id: POST_resource-metafieldsjson
+              type: endpoints
+            - _id: GET_resource-metafieldsjson
+              type: endpoints
+            - _id: PUT_resource-metafieldsjson
+              type: endpoints
+            - _id: DELETE_resource-metafieldsjson
+              type: endpoints
             - _id: fRwCSab7Gcsav2eJ7
               type: endpoints
             - _id: L9579TJipLNhyLkNE
@@ -45346,74 +45457,63 @@ x-stoplight:
               type: schemas
             - _id: POST_resource-resourceid-metadatajson
               type: endpoints
-            - _id: metadata-create-metadata-input
-              type: schemas
-            - _id: metadata-create-output
-              type: schemas
             - _id: GET_subscriptions-metadatajson
               type: endpoints
-            - _id: metadata-read-metadata-subscribers-output
-              type: schemas
             - _id: GET_customers-metadatajson
               type: endpoints
-            - _id: metadata-read-metadata-for-a-site
-              type: schemas
             - _id: GET_customers-customerid-metadatajson
               type: endpoints
-            - _id: customfields-metadata-list-metadata-for-a-customer-output
-              type: schemas
             - _id: iiKwbwofXKscujz3r
               type: schemas
             - _id: yedAoRMah82wSpFpm
               type: schemas
             - _id: GET_subscriptions-subscriptionid-metadatajson
               type: endpoints
-            - _id: list-metadata-for-a-subscriber-output
-              type: schemas
+            - _id: DELETE_resource-resourceid-metadatajson
+              type: endpoints
             - _id: PUT_resource-resourceid-metadatajson
               type: endpoints
+            - _id: metafields-update-metafields-input
+              type: schemas
+            - _id: metafieldResource
+              type: traits
             - _id: metadata-update-metadata-input
+              type: schemas
+            - _id: metafieldsNameOptional
+              type: traits
+            - _id: metafields-create-metafields-input
+              type: schemas
+            - _id: metafields-list-metafields-output
+              type: schemas
+            - _id: customfields-metadata-list-metadata-for-a-customer-output
+              type: schemas
+            - _id: metafields-create-metafields-output
+              type: schemas
+            - _id: metafields-update-metafields-output
+              type: schemas
+            - _id: list-metadata-for-a-subscriber-output
+              type: schemas
+            - _id: metafieldsNameRequiredCurrentNameOptional
+              type: traits
+            - _id: metadata-create-metadata-input
+              type: schemas
+            - _id: metafieldsNameRequired
+              type: traits
+            - _id: metadata-create-output
               type: schemas
             - _id: metadata-update-metadata-output
               type: schemas
-            - _id: DELETE_resource-resourceid-metadatajson
-              type: endpoints
+            - _id: metadata-read-metadata-subscribers-output
+              type: schemas
+            - _id: metadataQueryString
+              type: traits
+            - _id: metadata-read-metadata-for-a-site
+              type: schemas
             - _id: pagination30
               type: traits
             - _id: metadataValue
               type: traits
-          name: 'Custom Fields: Metadata'
-          divider: false
-        - name: 'Custom Fields: Metafields'
-          items:
-            - _id: metafields-intro
-              type: docTextSections
-            - type: endpoints
-              _id: POST_resource-metafieldsjson
-            - type: schemas
-              _id: metafields-create-metafields-input
-            - type: schemas
-              _id: metafields-create-metafields-output
-            - type: endpoints
-              _id: GET_resource-metafieldsjson
-            - type: schemas
-              _id: metafields-list-metafields-output
-            - type: endpoints
-              _id: PUT_resource-metafieldsjson
-            - type: schemas
-              _id: metafields-update-metafields-input
-            - type: schemas
-              _id: metafields-update-metafields-output
-            - type: endpoints
-              _id: DELETE_resource-metafieldsjson
-            - type: traits
-              _id: metafieldsNameRequiredCurrentNameOptional
-            - type: traits
-              _id: metafieldsNameOptional
-            - type: traits
-              _id: metafieldsNameRequired
-            - _id: metafieldResource
-              type: traits
+          name: Custom Fields
           divider: false
         - name: Customers
           items:
@@ -47185,47 +47285,6 @@ x-stoplight:
          }
         ```
       public: true
-    metadata-intro:
-      id: metadata-intro
-      name: 'Custom Fields: Metadata Intro'
-      content: |-
-        ## Custom Fields: Metadata Intro
-
-        **Chargify refers to Custom Fields in the API documentation as metafields and metadata.**
-
-        + **Metafield is the custom field**
-        + **Metadata is the data populating the custom field.**
-
-
-        Chargify Metadata is used to add your own meaningful values to subscription or customer records.
-        Metadata is associated to a customer or subscription, and corresponds to a Metafield. When creating a new metadata object for a given record, if the metafield is not present it will be created.
-
-        ## Metadata Documentation
-
-        Within the Chargify UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata. 
-
-        Full documentation on how to create Custom Fields in the Chargify UI can be located [here](https://help.chargify.com/custom-fields/custom-fields-intro.html).
-
-        For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here.](https://help.chargify.com/subscriptions/subscription-summary.html#custom-fields)
-
-        ## Metadata versus Metafields
-
-        Metadata is the information that populates the metafield.
-
-        ## Metadata limits
-
-        Metadata values are limited to 2kB in size. Additonally, there are limits on the number of unique “names” available per resource. See [Metafields documentation](#docTextSection:BDXuRKX5n8K4T6Jsh).
-
-        ## Server Response
-
-        The following fields are returned from GET (read) operations.
-
-        | name        | The name of the attribute that is added to the resource, i.e. the name of the metafield/custom field.  |
-        |-------------|-----------------------------------------------------------|
-        | id          | The unique ID of this particular metadata record. |
-        | value       | The value of the attribute that was added to the resource. |
-        | resource_id | The resource ID that the metadata belongs to, i.e. a subscription or customer ID.              |
-      public: true
     intro-to-payment-profiles:
       id: intro-to-payment-profiles
       name: Payment Profile Intro
@@ -47302,86 +47361,6 @@ x-stoplight:
         |-----------------|-----------------------------------------------------------------------------------------------------------------------|
         | amount_in_cents | The amount represented as a string of the payment in cents. E.g. if the payment was for $14.50, you would pass `1450` |
         | memo            | Typically the description of why the payment occured                                                                  |
-      public: true
-    metafields-intro:
-      id: metafields-intro
-      name: 'Custom Fields: Metafields Intro'
-      content: |-
-        ## Custom Fields: Metafields Intro
-
-        **Chargify refers to Custom Fields in the API documentation as metafields and metadata.**
-
-        + **Metafield is the custom field**
-        + **Metadata is the data populating the custom field.**
-
-        Chargify Metafields are used to add meaningful attributes to subscription and customer resources.
-
-        Metafield are the place where you will set up your resource to accept additional data. It is scoped to the site instead of a specific customer or subscription. Think of it as the key, and Metadata as the value on every record.
-
-        ## Metafields Documentation
-
-        Within the Chargify UI, metadata and metafields are grouped together under the umbrella of "Custom Fields." All of our UI-based documentation that references custom fields will not cite the terminology metafields or metadata. 
-
-        Full documentation on how to create Custom Fields in the Chargify UI can be located [here](https://help.chargify.com/custom-fields/custom-fields-intro.html).
-
-        For additional documentation on how to record data within custom fields, please see our subscription-based documentation [here.](https://help.chargify.com/subscriptions/subscription-summary.html#custom-fields)
-
-        ## Metafields vs Metadata 
-
-        Metadata is the information that populates the metafield.
-
-        ## Metafields "On-the-Fly"
-
-        It is possible to create Metafields “on the fly” when you create your Metadata – if a non-existant name is passed when creating Metadata, a Metafield for that key will be automatically created. The Metafield API, however, gives you more control over your “keys”.
-
-        ## Metafield Limitations
-
-        Each site is limited to 100 unique Metafields (i.e. keys, or names) per resource. This means you can have 100 Metafields for Subscription and another 100 for Customer.
-
-        ## Metafields Scope
-
-        The scope field has four acceptable attributes, which dictate where metafields will appear:
-
-        + portal
-        + csv
-        + invoices
-        + statements
-         
-        If configuring metafields in the Admin UI or via the API, be careful sending updates to metafields with the scope attribute – if a partial update is sent it will overwrite the current configuration.
-
-        ## CSV Metafields
-
-        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude in csv exports.
-
-        ```“csv”: “1”```
-
-        ## Statement Metafields
-
-        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude in statments.
-
-        ```“statements”: “1”```
-
-        ### Invoice Metafields
-
-        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude on invoices.
-
-        ```“invoices”: “1”```
-
-        ### Billing Portal Metafields
-
-        Values of ```1``` (include) or ```0``` (exclude) can be used to include or exclude on invoices.
-
-        ```"portal": "1"```
-
-        ## Metafield Types
-
-        Metafields can have three different types defined by the `input_type` attribute:
-
-        + text (the default)
-        + dropdown
-        + radio
-
-        The `input_type` indicates how data should be added to the metafield. For example, a `text` type is just a string, so a given metafield of this type can have any value attached. On the other hand, `dropdown` and `radio` have a set of allowed values that can be input, and appear differently on a Public Signup Page.
       public: true
     migrations-intro:
       id: migrations-intro
