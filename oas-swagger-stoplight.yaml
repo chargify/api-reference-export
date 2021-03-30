@@ -4692,7 +4692,7 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/metafields-update-metafields-input'
+            $ref: '#/definitions/update-metafields'
             example:
               metafields:
                 current_name: shirt
@@ -4785,7 +4785,7 @@ paths:
         type: string
     post:
       operationId: POST_resource-resource_id-metadata-json
-      summary: Add Metadata to Metafield
+      summary: Create Metadata
       tags:
         - Custom Fields
       description: |-
@@ -26815,62 +26815,8 @@ definitions:
       id: create-metadata
       name: Create Metadata
       public: true
-  metafields-create-metafields-output:
-    title: Create Metafields Output
-    type: array
-    items:
-      type: object
-      properties:
-        name:
-          type: string
-        scope:
-          type: object
-          properties:
-            hosted:
-              type: array
-              items:
-                type: object
-            csv:
-              type: string
-            statements:
-              type: string
-            invoices:
-              type: string
-            portal:
-              type: string
-        data_count:
-          type: integer
-        input_type:
-          type: string
-        enum:
-          type: 'null'
-    example:
-      - name: Color
-        scope:
-          hosted: []
-          csv: '0'
-          statements: '0'
-          invoices: '0'
-          portal: '0'
-        data_count: 0
-        input_type: text
-        enum: null
-      - name: Brand
-        scope:
-          hosted: []
-          csv: '0'
-          statements: '0'
-          invoices: '0'
-          portal: '0'
-        data_count: 0
-        input_type: text
-        enum: null
-    x-stoplight:
-      id: metafields-create-metafields-output
-      name: Create Metafields Output
-      public: true
-  metafields-update-metafields-input:
-    title: Update Metafields Input
+  update-metafields:
+    title: Update Metafields
     type: object
     properties:
       metafields:
@@ -26907,52 +26853,8 @@ definitions:
           statements: '1'
           portal: '0'
     x-stoplight:
-      id: metafields-update-metafields-input
-      name: Update Metafields Input
-      public: true
-  metafields-update-metafields-output:
-    title: Update Metafields Output
-    type: array
-    items:
-      type: object
-      properties:
-        name:
-          type: string
-        scope:
-          type: object
-          properties:
-            hosted:
-              type: array
-              items:
-                type: object
-            csv:
-              type: string
-            statements:
-              type: string
-            invoices:
-              type: string
-            portal:
-              type: string
-        data_count:
-          type: integer
-        input_type:
-          type: string
-        enum:
-          type: 'null'
-    example:
-      - name: Shirts
-        scope:
-          hosted: []
-          csv: '0'
-          statements: '0'
-          invoices: '0'
-          portal: '0'
-        data_count: 0
-        input_type: text
-        enum: null
-    x-stoplight:
-      id: metafields-update-metafields-output
-      name: Update Metafields Output
+      id: update-metafields
+      name: Update Metafields
       public: true
   create-usage:
     title: Create Usage
@@ -32244,7 +32146,7 @@ definitions:
       name: Subscription Override Request
       public: true
   coupons-create-coupon-input-percentage:
-    title: Create Coupon Input Percentage
+    title: Percentage Coupon
     type: object
     properties:
       coupon:
@@ -32305,7 +32207,7 @@ definitions:
         '2': false
     x-stoplight:
       id: coupons-create-coupon-input-percentage
-      name: Create Coupon Input Percentage
+      name: Percentage Coupon
       public: true
   coupon-create-subscription-with-coupon-output:
     title: Create Subscription with Coupon Output
@@ -42062,7 +41964,7 @@ definitions:
       name: Read All Invoices
       public: true
   coupons-create-coupon-input-flat-amount:
-    title: Create Coupon Input Flat Amount
+    title: Flat Amount Coupon
     type: object
     properties:
       coupon:
@@ -42122,7 +42024,7 @@ definitions:
         '2': false
     x-stoplight:
       id: coupons-create-coupon-input-flat-amount
-      name: Create Coupon Input Flat Amount
+      name: Flat Amount Coupon
       public: true
   coupons-create-coupon-output-flat-amount:
     title: Create Coupon Output Flat Amount
@@ -45344,17 +45246,13 @@ x-stoplight:
               type: endpoints
             - _id: DELETE_resource-resourceid-metadatajson
               type: endpoints
+            - _id: create-metafields
+              type: schemas
             - _id: metafield
               type: schemas
             - _id: paginated-metafields
               type: schemas
-            - _id: metafields-update-metafields-input
-              type: schemas
-            - _id: create-metafields
-              type: schemas
-            - _id: metafields-create-metafields-output
-              type: schemas
-            - _id: metafields-update-metafields-output
+            - _id: update-metafields
               type: schemas
             - _id: metafieldsNameOptional
               type: traits
