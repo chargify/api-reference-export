@@ -2823,21 +2823,21 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription Using Offer Handle
+      summary: Create Subscription with Offer ID
       tags:
         - Subscriptions Components
       description: |-
-        ## Create a subscription with an offer handle
+        ## Create a subscription with an offer ID
 
-        This method allows you to provide an offer handle to create a subscription.
+        This method allows you to provide an offer ID to create a subscription. You may also use a handle ID, and use `offer_handle` to complete your request.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/subscription-offer-handle-request'
+            $ref: '#/definitions/create-subscription-with-offer-request'
             example:
               subscription:
-                offer_id: 'handle:godfather'
+                offer_id: 123456789
                 customer_attributes:
                   first_name: Alysa
                   last_name: Test
@@ -2847,271 +2847,24 @@ paths:
                   expiration_month: '10'
                   expiration_year: '2020'
       responses:
-        '201':
+        '200':
           description: ''
           schema:
-            type: object
-            properties:
-              subscription:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  state:
-                    type: string
-                  trial_started_at:
-                    type: string
-                  trial_ended_at:
-                    type: string
-                  activated_at:
-                    type: 'null'
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  expires_at:
-                    type: 'null'
-                  balance_in_cents:
-                    type: integer
-                  current_period_ends_at:
-                    type: string
-                  next_assessment_at:
-                    type: string
-                  canceled_at:
-                    type: 'null'
-                  cancellation_message:
-                    type: 'null'
-                  next_product_id:
-                    type: 'null'
-                  cancel_at_end_of_period:
-                    type: boolean
-                  payment_collection_method:
-                    type: string
-                  snap_day:
-                    type: 'null'
-                  cancellation_method:
-                    type: 'null'
-                  receives_invoice_emails:
-                    type: 'null'
-                  current_period_started_at:
-                    type: string
-                  previous_state:
-                    type: string
-                  signup_payment_id:
-                    type: integer
-                  signup_revenue:
-                    type: string
-                  delayed_cancel_at:
-                    type: 'null'
-                  coupon_code:
-                    type: 'null'
-                  total_revenue_in_cents:
-                    type: integer
-                  product_price_in_cents:
-                    type: integer
-                  product_version_number:
-                    type: integer
-                  payment_type:
-                    type: string
-                  referral_code:
-                    type: 'null'
-                  coupon_use_count:
-                    type: 'null'
-                  coupon_uses_allowed:
-                    type: 'null'
-                  reason_code:
-                    type: 'null'
-                  automatically_resume_at:
-                    type: 'null'
-                  coupon_codes:
-                    type: array
-                    items:
-                      type: object
-                  offer_id:
-                    type: integer
-                  customer:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      organization:
-                        type: 'null'
-                      email:
-                        type: string
-                      created_at:
-                        type: string
-                      updated_at:
-                        type: string
-                      reference:
-                        type: 'null'
-                      address:
-                        type: 'null'
-                      address_2:
-                        type: 'null'
-                      city:
-                        type: 'null'
-                      state:
-                        type: 'null'
-                      zip:
-                        type: 'null'
-                      country:
-                        type: 'null'
-                      phone:
-                        type: 'null'
-                      portal_invite_last_sent_at:
-                        type: string
-                      portal_invite_last_accepted_at:
-                        type: 'null'
-                      verified:
-                        type: boolean
-                      portal_customer_created_at:
-                        type: string
-                      vat_number:
-                        type: 'null'
-                      cc_emails:
-                        type: 'null'
-                      tax_exempt:
-                        type: boolean
-                  product:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      handle:
-                        type: string
-                      description:
-                        type: string
-                      accounting_code:
-                        type: string
-                      request_credit_card:
-                        type: boolean
-                      expiration_interval:
-                        type: 'null'
-                      expiration_interval_unit:
-                        type: string
-                      created_at:
-                        type: string
-                      updated_at:
-                        type: string
-                      price_in_cents:
-                        type: integer
-                      interval:
-                        type: integer
-                      interval_unit:
-                        type: string
-                      initial_charge_in_cents:
-                        type: 'null'
-                      trial_price_in_cents:
-                        type: integer
-                      trial_interval:
-                        type: integer
-                      trial_interval_unit:
-                        type: string
-                      archived_at:
-                        type: 'null'
-                      require_credit_card:
-                        type: boolean
-                      return_params:
-                        type: string
-                      taxable:
-                        type: boolean
-                      update_return_url:
-                        type: string
-                      tax_code:
-                        type: string
-                      initial_charge_after_trial:
-                        type: boolean
-                      version_number:
-                        type: integer
-                      update_return_params:
-                        type: string
-                      product_family:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                          description:
-                            type: string
-                          handle:
-                            type: string
-                          accounting_code:
-                            type: 'null'
-                      public_signup_pages:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            return_url:
-                              type: 'null'
-                            return_params:
-                              type: string
-                            url:
-                              type: string
-                  credit_card:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      masked_card_number:
-                        type: string
-                      card_type:
-                        type: string
-                      expiration_month:
-                        type: integer
-                      expiration_year:
-                        type: integer
-                      customer_id:
-                        type: integer
-                      current_vault:
-                        type: string
-                      vault_token:
-                        type: string
-                      billing_address:
-                        type: 'null'
-                      billing_city:
-                        type: 'null'
-                      billing_state:
-                        type: 'null'
-                      billing_zip:
-                        type: 'null'
-                      billing_country:
-                        type: 'null'
-                      customer_vault_token:
-                        type: 'null'
-                      billing_address_2:
-                        type: 'null'
-                      payment_type:
-                        type: string
-                      disabled:
-                        type: boolean
+            $ref: '#/definitions/create-offer-output'
           examples:
             application/json:
               subscription:
-                id: 25374928
-                state: trialing
-                trial_started_at: '2019-01-25T09:31:38-05:00'
-                trial_ended_at: '2019-01-26T09:31:38-05:00'
-                activated_at: null
-                created_at: '2019-01-25T09:31:38-05:00'
-                updated_at: '2019-01-25T09:31:38-05:00'
+                id: 22885645
+                state: active
+                trial_started_at: null
+                trial_ended_at: null
+                activated_at: '2018-08-03T12:53:28-05:00'
+                created_at: '2018-08-03T12:53:28-05:00'
+                updated_at: '2018-08-03T12:53:28-05:00'
                 expires_at: null
                 balance_in_cents: 0
-                current_period_ends_at: '2019-01-26T09:31:38-05:00'
-                next_assessment_at: '2019-01-26T09:31:38-05:00'
+                current_period_ends_at: '2018-08-07T12:53:28-05:00'
+                next_assessment_at: '2018-08-07T12:53:28-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
@@ -3119,67 +2872,67 @@ paths:
                 payment_collection_method: automatic
                 snap_day: null
                 cancellation_method: null
-                receives_invoice_emails: null
-                current_period_started_at: '2019-01-25T09:31:38-05:00'
-                previous_state: trialing
-                signup_payment_id: 284261141
-                signup_revenue: '0.00'
+                current_period_started_at: '2018-08-03T12:53:28-05:00'
+                previous_state: active
+                signup_payment_id: 254497876
+                signup_revenue: '100.00'
                 delayed_cancel_at: null
-                coupon_code: null
-                total_revenue_in_cents: 0
-                product_price_in_cents: 0
+                coupon_code: POINTFIVE
+                total_revenue_in_cents: 10000
+                product_price_in_cents: 10000
                 product_version_number: 1
                 payment_type: credit_card
-                referral_code: null
-                coupon_use_count: null
-                coupon_uses_allowed: null
+                referral_code: c85dkg
+                coupon_use_count: 0
+                coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
-                coupon_codes: []
-                offer_id: 1086
+                coupon_codes:
+                  - POINTFIVE
+                offer_id: 238
                 customer:
-                  id: 25158862
-                  first_name: Alysa
-                  last_name: Test
-                  organization: null
-                  email: alysa@example.com
-                  created_at: '2019-01-25T09:31:38-05:00'
-                  updated_at: '2019-01-25T09:31:39-05:00'
+                  id: 22575681
+                  first_name: Meg
+                  last_name: 'Whitney '
+                  organization: ''
+                  email: meg@example.com
+                  created_at: '2018-08-02T09:37:02-05:00'
+                  updated_at: '2018-08-02T09:37:03-05:00'
                   reference: null
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  portal_invite_last_sent_at: '2019-01-25T09:31:39-05:00'
+                  address: 123 Anywhere Street
+                  address_2: ''
+                  city: '123'
+                  state: AL
+                  zip: '12345'
+                  country: US
+                  phone: ''
+                  portal_invite_last_sent_at: null
                   portal_invite_last_accepted_at: null
-                  verified: false
-                  portal_customer_created_at: '2019-01-25T09:31:39-05:00'
+                  verified: null
+                  portal_customer_created_at: '2018-08-02T09:37:03-05:00'
                   vat_number: null
                   cc_emails: null
                   tax_exempt: false
                 product:
-                  id: 4468706
-                  name: No Obligation Trial
-                  handle: testmonthly
+                  id: 4671521
+                  name: 4 Day Product
+                  handle: null
                   description: ''
                   accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
                   expiration_interval_unit: never
-                  created_at: '2017-03-17T12:59:24-04:00'
-                  updated_at: '2018-05-17T09:19:27-04:00'
-                  price_in_cents: 0
-                  interval: 1
+                  created_at: '2018-07-16T12:32:20-05:00'
+                  updated_at: '2018-07-16T12:32:20-05:00'
+                  price_in_cents: 10000
+                  interval: 4
                   interval_unit: day
                   initial_charge_in_cents: null
-                  trial_price_in_cents: 0
-                  trial_interval: 1
-                  trial_interval_unit: day
+                  trial_price_in_cents: null
+                  trial_interval: null
+                  trial_interval_unit: month
                   archived_at: null
-                  require_credit_card: false
+                  require_credit_card: true
                   return_params: ''
                   taxable: false
                   update_return_url: ''
@@ -3188,25 +2941,25 @@ paths:
                   version_number: 1
                   update_return_params: ''
                   product_family:
-                    id: 994344
-                    name: FREE TRIAL
-                    description: ''
-                    handle: general-goods-billing-plans
+                    id: 1025629
+                    name: Products
+                    description: Invoice
+                    handle: test
                     accounting_code: null
                   public_signup_pages:
-                    - id: 315945
+                    - id: 356487
                       return_url: null
                       return_params: ''
-                      url: 'https://trial-period.chargifypay.com/subscribe/x532dvt3vjrx/testmonthly'
+                      url: 'https://general-goods.chargifypay.com/subscribe/xj3ptd3gs7v6'
                 credit_card:
-                  id: 17778534
-                  first_name: Alysa
-                  last_name: Test
+                  id: 15869432
+                  first_name: Meg
+                  last_name: 'Whitney '
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 10
                   expiration_year: 2020
-                  customer_id: 25158862
+                  customer_id: 22575681
                   current_vault: bogus
                   vault_token: '1'
                   billing_address: null
@@ -3217,7 +2970,6 @@ paths:
                   customer_vault_token: null
                   billing_address_2: null
                   payment_type: credit_card
-                  disabled: false
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -6871,7 +6623,7 @@ paths:
         - incomplete
         - Legacy Invoices
       description: |-
-        ## Read the Invoice by ID
+        ## Read Legacy Invoice
 
         This method will retrieve the invoice object based on the ID provided.
 
@@ -6985,47 +6737,122 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+  '/invoices/{invoice_id}/charges.json':
+    parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_invoices-invoice_id-charges-json
+      summary: Create Charge
+      tags:
+        - Legacy Invoices
+      description: |-
+        ## Invoice Charges Documentation
+
+        For more information on adding a charge to an invoice, please see our documentation [here](https://help.chargify.com/invoices/invoice-reference.html#add-charge).
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/create-charge-for-legacy-invoice'
+            example:
+              charge:
+                amount: '10.00'
+                memo: Support October 2016
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/charge'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_invoices-invoiceid-chargesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/invoices/{invoice_id}/adjustments.json':
+    parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_invoices-invoice_id-adjustments-json
+      summary: Create Credit
+      tags:
+        - Legacy Invoices
+      description: |-
+        ## Create Invoice Credit
+
+        Use this method to add a credit to an existing invoice.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/create-credit-for-legacy-invoice'
+            example:
+              adjustment:
+                amount: 10
+                memo: Credit for recycling old computers
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/credit'
+          examples:
+            application/json:
+              adjustment:
+                id: 165068820
+                subscription_id: 14823581
+                type: Adjustment
+                kind: null
+                transaction_type: adjustment
+                success: true
+                amount_in_cents: -1000
+                memo: Credit for recycling old computers
+                created_at: '2016-12-05T13:37:28-05:00'
+                starting_balance_in_cents: 177
+                ending_balance_in_cents: -823
+                gateway_used: null
+                gateway_transaction_id: null
+                gateway_order_id: null
+                payment_id: null
+                product_id: 3794121
+                tax_id: null
+                component_id: null
+                statement_id: 79335006
+                customer_id: 14332342
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_invoices-invoiceid-adjustmentsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/invoices/{invoice_id}/payments.json':
     parameters:
       - name: invoice_id
         in: path
-        description: The Invoice ID.
         required: true
-        type: integer
-    get:
-      operationId: GET_invoices-invoice_id-payments-format
-      summary: Read Legacy Invoice Payments
-      tags:
-        - Invoice Payment
-        - incomplete
-        - Legacy Invoices
-      description: |-
-        ## Read Payments for an Invoice
-
-        This method allows the user to display information regarding payments applied to an invoice. Specify the invoice ID, and the server response will be a list of all current payments applied to the invoice.
-      parameters:
-        - $ref: '#/parameters/trait:startdateEnddateQuery:start_date'
-        - $ref: '#/parameters/trait:startdateEnddateQuery:end_date'
-      responses:
-        '200':
-          description: OK
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_invoices-invoice_id-payments-format
-        beforeScript: null
-        afterScript: null
-        public: false
-        mock:
-          enabled: false
-          statusCode: 200
+        type: string
     post:
       operationId: POST_invoices-invoice_id-payments-json
       summary: Create Payment
       tags:
         - Legacy Invoices
       description: |-
-        ## Create an External Payment 
+        ## Create External Payment for Legacy Invoice
 
         In order to specify a payment made against an invoice, specify the `amount`. 
 
@@ -7039,16 +6866,23 @@ paths:
           }
         }
         ```
+
+        ## Invoice Payment Documentation
+
+        For more information that on adding a payment to an invoice, please see our payment documentation below:
+
+        + [Pay via Card](https://help.chargify.com/invoices/invoice-reference.html#pay-with-card)
+        + [Offline Payments](https://help.chargify.com/invoices/invoice-reference.html#enter-payment)
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/invoices-payments-create-payment-input'
+            $ref: '#/definitions/create-external-payment'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/invoices-payments-create-payment-output'
+            $ref: '#/definitions/payment'
           examples:
             application/json:
               payment:
@@ -7080,288 +6914,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: POST_invoices-invoiceid-paymentsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/invoices/{id}.json':
-    parameters:
-      - name: id
-        in: path
-        description: The Invoice ID.
-        required: true
-        type: number
-    get:
-      operationId: GET_invoices-invoice_id-charges-format
-      summary: Read Charges for an Invoice
-      tags:
-        - Invoice Charge
-        - incomplete
-        - Legacy Invoices
-      description: |-
-        ## Read Charges for an Invoice
-
-        This method allows the user to display information regarding charges applied to an invoice. Specify the invoice ID, and the server response will be a list of all current charges applied to the invoice.
-      parameters:
-        - $ref: '#/parameters/trait:startdateEnddateQuery:start_date'
-        - $ref: '#/parameters/trait:startdateEnddateQuery:end_date'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/invoice-list-charges-response'
-          examples:
-            application/json:
-              invoice:
-                id: 1532074
-                subscription_id: 17518841
-                statement_id: 94596778
-                site_id: 36547
-                state: partial
-                total_amount_in_cents: 5655
-                paid_at: null
-                created_at: '2017-07-10T11:10:15-04:00'
-                updated_at: '2017-07-10T11:10:50-04:00'
-                amount_due_in_cents: 155
-                number: 000399
-                charges:
-                  - created_at: '2017-07-10T11:10:13-04:00'
-                    subscription_id: 17518841
-                    type: Charge
-                    memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
-                    kind: baseline
-                    amount_in_cents: 7107
-                    ending_balance_in_cents: 1607
-                    success: true
-                    id: 193822851
-                    payment_id: null
-                    product_id: 4465911
-                    transaction_type: charge
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: -5500
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                  - created_at: '2017-07-10T11:10:14-04:00'
-                    subscription_id: 17518841
-                    type: Charge
-                    memo: TX Tax (8.25%)
-                    kind: tax
-                    amount_in_cents: 469
-                    ending_balance_in_cents: 655
-                    success: true
-                    id: 193822853
-                    payment_id: null
-                    product_id: 4465911
-                    transaction_type: charge
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: 186
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                line_items:
-                  - created_at: '2017-07-10T11:10:13-04:00'
-                    subscription_id: 17518841
-                    type: Charge
-                    memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
-                    kind: baseline
-                    amount_in_cents: 7107
-                    ending_balance_in_cents: 1607
-                    success: true
-                    id: 193822851
-                    payment_id: null
-                    product_id: 4465911
-                    product_price_point_id: 1
-                    transaction_type: charge
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: -5500
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                  - created_at: '2017-07-10T11:10:14-04:00'
-                    subscription_id: 17518841
-                    type: Adjustment
-                    memo: 'Coupon: PERCENTS - percents'
-                    kind: coupon
-                    amount_in_cents: -1421
-                    ending_balance_in_cents: 186
-                    success: true
-                    id: 193822852
-                    payment_id: null
-                    product_id: 4465911
-                    product_price_point_id: null
-                    transaction_type: adjustment
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: 1607
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                  - created_at: '2017-07-10T11:10:14-04:00'
-                    subscription_id: 17518841
-                    type: Charge
-                    memo: TX Tax (8.25%)
-                    kind: tax
-                    amount_in_cents: 469
-                    ending_balance_in_cents: 655
-                    success: true
-                    id: 193822853
-                    payment_id: null
-                    product_id: 4465911
-                    product_price_point_id: null
-                    transaction_type: charge
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: 186
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                  - created_at: '2017-07-10T11:10:50-04:00'
-                    subscription_id: 17518841
-                    type: Adjustment
-                    memo: this is a credit
-                    kind: null
-                    amount_in_cents: -500
-                    ending_balance_in_cents: 155
-                    success: true
-                    id: 193822901
-                    payment_id: null
-                    product_id: 4465911
-                    product_price_point_id: null
-                    transaction_type: adjustment
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: 655
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-                payments_and_credits:
-                  - created_at: '2017-07-10T11:10:15-04:00'
-                    subscription_id: 17518841
-                    type: InfoTransaction
-                    memo: Previous balance applied
-                    kind: previous_balance_applied
-                    amount_in_cents: -5500
-                    ending_balance_in_cents: null
-                    success: true
-                    id: 193822855
-                    payment_id: null
-                    product_id: null
-                    transaction_type: info
-                    gateway_transaction_id: null
-                    gateway_order_id: null
-                    starting_balance_in_cents: null
-                    component_id: null
-                    tax_id: null
-                    customer_id: 17034509
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_invoices-invoice_id-charges-format
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/invoices/{invoice_id}/charges.json':
-    parameters:
-      - name: invoice_id
-        in: path
-        required: true
-        type: string
-    post:
-      operationId: POST_invoices-invoice_id-charges-json
-      summary: Create Invoice Charge
-      tags:
-        - Legacy Invoices
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/invoices-charges-create-invoice-charge-input'
-            example:
-              charge:
-                amount: '10.00'
-                memo: Support October 2016
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/invoices-charges-create-invoice-charge-output'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_invoices-invoiceid-chargesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/invoices/{invoice_id}/adjustments.json':
-    parameters:
-      - name: invoice_id
-        in: path
-        required: true
-        type: string
-    post:
-      operationId: POST_invoices-invoice_id-adjustments-json
-      summary: Create Invoice Credit
-      tags:
-        - Legacy Invoices
-      description: |-
-        ## Create Invoice Credit
-
-        Use this method to add a credit to an existing invoice.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/invoices-credits-create-invoice-credit-input'
-            example:
-              adjustment:
-                amount: 10
-                memo: Credit for recycling old computers
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/invoices-credits-create-invoice-credit-output'
-          examples:
-            application/json:
-              adjustment:
-                id: 165068820
-                subscription_id: 14823581
-                type: Adjustment
-                kind: null
-                transaction_type: adjustment
-                success: true
-                amount_in_cents: -1000
-                memo: Credit for recycling old computers
-                created_at: '2016-12-05T13:37:28-05:00'
-                starting_balance_in_cents: 177
-                ending_balance_in_cents: -823
-                gateway_used: null
-                gateway_transaction_id: null
-                gateway_order_id: null
-                payment_id: null
-                product_id: 3794121
-                tax_id: null
-                component_id: null
-                statement_id: 79335006
-                customer_id: 14332342
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_invoices-invoiceid-adjustmentsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -8666,54 +8218,90 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-payments-json
-      summary: Create a Payment
+      summary: Create Bulk Payment
       tags:
         - Relationship Invoicing
       description: |-
-        ## Create a Payment
+        <h2> Create Bulk Payment </h2>
 
-        This method will allow you to record an external payment on a subscription.
+        Only available for accounts on Relationship Invoicing.
+
+        Record an external payment made against a subscription that will pay partially or in full one or more invoices.
+
+        Payment will be applied starting with the oldest open invoice and then next oldest, and so on until the amount of the payment is fully consumed.
+
+        Excess payment will result in the creation of a prepayment on the Invoice Account.
+
+        Only ungrouped or primary subscriptions may be paid using the "bulk" payment request.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/payments-create-payment-input'
+            type: object
+            properties:
+              payment:
+                type: object
+                required:
+                  - amount
+                  - memo
+                  - payment_details
+                  - payment_method
+                properties:
+                  amount:
+                    type: string
+                  memo:
+                    type: string
+                  payment_details:
+                    type: string
+                  payment_method:
+                    type: string
+            required:
+              - payment
             example:
               payment:
-                amount: 10
-                memo: Client x paid with $10.00 of nickles
+                amount: '10.0'
+                memo: to pay the bills
+                payment_details: check number 8675309
+                payment_method: check
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/payments-create-payment-output'
+            $ref: '#/definitions/create-bulk-payment-response'
           examples:
             application/json:
-              payment:
-                id: 160873334
-                subscription_id: 15054201
-                type: Payment
-                kind: manual
-                transaction_type: payment
-                success: true
-                amount_in_cents: 1000
-                memo: Client x paid with $10.00 of nickles
-                created_at: '2016-11-03T14:58:30-04:00'
-                starting_balance_in_cents: -13989
-                ending_balance_in_cents: -14989
-                gateway_used: null
-                gateway_transaction_id: null
-                gateway_order_id: null
-                payment_id: null
-                product_id: 3861800
-                tax_id: null
-                component_id: null
-                statement_id: 79870822
-                customer_id: 14543792
-                card_number: null
-                card_expiration: null
-                card_type: null
-                refunded_amount_in_cents: 0
+              paid_invoices:
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+                - invoice_uid: xyz_012345678
+                  status: paid
+                  due_amount: '0.0'
+                  paid_amount: '50.0'
+              prepayment:
+                subscription_id: '123456'
+                amount_in_cents: '5000'
+                ending_balance_in_cents: '5000'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type:
+                  - string
+                  - array
+                description: |-
+                  Unproccessable Entity Possible Errors:  
+                  "Payment amount, details, method, and memo must be present"
+
+                   "Payment amount, details, method, and memo must valid"
+
+                  "Payment amount must be greater than zero"
+
+                  "If in a group, the Subscription must be the primary"
+                items: {}
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -10064,46 +9652,94 @@ paths:
   /payment_profiles.json:
     post:
       operationId: POST_payment_profiles-json
-      summary: Create Stripe SEPA Direct Debit Payment Profile
+      summary: Create GoCardless Payment Profile
       tags:
         - Payment Profiles
       description: |-
-        ## Using Stripe SEPA Direct Debit with Chargify
+        ## Using GoCardless with Chargify
 
-        For more information on Stripe SEPA Direct Debit, please view the following resources:
+        For more information on GoCardless, please view the following resources:
 
-        + [Full documentation on Stripe SEPA Direct Debit](https://help.chargify.com/payment-gateways/stripe-direct-debit.html)
+        + [Payment Profiles via API for GoCardless](#endpoint:CaR3rApsyniuZtoEH)
+        + [Full documentation on GoCardless](https://help.chargify.com/payment-gateways/gocardless.html)
 
-        + [Using Chargify.js with Stripe Direct Debit - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-direct-debit-stripe-gateway)
+        + [Using Chargify.js with GoCardless - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-gocardless)
 
-        + [Using Chargify.js with Stripe Direct Debit - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-direct-debit-stripe-gateway)
+        + [Using Chargify.js with GoCardless - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-gocardless)
 
+        ## GoCardless Payment Profiles
 
-        ## Stripe SEPA Direct Debit Payment Profiles
+        The following table depicts what are the elements that are used when creating GoCardless Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a GoCardless payment profile. 
 
-        The following table depicts what are the elements that are used when creating Stripe Direct Debit Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a Stripe Direct Debit payment profile. 
-
-        | bank_name           | (Optional when creating a subscription with Stripe Direct Debit). The name of the bank where the customerʼs account resides                                                                      |
+        | bank_name           | (Required when creating a subscription with ACH or GoCardless). The name of the bank where the customerʼs account resides                                                                      |
         |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | bank_iban           | (Required when creating a subscription with Stripe Direct Debit). International Bank Account Number.                |
+        | bank_iban           | (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided                                                  |
+        | bank_routing_number | (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API |
+        | bank_account_number | (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number                              |
+        | bank_branch_code    | (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided                                                                                    |
 
 
+        ## GoCardless with Local Bank Details
 
-        The following example creates a customer, bank account and mandate in Stripe:
+        Following examples create customer, bank account and mandate in GoCardless:
+
+        ```
+        {
+          "payment_profile": {
+            "customer_id": "Valid-Customer-ID",
+            "bank_name": "Royal Bank of France",
+            "bank_account_number": "0000000",
+            "bank_routing_number": "0003",
+            "bank_branch_code": "00006",
+            "payment_type": "bank_account",
+            "billing_address": "20 Place de la Gare",
+            "billing_city": "Colombes",
+            "billing_state": "Île-de-France",
+            "billing_zip": "92700",
+            "billing_country": "FR"
+          }
+        }
+        ```
+
+        ## GoCardless with IBAN
+
+        The following examples creates a customer, bank account and mandate in GoCardless:
 
 
         ```
         {
           "payment_profile": {
             "customer_id": "24907598",
-            "bank_name": "Deutsche bank",
-            "bank_iban": "DE89370400440532013000",
+            "bank_name": "French Bank",
+            "bank_iban": "FR1420041010050500013M02606",
             "payment_type": "bank_account",
-            "billing_address": "Test",
-            "billing_city": "Berlin",
-            "billing_state": "Brandenburg",
-            "billing_zip": "12345",
-            "billing_country": "DE"
+            "billing_address": "20 Place de la Gare",
+            "billing_city": "Colombes",
+            "billing_state": "Île-de-France",
+            "billing_zip": "92700",
+            "billing_country": "FR"
+          }
+        }
+        ```
+
+        ## Importing GoCardless
+
+        If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs:
+
+        ```
+        {
+          "payment_profile": {
+            "customer_id": "24907598",
+            "customer_vault_token": [Existing GoCardless Customer ID]
+            "vault_token": [Existing GoCardless Mandate ID],
+            "current_vault": "gocardless",
+            "bank_name": "French Bank",
+            "payment_type": "bank_account",
+            "billing_address": "20 Place de la Gare",
+            "billing_city": "Colombes",
+            "billing_state": "Île-de-France",
+            "billing_zip": "92700",
+            "billing_country": "FR"
           }
         }
         ```
@@ -10137,14 +9773,14 @@ paths:
             example:
               payment_profile:
                 customer_id: '24907598'
-                bank_name: Deutsche bank
-                bank_iban: DE89370400440532013000
+                bank_name: French Bank
+                bank_iban: FR1420041010050500013M02606
                 payment_type: bank_account
-                billing_address: Test
-                billing_city: Berlin
-                billing_state: Brandenburg
-                billing_zip: '12345'
-                billing_country: DE
+                billing_address: 20 Place de la Gare
+                billing_city: Colombes
+                billing_state: Île-de-France
+                billing_zip: '92700'
+                billing_country: FR
       responses:
         '201':
           description: ''
@@ -10177,9 +9813,7 @@ paths:
                   billing_country:
                     type: string
                   customer_vault_token:
-                    type:
-                      - string
-                      - 'null'
+                    type: string
                   billing_address_2:
                     type: 'null'
                   bank_name:
@@ -10203,18 +9837,18 @@ paths:
                 first_name: Chester
                 last_name: Tester
                 customer_id: 24907598
-                current_vault: stripe_connect
-                vault_token: cus_J0iV6HHEeYiAX4
-                billing_address: Test
-                billing_city: Berlin
-                billing_state: Brandenburg
-                billing_zip: '12345'
-                billing_country: DE
-                customer_vault_token: null
+                current_vault: gocardless
+                vault_token: MD00058FVXGX9E
+                billing_address: 20 Place de la Gare
+                billing_city: Colombes
+                billing_state: Île-de-France
+                billing_zip: '92700'
+                billing_country: FR
+                customer_vault_token: CU0005GP6E2F80
                 billing_address_2: null
-                bank_name: Deutsche bank
+                bank_name: French Bank
                 masked_bank_routing_number: null
-                masked_bank_account_number: XXXX3000
+                masked_bank_account_number: XXXX2606
                 bank_account_type: checking
                 bank_account_holder_type: personal
                 payment_type: bank_account
@@ -19891,78 +19525,76 @@ paths:
         type: number
     post:
       operationId: POST_subscriptions-subscription_id-add_coupon-format?code=coupon_code
-      summary: Add the Coupon to an Existing Subscription
+      summary: Add Multiple Coupons to Existing Subscription
       tags:
         - Coupon
         - incomplete
         - 'Subscriptions: Coupons'
       description: |-
-        ## Add the Coupon to an existing Subscription
+        ## Add Multiple Coupons to Existing Subscription
 
-        If the coupon is successfully applied, the subscription object will be returned. Otherwise, the "Coupon is invalid" error will be returned.
-        `/subscriptions/9709/add_coupon.json?code=EARLYBIRD`
-
-        ## Coupon Application Warning
-
-        Sending this request will overwrite all (single and multiple) coupons previously applied to the subscription.  
-
-        If you want to apply stackable coupons, **remove** any coupons you have and use [request with 'codes' parameter](#endpoint:DbA9MDLykDkNbYCaJ).
+        An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our [coupon documentation.](https://help.chargify.com/products/product-coupons.html#stackable-coupons)
       parameters:
-        - name: code
-          in: query
-          required: true
-          type: string
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
+            example:
+              codes:
+                - COUPON_1
+                - COUPON_2
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/coupon-add-coupon-to-subscription-output'
+            $ref: '#/definitions/add-multiple-coupons-to-existing-subscription-input'
           examples:
             application/json:
               subscription:
-                id: 50
+                id: 21607180
                 state: active
                 trial_started_at: null
                 trial_ended_at: null
-                activated_at: '2017-11-01T04:17:47-04:00'
-                created_at: '2017-11-01T04:17:46-04:00'
-                updated_at: '2017-11-08T09:17:44-05:00'
+                activated_at: '2018-04-20T14:20:57-05:00'
+                created_at: '2018-04-20T14:20:57-05:00'
+                updated_at: '2018-05-11T13:53:44-05:00'
                 expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2017-12-01T03:17:46-05:00'
-                next_assessment_at: '2017-12-01T03:17:46-05:00'
+                balance_in_cents: 49000
+                current_period_ends_at: '2018-05-12T11:33:03-05:00'
+                next_assessment_at: '2018-05-12T11:33:03-05:00'
                 canceled_at: null
                 cancellation_message: null
                 next_product_id: null
                 cancel_at_end_of_period: false
-                payment_collection_method: automatic
+                payment_collection_method: invoice
                 snap_day: null
                 cancellation_method: null
-                current_period_started_at: '2017-11-01T04:17:46-04:00'
+                current_period_started_at: '2018-05-11T11:33:03-05:00'
                 previous_state: active
-                signup_payment_id: 109
-                signup_revenue: '10.00'
+                signup_payment_id: 237154761
+                signup_revenue: '0.00'
                 delayed_cancel_at: null
-                coupon_code: ABC123
-                total_revenue_in_cents: 1000
-                product_price_in_cents: 1000
-                product_version_number: 1
+                coupon_code: COUPONA
+                total_revenue_in_cents: 52762
+                product_price_in_cents: 100000
+                product_version_number: 2
                 payment_type: credit_card
-                referral_code: null
+                referral_code: x45nc8
                 coupon_use_count: 0
                 coupon_uses_allowed: 1
                 reason_code: null
                 automatically_resume_at: null
                 coupon_codes:
-                  - ABC123
+                  - COUPONA
+                  - COUPONB
                 customer:
-                  id: 50
-                  first_name: Fred
-                  last_name: Jones
+                  id: 21259051
+                  first_name: K
+                  last_name: C
                   organization: ''
-                  email: fred@jones.com
-                  created_at: '2017-11-01T04:17:46-04:00'
-                  updated_at: '2017-11-01T04:17:46-04:00'
+                  email: example@chargify.com
+                  created_at: '2018-04-20T14:20:57-05:00'
+                  updated_at: '2018-04-23T15:29:28-05:00'
                   reference: null
                   address: ''
                   address_2: ''
@@ -19971,71 +19603,98 @@ paths:
                   zip: ''
                   country: ''
                   phone: ''
-                  portal_invite_last_sent_at: null
+                  portal_invite_last_sent_at: '2018-04-20T14:20:59-05:00'
                   portal_invite_last_accepted_at: null
                   verified: false
-                  portal_customer_created_at: null
-                  cc_emails: null
+                  portal_customer_created_at: '2018-04-20T14:20:59-05:00'
+                  cc_emails: ''
                   tax_exempt: false
                 product:
-                  id: 97
-                  name: User-friendly systemic matrices
-                  handle: handle_1d382acd0
-                  description: Fugiat quis mollitia.  Ex et sunt sed qui.  Facilis qui et sequi laudantium quos autem eos.
-                  accounting_code: null
+                  id: 4581816
+                  name: Basic
+                  handle: basic
+                  description: ''
+                  accounting_code: ''
                   request_credit_card: true
                   expiration_interval: null
-                  expiration_interval_unit: null
-                  created_at: '2017-09-13T12:45:35-04:00'
-                  updated_at: '2017-09-13T12:45:35-04:00'
-                  price_in_cents: 1000
+                  expiration_interval_unit: never
+                  created_at: '2017-11-02T15:00:11-05:00'
+                  updated_at: '2018-04-10T09:02:59-05:00'
+                  price_in_cents: 100000
                   interval: 1
                   interval_unit: month
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: null
+                  initial_charge_in_cents: 100000
+                  trial_price_in_cents: 1000
+                  trial_interval: 10
+                  trial_interval_unit: month
                   archived_at: null
                   require_credit_card: true
-                  return_params: null
+                  return_params: ''
                   taxable: false
-                  update_return_url: null
-                  tax_code: null
+                  update_return_url: ''
+                  tax_code: ''
                   initial_charge_after_trial: false
-                  version_number: 1
-                  update_return_params: null
+                  version_number: 2
+                  update_return_params: ''
                   product_family:
-                    id: 4
-                    name: Acme Online
-                    description: null
-                    handle: acme-online
+                    id: 1025627
+                    name: My Product Family
+                    description: ''
+                    handle: acme-products
                     accounting_code: null
-                  public_signup_pages: []
+                  public_signup_pages:
+                    - id: 333589
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/hbwtd98j3hk2/basic'
+                    - id: 335926
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/g366zy67c7rm/basic'
+                    - id: 345555
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/txqyyqk7d8rz/basic'
+                    - id: 345556
+                      return_url: ''
+                      return_params: ''
+                      url: 'https://general-goods.chargifypay.com/subscribe/2zss3qpf4249/basic'
                 credit_card:
-                  id: 36
-                  first_name: Fred
-                  last_name: Jones
+                  id: 14839830
+                  first_name: John
+                  last_name: Doe
                   masked_card_number: XXXX-XXXX-XXXX-1
                   card_type: bogus
                   expiration_month: 1
-                  expiration_year: 2025
-                  customer_id: 50
+                  expiration_year: 2028
+                  customer_id: 21259051
                   current_vault: bogus
                   vault_token: '1'
-                  billing_address: ''
-                  billing_city: ''
-                  billing_state: AL
-                  billing_zip: ''
-                  billing_country: US
+                  billing_address: null
+                  billing_city: null
+                  billing_state: null
+                  billing_zip: '99999'
+                  billing_country: null
                   customer_vault_token: null
-                  billing_address_2: ''
+                  billing_address_2: null
                   payment_type: credit_card
         '422':
           description: ''
+          schema:
+            type: object
+            properties:
+              codes:
+                type: array
+                items:
+                  type: string
+              subscription:
+                type: array
+                items:
+                  type: string
           examples:
             application/json:
               codes:
-                - 'Coupon Codes: Subscription already has a non-stackable coupon.'
+                - 'Coupon Codes: Subscription already has at least one non-stackable coupon.'
               subscription:
                 - Coupon is invalid.
       security:
@@ -22078,29 +21737,24 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Canceled Subscription With Coupon
+      summary: Resuming Subscription Which Was trial_ended
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Reactivating a Canceled Subscription With Coupon
+        ## Resuming Subscription Which Was trial_ended
 
-        + Given you have a canceled subscription
-        + It has no current period defined
-        + You have a coupon code "EARLYBIRD"
-        + The coupon is set to recur for 6 periods
+        + Given you have a `trial_ended` subscription, and it is resumable
+        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume=true`
 
-        PUT request sent to:
-        `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?coupon_code=EARLYBIRD`
-
-        ### Results
+        ### Results 
 
         + The subscription will transition to active
-        + The subscription should have applied a coupon with code "EARLYBIRD"
+        + The next billing date should not have changed
+        + Any product-related charges should have been collected
       responses:
-        '200':
+        default:
           description: ''
-          schema:
-            $ref: '#/definitions/subscription-read-subscription'
+          schema: {}
       x-stoplight:
         id: PUT_subscriptions-subscriptionid-reactivatejson
         beforeScript: null
@@ -25761,8 +25415,8 @@ definitions:
       id: charges-create-a-charge-request-post
       name: Create a charge / Request POST
       public: true
-  invoices-credits-create-invoice-credit-input:
-    title: Create Invoice Credit Input
+  create-credit-for-legacy-invoice:
+    title: Create Credit for Legacy Invoice
     type: object
     properties:
       adjustment:
@@ -25787,11 +25441,11 @@ definitions:
         amount: 10
         memo: Credit for recycling old computers
     x-stoplight:
-      id: invoices-credits-create-invoice-credit-input
-      name: Create Invoice Credit Input
+      id: create-credit-for-legacy-invoice
+      name: Create Credit for Legacy Invoice
       public: true
-  invoices-charges-create-invoice-charge-input:
-    title: Create Invoice Charge Input
+  create-charge-for-legacy-invoice:
+    title: Create Charge for Legacy Invoice
     type: object
     properties:
       charge:
@@ -25818,204 +25472,11 @@ definitions:
         amount: 10
         memo: Lorem ipsum
     x-stoplight:
-      id: invoices-charges-create-invoice-charge-input
-      name: Create Invoice Charge Input
+      id: create-charge-for-legacy-invoice
+      name: Create Charge for Legacy Invoice
       public: true
-  invoices-read-the-invoice-by-id:
-    title: Read the Invoice by ID
-    type: object
-    properties:
-      invoice:
-        type: object
-        properties:
-          id:
-            type: integer
-          subscription_id:
-            type: integer
-          statement_id:
-            type: integer
-          site_id:
-            type: integer
-          state:
-            type: string
-          total_amount_in_cents:
-            type: integer
-          paid_at:
-            type: string
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          amount_due_in_cents:
-            type: integer
-          number:
-            type: string
-          charges:
-            type: array
-            items:
-              type: object
-              properties:
-                created_at:
-                  type: string
-                subscription_id:
-                  type: integer
-                type:
-                  type: string
-                memo:
-                  type: string
-                kind:
-                  type: string
-                amount_in_cents:
-                  type: integer
-                ending_balance_in_cents:
-                  type: integer
-                success:
-                  type: boolean
-                id:
-                  type: integer
-                payment_id:
-                  type: integer
-                product_id:
-                  type: integer
-                transaction_type:
-                  type: string
-                gateway_transaction_id:
-                  type: 'null'
-                gateway_order_id:
-                  type: 'null'
-                starting_balance_in_cents:
-                  type: integer
-                component_id:
-                  type: 'null'
-                tax_id:
-                  type: 'null'
-                customer_id:
-                  type: integer
-          payments_and_credits:
-            type: array
-            items:
-              type: object
-              properties:
-                created_at:
-                  type: string
-                subscription_id:
-                  type: integer
-                type:
-                  type: string
-                memo:
-                  type: string
-                kind:
-                  type: string
-                amount_in_cents:
-                  type: integer
-                ending_balance_in_cents:
-                  type: integer
-                success:
-                  type: boolean
-                id:
-                  type: integer
-                payment_id:
-                  type: 'null'
-                product_id:
-                  type: integer
-                transaction_type:
-                  type: string
-                gateway_transaction_id:
-                  type: string
-                gateway_order_id:
-                  type: 'null'
-                starting_balance_in_cents:
-                  type: integer
-                component_id:
-                  type: 'null'
-                tax_id:
-                  type: 'null'
-                customer_id:
-                  type: integer
-                card_number:
-                  type: string
-                card_expiration:
-                  type: string
-                card_type:
-                  type: string
-    example:
-      invoice:
-        id: 1240345
-        subscription_id: 14900541
-        statement_id: 79334531
-        site_id: 31615
-        state: paid
-        total_amount_in_cents: 4250
-        paid_at: '2016-11-01T12:20:21-04:00'
-        created_at: '2016-10-26T14:38:40-04:00'
-        updated_at: '2016-11-01T12:20:21-04:00'
-        amount_due_in_cents: 0
-        number: '000014'
-        charges:
-          - created_at: '2016-10-26T14:38:39-04:00'
-            subscription_id: 14900541
-            type: Charge
-            memo: Basic Plan (10/26/2016 - 11/26/2016)
-            kind: baseline
-            amount_in_cents: 4000
-            ending_balance_in_cents: 4000
-            success: true
-            id: 159670144
-            payment_id: 160493169
-            product_id: 3792003
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 0
-            component_id: null
-            tax_id: null
-            customer_id: 14399371
-          - created_at: '2016-10-26T14:38:39-04:00'
-            subscription_id: 14900541
-            type: Charge
-            memo: MA Tax (6.25%)
-            kind: tax
-            amount_in_cents: 250
-            ending_balance_in_cents: 4250
-            success: true
-            id: 159670145
-            payment_id: 160493169
-            product_id: 3792003
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 4000
-            component_id: null
-            tax_id: null
-            customer_id: 14399371
-        payments_and_credits:
-          - created_at: '2016-11-01T12:20:20-04:00'
-            subscription_id: 14900541
-            type: Payment
-            memo: One Time Credit Card Payment for Invoice
-            kind: one_time
-            amount_in_cents: 4250
-            ending_balance_in_cents: -4450
-            success: true
-            id: 160493169
-            payment_id: null
-            product_id: 3792003
-            transaction_type: payment
-            gateway_transaction_id: '53433'
-            gateway_order_id: null
-            starting_balance_in_cents: -200
-            component_id: null
-            tax_id: null
-            customer_id: 14399371
-            card_number: XXXX-XXXX-XXXX-1
-            card_expiration: 01/2026
-            card_type: bogus
-    x-stoplight:
-      id: invoices-read-the-invoice-by-id
-      name: Read the Invoice by ID
-      public: true
-  invoices-payments-create-payment-input:
-    title: Create Payment Input
+  create-external-payment:
+    title: Create External Payment for Legacy Invoice
     type: object
     properties:
       payment:
@@ -26030,281 +25491,8 @@ definitions:
         amount: 10
         memo: Lorem ipsum
     x-stoplight:
-      id: invoices-payments-create-payment-input
-      name: Create Payment Input
-      public: true
-  invoices-list-all-invoices-query-response:
-    title: List All Invoices (Multiple Query)
-    type: array
-    items:
-      type: object
-      properties:
-        invoice:
-          type: object
-          properties:
-            id:
-              type: integer
-            subscription_id:
-              type: integer
-            statement_id:
-              type: integer
-            site_id:
-              type: integer
-            state:
-              type: string
-            total_amount_in_cents:
-              type: integer
-            paid_at:
-              type:
-                - 'null'
-                - string
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            amount_due_in_cents:
-              type: integer
-            number:
-              type: string
-            charges:
-              type: array
-              items:
-                type: object
-                properties:
-                  created_at:
-                    type: string
-                  subscription_id:
-                    type: integer
-                  type:
-                    type: string
-                  memo:
-                    type: string
-                  kind:
-                    type: string
-                  amount_in_cents:
-                    type: integer
-                  ending_balance_in_cents:
-                    type: integer
-                  success:
-                    type: boolean
-                  id:
-                    type: integer
-                  payment_id:
-                    type:
-                      - 'null'
-                      - string
-                  product_id:
-                    type: integer
-                  transaction_type:
-                    type: string
-                  gateway_transaction_id:
-                    type:
-                      - 'null'
-                      - string
-                  gateway_order_id:
-                    type:
-                      - 'null'
-                      - string
-                  starting_balance_in_cents:
-                    type: integer
-                  component_id:
-                    type:
-                      - 'null'
-                      - string
-                  tax_id:
-                    type:
-                      - 'null'
-                      - string
-                  customer_id:
-                    type: integer
-            payments_and_credits:
-              type: array
-              items:
-                type: object
-                properties:
-                  created_at:
-                    type: string
-                  subscription_id:
-                    type: integer
-                  type:
-                    type: string
-                  memo:
-                    type: string
-                  kind:
-                    type: string
-                  amount_in_cents:
-                    type: integer
-                  ending_balance_in_cents:
-                    type: integer
-                  success:
-                    type: boolean
-                  id:
-                    type: integer
-                  payment_id:
-                    type:
-                      - 'null'
-                      - string
-                  product_id:
-                    type: integer
-                  transaction_type:
-                    type: string
-                  gateway_transaction_id:
-                    type:
-                      - 'null'
-                      - string
-                  gateway_order_id:
-                    type:
-                      - 'null'
-                      - string
-                  starting_balance_in_cents:
-                    type: integer
-                  component_id:
-                    type:
-                      - 'null'
-                      - string
-                  tax_id:
-                    type:
-                      - 'null'
-                      - string
-                  customer_id:
-                    type: integer
-                  card_number:
-                    type:
-                      - 'null'
-                      - string
-                  card_expiration:
-                    type:
-                      - 'null'
-                      - string
-                  card_type:
-                    type:
-                      - 'null'
-                      - string
-    example:
-      - invoice:
-          id: 1248064
-          subscription_id: 14900541
-          statement_id: 79702531
-          site_id: 31615
-          state: partial
-          total_amount_in_cents: 4250
-          paid_at: null
-          created_at: '2016-11-01T12:41:27-04:00'
-          updated_at: '2016-11-01T12:41:28-04:00'
-          amount_due_in_cents: 3750
-          number: '000016'
-          charges:
-            - created_at: '2016-11-01T12:41:26-04:00'
-              subscription_id: 14900541
-              type: Charge
-              memo: Basic Plan (11/01/2016 - 12/01/2016)
-              kind: baseline
-              amount_in_cents: 4000
-              ending_balance_in_cents: 3500
-              success: true
-              id: 160512958
-              payment_id: null
-              product_id: 3792003
-              transaction_type: charge
-              gateway_transaction_id: null
-              gateway_order_id: null
-              starting_balance_in_cents: -500
-              component_id: null
-              tax_id: null
-              customer_id: 14399371
-            - created_at: '2016-11-01T12:41:27-04:00'
-              subscription_id: 14900541
-              type: Charge
-              memo: MA Tax (6.25%)
-              kind: tax
-              amount_in_cents: 250
-              ending_balance_in_cents: 3750
-              success: true
-              id: 160512974
-              payment_id: null
-              product_id: 3792003
-              transaction_type: charge
-              gateway_transaction_id: null
-              gateway_order_id: null
-              starting_balance_in_cents: 3500
-              component_id: null
-              tax_id: null
-              customer_id: 14399371
-          payments_and_credits: []
-      - invoice:
-          id: 1240347
-          subscription_id: 14823581
-          statement_id: 79335006
-          site_id: 31615
-          state: paid
-          total_amount_in_cents: 2177
-          paid_at: '2016-10-26T15:16:23-04:00'
-          created_at: '2016-10-26T14:41:22-04:00'
-          updated_at: '2016-10-26T15:16:23-04:00'
-          amount_due_in_cents: 0
-          number: '000015'
-          charges:
-            - created_at: '2016-10-26T14:41:20-04:00'
-              subscription_id: 14823581
-              type: Charge
-              memo: Taxable Product (10/26/2016 - 11/26/2016)
-              kind: baseline
-              amount_in_cents: 2000
-              ending_balance_in_cents: 2000
-              success: true
-              id: 159671212
-              payment_id: null
-              product_id: 3794121
-              transaction_type: charge
-              gateway_transaction_id: null
-              gateway_order_id: null
-              starting_balance_in_cents: 0
-              component_id: null
-              tax_id: null
-              customer_id: 14332342
-            - created_at: '2016-10-26T14:41:22-04:00'
-              subscription_id: 14823581
-              type: Charge
-              memo: CO Tax (8.845%)
-              kind: tax
-              amount_in_cents: 177
-              ending_balance_in_cents: 2177
-              success: true
-              id: 159671240
-              payment_id: null
-              product_id: 3794121
-              transaction_type: charge
-              gateway_transaction_id: null
-              gateway_order_id: null
-              starting_balance_in_cents: 2000
-              component_id: null
-              tax_id: null
-              customer_id: 14332342
-          payments_and_credits:
-            - created_at: '2016-10-26T15:16:23-04:00'
-              subscription_id: 14823581
-              type: Payment
-              memo: Entered by operation 928
-              kind: manual
-              amount_in_cents: 2177
-              ending_balance_in_cents: 0
-              success: true
-              id: 159676118
-              payment_id: null
-              product_id: 3794121
-              transaction_type: payment
-              gateway_transaction_id: null
-              gateway_order_id: null
-              starting_balance_in_cents: 2177
-              component_id: null
-              tax_id: null
-              customer_id: 14332342
-              card_number: null
-              card_expiration: null
-              card_type: null
-    x-stoplight:
-      id: invoices-list-all-invoices-query-response
-      name: List All Invoices (Multiple Query)
+      id: create-external-payment
+      name: Create External Payment for Legacy Invoice
       public: true
   event-count:
     title: Event Count
@@ -26318,8 +25506,8 @@ definitions:
       id: event-count
       name: Event Count
       public: true
-  invoices-charges-create-invoice-charge-output:
-    title: Create Invoice Charge Output
+  charge:
+    title: Charge
     type: object
     properties:
       charge:
@@ -26412,11 +25600,11 @@ definitions:
         taxable_amount_in_cents: null
         taxations: []
     x-stoplight:
-      id: invoices-charges-create-invoice-charge-output
-      name: Create Invoice Charge Output
+      id: charge
+      name: Charge
       public: true
-  invoices-credits-create-invoice-credit-output:
-    title: Create Invoice Credit Output
+  credit:
+    title: Credit
     type: object
     properties:
       adjustment:
@@ -26495,8 +25683,8 @@ definitions:
         statement_id: 79335006
         customer_id: 14332342
     x-stoplight:
-      id: invoices-credits-create-invoice-credit-output
-      name: Create Invoice Credit Output
+      id: credit
+      name: Credit
       public: true
   update-metadata:
     title: Update Metadata
@@ -32648,8 +31836,8 @@ definitions:
       id: coupons-subcodes-retrieve-coupon-subcodes-output
       name: Coupon Subcodes Response
       public: true
-  invoices-payments-create-payment-output:
-    title: Create Payment Output
+  payment:
+    title: Payment
     type: object
     properties:
       payment:
@@ -32730,8 +31918,8 @@ definitions:
         card_type: null
         refunded_amount_in_cents: 0
     x-stoplight:
-      id: invoices-payments-create-payment-output
-      name: Create Payment Output
+      id: payment
+      name: Payment
       public: true
   paginated-metadata:
     title: Paginated Metadata
@@ -35661,314 +34849,6 @@ definitions:
     x-stoplight:
       id: components-onoff-create-subscription-with-onoff-component
       name: Create Subscription with On/Off Component Request
-      public: true
-  invoice-list-charges-response:
-    title: Read Charges Response
-    type: object
-    properties:
-      invoice:
-        type: object
-        properties:
-          id:
-            type: integer
-          subscription_id:
-            type: integer
-          statement_id:
-            type: integer
-          site_id:
-            type: integer
-          state:
-            type: string
-          total_amount_in_cents:
-            type: integer
-          paid_at:
-            type: 'null'
-          created_at:
-            type: string
-          updated_at:
-            type: string
-          amount_due_in_cents:
-            type: integer
-          number:
-            type: string
-          charges:
-            type: array
-            items:
-              type: object
-              properties:
-                created_at:
-                  type: string
-                subscription_id:
-                  type: integer
-                type:
-                  type: string
-                memo:
-                  type: string
-                kind:
-                  type: string
-                amount_in_cents:
-                  type: integer
-                ending_balance_in_cents:
-                  type: integer
-                success:
-                  type: boolean
-                id:
-                  type: integer
-                payment_id:
-                  type: 'null'
-                product_id:
-                  type: integer
-                transaction_type:
-                  type: string
-                gateway_transaction_id:
-                  type: 'null'
-                gateway_order_id:
-                  type: 'null'
-                starting_balance_in_cents:
-                  type: integer
-                component_id:
-                  type: 'null'
-                tax_id:
-                  type: 'null'
-                customer_id:
-                  type: integer
-          line_items:
-            type: array
-            items:
-              type: object
-              properties:
-                created_at:
-                  type: string
-                subscription_id:
-                  type: integer
-                type:
-                  type: string
-                memo:
-                  type: string
-                kind:
-                  type:
-                    - 'null'
-                    - string
-                amount_in_cents:
-                  type: integer
-                ending_balance_in_cents:
-                  type: integer
-                success:
-                  type: boolean
-                id:
-                  type: integer
-                payment_id:
-                  type: 'null'
-                product_id:
-                  type: integer
-                transaction_type:
-                  type: string
-                gateway_transaction_id:
-                  type: 'null'
-                gateway_order_id:
-                  type: 'null'
-                starting_balance_in_cents:
-                  type: integer
-                component_id:
-                  type: 'null'
-                tax_id:
-                  type: 'null'
-                customer_id:
-                  type: integer
-                product_price_point_id:
-                  type:
-                    - 'null'
-                    - integer
-          payments_and_credits:
-            type: array
-            items:
-              type: object
-              properties:
-                created_at:
-                  type: string
-                subscription_id:
-                  type: integer
-                type:
-                  type: string
-                memo:
-                  type: string
-                kind:
-                  type: string
-                amount_in_cents:
-                  type: integer
-                ending_balance_in_cents:
-                  type: 'null'
-                success:
-                  type: boolean
-                id:
-                  type: integer
-                payment_id:
-                  type: 'null'
-                product_id:
-                  type: 'null'
-                transaction_type:
-                  type: string
-                gateway_transaction_id:
-                  type: 'null'
-                gateway_order_id:
-                  type: 'null'
-                starting_balance_in_cents:
-                  type: 'null'
-                component_id:
-                  type: 'null'
-                tax_id:
-                  type: 'null'
-                customer_id:
-                  type: integer
-    example:
-      invoice:
-        id: 1532074
-        subscription_id: 17518841
-        statement_id: 94596778
-        site_id: 36547
-        state: partial
-        total_amount_in_cents: 5655
-        paid_at: null
-        created_at: '2017-07-10T11:10:15-04:00'
-        updated_at: '2017-07-10T11:10:50-04:00'
-        amount_due_in_cents: 155
-        number: 000399
-        charges:
-          - created_at: '2017-07-10T11:10:13-04:00'
-            subscription_id: 17518841
-            type: Charge
-            memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
-            kind: baseline
-            amount_in_cents: 7107
-            ending_balance_in_cents: 1607
-            success: true
-            id: 193822851
-            payment_id: null
-            product_id: 4465911
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: -5500
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-          - created_at: '2017-07-10T11:10:14-04:00'
-            subscription_id: 17518841
-            type: Charge
-            memo: TX Tax (8.25%)
-            kind: tax
-            amount_in_cents: 469
-            ending_balance_in_cents: 655
-            success: true
-            id: 193822853
-            payment_id: null
-            product_id: 4465911
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 186
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-        line_items:
-          - created_at: '2017-07-10T11:10:13-04:00'
-            subscription_id: 17518841
-            type: Charge
-            memo: costs (10 Jul 2017 - 1 Aug 2017) (Prorated)
-            kind: baseline
-            amount_in_cents: 7107
-            ending_balance_in_cents: 1607
-            success: true
-            id: 193822851
-            payment_id: null
-            product_id: 4465911
-            product_price_point_id: 1
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: -5500
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-          - created_at: '2017-07-10T11:10:14-04:00'
-            subscription_id: 17518841
-            type: Adjustment
-            memo: 'Coupon: PERCENTS - percents'
-            kind: coupon
-            amount_in_cents: -1421
-            ending_balance_in_cents: 186
-            success: true
-            id: 193822852
-            payment_id: null
-            product_id: 4465911
-            product_price_point_id: null
-            transaction_type: adjustment
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 1607
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-          - created_at: '2017-07-10T11:10:14-04:00'
-            subscription_id: 17518841
-            type: Charge
-            memo: TX Tax (8.25%)
-            kind: tax
-            amount_in_cents: 469
-            ending_balance_in_cents: 655
-            success: true
-            id: 193822853
-            payment_id: null
-            product_id: 4465911
-            product_price_point_id: null
-            transaction_type: charge
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 186
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-          - created_at: '2017-07-10T11:10:50-04:00'
-            subscription_id: 17518841
-            type: Adjustment
-            memo: this is a credit
-            kind: null
-            amount_in_cents: -500
-            ending_balance_in_cents: 155
-            success: true
-            id: 193822901
-            payment_id: null
-            product_id: 4465911
-            product_price_point_id: null
-            transaction_type: adjustment
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: 655
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-        payments_and_credits:
-          - created_at: '2017-07-10T11:10:15-04:00'
-            subscription_id: 17518841
-            type: InfoTransaction
-            memo: Previous balance applied
-            kind: previous_balance_applied
-            amount_in_cents: -5500
-            ending_balance_in_cents: null
-            success: true
-            id: 193822855
-            payment_id: null
-            product_id: null
-            transaction_type: info
-            gateway_transaction_id: null
-            gateway_order_id: null
-            starting_balance_in_cents: null
-            component_id: null
-            tax_id: null
-            customer_id: 17034509
-    x-stoplight:
-      id: invoice-list-charges-response
-      name: Read Charges Response
       public: true
   components-price-points-bulk-update-a-subscriptions-components-price-points:
     title: Bulk Update a Subscription's Component's Price Points
@@ -44307,30 +43187,47 @@ definitions:
     properties:
       id:
         type: integer
+        description: The invoice unique id within Chargify
       subscription_id:
         type: integer
+        description: The subscription unique id within Chargify
       statement_id:
         type: integer
+        description: The statement unique id within Chargify
       site_id:
         type: integer
+        description: The site unique id within Chargify
       state:
         type: string
+        description: "\tThe current state of the invoice."
+        enum:
+          - paid
+          - unpaid
+          - partial
+          - archived
       total_amount_in_cents:
         type: integer
+        description: Gives the current invoice amount in the number of cents (ie. the sum of charges)
       paid_at:
         type:
           - string
           - 'null'
+        description: The date/time when the invoice was paid in full
       created_at:
         type: string
+        description: "\tThe creation date/time for this invoice"
       updated_at:
         type: string
+        description: The date/time of last update for this invoice
       amount_due_in_cents:
         type: integer
+        description: Gives the current outstanding invoice balance in the number of cents
       number:
         type: string
+        description: The unique (to this site) identifier for this invoice
       charges:
         type: array
+        description: A list of charges applied to this invoice
         items:
           type: object
           properties:
@@ -44374,6 +43271,7 @@ definitions:
               type: integer
       payments_and_credits:
         type: array
+        description: A list of the financial transactions that modify the amount due
         items:
           type: object
           properties:
@@ -44848,15 +43746,9 @@ x-stoplight:
           divider: false
         - name: Legacy Invoices
           items:
-            - _id: invoices
-              type: docTextSections
             - _id: GET_list-invoices-by-subscription
               type: endpoints
             - _id: GET_invoices-invoice_id-format
-              type: endpoints
-            - _id: GET_invoices-invoice_id-payments-format
-              type: endpoints
-            - _id: GET_invoices-invoice_id-charges-format
               type: endpoints
             - _id: POST_invoices-invoiceid-chargesjson
               type: endpoints
@@ -44866,12 +43758,6 @@ x-stoplight:
               type: endpoints
             - _id: legacy-invoice
               type: schemas
-            - _id: invoices-list-all-invoices-query-response
-              type: schemas
-            - _id: invoices-read-the-invoice-by-id
-              type: schemas
-            - _id: invoice-list-charges-response
-              type: schemas
             - type: traits
               _id: startdateEnddateQuery
             - type: traits
@@ -44880,17 +43766,17 @@ x-stoplight:
               type: traits
             - _id: subscriptionIdQuery
               type: traits
-            - _id: invoices-payments-create-payment-input
+            - _id: create-external-payment
               type: schemas
-            - _id: invoices-payments-create-payment-output
+            - _id: payment
               type: schemas
-            - _id: invoices-charges-create-invoice-charge-input
+            - _id: create-charge-for-legacy-invoice
               type: schemas
-            - _id: invoices-charges-create-invoice-charge-output
+            - _id: charge
               type: schemas
-            - _id: invoices-credits-create-invoice-credit-input
+            - _id: create-credit-for-legacy-invoice
               type: schemas
-            - _id: invoices-credits-create-invoice-credit-output
+            - _id: credit
               type: schemas
           divider: false
         - divider: false
@@ -46236,89 +45122,6 @@ x-stoplight:
         | sticky          | (boolean) Whether or not it is pinned to the top of the list of notes |
         | created_at      | Date and time the note was created                                    |
         | updated_at      | Last update timestamp                                                 |
-      public: true
-    invoices:
-      id: invoices
-      name: Invoices Intro
-      content: |-
-        ## Invoices Intro
-
-        This method affords the option to manage legacy invoices through the Chargify API for customers prior to January 2018.
-
-        If you are using the modern Relationship Invoicing feature, see the [corresponding invoicing docs](#endpoint:fS5WvuG5ByqjTzG6C). Attempting to use this endpoint on a Relationship Invoicing site will not work, and attempting to create charges, credits, refunds, etc. will return a 403.
-
-        ## Invoice Documentation
-
-        Full documentation on how invoices function within the Chargify UI can be located [here](https://help.chargify.com/invoices/invoice-intro.html).
-
-        For information that relates directly to invoices-by-subscription, please see our Subscription-based Invoice documentation [here.](https://help.chargify.com/subscriptions/subscription-summary.html#invoices)
-
-        ## Invoice Attributes
-
-        All of the invoice attributes are returned from GET (read) operations, and all are read only.
-
-        | id                    | The invoice unique id within Chargify                                               |
-        |-----------------------|-------------------------------------------------------------------------------------|
-        | subscription_id       | The subscription unique id within Chargify                                          |
-        | statement_id          | The statement unique id within Chargify                                             |
-        | site_id               | The site unique id within Chargify                                                  |
-        | state                 | The current state of the invoice. Possible states: paid, unpaid, partial, archived. |
-        | total_amount_in_cents | Gives the current invoice amount in the number of cents (ie. the sum of charges)    |
-        | paid_at               | The date/time when the invoice was paid in full                                     |
-        | created_at            | The creation date/time for this invoice                                             |
-        | updated_at            | The date/time of last update for this invoice                                       |
-        | amount_due_in_cents   | Gives the current outstanding invoice balance in the number of cents                |
-        | number                | The unique (to this site) identifier for this invoice                               |
-        | charges               | A list of charges applied to this invoice                                           |
-        | payments_and_credits  | A list of the financial transactions that modify the amount due                     |
-
-        ## Invoice Payment Documentation
-
-        For more information that on adding a payment to an invoice, please see our payment documentation below:
-
-        + [Pay via Card](https://help.chargify.com/invoices/invoice-reference.html#pay-with-card)
-        + [Offline Payments](https://help.chargify.com/invoices/invoice-reference.html#enter-payment)
-
-        ## Invoice Payment Input Attributes
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-        ## Invoice Charges Documentation
-
-        For more information on adding a charge to an invoice, please see our documentation [here](https://help.chargify.com/invoices/invoice-reference.html#add-charge).
-
-        ## Invoice Charge Input Attributes
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-
-        You may submit your request in cents as well:
-
-        ```
-        {
-          "charge": {
-            "amount": 10.00,
-            "memo": "Lorem ipsum"
-          }
-        }
-        ```
-
-        ## Invoice Credit Input Attributes
-
-        Use this endpoint to record credits on an existing invoice.
-
-        | amount          | The amount represented as a string. E.g. if the payment was for $14.50, you would pass 14.50         |
-        |-----------------|------------------------------------------------------------------------------------------------------|
-        | amount_in_cents | The amount represented as a string in cents. E.g. if the payment was for $14.50, you would pass 1450 |
-        | memo            | Typically the description of why the payment occurred                                                |
-        | period_range_start        | (optional) A date range represents a service period. If a start is provided, an end must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
-        | period_range_end          | (optional) A date range represents a service period. If an end is provided, a start must be supplied as well. These dates are optional and do not impact the billing of the charge. If provided, the date range will be used for revenue placement on the Finance Report and Revenue Recognition report.                                                               |
       public: true
     coupon-intro:
       id: coupon-intro
