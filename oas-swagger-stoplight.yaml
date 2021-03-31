@@ -7015,7 +7015,7 @@ paths:
         id: GET_invoices-invoice_id-payments-format
         beforeScript: null
         afterScript: null
-        public: true
+        public: false
         mock:
           enabled: false
           statusCode: 200
@@ -30784,6 +30784,9 @@ definitions:
                   type: string
                 payment_method_nonce:
                   type: string
+                gateway_handle:
+                  type: string
+                  description: Required to identify gateway if using the multi-gateway feature
             bank_account_attributes:
               type: object
               properties:
