@@ -9620,6 +9620,8 @@ paths:
                       type: string
                     product_price_in_cents:
                       type: integer
+                    '':
+                      $ref: '#/definitions/list-offer-output'
           examples:
             application/json:
               offers:
