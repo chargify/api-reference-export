@@ -11572,191 +11572,42 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              offers:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    site_id:
-                      type: integer
-                    product_family_id:
-                      type: integer
-                    product_id:
-                      type: integer
-                    product_revisable_number:
-                      type: integer
-                    name:
-                      type: string
-                    handle:
-                      type: string
-                    description:
-                      type: string
-                    created_at:
-                      type: string
-                    updated_at:
-                      type: string
-                    archived_at:
-                      type: 'null'
-                    offer_items:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          component_id:
-                            type: integer
-                          price_point_id:
-                            type: integer
-                          starting_quantity:
-                            type: string
-                          editable:
-                            type: boolean
-                          price_point_name:
-                            type: string
-                          component_name:
-                            type: string
-                          component_unit_price:
-                            type: string
-                    offer_discounts:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          coupon_code:
-                            type: string
-                          coupon_id:
-                            type: integer
-                          coupon_name:
-                            type: string
-                    product_family_name:
-                      type: string
-                    product_price_point_name:
-                      type: string
-                    product_name:
-                      type: string
-                    product_price_in_cents:
-                      type: integer
-                    '':
-                      $ref: '#/definitions/list-offer-output'
+            $ref: '#/definitions/list-offer-output'
           examples:
             application/json:
               offers:
                 - id: 239
                   site_id: 48110
                   product_family_id: 1025627
-                  product_family_name: Monthly
-                  product_id: 4636355
-                  product_name: Silver
-                  product_price_in_cents: 2000
+                  product_family_name: Gold
+                  product_id: 110
+                  product_name: Pro
+                  product_price_in_cents: 1000
                   product_revisable_number: 0
+                  product_price_point_id: 138
+                  product_price_point_name: Default
                   name: Third Offer
                   handle: third
                   description: ''
                   created_at: '2018-08-03T09:56:11-05:00'
                   updated_at: '2018-08-03T09:56:11-05:00'
                   archived_at: null
-                  product_price_point_name: Original
                   offer_items:
                     - component_id: 426665
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
+                      component_name: Database Size (GB)
+                      component_unit_price: '1.0'
                       price_point_id: 149438
-                      price_point_name: Original
+                      price_point_name: Auto-created
                       starting_quantity: '0.0'
                       editable: false
-                    - component_id: 426670
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 149444
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
-                    - component_id: 462138
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 195184
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
+                      currency_prices: []
                   offer_discounts:
-                    - coupon_id: 370767
-                      coupon_code: '1234'
-                      coupon_name: Test
-                  offer_signup_pages: []
-                - id: 238
-                  site_id: 48110
-                  product_family_id: 1025629
-                  product_family_name: Monthly
-                  product_id: 4671521
-                  product_name: Silver
-                  product_price_in_cents: 2000
-                  product_revisable_number: 0
-                  name: Another offer
-                  handle: offer_2
-                  description: ''
-                  created_at: '2018-08-03T09:54:55-05:00'
-                  updated_at: '2018-08-03T09:54:55-05:00'
-                  archived_at: null
-                  product_price_point_name: Original
-                  offer_items:
-                    - component_id: 465356
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 199761
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
-                  offer_discounts:
-                    - coupon_id: 370767
-                      coupon_code: POINTFIVE
-                      coupon_name: Test
-                  offer_signup_pages: []
-                - id: 64
-                  site_id: 48110
-                  product_family_id: 1025627
-                  product_family_name: Monthly
-                  product_id: 4610619
-                  product_name: Silver
-                  product_price_in_cents: 2000
-                  product_revisable_number: 3
-                  name: My Awesome Offer
-                  handle: offer_123
-                  description: Buy this!
-                  created_at: '2018-07-16T12:30:02-05:00'
-                  updated_at: '2018-07-16T12:30:02-05:00'
-                  archived_at: null
-                  product_price_point_name: Original
-                  offer_items:
-                    - component_id: 426643
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 149416
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
-                    - component_id: 426645
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 149418
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
-                    - component_id: 426670
-                      component_name: 24/7 Support
-                      component_unit_price: '3.0'
-                      price_point_id: 149444
-                      price_point_name: Original
-                      starting_quantity: '0.0'
-                      editable: false
-                  offer_discounts:
-                    - coupon_id: 370767
+                    - coupon_id: 234
                       coupon_code: GR8_CUSTOMER
-                      coupon_name: Test
+                      coupon_name: Multi-service Discount
                   offer_signup_pages:
                     - id: 356482
+                      nickname: ggoods
                       enabled: true
                       return_url: ''
                       return_params: ''
@@ -37631,10 +37482,20 @@ definitions:
               type: integer
             product_family_id:
               type: integer
+            product_family_name:
+              type: string
             product_id:
+              type: integer
+            product_name:
+              type: string
+            product_price_in_cents:
               type: integer
             product_revisable_number:
               type: integer
+            product_price_point_id:
+              type: integer
+            product_price_point_name:
+              type: string
             name:
               type: string
             handle:
@@ -37654,18 +37515,32 @@ definitions:
                 properties:
                   component_id:
                     type: integer
+                  component_name:
+                    type: string
+                  component_unit_price:
+                    type: string
                   price_point_id:
                     type: integer
+                  price_point_name:
+                    type: string
                   starting_quantity:
                     type: string
                   editable:
                     type: boolean
+                  currency_prices:
+                    type: array
+                    items:
+                      $ref: '#/definitions/price-point-currency-price'
             offer_discounts:
               type: array
               items:
                 type: object
                 properties:
+                  coupon_id:
+                    type: integer
                   coupon_code:
+                    type: string
+                  coupon_name:
                     type: string
             offer_signup_pages:
               type: array
@@ -37676,6 +37551,8 @@ definitions:
                     type: integer
                   enabled:
                     type: boolean
+                  nickname:
+                    type: string
                   return_url:
                     type: string
                   return_params:
@@ -37687,8 +37564,13 @@ definitions:
         - id: 239
           site_id: 48110
           product_family_id: 1025627
-          product_id: 4636355
+          product_family_name: Gold
+          product_id: 110
+          product_name: Pro
+          product_price_in_cents: 1000
           product_revisable_number: 0
+          product_price_point_id: 138
+          product_price_point_name: Default
           name: Third Offer
           handle: third
           description: ''
@@ -37697,66 +37579,20 @@ definitions:
           archived_at: null
           offer_items:
             - component_id: 426665
+              component_name: Database Size (GB)
+              component_unit_price: '1.0'
               price_point_id: 149438
+              price_point_name: Auto-created
               starting_quantity: '0.0'
               editable: false
-            - component_id: 426670
-              price_point_id: 149444
-              starting_quantity: '0.0'
-              editable: false
-            - component_id: 462138
-              price_point_id: 195184
-              starting_quantity: '0.0'
-              editable: false
-          offer_discounts: []
-          offer_signup_pages: []
-        - id: 238
-          site_id: 48110
-          product_family_id: 1025629
-          product_id: 4671521
-          product_revisable_number: 0
-          name: Another offer
-          handle: offer_2
-          description: ''
-          created_at: '2018-08-03T09:54:55-05:00'
-          updated_at: '2018-08-03T09:54:55-05:00'
-          archived_at: null
-          offer_items:
-            - component_id: 465356
-              price_point_id: 199761
-              starting_quantity: '0.0'
-              editable: false
+              currency_prices: []
           offer_discounts:
-            - coupon_code: POINTFIVE
-          offer_signup_pages: []
-        - id: 64
-          site_id: 48110
-          product_family_id: 1025627
-          product_id: 4610619
-          product_revisable_number: 3
-          name: My Awesome Offer
-          handle: offer_123
-          description: Buy this!
-          created_at: '2018-07-16T12:30:02-05:00'
-          updated_at: '2018-07-16T12:30:02-05:00'
-          archived_at: null
-          offer_items:
-            - component_id: 426643
-              price_point_id: 149416
-              starting_quantity: '0.0'
-              editable: false
-            - component_id: 426645
-              price_point_id: 149418
-              starting_quantity: '0.0'
-              editable: false
-            - component_id: 426670
-              price_point_id: 149444
-              starting_quantity: '0.0'
-              editable: false
-          offer_discounts:
-            - coupon_code: GR8_CUSTOMER
+            - coupon_id: 234
+              coupon_code: GR8_CUSTOMER
+              coupon_name: Multi-service Discount
           offer_signup_pages:
             - id: 356482
+              nickname: ggoods
               enabled: true
               return_url: ''
               return_params: ''
