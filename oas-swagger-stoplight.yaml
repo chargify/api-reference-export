@@ -4155,7 +4155,7 @@ paths:
       tags:
         - Subscription
         - incomplete
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Delete Payment Profile
 
@@ -9209,7 +9209,7 @@ paths:
       operationId: POST_subscriptions-subscription_group_uid-payment_profiles-payment_profile_id-change_payment_profile-json
       summary: Change Default Payment Profile
       tags:
-        - Subscription Group Financials
+        - Subscription Group Balance
       description: |-
         ## Change Default Payment Profile for Subscription Group
 
@@ -9323,7 +9323,7 @@ paths:
       operationId: POST_subscription_groups-uid-service_credit_deductions-json
       summary: Deduct Service Credit
       tags:
-        - Subscription Group Financials
+        - Subscription Group Balance
       description: |-
         ## Deduct Service Credit
 
@@ -9386,7 +9386,7 @@ paths:
       operationId: POST_subscription_groups-uid-service_credits-json
       summary: Issue Service Credit
       tags:
-        - Subscription Group Financials
+        - Subscription Group Balance
       description: |-
         ## Issue Service Credit
 
@@ -9451,7 +9451,7 @@ paths:
       operationId: POST_subscription_groups-uid-prepayments-json
       summary: Create Prepayment
       tags:
-        - Subscription Group Financials
+        - Subscription Group Balance
       description: |-
         ## Create Prepayment
 
@@ -9522,7 +9522,7 @@ paths:
       operationId: DELETE_subscription_groups-subscription_group_uid-payment_profiles-payment_profile_id-json
       summary: Delete Subscription Group Payment Profile
       tags:
-        - Subscription Group Financials
+        - Subscription Group Balance
       description: |-
         ## Delete Subscription Group Payment Profile
 
@@ -14290,7 +14290,7 @@ paths:
       tags:
         - Subscription
         - incomplete
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Reset a Subscription Balance
 
@@ -14428,7 +14428,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-service_credits-json
       summary: Issue Service Credit
       tags:
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Issue Service Credit
 
@@ -14473,7 +14473,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-service_credit_deductions-json
       summary: Deduct Service Credit
       tags:
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         Credit can be deducted for a subscription identified by the `subscription_id`. Credit will be removed from the subscription in the amount specified in the request body. The credit amount being deducted must be equal to or less than the current credit balance.
 
@@ -14536,7 +14536,7 @@ paths:
       tags:
         - Subscription
         - Payment
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Create Prepayment 
 
@@ -14646,7 +14646,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-refunds-json
       summary: Create a Refund (Legacy)
       tags:
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Create a Refund
 
@@ -14714,7 +14714,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-payments-json
       summary: Create Bulk Payment
       tags:
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         <h2> Create Bulk Payment </h2>
 
@@ -14819,7 +14819,7 @@ paths:
       summary: Create Adjustment
       tags:
         - Adjustment
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Adjustments Documentation 
 
@@ -14891,7 +14891,7 @@ paths:
       operationId: POST_subscriptions-subscription_id-charges-json
       summary: Create a charge
       tags:
-        - Subscription Financials
+        - Subscription Balance
       description: |-
         ## Create a charge
 
@@ -42673,7 +42673,7 @@ x-stoplight:
               type: endpoints
             - _id: DELETE_subscriptiongroups-subscriptiongroupuid-paymentprofiles-paymentprofileidjson
               type: endpoints
-          name: Subscription Group Financials
+          name: Subscription Group Balance
         - divider: true
           items: []
           name: Subscription
@@ -43019,7 +43019,7 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-chargesjson
               type: endpoints
-          name: Subscription Financials
+          name: Subscription Balance
         - name: Subscription Notes
           items:
             - _id: introduction-to-notes
