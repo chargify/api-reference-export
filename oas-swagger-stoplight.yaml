@@ -42169,6 +42169,8 @@ x-stoplight:
       docs:
         - divider: false
           items:
+            - _id: legacy-invoice
+              type: schemas
             - _id: event-count
               type: schemas
             - _id: event
