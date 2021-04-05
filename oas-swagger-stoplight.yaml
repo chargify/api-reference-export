@@ -1149,7 +1149,7 @@ paths:
             items:
               $ref: '#/definitions/price-point-currency-price'
       security:
-        - Authorization: []
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_pricepoints-pricepointid-currencypricesjson
         beforeScript: null
@@ -1210,7 +1210,7 @@ paths:
             items:
               $ref: '#/definitions/price-point-currency-price'
       security:
-        - Authorization: []
+        - <<api_key>>: []
       x-stoplight:
         id: POST_pricepoints-pricepointid-currencypricesjson
         beforeScript: null
@@ -4061,7 +4061,7 @@ paths:
             items:
               $ref: '#/definitions/coupon-currency-price'
       security:
-        - Authorization: []
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_coupon-couponid-currencypricesjson
         beforeScript: null
@@ -11633,7 +11633,7 @@ paths:
                 base:
                   - A baseline price must be defined for this product price point.
       security:
-        - Authorization: []
+        - <<api_key>>: []
       x-stoplight:
         id: POST_productpricepoints-productpricepointid-currencypricesjson
         beforeScript: null
@@ -11688,7 +11688,7 @@ paths:
             items:
               $ref: '#/definitions/product-price-point-currency-price'
       security:
-        - Authorization: []
+        - <<api_key>>: []
       x-stoplight:
         id: PUT_productpricepoints-productpricepointid-currencypricesjson
         beforeScript: null
