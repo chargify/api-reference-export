@@ -589,6 +589,64 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+    delete:
+      operationId: DELETE_product_families-product_family_id-components-component_id-json
+      summary: Archive Component
+      tags:
+        - Component
+        - Components
+      description: Sending a DELETE request to this endpoint will archive the component. All current subscribers will be unffected; their subscription/purchase will continue to be charged as usual.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/component'
+          examples:
+            application/json:
+              component:
+                id: 25407138
+                name: cillum aute
+                pricing_scheme: in incididu
+                unit_name: nulla in
+                unit_price: Excepteur veniam
+                product_family_id: -56705047
+                kind: prepaid_usage_component
+                archived: true
+                taxable: false
+                description: reprehenderit laborum qui fugiat
+                default_price_point_id: -64328176
+                price_point_count: 15252407
+                price_points_url: dolor mollit consequat
+                tax_code: ea nisi
+                recurring: false
+                created_at: dolor qui deserunt tempor
+                default_price_point_name: cupidatat Lorem non aliqua
+                product_family_name: do elit
+                hide_date_range_on_invoice: false
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: string
+          examples:
+            application/json:
+              errors:
+                - Component cannot be archived. Please make sure it hasn't already been archived.
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_productfamilies-productfamilyid-components-componentidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/product_families/{product_family_id}/components/handle:{component_handle}.json':
     parameters:
       - name: product_family_id
@@ -2679,155 +2737,312 @@ paths:
   /subscriptions.json:
     post:
       operationId: POST_subscriptions-json
-      summary: Create Subscription with a Coupon
+      summary: Create Subscription with a Customer Hierarchy
       tags:
         - Subscriptions Components
       description: |-
-        ## Create Subscription with a Coupon
+        ## Subscription in a Customer Hierarchy
 
-        This method allows you to create a Subscription within Chargify with a coupon applied at signup.
+        For sites making use of the [Relationship Billing](https://help.chargify.com/invoices/index.html) and [Customer Hierarchy] features, it is possible to create subscriptions within a customer hierarchy.  This can be achieved through the API by passing group parameters in the **Create Subscription** request.  
+
+        + The `group` parameters are optional and consist of the required `target` and optional `billing` parameters.
+
+        When the `target` parameter specifies a customer that is already part of a hierarchy, the new subscription will become a member of the customer hierarchy as well.  If the target customer is not part of a hierarchy, a new customer hierarchy will be created and both the target customer and the new subscription will become part of the hierarchy with the specified target customer set as the responsible payer for the hierarchy's subscriptions.
+
+        Rather than specifying a customer, the `target` parameter could instead simply have a value of `self` which indicates the subscription will be paid for not by some other customer, but by the subscribing customer.  This will be true whether the customer is being created new, is already part of a hierarchy, or already exists outside a hierarchy.  A valid payment method must also be specified in the subscription parameters. 
+
+        Note that when creating subscriptions in a customer hierarchy, if the customer hierarchy does not already have a payment method, passing valid credit card attributes in the subscription parameters will also result in the payment method being established as the default payment method for the customer hierarchy irrespective of the responsible payer.
+
+        The optional `billing` parameters specify how some aspects of the billing for the new subscription should be handled.  Rather than capturing payment immediately, the `accrue` parameter can be included so that the new subscription charges accrue until the next assessment date.  Regarding the date, the `align_date` parameter can be included so that the billing date of the new subscription matches up with the default subscription group in the customer hierarchy.  When choosing to align the dates, the `prorate` parameter can also be specified so that the new subscription charges are prorated based on the billing period of the default subscription group in the customer hierarchy also.
+
+        ### Create Subscription Without Group
+
+        + Within the group object, pass `group: false`
+        + This will create a subscription that is not attached to a group
+        + The customer will still be added to a hierarchy
+
+        Here’s an example to illustrate:
+
+        ```{"subscription": {
+                "product_handle": "test_product",
+                "customer_attributes":{
+                  "first_name":"Child who pays for self",
+                  "last_name":"(No subscription group)",
+                  "email":"joe@example.com",
+                  "parent_id":"23554144"
+                },
+                "group": false
+              }
+            }
+        ```
+
+        ### Group Attributes
+
+        | target  | Attributes of the target customer who will be the responsible payer of the created subscription.  Required. |
+        |---------|-------------------------------------------------------------------------------------------------------------|
+        | billing | Optional attributes related to billing date and accrual.                                                    |
+
+        #### Group Target Attributes
+
+        | type | When target is `"customer"`the subscription is created in a group with the customer indicated by the `id` attribute.  When target is `"self"`, `"parent"`, or `"eldest"`the subscription is created in the hierarchy of that target customer in relation to the subscribing customer. Required. |
+        |------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | id   | The id of the target customer to group the new subscription with.  Ignored but should  be included if type is `"customer"`                                     |
+
+        #### Group Billing Attributes
+        | accrue     | (Optional, default false) A flag indicating whether or not to accrue charges on the new subscription.                                                                                                                                                            |
+        |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | align_date | (Optional, default false) A flag indicating whether or not to align the billing date of the new subscription with the billing date of the primary subscription of the hierarchy's default subscription group. Required to be `true` if `prorate` is also `true`. |
+        | prorate    | (Optional, default false) A flag indicating whether or not to prorate billing of the new subscription for the current period. A value of `true` is ignored unless `align_date` is also `true`.                                                                   |
+
+        ---------
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/coupon-create-subscription-with-coupon-input'
+            $ref: '#/definitions/subscription-create-hierarchy-request'
             example:
               subscription:
-                product_handle: basic
-                customer_attributes:
-                  first_name: Joe
-                  last_name: Blow
-                  email: joe@example.com
-                credit_card_attributes:
-                  full_number: '1'
-                  expiration_month: '10'
-                  expiration_year: '2020'
-                coupon_code: 100PERCENT
+                product_handle: product-xyz
+                customer_id: 43693465
+                payment_profile_id: -74404848
+                group:
+                  target:
+                    type: customer
+                    id: 43693465
+                  billing:
+                    align_date: true
+                    prorate: false
+                    accrue: false
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/coupon-create-subscription-with-coupon-output'
+            $ref: '#/definitions/subscription-read-subscription'
           examples:
             application/json:
-              subscription:
-                id: 15479934
-                state: active
-                trial_started_at: null
-                trial_ended_at: null
-                activated_at: '2016-12-02T15:59:08-05:00'
-                created_at: '2016-12-02T15:59:06-05:00'
-                updated_at: '2016-12-02T15:59:08-05:00'
-                expires_at: null
-                balance_in_cents: 0
-                current_period_ends_at: '2016-12-03T15:59:06-05:00'
-                next_assessment_at: '2016-12-03T15:59:06-05:00'
-                canceled_at: null
-                cancellation_message: null
-                next_product_id: null
-                cancel_at_end_of_period: null
-                payment_collection_method: automatic
-                snap_day: null
-                cancellation_method: null
-                current_period_started_at: '2016-12-02T15:59:06-05:00'
-                previous_state: active
-                signup_payment_id: 164720323
-                signup_revenue: '5.00'
-                delayed_cancel_at: null
-                coupon_code: 100PERCENT
-                total_revenue_in_cents: 500
-                product_price_in_cents: 1000
-                product_version_number: 7
-                payment_type: credit_card
-                referral_code: 7b8p8v
-                coupon_use_count: 1
-                coupon_uses_allowed: null
-                customer:
-                  id: 14943291
-                  first_name: Joe
-                  last_name: Blow
-                  organization: null
-                  email: joe@example.com
-                  created_at: '2016-12-02T15:59:06-05:00'
-                  updated_at: '2016-12-02T15:59:09-05:00'
-                  reference: null
-                  address: null
-                  address_2: null
-                  city: null
-                  state: null
-                  zip: null
-                  country: null
-                  phone: null
-                  portal_invite_last_sent_at: '2016-12-02T15:59:09-05:00'
-                  portal_invite_last_accepted_at: null
-                  verified: false
-                  portal_customer_created_at: '2016-12-02T15:59:09-05:00'
-                  cc_emails: null
-                  tax_exempt: false
-                product:
-                  id: 3792003
-                  name: $10 Basic Plan
-                  handle: basic
-                  description: lorem ipsum
-                  accounting_code: basic
-                  request_credit_card: false
-                  expiration_interval: null
-                  expiration_interval_unit: never
-                  created_at: '2016-03-24T13:38:39-04:00'
-                  updated_at: '2016-11-03T13:03:05-04:00'
-                  price_in_cents: 1000
-                  interval: 1
-                  interval_unit: day
-                  initial_charge_in_cents: null
-                  trial_price_in_cents: null
-                  trial_interval: null
-                  trial_interval_unit: month
-                  archived_at: null
-                  require_credit_card: false
-                  return_params: ''
-                  taxable: false
-                  update_return_url: ''
-                  initial_charge_after_trial: false
-                  version_number: 7
-                  update_return_params: ''
-                  product_family:
-                    id: 527890
-                    name: Acme Projects
-                    description: ''
-                    handle: billing-plans
-                    accounting_code: null
-                  public_signup_pages:
-                    - id: 281054
-                      return_url: 'http://www.example.com?successfulsignup'
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
-                    - id: 281240
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
-                    - id: 282694
-                      return_url: ''
-                      return_params: ''
-                      url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
-                credit_card:
-                  id: 10345872
-                  first_name: Joe
-                  last_name: Blow
-                  masked_card_number: XXXX-XXXX-XXXX-1
-                  card_type: bogus
-                  expiration_month: 10
-                  expiration_year: 2020
-                  customer_id: 14943291
-                  current_vault: bogus
-                  vault_token: '1'
-                  billing_address: null
-                  billing_city: null
-                  billing_state: null
-                  billing_zip: null
-                  billing_country: null
-                  customer_vault_token: null
-                  billing_address_2: null
+              - subscription:
+                  id: 15236915
+                  state: active
+                  balance_in_cents: 0
+                  total_revenue_in_cents: 14000
+                  product_price_in_cents: 1000
+                  product_version_number: 7
+                  current_period_ends_at: '2016-11-15T14:48:10-05:00'
+                  next_assessment_at: '2016-11-15T14:48:10-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-14T14:48:12-05:00'
+                  expires_at: null
+                  created_at: '2016-11-14T14:48:10-05:00'
+                  updated_at: '2016-11-14T15:24:41-05:00'
+                  cancellation_message: null
+                  cancellation_method: null
+                  cancel_at_end_of_period: null
+                  canceled_at: null
+                  current_period_started_at: '2016-11-14T14:48:10-05:00'
+                  previous_state: active
+                  signup_payment_id: 162269766
+                  signup_revenue: '260.00'
+                  delayed_cancel_at: null
+                  coupon_code: 5SNN6HFK3GBH
+                  payment_collection_method: automatic
+                  snap_day: null
+                  reason_code: null
+                  customer:
+                    first_name: Curtis
+                    last_name: Test
+                    email: curtis@example.com
+                    cc_emails: jeff@example.com
+                    organization: ''
+                    reference: null
+                    id: 14714298
+                    created_at: '2016-11-14T14:48:10-05:00'
+                    updated_at: '2016-11-14T14:48:13-05:00'
+                    address: 123 Anywhere Street
+                    address_2: ''
+                    city: Boulder
+                    state: CO
+                    zip: '80302'
+                    country: US
+                    phone: ''
+                    verified: false
+                    portal_customer_created_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_sent_at: '2016-11-14T14:48:13-05:00'
+                    portal_invite_last_accepted_at: null
+                    tax_exempt: false
+                    vat_number: 012345678
+                  product:
+                    id: 3792003
+                    name: $10 Basic Plan
+                    handle: basic
+                    description: lorem ipsum
+                    accounting_code: basic
+                    price_in_cents: 1000
+                    interval: 1
+                    interval_unit: day
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: false
+                    require_credit_card: false
+                    created_at: '2016-03-24T13:38:39-04:00'
+                    updated_at: '2016-11-03T13:03:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 281054
+                        url: 'https://general-goods.chargify.com/subscribe/kqvmfrbgd89q/basic'
+                      - id: 281240
+                        url: 'https://general-goods.chargify.com/subscribe/dkffht5dxfd8/basic'
+                      - id: 282694
+                        url: 'https://general-goods.chargify.com/subscribe/jwffwgdd95s8/basic'
+                    taxable: false
+                    version_number: 7
+                  credit_card:
+                    id: 10191713
+                    payment_type: credit_card
+                    first_name: Curtis
+                    last_name: Test
+                    masked_card_number: XXXX-XXXX-XXXX-1
+                    card_type: bogus
+                    expiration_month: 1
+                    expiration_year: 2026
+                    billing_address: 123 Anywhere Street
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: null
+                    billing_country: ''
+                    billing_zip: '80302'
+                    current_vault: bogus
+                    vault_token: '1'
+                    customer_vault_token: null
+                    customer_id: 14714298
                   payment_type: credit_card
+                  referral_code: w7kjc9
+                  next_product_id: null
+                  coupon_use_count: 1
+                  coupon_uses_allowed: 1
+              - subscription:
+                  id: 15189649
+                  state: canceled
+                  balance_in_cents: 15000
+                  total_revenue_in_cents: 10000
+                  product_price_in_cents: 10000
+                  product_version_number: 1
+                  current_period_ends_at: '2017-11-10T13:14:00-05:00'
+                  next_assessment_at: '2017-11-10T13:14:00-05:00'
+                  trial_started_at: null
+                  trial_ended_at: null
+                  activated_at: '2016-11-10T13:14:02-05:00'
+                  expires_at: null
+                  created_at: '2016-11-10T13:14:00-05:00'
+                  updated_at: '2016-11-14T11:14:01-05:00'
+                  cancellation_message: ''
+                  cancellation_method: ''
+                  cancel_at_end_of_period: false
+                  canceled_at: '2016-11-14T11:14:01-05:00'
+                  current_period_started_at: '2016-11-10T13:14:00-05:00'
+                  previous_state: canceled
+                  signup_payment_id: 161794022
+                  signup_revenue: '100.00'
+                  delayed_cancel_at: null
+                  coupon_code: null
+                  payment_collection_method: invoice
+                  snap_day: null
+                  customer:
+                    first_name: Frankie
+                    last_name: Bravo
+                    email: testfrankie11@test.com
+                    cc_emails: ''
+                    organization: ''
+                    reference: null
+                    id: 14543712
+                    created_at: '2016-11-02T10:16:17-04:00'
+                    updated_at: '2016-11-14T09:54:39-05:00'
+                    address: ''
+                    address_2: ''
+                    city: ''
+                    state: ''
+                    zip: ''
+                    country: ''
+                    phone: '5555551212'
+                    verified: true
+                    portal_customer_created_at: '2016-11-02T10:16:19-04:00'
+                    portal_invite_last_sent_at: '2016-11-10T13:14:03-05:00'
+                    portal_invite_last_accepted_at: null
+                    tax_exempt: false
+                    vat_number: 012345678
+                  product:
+                    id: 4038269
+                    name: Annual Product
+                    handle: annual-product
+                    description: ''
+                    accounting_code: ''
+                    price_in_cents: 10000
+                    interval: 12
+                    interval_unit: month
+                    initial_charge_in_cents: null
+                    expiration_interval: null
+                    expiration_interval_unit: never
+                    trial_price_in_cents: null
+                    trial_interval: null
+                    trial_interval_unit: month
+                    initial_charge_after_trial: false
+                    return_params: ''
+                    request_credit_card: true
+                    require_credit_card: true
+                    created_at: '2016-09-28T09:54:05-04:00'
+                    updated_at: '2016-09-28T09:54:05-04:00'
+                    archived_at: null
+                    update_return_url: ''
+                    update_return_params: ''
+                    product_family:
+                      id: 527890
+                      name: Acme Projects
+                      handle: billing-plans
+                      accounting_code: null
+                      description: ''
+                    public_signup_pages:
+                      - id: 297032
+                        url: 'https://general-goods.chargify.com/subscribe/b3hjynp5ss52/annual-product'
+                    taxable: false
+                    version_number: 1
+                  credit_card:
+                    id: 10188522
+                    payment_type: credit_card
+                    first_name: Fran
+                    last_name: Becker
+                    masked_card_number: null
+                    card_type: null
+                    expiration_month: null
+                    expiration_year: null
+                    billing_address: 123 Montana Way
+                    billing_address_2: ''
+                    billing_city: Boulder
+                    billing_state: CO
+                    billing_country: US
+                    billing_zip: '90210'
+                    current_vault: bogus
+                    vault_token: '123456789'
+                    customer_vault_token: null
+                    customer_id: 14543712
+                  payment_type: bank_account
+                  referral_code: hspss6
+                  next_product_id: null
+                  coupon_use_count: null
+                  coupon_uses_allowed: null
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -5907,6 +6122,79 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/subscriptions/{subscription_id}/events.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: list-events
+      summary: List Events for Subscription
+      tags:
+        - Event
+        - incomplete
+        - Events
+      description: |-
+        ## List Events for a Subscription
+
+        The following request will return a list of events for a subscription.
+
+        Each event type has its own `event_specific_data` specified.
+      parameters:
+        - name: filter
+          in: query
+          description: Any of the events listed under the introduction. `?filter=payment_success'
+          type: string
+        - $ref: '#/parameters/trait:pagination20:page'
+        - $ref: '#/parameters/trait:pagination20:per_page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
+        - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
+        - $ref: '#/parameters/trait:eventsBasicFilters:max_id'
+        - $ref: '#/parameters/trait:eventsBasicFilters:direction'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/event'
+          examples:
+            application/json:
+              - event:
+                  id: 344799837
+                  key: statement_settled
+                  message: Statement 79702531 settled successfully for Amelia Example's subscription to Basic Plan
+                  subscription_id: 14900541
+                  created_at: '2016-11-01T12:41:29-04:00'
+                  event_specific_data: null
+              - event:
+                  id: 344799815
+                  key: renewal_success
+                  message: Successful renewal for Amelia Example's subscription to Basic Plan
+                  subscription_id: 14900541
+                  created_at: '2016-11-01T12:41:28-04:00'
+                  event_specific_data:
+                    product_id: 3792003
+                    account_transaction_id: null
+              - event:
+                  id: 344799705
+                  key: billing_date_change
+                  message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
+                  subscription_id: 14900541
+                  created_at: '2016-11-01T12:41:25-04:00'
+                  event_specific_data: null
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: list-events
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          statusCode: 200
   /events.json:
     get:
       operationId: list-events
@@ -6023,79 +6311,6 @@ paths:
                   message: Statement 79401838 closed (but not settled) for Test's subscription to ANNUAL product
                   subscription_id: 14950975
                   created_at: '2016-10-27T16:40:40-04:00'
-                  event_specific_data: null
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: list-events
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/events.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: list-events
-      summary: List Events for Subscription
-      tags:
-        - Event
-        - incomplete
-        - Events
-      description: |-
-        ## List Events for a Subscription
-
-        The following request will return a list of events for a subscription.
-
-        Each event type has its own `event_specific_data` specified.
-      parameters:
-        - name: filter
-          in: query
-          description: Any of the events listed under the introduction. `?filter=payment_success'
-          type: string
-        - $ref: '#/parameters/trait:pagination20:page'
-        - $ref: '#/parameters/trait:pagination20:per_page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:per_page'
-        - $ref: '#/parameters/trait:eventsBasicFilters:since_id'
-        - $ref: '#/parameters/trait:eventsBasicFilters:max_id'
-        - $ref: '#/parameters/trait:eventsBasicFilters:direction'
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/event'
-          examples:
-            application/json:
-              - event:
-                  id: 344799837
-                  key: statement_settled
-                  message: Statement 79702531 settled successfully for Amelia Example's subscription to Basic Plan
-                  subscription_id: 14900541
-                  created_at: '2016-11-01T12:41:29-04:00'
-                  event_specific_data: null
-              - event:
-                  id: 344799815
-                  key: renewal_success
-                  message: Successful renewal for Amelia Example's subscription to Basic Plan
-                  subscription_id: 14900541
-                  created_at: '2016-11-01T12:41:28-04:00'
-                  event_specific_data:
-                    product_id: 3792003
-                    account_transaction_id: null
-              - event:
-                  id: 344799705
-                  key: billing_date_change
-                  message: Billing date changed on Amelia Example's subscription to Basic Plan from 11/26/2016 to 11/01/2016
-                  subscription_id: 14900541
-                  created_at: '2016-11-01T12:41:25-04:00'
                   event_specific_data: null
       security:
         - <<api_key>>: []
@@ -9537,94 +9752,46 @@ paths:
   /payment_profiles.json:
     post:
       operationId: POST_payment_profiles-json
-      summary: Create GoCardless Payment Profile
+      summary: Create Stripe SEPA Direct Debit Payment Profile
       tags:
         - Payment Profiles
       description: |-
-        ## Using GoCardless with Chargify
+        ## Using Stripe SEPA Direct Debit with Chargify
 
-        For more information on GoCardless, please view the following resources:
+        For more information on Stripe SEPA Direct Debit, please view the following resources:
 
-        + [Payment Profiles via API for GoCardless](#endpoint:CaR3rApsyniuZtoEH)
-        + [Full documentation on GoCardless](https://help.chargify.com/payment-gateways/gocardless.html)
+        + [Full documentation on Stripe SEPA Direct Debit](https://help.chargify.com/payment-gateways/stripe-direct-debit.html)
 
-        + [Using Chargify.js with GoCardless - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - minimal example](https://developer.chargify.com/content/chargify-js/example.html#minimal-example-with-direct-debit-stripe-gateway)
 
-        + [Using Chargify.js with GoCardless - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-gocardless)
+        + [Using Chargify.js with Stripe Direct Debit - full example](https://developer.chargify.com/content/chargify-js/example.html#full-example-with-direct-debit-stripe-gateway)
 
-        ## GoCardless Payment Profiles
 
-        The following table depicts what are the elements that are used when creating GoCardless Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a GoCardless payment profile. 
+        ## Stripe SEPA Direct Debit Payment Profiles
 
-        | bank_name           | (Required when creating a subscription with ACH or GoCardless). The name of the bank where the customerʼs account resides                                                                      |
+        The following table depicts what are the elements that are used when creating Stripe Direct Debit Payment Profiles. Please note these key/value pairs do closely resemble ACH elements. However, we've created this endpoint to focus on how to formulate a request for creating a Stripe Direct Debit payment profile. 
+
+        | bank_name           | (Optional when creating a subscription with Stripe Direct Debit). The name of the bank where the customerʼs account resides                                                                      |
         |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | bank_iban           | (Optional when creating a subscription with GoCardless). International Bank Account Number. Alternatively, local bank details can be provided                                                  |
-        | bank_routing_number | (Required when creating a subscription with ACH. Optional when creating a subscription with GoCardless). The routing number of the bank. It becomes bank_code while passing via GoCardless API |
-        | bank_account_number | (Required when creating a subscription with ACH. Required when creating a subscription with GoCardless and bank_iban is blank) The customerʼs bank account number                              |
-        | bank_branch_code    | (Optional when creating a subscription with GoCardless) Branch code. Alternatively, an IBAN can be provided                                                                                    |
+        | bank_iban           | (Required when creating a subscription with Stripe Direct Debit). International Bank Account Number.                |
 
 
-        ## GoCardless with Local Bank Details
 
-        Following examples create customer, bank account and mandate in GoCardless:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "Valid-Customer-ID",
-            "bank_name": "Royal Bank of France",
-            "bank_account_number": "0000000",
-            "bank_routing_number": "0003",
-            "bank_branch_code": "00006",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## GoCardless with IBAN
-
-        The following examples creates a customer, bank account and mandate in GoCardless:
+        The following example creates a customer, bank account and mandate in Stripe:
 
 
         ```
         {
           "payment_profile": {
             "customer_id": "24907598",
-            "bank_name": "French Bank",
-            "bank_iban": "FR1420041010050500013M02606",
+            "bank_name": "Deutsche bank",
+            "bank_iban": "DE89370400440532013000",
             "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
-          }
-        }
-        ```
-
-        ## Importing GoCardless
-
-        If the customer, bank account, and mandate already exist in GoCardless, a payment profile can be created by using the IDs:
-
-        ```
-        {
-          "payment_profile": {
-            "customer_id": "24907598",
-            "customer_vault_token": [Existing GoCardless Customer ID]
-            "vault_token": [Existing GoCardless Mandate ID],
-            "current_vault": "gocardless",
-            "bank_name": "French Bank",
-            "payment_type": "bank_account",
-            "billing_address": "20 Place de la Gare",
-            "billing_city": "Colombes",
-            "billing_state": "Île-de-France",
-            "billing_zip": "92700",
-            "billing_country": "FR"
+            "billing_address": "Test",
+            "billing_city": "Berlin",
+            "billing_state": "Brandenburg",
+            "billing_zip": "12345",
+            "billing_country": "DE"
           }
         }
         ```
@@ -9658,14 +9825,14 @@ paths:
             example:
               payment_profile:
                 customer_id: '24907598'
-                bank_name: French Bank
-                bank_iban: FR1420041010050500013M02606
+                bank_name: Deutsche bank
+                bank_iban: DE89370400440532013000
                 payment_type: bank_account
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
       responses:
         '201':
           description: ''
@@ -9698,7 +9865,9 @@ paths:
                   billing_country:
                     type: string
                   customer_vault_token:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                   billing_address_2:
                     type: 'null'
                   bank_name:
@@ -9722,18 +9891,18 @@ paths:
                 first_name: Chester
                 last_name: Tester
                 customer_id: 24907598
-                current_vault: gocardless
-                vault_token: MD00058FVXGX9E
-                billing_address: 20 Place de la Gare
-                billing_city: Colombes
-                billing_state: Île-de-France
-                billing_zip: '92700'
-                billing_country: FR
-                customer_vault_token: CU0005GP6E2F80
+                current_vault: stripe_connect
+                vault_token: cus_J0iV6HHEeYiAX4
+                billing_address: Test
+                billing_city: Berlin
+                billing_state: Brandenburg
+                billing_zip: '12345'
+                billing_country: DE
+                customer_vault_token: null
                 billing_address_2: null
-                bank_name: French Bank
+                bank_name: Deutsche bank
                 masked_bank_routing_number: null
-                masked_bank_account_number: XXXX2606
+                masked_bank_account_number: XXXX3000
                 bank_account_type: checking
                 bank_account_holder_type: personal
                 payment_type: bank_account
@@ -20872,26 +21041,20 @@ paths:
         type: number
     put:
       operationId: PUT_subscriptions-subscription_id-reactivate-json
-      summary: Attempting to Resume but not Reactivate Subscription Which is not Resumable
+      summary: Resuming Subscription Which Was trial_ended
       tags:
         - 'Subscriptions: Reactivations'
       description: |-
-        ## Attempting to resume but not reactivate a subscription which is not resumable
+        ## Resuming Subscription Which Was trial_ended
 
-        + Given you have a `canceled` subscription, and it is not resumable
-        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume[require_resume]=true`
-        + The response status should be "422 UNPROCESSABLE ENTITY"
-        + The subscription should be canceled with the following response
-        ```
-          {
-            "errors": ["Request was 'resume only', but this subscription cannot be resumed."]
-          }
-        ```
+        + Given you have a `trial_ended` subscription, and it is resumable
+        + Send a PUT request to `https://acme.chargify.com/subscriptions/{subscription_id}/reactivate.json?resume=true`
 
-        ### Results
+        ### Results 
 
-        + The subscription should remain `canceled`
+        + The subscription will transition to active
         + The next billing date should not have changed
+        + Any product-related charges should have been collected
       responses:
         default:
           description: ''
@@ -20913,52 +21076,50 @@ paths:
         type: string
     post:
       operationId: POST_subscriptions-subscription_id-refunds-json
-      summary: Create an External Refund (Legacy)
+      summary: Create a Refund (Legacy)
       tags:
         - 'Subscriptions: Refunds (Legacy)'
       description: |-
-        ## Create an External Refund
+        ## Create a Refund
 
-        Use the following method to record an external refund within Chargify. Please note the existence of the following object.
+        Creating a refund requires a valid, live subscription and payment. A refund in the amount specified will be immediately applied to the customer’s credit card.
 
-        ```
-        "external": 1
-        ```
+        In order to create a Refund, you must pass an a Payment ID, amount and a memo. The amount can be specified by either the `amount` parameter or the `amount_in_cents` parameter.
 
-        This addition to the payload categorizes this refund as **external**.
+        When a Refund is successfully created, a representation of the newly created Refund will be returned to you as JSON or XML in the message body, with the Output attributes.
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/refunds-external-create-an-external-refund-request'
+            $ref: '#/definitions/refunds-create-a-refund-request'
             example:
               refund:
-                amount: 20
-                memo: 'Refunded with check# 123'
-              external: 1
+                payment_id: '162269766'
+                amount: '100.00'
+                memo: Your memo here.
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/refunds-external-create-an-external-refund-response'
+            $ref: '#/definitions/refunds-create-a-refund-response'
           examples:
             application/json:
               refund:
-                id: 162275149
+                id: 162272485
                 subscription_id: 15236915
                 type: Refund
-                kind: manual
+                kind: null
                 transaction_type: refund
                 success: true
-                amount_in_cents: 2000
-                memo: 'Refunded with check# 123'
-                created_at: '2016-11-14T15:24:41-05:00'
+                amount_in_cents: 10000
+                memo: Your memo here.
+                created_at: '2016-11-14T15:14:14-05:00'
                 starting_balance_in_cents: 0
                 ending_balance_in_cents: 0
-                gateway_used: null
+                gateway_used: bogus
                 gateway_transaction_id: null
                 gateway_order_id: null
-                payment_id: null
+                payment_id: 162269766
                 product_id: 3792003
                 tax_id: null
                 component_id: null
@@ -42363,6 +42524,8 @@ x-stoplight:
             - _id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
               type: endpoints
             - _id: GET_productfamilies-productfamilyid-componentsjson
+              type: endpoints
+            - _id: DELETE_productfamilies-productfamilyid-components-componentidjson
               type: endpoints
             - _id: POST_components-componentid-pricepointsjson
               type: endpoints
