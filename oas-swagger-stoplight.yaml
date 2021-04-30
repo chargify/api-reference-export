@@ -363,6 +363,8 @@ paths:
               uninvited_count: 8
         '422':
           description: ''
+          schema:
+            type: object
       security:
         - <<api_key>>: []
       x-stoplight:
@@ -42993,24 +42995,24 @@ x-stoplight:
               type: docTextSections
             - _id: POST_reasoncodesjson
               type: endpoints
+            - _id: GET_reasoncodesjson
+              type: endpoints
+            - _id: GET_reasoncodes-reasoncodeidjson
+              type: endpoints
+            - _id: PUT_reasoncodes-reasoncodeidjson
+              type: endpoints
             - _id: reason_codes-create_code_request
               type: schemas
             - _id: reason_codes-create_code_response
               type: schemas
-            - _id: GET_reasoncodesjson
+            - _id: DELETE_reasoncodes-reasoncodeidjson
               type: endpoints
             - _id: reason_code-list_response
               type: schemas
-            - _id: GET_reasoncodes-reasoncodeidjson
-              type: endpoints
             - _id: reason_code-show_response
               type: schemas
-            - _id: PUT_reasoncodes-reasoncodeidjson
-              type: endpoints
             - _id: reason_code-update_response
               type: schemas
-            - _id: DELETE_reasoncodes-reasoncodeidjson
-              type: endpoints
             - _id: reason_codes-delete_response
               type: schemas
           name: Reason Codes
