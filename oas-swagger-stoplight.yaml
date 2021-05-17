@@ -838,41 +838,6 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/components/{component_id}/price_points/{price_point_id}/default.json':
-    parameters:
-      - name: component_id
-        in: path
-        required: true
-        type: string
-      - name: price_point_id
-        in: path
-        required: true
-        type: string
-    put:
-      operationId: PUT_components-component_id-price_points-price_point_id-default-json
-      summary: Promoting Price Point to Default
-      tags:
-        - Components
-      description: |-
-        Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
-
-        See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information on price points and moving subscriptions between price points.
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/components-create-response-post'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
   '/product_families/{product_family_id}/components.json':
     parameters:
       - name: product_family_id
@@ -1161,118 +1126,34 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
-  '/price_points/{price_point_id}/currency_prices.json':
+  '/components/{component_id}/price_points/{price_point_id}/default.json':
     parameters:
+      - name: component_id
+        in: path
+        required: true
+        type: string
       - name: price_point_id
         in: path
         required: true
         type: string
     put:
-      operationId: PUT_price_points-price_point_id-currency_prices-json
-      summary: Update Currency Prices
-      tags:
-        - Components
-      description: This endpoint allows you to update currency prices for a given currency that has been defined on the site level in your settings.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              currency_prices:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      description: ID of the currency price record being updated.
-                    price:
-                      type: integer
-                      description: New price for the given currency.
-                  required:
-                    - id
-                    - price
-            required:
-              - currency_prices
-            example:
-              currency_prices:
-                - id: 100
-                  price: 51
-                - id: 101
-                  price: 41
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/price-point-currency-price'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: PUT_pricepoints-pricepointid-currencypricesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    post:
-      operationId: POST_price_points-price_point_id-currency_prices-json
-      summary: Create Currency Prices
+      operationId: PUT_components-component_id-price_points-price_point_id-default-json
+      summary: Promoting Price Point to Default
       tags:
         - Components
       description: |-
-        This endpoint allows you to create currency prices for a given currency that has been defined on the site level in your settings.
+        Sets a new default price point for the component. This new default will apply to all new subscriptions going forward - existing subscriptions will remain on their current price point.
 
-        When creating currency prices, they need to mirror the structure of your primary pricing. For each price level defined on the component price point, there should be a matching price level created in the given currency.
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              currency_prices:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    currency:
-                      type: string
-                      description: ISO code for a currency defined on the site level.
-                    price:
-                      type: integer
-                      description: Price for the price level in this currency.
-                    price_id:
-                      type: integer
-                      description: ID of the price that this corresponds with.
-                  required:
-                    - currency
-                    - price
-                    - price_id
-            required:
-              - currency_prices
-            example:
-              currency_prices:
-                - currency: EUR
-                  price: 50
-                  price_id: 20
-                - currency: EUR
-                  price: 40
-                  price_id: 21
+        See [Price Points Documentation](https://help.chargify.com/products/product-components.html#price-points) for more information on price points and moving subscriptions between price points.
       responses:
-        '200':
+        '201':
           description: ''
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/price-point-currency-price'
+            $ref: '#/definitions/components-create-response-post'
       security:
         - <<api_key>>: []
       x-stoplight:
-        id: POST_pricepoints-pricepointid-currencypricesjson
+        id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
         beforeScript: null
         afterScript: null
         public: true
@@ -1557,6 +1438,125 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: PUT_components-componentid-pricepoints-pricepointid-unarchivejson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+  '/price_points/{price_point_id}/currency_prices.json':
+    parameters:
+      - name: price_point_id
+        in: path
+        required: true
+        type: string
+    put:
+      operationId: PUT_price_points-price_point_id-currency_prices-json
+      summary: Update Currency Prices
+      tags:
+        - Components
+      description: This endpoint allows you to update currency prices for a given currency that has been defined on the site level in your settings.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              currency_prices:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID of the currency price record being updated.
+                    price:
+                      type: integer
+                      description: New price for the given currency.
+                  required:
+                    - id
+                    - price
+            required:
+              - currency_prices
+            example:
+              currency_prices:
+                - id: 100
+                  price: 51
+                - id: 101
+                  price: 41
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/price-point-currency-price'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: PUT_pricepoints-pricepointid-currencypricesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    post:
+      operationId: POST_price_points-price_point_id-currency_prices-json
+      summary: Create Currency Prices
+      tags:
+        - Components
+      description: |-
+        This endpoint allows you to create currency prices for a given currency that has been defined on the site level in your settings.
+
+        When creating currency prices, they need to mirror the structure of your primary pricing. For each price level defined on the component price point, there should be a matching price level created in the given currency.
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              currency_prices:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    currency:
+                      type: string
+                      description: ISO code for a currency defined on the site level.
+                    price:
+                      type: integer
+                      description: Price for the price level in this currency.
+                    price_id:
+                      type: integer
+                      description: ID of the price that this corresponds with.
+                  required:
+                    - currency
+                    - price
+                    - price_id
+            required:
+              - currency_prices
+            example:
+              currency_prices:
+                - currency: EUR
+                  price: 50
+                  price_id: 20
+                - currency: EUR
+                  price: 40
+                  price_id: 21
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/price-point-currency-price'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_pricepoints-pricepointid-currencypricesjson
         beforeScript: null
         afterScript: null
         public: true
@@ -42489,15 +42489,13 @@ x-stoplight:
               type: endpoints
             - _id: GET_componentsjson
               type: endpoints
-            - _id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
-              type: endpoints
             - _id: GET_productfamilies-productfamilyid-componentsjson
               type: endpoints
             - _id: DELETE_productfamilies-productfamilyid-components-componentidjson
               type: endpoints
             - _id: POST_components-componentid-pricepointsjson
               type: endpoints
-            - _id: PUT_pricepoints-pricepointid-currencypricesjson
+            - _id: PUT_components-componentid-pricepoints-pricepointid-defaultjson
               type: endpoints
             - _id: POST_components-componentid-pricepoints-bulkjson
               type: endpoints
@@ -42508,6 +42506,8 @@ x-stoplight:
             - _id: DELETE_components-componentid-pricepoints-pricepointidformat
               type: endpoints
             - _id: PUT_components-componentid-pricepoints-pricepointid-unarchivejson
+              type: endpoints
+            - _id: PUT_pricepoints-pricepointid-currencypricesjson
               type: endpoints
             - _id: POST_pricepoints-pricepointid-currencypricesjson
               type: endpoints
