@@ -5371,7 +5371,40 @@ paths:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/customer-create-a-customer-input'
+            type: object
+            properties:
+              customer:
+                type: object
+                properties:
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
+                  cc_emails:
+                    type: string
+                  organization:
+                    type: string
+                  reference:
+                    type: string
+                  address:
+                    type: string
+                  address2:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  zip:
+                    type: string
+                  country:
+                    type: string
+                  phone:
+                    type: string
+                  locale:
+                    type: string
+                    description: Set a specific language on a customer record.
             example:
               customer:
                 first_name: Martha
