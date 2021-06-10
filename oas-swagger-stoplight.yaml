@@ -43537,12 +43537,12 @@ x-stoplight:
               type: endpoints
             - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
+            - _id: PUT_subscriptions-subscription_id-format
+              type: endpoints
             - _id: migrations-create-migration-input
               type: schemas
             - _id: migrations-create-migration-input-trial-output
               type: schemas
-            - _id: PUT_subscriptions-subscription_id-format
-              type: endpoints
             - _id: migrations-preview-migration-output
               type: schemas
             - _id: subscriptions-update-subscription-product-change-request
