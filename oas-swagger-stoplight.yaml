@@ -43531,26 +43531,26 @@ x-stoplight:
               type: docTextSections
             - _id: POST_subscriptions-subscriptionid-migrationsjson
               type: endpoints
+            - _id: POST_subscriptions-subscriptionid-migrations-previewjson
+              type: endpoints
+            - _id: PUT_subscriptions-subscription_id-format
+              type: endpoints
+            - _id: PUT_subscriptions-subscription_id-format
+              type: endpoints
             - _id: migrations-create-migration-input
               type: schemas
             - _id: migrations-create-migration-input-trial-output
               type: schemas
-            - _id: POST_subscriptions-subscriptionid-migrations-previewjson
+            - _id: PUT_subscriptions-subscription_id-format
               type: endpoints
             - _id: migrations-preview-migration-output
               type: schemas
-            - _id: PUT_subscriptions-subscription_id-format
-              type: endpoints
             - _id: subscriptions-update-subscription-product-change-request
               type: schemas
             - _id: update-subscription-product-change-request-id
               type: schemas
-            - _id: PUT_subscriptions-subscription_id-format
-              type: endpoints
             - _id: update-subscription-delayed-product-change-request
               type: schemas
-            - _id: PUT_subscriptions-subscription_id-format
-              type: endpoints
             - _id: update-subscription-cancel-delayed-product-change-request
               type: schemas
             - _id: preview-migration-input
