@@ -43300,32 +43300,40 @@ x-stoplight:
               type: docTextSections
             - _id: subscription-request-examples
               type: docTextSections
-            - _id: components-quantity-create-subscription-with-quantity-based-component
-              type: schemas
             - _id: subscription-threedsecure-stripe
               type: docTextSections
             - _id: POST_subscriptionsjson
               type: endpoints
+            - _id: GET_subscriptions-subscription_id-format
+              type: endpoints
+            - _id: GET_subscriptionsjson
+              type: endpoints
+            - _id: GET_customers-customerid-subscriptionsjson
+              type: endpoints
+            - _id: PUT_subscriptions-subscriptionidjson
+              type: endpoints
+            - _id: GET_subscriptions-lookup-reference-format
+              type: endpoints
+            - _id: POST_subscriptions-subscriptionid-paymentprofiles-paymentprofileid-changepaymentprofilejson
+              type: endpoints
+            - _id: POST_subscriptions-subscriptionid-purgejson
+              type: endpoints
+            - _id: components-quantity-create-subscription-with-quantity-based-component
+              type: schemas
             - _id: 2upcg5tJkXB6xQabb
               type: endpoints
             - _id: subscriptions-create-subscription-request
               type: schemas
             - _id: subscription-read-subscription
               type: schemas
-            - _id: GET_subscriptions-subscription_id-format
-              type: endpoints
-            - _id: GET_subscriptionsjson
-              type: endpoints
             - _id: read-subscriptions-site-output
               type: schemas
-            - _id: GET_customers-customerid-subscriptionsjson
-              type: endpoints
             - _id: 57LwHdN5jxjEFf3HH
               type: schemas
             - _id: update-subscription-request
               type: schemas
-            - _id: PUT_subscriptions-subscriptionidjson
-              type: endpoints
+            - _id: subscriptionQueryString
+              type: traits
             - _id: Qijzy25gdrNxpdc8X
               type: endpoints
             - _id: TskoMiCqu9fbjWLWx
@@ -43334,14 +43342,6 @@ x-stoplight:
               type: schemas
             - _id: 6uc29YJhRFimXJ5qE
               type: schemas
-            - _id: subscriptionQueryString
-              type: traits
-            - _id: GET_subscriptions-lookup-reference-format
-              type: endpoints
-            - _id: POST_subscriptions-subscriptionid-paymentprofiles-paymentprofileid-changepaymentprofilejson
-              type: endpoints
-            - _id: POST_subscriptions-subscriptionid-purgejson
-              type: endpoints
         - divider: false
           items:
             - _id: PUT_subscriptions-subscription_id-format
