@@ -16477,6 +16477,111 @@ paths:
           enabled: false
           statusCode: 200
   /subscription_groups.json:
+    post:
+      operationId: POST_subscription_groups-json
+      summary: Create Subscription Groups
+      tags:
+        - Subscription Groups
+      description: |-
+        ## Create Subscription Groups
+
+        Creates a subscription group with given members. The response will either return information the subscription group that was created or an error message
+
+        ## Input Attributes (Create)
+
+        | subscription_id           | ID of primary subscription                                                                                                                                                                                                    |
+        |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | members_ids                     | IDs of group members
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              subscription_group:
+                type: object
+                required:
+                  - subscription_id
+                properties:
+                  subscription_id:
+                    type: integer
+                  members_ids:
+                    type: array
+                    items:
+                      type: integer
+            required:
+              - subscription_group
+            example:
+              subscription_group:
+                subscription_id: 1
+                members_ids:
+                  - 2
+                  - 3
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              subscription_group:
+                type: object
+                properties:
+                  customer_id:
+                    type: integer
+                  payment_profile:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      masked_card_number:
+                        type: string
+                  payment_collection_method:
+                    type: string
+                  subscription_ids:
+                    type: array
+                    items:
+                      type: integer
+                  created_at:
+                    type: string
+          examples:
+            application/json:
+              subscription_group:
+                customer_id: 1
+                payment_profile:
+                  id: 1
+                  first_name: t
+                  last_name: t
+                  masked_card_number: XXXX-XXXX-XXXX-1
+                payment_collection_method: automatic
+                subscription_ids:
+                  - 1
+                  - 2
+                created_at: '2021-01-21T05:47:38-05:00'
+        '422':
+          description: ''
+          schema:
+            type: object
+            properties:
+              errors:
+                type: string
+          examples:
+            application/json:
+              errors: Subscription is already in group
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptiongroupsjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
     get:
       operationId: GET_subscription_groups-json
       summary: Read Subscription Groups
@@ -16591,111 +16696,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptiongroupsjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    post:
-      operationId: POST_subscription_groups-json
-      summary: Create Subscription Groups
-      tags:
-        - Subscription Groups
-      description: |-
-        ## Create Subscription Groups
-
-        Creates a subscription group with given members. The response will either return information the subscription group that was created or an error message
-
-        ## Input Attributes (Create)
-
-        | subscription_id           | ID of primary subscription                                                                                                                                                                                                    |
-        |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | members_ids                     | IDs of group members
-      parameters:
-        - name: body
-          in: body
-          schema:
-            type: object
-            properties:
-              subscription_group:
-                type: object
-                required:
-                  - subscription_id
-                properties:
-                  subscription_id:
-                    type: integer
-                  members_ids:
-                    type: array
-                    items:
-                      type: integer
-            required:
-              - subscription_group
-            example:
-              subscription_group:
-                subscription_id: 1
-                members_ids:
-                  - 2
-                  - 3
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: object
-            properties:
-              subscription_group:
-                type: object
-                properties:
-                  customer_id:
-                    type: integer
-                  payment_profile:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      masked_card_number:
-                        type: string
-                  payment_collection_method:
-                    type: string
-                  subscription_ids:
-                    type: array
-                    items:
-                      type: integer
-                  created_at:
-                    type: string
-          examples:
-            application/json:
-              subscription_group:
-                customer_id: 1
-                payment_profile:
-                  id: 1
-                  first_name: t
-                  last_name: t
-                  masked_card_number: XXXX-XXXX-XXXX-1
-                payment_collection_method: automatic
-                subscription_ids:
-                  - 1
-                  - 2
-                created_at: '2021-01-21T05:47:38-05:00'
-        '422':
-          description: ''
-          schema:
-            type: object
-            properties:
-              errors:
-                type: string
-          examples:
-            application/json:
-              errors: Subscription is already in group
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptiongroupsjson
         beforeScript: null
         afterScript: null
         public: true
@@ -16840,6 +16840,43 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+    delete:
+      operationId: DELETE_subscription_groups-uid-json
+      summary: Delete Subscription Group
+      tags:
+        - Subscription Groups
+      description: |-
+        ## Delete Subscription Group
+
+        Use this endpoint to delete subscription group.
+        Only groups without members can be deleted
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+              deleted:
+                type: boolean
+          examples:
+            application/json:
+              uid: grp_99w5xp9y5xycy
+              deleted: true
+        '404':
+          description: ''
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: DELETE_subscriptiongroups-uidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
     put:
       operationId: PUT_subscription_groups-uid-json
       summary: Update Subscription Group
@@ -16944,43 +16981,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: PUT_subscriptiongroups-uidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    delete:
-      operationId: DELETE_subscription_groups-uid-json
-      summary: Delete Subscription Group
-      tags:
-        - Subscription Groups
-      description: |-
-        ## Delete Subscription Group
-
-        Use this endpoint to delete subscription group.
-        Only groups without members can be deleted
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: object
-            properties:
-              uid:
-                type: string
-              deleted:
-                type: boolean
-          examples:
-            application/json:
-              uid: grp_99w5xp9y5xycy
-              deleted: true
-        '404':
-          description: ''
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: DELETE_subscriptiongroups-uidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -43236,24 +43236,24 @@ x-stoplight:
           divider: false
         - divider: false
           items:
+            - _id: POST_subscriptiongroupsjson
+              type: endpoints
             - _id: GET_subscriptiongroupsjson
               type: endpoints
             - _id: GET_subscriptiongroups-uidjson
               type: endpoints
             - _id: GET_subscriptiongroups-lookupjson
               type: endpoints
+            - _id: DELETE_subscriptiongroups-uidjson
+              type: endpoints
+            - _id: PUT_subscriptiongroups-uidjson
+              type: endpoints
+            - _id: POST_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
+              type: endpoints
             - _id: subscription-group
               type: schemas
             - _id: invoice-account-entry
               type: schemas
-            - _id: POST_subscriptiongroupsjson
-              type: endpoints
-            - _id: PUT_subscriptiongroups-uidjson
-              type: endpoints
-            - _id: DELETE_subscriptiongroups-uidjson
-              type: endpoints
-            - _id: POST_subscriptions-subscriptiongroupuid-paymentprofiles-paymentprofileid-changepaymentprofilejson
-              type: endpoints
           name: Subscription Groups
         - divider: false
           items:
