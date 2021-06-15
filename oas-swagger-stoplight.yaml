@@ -6535,6 +6535,17 @@ paths:
           in: query
           description: Include refunds data - defaults to false for the index.
           type: boolean
+        - name: sort
+          in: query
+          description: ' This parameter allows you to choose what you would like to sort on. '
+          type: string
+          default: number
+          enum:
+            - number
+            - issue_date
+            - due_date
+            - created_at
+            - updated_at
       responses:
         '200':
           description: ''
@@ -19751,6 +19762,10 @@ paths:
 
         ### Invoice Options
 
+        #### Issue Date
+
+        By default, invoices will be created with a issue date set to today. `issue_date` parameter can be send to alter that. Only dates in the past can be send. `issue_date` should be send in `YYYY-MM-DD` format.
+
         #### Net Terms
 
         By default, invoices will be created with a due date matching the date of invoice creation. If a different due date is desired, the `net_terms` parameter can be sent indicating the number of days in advance the due date should be.
@@ -19790,6 +19805,8 @@ paths:
                           type: string
                         period_range_end:
                           type: string
+                  issue_date:
+                    type: string
                   net_terms:
                     type: integer
                   payment_instructions:
