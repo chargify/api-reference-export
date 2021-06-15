@@ -11950,6 +11950,45 @@ paths:
           enabled: false
           dynamic: false
           statusCode: 200
+  '/proforma_invoices/{proforma_invoice_uid}.json':
+    parameters:
+      - name: proforma_invoice_uid
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_proforma_invoices-proforma_invoice_uid-json
+      summary: Read proforma invoice
+      tags:
+        - Proforma Invoices
+      description: |-
+        ## Overview
+
+        Use this endpoint to read the details of an existing proforma invoice.
+
+        ## Restrictions
+
+        Proforma invoices are only available on Relationship Invoicing sites.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/proforma-invoice-response'
+        '403':
+          description: ''
+        '404':
+          description: ''
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_proformainvoices-proformainvoiceuidjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/subscriptions/{subscription_id}/proforma_invoices.json':
     parameters:
       - name: subscription_id
@@ -12083,45 +12122,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_subscriptions-subscriptionid-proformainvoicesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/proforma_invoices/{proforma_invoice_uid}.json':
-    parameters:
-      - name: proforma_invoice_uid
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_proforma_invoices-proforma_invoice_uid-json
-      summary: Read proforma invoice
-      tags:
-        - Proforma Invoices
-      description: |-
-        ## Overview
-
-        Use this endpoint to read the details of an existing proforma invoice.
-
-        ## Restrictions
-
-        Proforma invoices are only available on Relationship Invoicing sites.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/proforma-invoice-response'
-        '403':
-          description: ''
-        '404':
-          description: ''
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_proformainvoices-proformainvoiceuidjson
         beforeScript: null
         afterScript: null
         public: true
@@ -14493,6 +14493,9 @@ paths:
 
         Note that this endpoint returns a "lighter" set of the Statement attributes than the "List Statements for a Subscription" endpoint.  This endpoint omits the HTML and textual representations for the Statement: `basic_html_view`, `html_view`, and `text_view`.  If you require these attributes, you can either build them yourself based on the other data returned or fetch a single subscription via the "Read/Show by Chargify ID" endpoint.
       parameters:
+        - name: ''
+          in: query
+          type: string
         - $ref: '#/parameters/trait:pagination20:page'
         - $ref: '#/parameters/trait:pagination20:per_page'
         - $ref: '#/parameters/trait:statementsList:sort'
@@ -43091,9 +43094,9 @@ x-stoplight:
           items:
             - _id: POST_subscriptiongroups-subscriptiongroupuid-proformainvoicesjson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-proformainvoicesjson
-              type: endpoints
             - _id: GET_proformainvoices-proformainvoiceuidjson
+              type: endpoints
+            - _id: POST_subscriptions-subscriptionid-proformainvoicesjson
               type: endpoints
             - _id: GET_subscriptions-subscriptionid-proformainvoicesjson
               type: endpoints
