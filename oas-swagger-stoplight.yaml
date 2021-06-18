@@ -7450,6 +7450,10 @@ paths:
           description: Use this parameter if you want to fetch also invoice events with `change_invoice_status` type.
           type: boolean
           default: false
+        - name: event_types
+          in: query
+          description: 'Filter results by event_type. Supply a comma separated list of event types (listed above). eg: void_invoice,void_remainder'
+          type: string
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:since_date'
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:since_id'
         - $ref: '#/parameters/trait:relationshipInvoicingTraits:page'
