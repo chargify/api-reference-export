@@ -11968,6 +11968,146 @@ paths:
         mock:
           enabled: false
           statusCode: 200
+  '/subscriptions/{subscription_id}/proforma_invoices.json':
+    parameters:
+      - name: subscription_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_subscriptions-subscription_id-proforma_invoices-json
+      summary: Create proforma invoice
+      tags:
+        - Proforma Invoices
+      description: |-
+        ## Overview
+
+        This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
+
+        If you would like to preview the next billing amounts without generating a full proforma invoice, [please use the renewal preview endpoint](#endpoint:kzWeHKJ6nwB6jfScq).
+
+        ## Restrictions
+
+        Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be in a group, must not be prepaid, and must be in a live state.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/proforma-invoice-response'
+        '403':
+          description: ''
+        '422':
+          description: ''
+          examples:
+            application/json:
+              errors:
+                - this subscription is not eligible to create proforma invoices
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: POST_subscriptions-subscriptionid-proformainvoicesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
+    get:
+      operationId: GET_subscriptions-subscription_id-proforma_invoices-json
+      summary: Read all subscription proforma invoices
+      tags:
+        - Proforma Invoices
+      description: 'By default, proforma invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.'
+      parameters:
+        - name: start_date
+          in: query
+          description: 'The beginning date range for the invoice''s Due Date, in the YYYY-MM-DD format.'
+          type: string
+          format: date
+        - name: end_date
+          in: query
+          description: |
+            The ending date range for the invoice's Due Date, in the YYYY-MM-DD format.
+          type: string
+          format: date
+        - name: status
+          in: query
+          description: The current status of the invoice.
+          type: string
+          enum:
+            - draft
+            - open
+            - paid
+            - pending
+            - voided
+        - name: page
+          in: query
+          description: 'Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.'
+          type: number
+          default: 1
+        - name: per_page
+          in: query
+          description: This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
+          type: number
+          default: 20
+          maximum: 200
+        - name: direction
+          in: query
+          description: The sort direction of the returned invoices.
+          type: string
+          default: desc
+          enum:
+            - desc
+            - asc
+        - name: line_items
+          in: query
+          description: Include line items data - defaults to false for the index.
+          type: boolean
+          default: false
+        - name: discounts
+          in: query
+          description: Include discounts data - defaults to false for the index.
+          type: boolean
+          default: false
+        - name: taxes
+          in: query
+          description: Include taxes data - defaults to false for the index.
+          type: boolean
+          default: false
+        - name: credits
+          in: query
+          description: Include credits data - defaults to false for the index.
+          type: boolean
+          default: false
+        - name: payments
+          in: query
+          description: Include payments data - defaults to false for the index.
+          type: boolean
+          default: false
+        - name: custom_fields
+          in: query
+          description: Include custom fields data - defaults to false for the index.
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/proforma-invoice-response'
+      security:
+        - <<api_key>>: []
+      x-stoplight:
+        id: GET_subscriptions-subscriptionid-proformainvoicesjson
+        beforeScript: null
+        afterScript: null
+        public: true
+        mock:
+          enabled: false
+          dynamic: false
+          statusCode: 200
   '/subscription_groups/{subscription_group_uid}/proforma_invoices.json':
     parameters:
       - name: subscription_group_uid
@@ -11982,7 +12122,7 @@ paths:
       description: |-
         ## Overview
 
-        This endpoint will trigger the creation of a consolidated proforma invoice asynchronously. It will return a success message or any errors. To find and view the new consolidated proforma invoice, you may poll the subscription group listing for proforma invoices.
+        This endpoint will trigger the creation of a consolidated proforma invoice asynchronously. It will return a 201 with no message, or a 422 with any errors. To find and view the new consolidated proforma invoice, you may poll the subscription group listing for proforma invoices; only one consolidated proforma invoice may be created per group at a time.
 
         If the information becomes outdated, simply void the old consolidated proforma invoice and generate a new one.
 
@@ -11990,14 +12130,23 @@ paths:
 
         Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be prepaid, and must be in a live state.
       responses:
-        default:
+        '201':
           description: ''
-          schema: {}
+        '422':
+          description: ''
+          schema:
+            type: object
+          examples:
+            application/json:
+              errors:
+                - Consolidated proforma invoice generation already in progress
+      security:
+        - <<api_key>>: []
       x-stoplight:
         id: POST_subscriptiongroups-subscriptiongroupuid-proformainvoicesjson
         beforeScript: null
         afterScript: null
-        public: false
+        public: true
         mock:
           enabled: false
           dynamic: false
@@ -12132,146 +12281,6 @@ paths:
         - <<api_key>>: []
       x-stoplight:
         id: GET_proformainvoices-proformainvoiceuidjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-  '/subscriptions/{subscription_id}/proforma_invoices.json':
-    parameters:
-      - name: subscription_id
-        in: path
-        required: true
-        type: string
-    post:
-      operationId: POST_subscriptions-subscription_id-proforma_invoices-json
-      summary: Create proforma invoice
-      tags:
-        - Proforma Invoices
-      description: |-
-        ## Overview
-
-        This endpoint will create a proforma invoice and return it as a response. If the information becomes outdated, simply void the old proforma invoice and generate a new one.
-
-        If you would like to preview the next billing amounts without generating a full proforma invoice, [please use the renewal preview endpoint](#endpoint:kzWeHKJ6nwB6jfScq).
-
-        ## Restrictions
-
-        Proforma invoices are only available on Relationship Invoicing sites. To create a proforma invoice, the subscription must not be in a group, must not be prepaid, and must be in a live state.
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/proforma-invoice-response'
-        '403':
-          description: ''
-        '422':
-          description: ''
-          examples:
-            application/json:
-              errors:
-                - this subscription is not eligible to create proforma invoices
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: POST_subscriptions-subscriptionid-proformainvoicesjson
-        beforeScript: null
-        afterScript: null
-        public: true
-        mock:
-          enabled: false
-          dynamic: false
-          statusCode: 200
-    get:
-      operationId: GET_subscriptions-subscription_id-proforma_invoices-json
-      summary: Read all subscription proforma invoices
-      tags:
-        - Proforma Invoices
-      description: 'By default, proforma invoices returned on the index will only include totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`, `credits`, `payments`, or `custom_fields`. To include breakdowns, pass the specific field as a key in the query with a value set to `true`.'
-      parameters:
-        - name: start_date
-          in: query
-          description: 'The beginning date range for the invoice''s Due Date, in the YYYY-MM-DD format.'
-          type: string
-          format: date
-        - name: end_date
-          in: query
-          description: |
-            The ending date range for the invoice's Due Date, in the YYYY-MM-DD format.
-          type: string
-          format: date
-        - name: status
-          in: query
-          description: The current status of the invoice.
-          type: string
-          enum:
-            - draft
-            - open
-            - paid
-            - pending
-            - voided
-        - name: page
-          in: query
-          description: 'Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.'
-          type: number
-          default: 1
-        - name: per_page
-          in: query
-          description: This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.
-          type: number
-          default: 20
-          maximum: 200
-        - name: direction
-          in: query
-          description: The sort direction of the returned invoices.
-          type: string
-          default: desc
-          enum:
-            - desc
-            - asc
-        - name: line_items
-          in: query
-          description: Include line items data - defaults to false for the index.
-          type: boolean
-          default: false
-        - name: discounts
-          in: query
-          description: Include discounts data - defaults to false for the index.
-          type: boolean
-          default: false
-        - name: taxes
-          in: query
-          description: Include taxes data - defaults to false for the index.
-          type: boolean
-          default: false
-        - name: credits
-          in: query
-          description: Include credits data - defaults to false for the index.
-          type: boolean
-          default: false
-        - name: payments
-          in: query
-          description: Include payments data - defaults to false for the index.
-          type: boolean
-          default: false
-        - name: custom_fields
-          in: query
-          description: Include custom fields data - defaults to false for the index.
-          type: boolean
-          default: false
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/proforma-invoice-response'
-      security:
-        - <<api_key>>: []
-      x-stoplight:
-        id: GET_subscriptions-subscriptionid-proformainvoicesjson
         beforeScript: null
         afterScript: null
         public: true
@@ -43279,17 +43288,17 @@ x-stoplight:
           divider: false
         - divider: false
           items:
+            - _id: POST_subscriptions-subscriptionid-proformainvoicesjson
+              type: endpoints
             - _id: POST_subscriptiongroups-subscriptiongroupuid-proformainvoicesjson
               type: endpoints
             - _id: GET_proformainvoices-proformainvoiceuidjson
               type: endpoints
-            - _id: POST_subscriptions-subscriptionid-proformainvoicesjson
-              type: endpoints
             - _id: GET_subscriptions-subscriptionid-proformainvoicesjson
               type: endpoints
-            - _id: POST_proformainvoices-proformainvoiceuid-voidjson
-              type: endpoints
             - _id: GET_subscriptiongroups-subscriptiongroupuid-proformainvoicesjson
+              type: endpoints
+            - _id: POST_proformainvoices-proformainvoiceuid-voidjson
               type: endpoints
             - _id: proforma-invoice-response
               type: schemas
