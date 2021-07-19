@@ -9047,7 +9047,7 @@ paths:
         type: string
     post:
       operationId: POST_invoices-uid-customer_information-preview-json
-      summary: Create Customer Information Preview
+      summary: Preview Customer Information Changes
       tags:
         - Relationship Invoicing
       description: |-
