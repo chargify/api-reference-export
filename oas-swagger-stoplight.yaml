@@ -9054,6 +9054,8 @@ paths:
         ## Preview Customer Information Changes
 
         Customer information may change after an invoice is issued which may lead to a mismatch between customer information that are present on an open invoice and actual customer information. This endpoint allows to preview these differences, if any.
+
+        The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
       responses:
         '200':
           description: ''
@@ -9190,6 +9192,8 @@ paths:
         ## Update Customer Information
 
         This endpoint updates customer information on an open invoice and returns the updated invoice. If you would like to preview changes that will be applied, use the `/invoices/{uid}/customer_information/preview.json` endpoint before.
+
+        The endpoint doesn't accept a request body. Customer information differences are calculated on the application side.
       responses:
         '200':
           description: ''
